@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The DPP Company — A verifiable passport for every physical product</title>
-<meta name="description" content="The DPP Company builds Digital Product Passports — verifiable digital identities for physical products. Scan a QR or NFC tag to verify authenticity, provenance, materials and certifications. Blockchain-backed on the Arianee protocol (Polygon) with IPFS media, and aligned with the EU Digital Product Passport regulation rolling out from 2026." />
+<title>The DPP Company — An AI agent that verifies and passports physical products</title>
+<meta name="description" content="The DPP Company is agentic product intelligence: an AI verification agent that authenticates a physical product, traces its provenance and supply chain, reads its certifications and materials, flags counterfeits, and issues its Digital Product Passport. Aligned with the EU Digital Product Passport regulation (ESPR) rolling out from 2027. Every passport is anchored on-chain for tamper-proof records." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="../assets/design-system.css" />
 <style>
 /* ============================================================
-   THE DPP COMPANY — page-specific styles
+   THE DPP COMPANY — agentic product intelligence
+   AI verification agent that authenticates, traces, verifies
+   and passports physical products. page-specific styles.
    Tokens (navy, slate, gray, radius, shadow, font) come from
    design-system.css. Product accent = emerald/green.
    ============================================================ */
@@ -287,8 +289,8 @@
       <span class="wm">DPP<small>The DPP Company</small></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a class="navlink" href="#how">How it works</a>
-      <a class="navlink" href="#features">Features</a>
+      <a class="navlink" href="#how">What the agent does</a>
+      <a class="navlink" href="#features">Capabilities</a>
       <a class="navlink" href="#builtfor">For brands &amp; buyers</a>
       <a class="navlink backhub" href="../index.html" aria-label="Back to Pandora studio">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
@@ -297,7 +299,7 @@
     </nav>
     <div class="nav-cta">
       <a class="btn btn-outline hide-mobile" href="../index.html">All products</a>
-      <a class="btn btn-dpp" href="#demo">See it in action
+      <a class="btn btn-dpp" href="#demo">Launch the DPP agent
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
       <a class="btn btn-outline nav-toggle" href="#how" aria-label="Menu">
@@ -312,17 +314,17 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="reveal">
-      <span class="kicker">Digital Product Passports</span>
-      <h1>A verifiable passport for every <span class="grad">physical product.</span></h1>
-      <p class="lead">The DPP Company gives every product a tamper-evident digital identity. Brands create a passport once; buyers scan a QR or NFC tag to instantly verify authenticity, provenance, materials and certifications — and ownership travels with the item for life.</p>
+      <span class="kicker">Agentic product intelligence</span>
+      <h1>An AI agent that verifies and <span class="grad">passports physical products.</span></h1>
+      <p class="lead">The DPP Company is an autonomous verification agent for physical goods. It authenticates a product, traces its provenance and supply chain, reads its materials and certifications, flags counterfeits, then issues and keeps its Digital Product Passport current — all from a single scan.</p>
       <div class="hero-cta">
-        <a class="btn btn-dpp" href="#demo">See it in action
+        <a class="btn btn-dpp" id="agent-demo-link" target="_blank" rel="noopener" href="https://claude.ai/code/artifact/23a910e8-d5e4-49d2-95c3-f85fe8316b19">Launch the DPP agent
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="btn btn-outline" href="#how">How it works</a>
+        <a class="btn btn-outline" href="#how">What the agent does</a>
       </div>
       <div class="hero-trust">
-        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/></svg>Blockchain-anchored</span>
+        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg>Autonomous verification</span>
         <span class="sep" aria-hidden="true"></span>
         <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3 8-8"/><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg>EU DPP-ready</span>
         <span class="sep" aria-hidden="true"></span>
@@ -343,9 +345,9 @@
         </div>
         <div class="pp-body">
           <div class="pp-prod">Digital Product Passport</div>
-          <div class="pp-meta">Issued 14 Mar 2026 · Owned by wallet 0x8f…3aD1</div>
+          <div class="pp-meta">Issued by the DPP agent · 14 Mar 2026 · 0x8f…3aD1</div>
           <div class="pp-rows">
-            <div class="pp-row"><span class="k">Authenticity</span><span class="v" style="color:var(--dpp-deep)">✓ Genuine — issuer signed</span></div>
+            <div class="pp-row"><span class="k">Authenticity</span><span class="v" style="color:var(--dpp-deep)">✓ Genuine — agent verified</span></div>
             <div class="pp-row"><span class="k">Provenance</span><span class="v">Portugal → EU · 3 hops</span></div>
             <div class="pp-row"><span class="k">Materials</span>
               <span class="pp-chiprow"><span class="pp-chip">82% Organic cotton</span><span class="pp-chip">18% Recycled</span></span>
@@ -386,7 +388,7 @@
       <span class="eu-badge"><span class="stars">★</span> European Union · ESPR</span>
       <h2 style="margin-top:18px">Product transparency is becoming the law.</h2>
       <p class="eu-lead">Under the EU's Ecodesign for Sustainable Products Regulation, a <strong>Digital Product Passport</strong> will be mandatory for a growing list of categories — starting with batteries, then textiles, electronics and more. Brands selling into Europe will be legally required to make provenance, materials and sustainability data verifiable.</p>
-      <p class="eu-note">The DPP Company was built for exactly this shift. Issue compliant, standards-aligned passports today and stay ahead of every deadline — instead of scrambling when enforcement lands.</p>
+      <p class="eu-note">The DPP agent was built for exactly this shift. Point it at your catalog and it issues compliant, standards-aligned passports automatically — so you stay ahead of every deadline instead of scrambling when enforcement lands.</p>
     </div>
     <div class="eu-panel reveal">
       <ul class="eu-list">
@@ -404,30 +406,30 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <div>
-        <span class="kicker">How it works</span>
-        <h2>From product to proof in three steps.</h2>
+        <span class="kicker">What the agent does</span>
+        <h2>The agent works a product end to end.</h2>
       </div>
-      <p class="muted">No blockchain expertise required. The DPP Company handles issuance, anchoring and the consumer experience end to end.</p>
+      <p class="muted">No blockchain expertise required. Point the DPP agent at a product and it authenticates, traces, verifies and issues the passport autonomously.</p>
     </div>
 
     <div class="steps">
       <div class="step reveal">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></span>
-        <h3>Brand creates a passport</h3>
-        <p>Add product details, materials, provenance, certifications and care instructions. Media is stored on IPFS and the passport is minted on-chain — one per item or per batch.</p>
-        <div class="step-flow">Issue &amp; anchor <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <h3>Authenticates the product</h3>
+        <p>The agent checks the item against issuer signatures and its unique tag, confirms it's genuine — not a replica — and flags anything that doesn't add up as a suspected counterfeit.</p>
+        <div class="step-flow">Authenticate &amp; flag <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </div>
       <div class="step reveal">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 20h.01M20 14h.01M14 20h.01"/></svg></span>
-        <h3>Product gets a QR / NFC tag</h3>
-        <p>Each passport links to a QR code or NFC chip attached to the product, its label or packaging. One tap or scan opens the live, verifiable passport — no app to install.</p>
-        <div class="step-flow">Tag &amp; ship <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13l3 3v7H3z"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/><path d="M3 11h13"/></svg></span>
+        <h3>Traces provenance &amp; reads certs</h3>
+        <p>It maps the supply chain from origin to shelf, then reads the item's materials, recycled content and certifications — GOTS, GRS, OEKO-TEX and more — verifying each against the record.</p>
+        <div class="step-flow">Trace &amp; verify <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </div>
       <div class="step reveal">
         <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
-        <h3>Consumer scans &amp; verifies</h3>
-        <p>Buyers instantly confirm authenticity, trace provenance and see sustainability and care details. Genuine ownership can transfer to the new owner when the item changes hands.</p>
-        <div class="step-flow">Verify &amp; own <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        <h3>Issues &amp; updates the passport</h3>
+        <p>The agent compiles its findings into a Digital Product Passport, links it to a QR or NFC tag, and keeps it current as the item moves or ownership changes — one tap or scan opens the live record.</p>
+        <div class="step-flow">Issue &amp; keep current <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
       </div>
     </div>
   </div>
@@ -438,60 +440,60 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <div>
-        <span class="kicker">Capabilities</span>
-        <h2>Everything a product needs to prove itself.</h2>
+        <span class="kicker">Agent capabilities</span>
+        <h2>What the verification agent can do.</h2>
       </div>
-      <p class="muted">A complete passport layer — authenticity, transparency and ownership — backed by open standards and public infrastructure.</p>
+      <p class="muted">A full agentic workflow — authenticate, trace, verify, passport — grounded in open standards so every finding is checkable.</p>
     </div>
 
     <div class="feat-grid">
       <div class="feat reveal">
         <span class="ftag">01</span>
         <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
-        <h3>Authenticity verification</h3>
-        <p>Issuer-signed passports let anyone confirm a product is genuine — not a replica — in a single scan.</p>
+        <h3>Authenticates instantly</h3>
+        <p>Checks issuer signatures and the item's tag to confirm it's genuine — not a replica — in a single scan.</p>
       </div>
       <div class="feat reveal">
         <span class="ftag">02</span>
         <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13l3 3v7H3z"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/><path d="M3 11h13"/></svg></span>
-        <h3>Provenance &amp; supply chain</h3>
-        <p>Trace a product's journey from origin to shelf, with each step recorded against the passport.</p>
+        <h3>Traces the supply chain</h3>
+        <p>Reconstructs a product's journey from origin to shelf, recording each verified step against its passport.</p>
       </div>
       <div class="feat reveal">
         <span class="ftag">03</span>
         <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2.5 1.5 5 .5 8"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></span>
-        <h3>Sustainability &amp; materials</h3>
-        <p>Publish material composition, recycled content and environmental data buyers can trust.</p>
+        <h3>Reads materials &amp; sustainability</h3>
+        <p>Parses material composition, recycled content and environmental data, then verifies it buyers can trust.</p>
       </div>
       <div class="feat reveal">
         <span class="ftag">04</span>
         <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="m9 13.5-1.5 7L12 18l4.5 2.5L15 13.5"/></svg></span>
-        <h3>Certifications</h3>
-        <p>Attach verifiable credentials — GOTS, GRS, OEKO-TEX and more — directly to the passport.</p>
+        <h3>Verifies certifications</h3>
+        <p>Reads and validates credentials — GOTS, GRS, OEKO-TEX and more — attaching each to the passport.</p>
       </div>
       <div class="feat reveal">
         <span class="ftag">05</span>
         <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3h4v4M21 3l-7 7M7 21H3v-4M3 21l7-7"/><circle cx="12" cy="12" r="2.4"/></svg></span>
-        <h3>Ownership transfer</h3>
-        <p>Ownership moves with the item on resale or gifting — powering authenticated second-hand markets.</p>
+        <h3>Issues &amp; updates passports</h3>
+        <p>Compiles its findings into a Digital Product Passport and keeps it current as the item moves or resells.</p>
       </div>
       <div class="feat reveal">
         <span class="ftag">06</span>
         <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V7z"/><path d="M15 9.5 10.5 14 9 12.5"/><path d="m8.5 9.5 1.5 1.5"/></svg></span>
-        <h3>Anti-counterfeit</h3>
-        <p>Unique, tamper-evident tags plus on-chain records make products far harder to fake or clone.</p>
+        <h3>Flags counterfeits</h3>
+        <p>Cross-checks tags and records to spot fakes and clones, raising a flag the moment something doesn't add up.</p>
       </div>
       <div class="feat reveal">
         <span class="ftag">07</span>
-        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v12M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9c0 6-6 4-6 9"/></svg></span>
-        <h3>Blockchain-anchored</h3>
-        <p>Passports are minted through the Arianee protocol on Polygon — open, low-cost and durable.</p>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3h4v4M21 3l-7 7M7 21H3v-4M3 21l7-7"/><circle cx="12" cy="12" r="2.4"/></svg></span>
+        <h3>Transfers ownership</h3>
+        <p>Moves verifiable ownership with the item on resale or gifting — powering authenticated second-hand markets.</p>
       </div>
       <div class="feat reveal">
         <span class="ftag">08</span>
-        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span>
-        <h3>IPFS media storage</h3>
-        <p>Images, documents and certificates live on IPFS — content-addressed, persistent and verifiable.</p>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <h3>Anchors it tamper-proof</h3>
+        <p>Every passport the agent issues is written to tamper-proof, on-chain records with content-addressed media — so its findings can't be quietly altered.</p>
       </div>
     </div>
   </div>
@@ -505,7 +507,7 @@
         <span class="kicker">Built for both sides</span>
         <h2>Value for the brand — and the buyer.</h2>
       </div>
-      <p class="muted">One passport, two audiences. Brands gain compliance and trust; consumers gain confidence and lasting ownership.</p>
+      <p class="muted">One agent, two audiences. Brands get compliance and trust on autopilot; buyers get an instant, verifiable answer.</p>
     </div>
 
     <div class="bf-grid">
@@ -513,11 +515,11 @@
       <div class="bf-card brand reveal">
         <span class="bf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-6h6v6"/></svg></span>
         <div class="bf-eyebrow">For brands</div>
-        <h3>Compliance, trust and a direct line to owners.</h3>
-        <p class="bf-sub">Turn a regulatory requirement into a brand advantage.</p>
+        <h3>Compliance and trust, handled by the agent.</h3>
+        <p class="bf-sub">Turn a regulatory requirement into a brand advantage — without the manual work.</p>
         <ul class="bf-list">
-          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>EU DPP compliance</b> — meet ESPR requirements with standards-aligned passports.</span></li>
-          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Fight counterfeits</b> — protect revenue and reputation with verifiable authenticity.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>EU DPP compliance</b> — the agent issues ESPR-aligned passports across your catalog.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Fight counterfeits</b> — automated authentication flags fakes and protects revenue.</span></li>
           <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Own the relationship</b> — connect with customers after the sale, not just at checkout.</span></li>
           <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Circularity &amp; resale</b> — enable authenticated second-hand and take-back programs.</span></li>
         </ul>
@@ -527,11 +529,11 @@
       <div class="bf-card consumer reveal">
         <span class="bf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span>
         <div class="bf-eyebrow">For consumers</div>
-        <h3>Confidence in what you buy — and what you own.</h3>
-        <p class="bf-sub">One scan tells you the whole story of a product.</p>
+        <h3>Ask the agent — get the whole story.</h3>
+        <p class="bf-sub">One scan and the agent tells you everything about a product.</p>
         <ul class="bf-list">
-          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Prove it's real</b> — verify authenticity before you buy, at the shelf or resale.</span></li>
-          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Know its story</b> — see origin, materials and sustainability at a glance.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Prove it's real</b> — the agent verifies authenticity before you buy, at the shelf or resale.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Know its story</b> — see traced origin, materials and sustainability at a glance.</span></li>
           <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Care &amp; repair</b> — keep instructions and warranty details attached for the item's life.</span></li>
           <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Own with proof</b> — hold verifiable ownership and pass it on when you resell.</span></li>
         </ul>
@@ -544,11 +546,11 @@
 <section id="demo" class="cta section">
   <div class="wrap">
     <div class="reveal">
-      <span class="kicker on-dark" style="justify-content:center">See it in action</span>
-      <h2 style="margin-top:16px">Give your products a passport worth trusting.</h2>
-      <p>See a live Digital Product Passport, or talk to us about issuing verifiable, EU-ready passports for your catalog — authenticity, provenance and ownership, built in.</p>
+      <span class="kicker on-dark" style="justify-content:center">See the agent work</span>
+      <h2 style="margin-top:16px">Put an AI agent on every product you make.</h2>
+      <p>Launch the DPP agent on a live product and watch it authenticate, trace, verify and issue the passport — EU-ready, tamper-proof, all from a single scan.</p>
       <div class="cta-cta">
-        <a class="btn btn-light" href="mailto:hello@pandora.finance?subject=Digital%20Product%20Passport%20demo">Request a demo
+        <a class="btn btn-light" target="_blank" rel="noopener" href="https://claude.ai/code/artifact/23a910e8-d5e4-49d2-95c3-f85fe8316b19">Launch the DPP agent
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)" href="../index.html">Back to Pandora</a>
@@ -564,7 +566,7 @@
         <span class="kicker">Built in the open</span>
         <h2>From a team that builds in public.</h2>
       </div>
-      <p class="muted">The DPP Company's product is in active development, but it's built by a team with a track record of open-source work across the Pandora Finance ecosystem.</p>
+      <p class="muted">The DPP agent is in active development, but it's built by a team with a track record of open-source work across the Pandora Finance ecosystem.</p>
     </div>
     <div class="oss-strip reveal">
       <a class="repo" href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">
@@ -588,22 +590,22 @@
           <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
           <span class="wm">DPP<small>The DPP Company</small></span>
         </span>
-        <p>Verifiable digital identities for physical products — authenticity, provenance and ownership, built for the age of the EU Digital Product Passport. A Pandora Finance product.</p>
+        <p>An AI agent that authenticates, traces, verifies and passports physical products — built for the age of the EU Digital Product Passport, with every record anchored on-chain. A Pandora Finance product.</p>
       </div>
 
       <div class="foot-col">
-        <h4>Product</h4>
-        <a href="#how">How it works</a>
-        <a href="#features">Features</a>
+        <h4>Agent</h4>
+        <a href="#how">What the agent does</a>
+        <a href="#features">Capabilities</a>
         <a href="#builtfor">For brands &amp; buyers</a>
-        <a href="#demo">See it in action</a>
+        <a href="#demo">See the agent work</a>
       </div>
 
       <div class="foot-col">
         <h4>Company</h4>
         <a href="../index.html">Pandora studio</a>
         <a href="mailto:hello@pandora.finance">Contact</a>
-        <span class="static">Arianee · Polygon · IPFS</span>
+        <span class="static">Anchored on-chain · Arianee · IPFS</span>
       </div>
     </div>
 
