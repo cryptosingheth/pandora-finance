@@ -1,2148 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Express Protocol SDK documentation — mint, trade, auction and manage NFTs & real-world assets onchain with pandora-express, plus the optional x402 payments module for AI agents." />
+  <title>Docs · Express Protocol SDK</title>
+  <link rel="icon" href="media/Favicon.svg" />
+  <link rel="stylesheet" href="../../assets/design-system.css" />
+  <style>
+    /* ============================================================
+       EXPRESS PROTOCOL — DOCS
+       Shared tokens come from ../../assets/design-system.css.
+       This <style> only adds docs-specific layout (sidebar app shell).
+       Accent: purple (--c-express #7949e8 / --c-express-2 #833ef2).
+       ============================================================ */
+    :root{
+      --ep-ink:#0b1220;
+      --ep-ink-2:#0e1730;
+      --mono:'JetBrains Mono','SFMono-Regular',ui-monospace,'Menlo','Consolas',monospace;
+      --ep-line:rgba(121,73,232,.18);
+      --sidebar-w:288px;
+      --topbar-h:60px;
+      --content-max:74ch;
+    }
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-      <link rel="icon" href="media/Favicon.svg">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.11">
-    
-    
-      
-        <title></title>
-      
-    
-    
-      <link rel="stylesheet" href="assets/stylesheets/main.8c5ef100.min.css">
-      
-        
-        <link rel="stylesheet" href="assets/stylesheets/palette.9647289d.min.css">
-        
-      
-    
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
+    html{scroll-behavior:smooth}
+    body{background:var(--ep-ink);color:#dfe3ee}
+    ::selection{background:rgba(131,62,242,.28);color:#fff}
 
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
-  
-    
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#welcome-to-express-protocol" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
+    /* accessible focus ring everywhere */
+    a:focus-visible,button:focus-visible,summary:focus-visible,.copy-btn:focus-visible,.sb-link:focus-visible,input:focus-visible{
+      outline:2px solid var(--c-express-2);outline-offset:3px;border-radius:8px}
 
-<header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="" class="md-header__button md-logo" aria-label="" data-md-component="logo">
-      
-  <img src="media/Frame.svg" alt="logo">
+    /* subtle purple aura behind the whole doc */
+    body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+      background:
+        radial-gradient(52rem 30rem at 82% -6%,rgba(131,62,242,.20),transparent 60%),
+        radial-gradient(40rem 26rem at -6% 8%,rgba(121,73,232,.14),transparent 62%);}
+    body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+      background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+      background-size:60px 60px;
+      mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 90%);
+      -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 90%)}
 
+    /* ---------------- TOP BAR ---------------- */
+    .topbar{position:sticky;top:0;z-index:70;height:var(--topbar-h);
+      background:rgba(11,18,32,.82);backdrop-filter:blur(14px) saturate(140%);
+      border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:16px;padding:0 20px}
+    .tb-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .tb-brand img{height:23px;width:auto;display:block}
+    .tb-docs-tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;
+      color:#c9bcff;background:rgba(121,73,232,.16);border:1px solid var(--ep-line);padding:3px 8px;border-radius:6px}
+    .tb-sep{width:1px;height:22px;background:rgba(255,255,255,.12);flex-shrink:0}
+    .tb-back{font-size:.85rem;color:rgba(255,255,255,.6);display:inline-flex;align-items:center;gap:6px}
+    .tb-back:hover{color:#fff}
+    .tb-back svg{width:14px;height:14px}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+    .tb-ghlink{color:rgba(255,255,255,.66);display:inline-flex;align-items:center;gap:7px;font-size:.86rem;font-weight:500;
+      padding:7px 12px;border-radius:var(--r-pill);border:1px solid rgba(255,255,255,.12);transition:.18s}
+    .tb-ghlink:hover{color:#fff;border-color:rgba(131,62,242,.5);background:rgba(121,73,232,.14)}
+    .tb-ghlink svg{width:16px;height:16px}
+    /* mobile menu toggle */
+    .tb-menu{display:none;align-items:center;justify-content:center;width:38px;height:38px;flex-shrink:0;
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;cursor:pointer}
+    .tb-menu svg{width:20px;height:20px}
+
+    /* ---------------- APP SHELL ---------------- */
+    .shell{display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr);gap:0;max-width:1400px;margin:0 auto}
+
+    /* ---------------- SIDEBAR ---------------- */
+    .sidebar{position:sticky;top:var(--topbar-h);align-self:start;height:calc(100vh - var(--topbar-h));
+      overflow-y:auto;padding:26px 14px 60px 24px;border-right:1px solid rgba(255,255,255,.07);scrollbar-width:thin}
+    .sidebar::-webkit-scrollbar{width:8px}
+    .sidebar::-webkit-scrollbar-thumb{background:rgba(121,73,232,.28);border-radius:8px}
+    .sb-search{position:relative;margin-bottom:22px}
+    .sb-search input{width:100%;font-family:var(--font);font-size:.86rem;color:#e8e9f2;
+      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 12px 9px 34px}
+    .sb-search input::placeholder{color:rgba(255,255,255,.4)}
+    .sb-search input:focus{outline:none;border-color:rgba(131,62,242,.55);background:rgba(121,73,232,.08)}
+    .sb-search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:rgba(255,255,255,.4);pointer-events:none}
+    .sb-group{margin-bottom:22px}
+    .sb-title{font-size:.7rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#8b93ad;
+      display:flex;align-items:center;gap:8px;margin:0 0 9px;padding-left:2px}
+    .sb-title .ti{width:15px;height:15px;color:var(--c-express-2);opacity:.9;flex-shrink:0}
+    .sb-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+    .sb-link{display:block;font-size:.88rem;color:rgba(223,227,238,.72);padding:6px 12px;border-radius:8px;
+      border-left:2px solid transparent;transition:.15s;line-height:1.35}
+    .sb-link:hover{color:#fff;background:rgba(255,255,255,.04)}
+    .sb-link.active{color:#fff;background:rgba(121,73,232,.16);border-left-color:var(--c-express-2);font-weight:500}
+    .sb-link code{font-family:var(--mono);font-size:.82em;opacity:.85}
+
+    /* ---------------- MAIN CONTENT ---------------- */
+    .main{padding:0;min-width:0}
+    .content{max-width:calc(var(--content-max) + 64px);margin:0 auto;padding:44px 32px 120px}
+    .doc-section{display:none;animation:fade .4s ease}
+    .doc-section.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    .crumbs{display:flex;align-items:center;gap:8px;font-size:.78rem;color:#7f88a3;margin-bottom:18px;flex-wrap:wrap}
+    .crumbs b{color:#c9bcff;font-weight:600}
+    .crumbs svg{width:12px;height:12px;opacity:.6;flex-shrink:0}
+
+    .content h1{font-size:clamp(2rem,4vw,2.7rem);letter-spacing:-.03em;color:#fff;margin:0 0 16px;line-height:1.05}
+    .content h1 .grad{background:linear-gradient(100deg,#a98bff,#d7c6ff 55%,#8f6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .content h2{font-size:1.55rem;color:#fff;margin:52px 0 16px;letter-spacing:-.02em;scroll-margin-top:calc(var(--topbar-h) + 20px);
+      padding-top:8px;position:relative}
+    .content h2::before{content:"";position:absolute;top:-8px;left:0;width:34px;height:3px;border-radius:3px;
+      background:linear-gradient(90deg,var(--c-express),var(--c-express-2))}
+    .content h3{font-size:1.15rem;color:#eef0f6;margin:34px 0 12px;letter-spacing:-.01em;scroll-margin-top:calc(var(--topbar-h) + 20px)}
+    .content p{color:#c2c8d6;font-size:1rem;line-height:1.72;margin:0 0 16px;max-width:var(--content-max)}
+    .content .lead{font-size:1.14rem;color:#d3d8e6;line-height:1.62;max-width:var(--content-max)}
+    .content a.ilink{color:#b9a6ff;text-decoration:underline;text-decoration-color:rgba(185,166,255,.35);text-underline-offset:3px}
+    .content a.ilink:hover{text-decoration-color:#b9a6ff}
+    .content ul,.content ol{color:#c2c8d6;font-size:1rem;line-height:1.7;margin:0 0 18px;padding-left:22px;max-width:var(--content-max)}
+    .content li{margin:6px 0}
+    .content li::marker{color:var(--c-express-2)}
+    .content strong{color:#eef0f6}
+    .content hr{border:0;border-top:1px solid rgba(255,255,255,.08);margin:40px 0}
+
+    /* inline code */
+    .content :not(pre) > code{font-family:var(--mono);font-size:.84em;color:#e6d3ff;
+      background:rgba(121,73,232,.14);border:1px solid var(--ep-line);padding:2px 7px;border-radius:6px}
+
+    /* eyebrow */
+    .doc-eyebrow{font-weight:700;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:#c9bcff;margin:0 0 12px}
+
+    /* ---------------- CODE CARD (terminal chrome) ---------------- */
+    .code-card{background:linear-gradient(180deg,#0c1428,#0a1020);border:1px solid var(--ep-line);border-radius:14px;
+      box-shadow:0 24px 54px rgba(3,6,16,.5);overflow:hidden;position:relative;margin:0 0 22px}
+    .code-card::before{content:"";position:absolute;inset:0;border-radius:14px;padding:1px;pointer-events:none;
+      background:linear-gradient(135deg,rgba(131,62,242,.5),transparent 42%,transparent 72%,rgba(121,73,232,.3));
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+    .code-top{display:flex;align-items:center;gap:8px;padding:11px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
+    .code-top .dots{display:flex;gap:6px}
+    .code-top .dots i{width:10px;height:10px;border-radius:50%;display:block}
+    .code-top .dots i:nth-child(1){background:#ff5f57}.code-top .dots i:nth-child(2){background:#febc2e}.code-top .dots i:nth-child(3){background:#28c840}
+    .code-top .fname{margin-left:8px;font-family:var(--mono);font-size:.74rem;color:rgba(255,255,255,.46)}
+    .code-top .tag{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:#c9bcff;background:rgba(121,73,232,.16);padding:3px 8px;border-radius:6px;border:1px solid var(--ep-line)}
+    .copy-btn{margin-left:8px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font);font-size:.7rem;font-weight:600;
+      color:rgba(255,255,255,.6);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+      padding:4px 9px;border-radius:7px;cursor:pointer;transition:.16s;flex-shrink:0}
+    .code-top .tag + .copy-btn{margin-left:8px}
+    .code-top:not(:has(.tag)) .copy-btn{margin-left:auto}
+    .copy-btn:hover{color:#fff;border-color:rgba(131,62,242,.5);background:rgba(121,73,232,.16)}
+    .copy-btn.copied{color:#c9f7e3;border-color:rgba(0,171,110,.5);background:rgba(0,171,110,.16)}
+    .copy-btn svg{width:12px;height:12px}
+    .code-card pre{margin:0;padding:18px 18px 20px;overflow-x:auto;font-family:var(--mono);font-size:.82rem;line-height:1.72;color:#d7dbe8;-webkit-overflow-scrolling:touch}
+    .code-card pre code{font-family:inherit;white-space:pre;background:none;border:0;padding:0;color:inherit;font-size:inherit}
+    /* syntax accents */
+    .tk-c{color:#5b6b8c;font-style:italic}
+    .tk-k{color:#c792ea}
+    .tk-f{color:#82aaff}
+    .tk-s{color:#9be0a8}
+    .tk-n{color:#f6b17a}
+    .tk-p{color:#7f8db3}
+    .tk-m{color:#e6d3ff}
+
+    /* ---------------- CALLOUTS ---------------- */
+    .callout{display:flex;gap:13px;padding:15px 17px;border-radius:12px;margin:0 0 22px;font-size:.94rem;line-height:1.6;
+      background:rgba(121,73,232,.09);border:1px solid var(--ep-line);color:#d0cfe6;max-width:var(--content-max)}
+    .callout .ci{flex-shrink:0;width:20px;height:20px;color:var(--c-express-2);margin-top:1px}
+    .callout.new{background:linear-gradient(120deg,rgba(131,62,242,.16),rgba(0,108,255,.07));border-color:rgba(131,62,242,.35)}
+    .callout.new .ci{color:#c9bcff}
+    .callout b{color:#eef0f6}
+
+    /* ---------------- PILL BADGES ---------------- */
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+    .pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.74rem;font-weight:500;letter-spacing:.01em;
+      padding:5px 12px;border-radius:var(--r-pill);background:rgba(121,73,232,.12);border:1px solid var(--ep-line);color:#e2ddff}
+    .pill.plain{font-family:var(--font);font-weight:600;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+    .pill.mint{font-family:var(--font);font-weight:600;background:rgba(0,171,110,.12);border-color:rgba(0,171,110,.32);color:#8ef0c4}
+    .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--c-aconomy-mint);box-shadow:0 0 8px var(--c-aconomy-mint)}
+
+    /* ---------------- CARDS GRID (getting started) ---------------- */
+    .card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:0 0 24px}
+    @media(max-width:640px){.card-grid{grid-template-columns:1fr}}
+    .nav-card{display:block;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:20px;transition:.2s}
+    a.nav-card{cursor:pointer}
+    a.nav-card:hover{transform:translateY(-3px);border-color:rgba(131,62,242,.45);background:rgba(121,73,232,.09)}
+    .nav-card .nc-ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:rgba(121,73,232,.14);border:1px solid var(--ep-line);color:var(--c-express-2);margin-bottom:13px}
+    .nav-card .nc-ic svg{width:20px;height:20px}
+    .nav-card h4{font-size:1.04rem;color:#fff;margin:0 0 5px}
+    .nav-card p{font-size:.88rem;color:#aab1c4;margin:0;line-height:1.5}
+
+    /* ---------------- PARAM TABLE ---------------- */
+    .tbl-wrap{overflow-x:auto;margin:0 0 22px;border:1px solid rgba(255,255,255,.09);border-radius:12px;max-width:var(--content-max)}
+    table.params{width:100%;border-collapse:collapse;font-size:.86rem;min-width:440px}
+    table.params th{text-align:left;font-weight:600;color:#c9bcff;background:rgba(121,73,232,.1);padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.09);font-size:.78rem;letter-spacing:.02em}
+    table.params td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06);color:#c2c8d6;vertical-align:top}
+    table.params tr:last-child td{border-bottom:0}
+    table.params td:first-child{font-family:var(--mono);font-size:.82rem;color:#e6d3ff;white-space:nowrap}
+    table.params .ty{font-family:var(--mono);font-size:.78rem;color:#82aaff}
+
+    /* ---------------- METHOD SIGNATURE CHIP ---------------- */
+    .sig{display:block;font-family:var(--mono);font-size:.88rem;color:#e6d3ff;
+      background:rgba(121,73,232,.12);border:1px solid var(--ep-line);border-radius:8px;padding:9px 13px;margin:0 0 16px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+    .sig .obj{color:#82aaff}.sig .meth{color:#e6d3ff;font-weight:600}
+
+    /* returns / events strip */
+    .kv-row{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+    .kv-chip{font-family:var(--mono);font-size:.74rem;color:#8ef0c4;background:rgba(0,171,110,.09);border:1px solid rgba(0,171,110,.24);padding:4px 10px;border-radius:7px}
+    .kv-chip::before{content:"event · ";color:rgba(142,240,196,.55)}
+
+    /* prev / next footer */
+    .doc-foot{display:flex;justify-content:space-between;gap:14px;margin-top:56px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+    .doc-foot a{flex:1;max-width:48%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:14px 18px;transition:.2s;cursor:pointer}
+    .doc-foot a:hover{border-color:rgba(131,62,242,.45);background:rgba(121,73,232,.09)}
+    .doc-foot .df-dir{font-size:.72rem;color:#8b93ad;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+    .doc-foot .df-ttl{font-size:.98rem;color:#fff;font-weight:500}
+    .doc-foot a.next{text-align:right}
+    .doc-foot a.disabled{visibility:hidden;pointer-events:none}
+
+    /* backdrop for mobile sidebar */
+    .sb-backdrop{display:none;position:fixed;inset:0;z-index:65;background:rgba(4,7,16,.6);backdrop-filter:blur(2px)}
+
+    /* ---------------- RESPONSIVE ---------------- */
+    @media(max-width:960px){
+      .shell{grid-template-columns:1fr}
+      .tb-menu{display:inline-flex}
+      .tb-back-label{display:none}
+      .sidebar{position:fixed;top:0;left:0;z-index:66;width:min(320px,86vw);height:100vh;
+        background:#0a1122;border-right:1px solid rgba(255,255,255,.1);padding-top:22px;
+        transform:translateX(-102%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:0 0 60px rgba(0,0,0,.5)}
+      body.nav-open .sidebar{transform:translateX(0)}
+      body.nav-open .sb-backdrop{display:block}
+      .content{padding:34px 22px 100px}
+    }
+    @media(max-width:520px){
+      .tb-docs-tag{display:none}
+      .tb-ghlink span{display:none}
+      .content{padding:28px 18px 90px}
+      .doc-foot{flex-direction:column}
+      .doc-foot a{max-width:100%}
+      .doc-foot a.next{text-align:left}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .doc-section.active{animation:none}
+      .sidebar{transition:none}
+      a.nav-card:hover,.doc-foot a:hover{transform:none}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <button class="tb-menu" id="menuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <a class="tb-brand" href="../index.html" aria-label="Express Protocol home">
+      <img src="../../assets/logos/ExpressProtocol_White.png" alt="Express Protocol" />
+      <span class="tb-docs-tag">Docs</span>
     </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              Overview
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-  </nav>
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="." title="" class="md-nav__button md-logo" aria-label="" data-md-component="logo">
-      
-  <img src="media/Frame.svg" alt="logo">
-
+    <span class="tb-sep" aria-hidden="true"></span>
+    <a class="tb-back" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <span class="tb-back-label">Back to Express Protocol</span>
     </a>
-    
-  </label>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Overview
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
-        Overview
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#welcome-to-express-protocol" class="md-nav__link">
-    Welcome to Express Protocol!
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-started" class="md-nav__link">
-    Get Started
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#protocol-overview" class="md-nav__link">
-    Protocol Overview
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="express/" class="md-nav__link">
-        Why Express?
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3">
-          Protocol SDK
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Protocol SDK" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Protocol SDK
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/overview/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/gettingStarted/" class="md-nav__link">
-        Getting Started
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_3">
-          SDK Functions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="SDK Functions" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_3">
-          <span class="md-nav__icon md-icon"></span>
-          SDK Functions
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/SDKFunctions/erc721/" class="md-nav__link">
-        ERC721
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/SDKFunctions/erc1155/" class="md-nav__link">
-        ERC1155
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4" type="checkbox" id="__nav_3_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_4">
-          ERC721
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="ERC721" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_4">
-          <span class="md-nav__icon md-icon"></span>
-          ERC721
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4_1" type="checkbox" id="__nav_3_4_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_4_1">
-          Public Collection
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Public Collection" data-md-level="3">
-        <label class="md-nav__title" for="__nav_3_4_1">
-          <span class="md-nav__icon md-icon"></span>
-          Public Collection
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/1_PNDC/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/2_Minting/" class="md-nav__link">
-        Mint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/3_BatchMinting/" class="md-nav__link">
-        BatchMint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/4_Burning/" class="md-nav__link">
-        Burn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/5_Selling/" class="md-nav__link">
-        Sell
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/6_Buying/" class="md-nav__link">
-        Buy
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/7_Auctioning/" class="md-nav__link">
-        Auction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/8_Bidding/" class="md-nav__link">
-        Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/9_ExecutingBid/" class="md-nav__link">
-        Execute Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/10_WithdrawBid/" class="md-nav__link">
-        Withdraw Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PublicCollection/11_CancellingSale/" class="md-nav__link">
-        Cancel Sale
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4_2" type="checkbox" id="__nav_3_4_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_4_2">
-          Personal Collection
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Personal Collection" data-md-level="3">
-        <label class="md-nav__title" for="__nav_3_4_2">
-          <span class="md-nav__icon md-icon"></span>
-          Personal Collection
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/1_PersonalCollection/" class="md-nav__link">
-        Create Collection
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/2_Minting/" class="md-nav__link">
-        Mint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/3_BatchMinting/" class="md-nav__link">
-        BatchMint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/4_Burning/" class="md-nav__link">
-        Burn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/5_Selling/" class="md-nav__link">
-        Sell
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/6_Buying/" class="md-nav__link">
-        Buy
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/7_Auctioning/" class="md-nav__link">
-        Auction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/8_Bidding/" class="md-nav__link">
-        Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/9_ExecutingBid/" class="md-nav__link">
-        Execute
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/10_WithdrawingBid/" class="md-nav__link">
-        Withdraw
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc721/PersonalCollection/11_CancellingSale/" class="md-nav__link">
-        Cancel Sale
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_5">
-          ERC1155
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="ERC1155" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_5">
-          <span class="md-nav__icon md-icon"></span>
-          ERC1155
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5_1" type="checkbox" id="__nav_3_5_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_5_1">
-          Public Collection
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Public Collection" data-md-level="3">
-        <label class="md-nav__title" for="__nav_3_5_1">
-          <span class="md-nav__icon md-icon"></span>
-          Public Collection
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/1_PNDC/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/2_Minting/" class="md-nav__link">
-        Mint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/3_Burning/" class="md-nav__link">
-        Burn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/4_Selling/" class="md-nav__link">
-        Sell
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/5_Buying/" class="md-nav__link">
-        Buy
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/6_Auctioning/" class="md-nav__link">
-        Auction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/7_Bidding/" class="md-nav__link">
-        Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/8_ExcecutingBid/" class="md-nav__link">
-        Execute Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/9_WithdrawingBid/" class="md-nav__link">
-        Withdraw Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PublicCollection/10_CancellingSale/" class="md-nav__link">
-        Cancel Sale
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5_2" type="checkbox" id="__nav_3_5_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_5_2">
-          Personal Collection
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Personal Collection" data-md-level="3">
-        <label class="md-nav__title" for="__nav_3_5_2">
-          <span class="md-nav__icon md-icon"></span>
-          Personal Collection
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/1_PersonalCollection/" class="md-nav__link">
-        Create Collection
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/2_Minting/" class="md-nav__link">
-        Mint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/3_Burning/" class="md-nav__link">
-        Burn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/4_Selling/" class="md-nav__link">
-        Sell
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/6_Buying/" class="md-nav__link">
-        Buy
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/7_Auctioning/" class="md-nav__link">
-        Auction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/8_Bidding/" class="md-nav__link">
-        Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/9_ExecutingBid/" class="md-nav__link">
-        Execute
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/10_WithdrawingBid/" class="md-nav__link">
-        Withdraw
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/erc1155/PersonalCollection/11_CancellingSale/" class="md-nav__link">
-        Cancel Sale
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="sdk/pinata/1_UploadingToPinata/" class="md-nav__link">
-        Pinata
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4">
-          Protocol Smart Contracts
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Protocol Smart Contracts" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          Protocol Smart Contracts
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/1_Overview/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/2_Architecture/" class="md-nav__link">
-        Architecture
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4_3">
-          ERC721
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="ERC721" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_3">
-          <span class="md-nav__icon md-icon"></span>
-          ERC721
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3_1" type="checkbox" id="__nav_4_3_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4_3_1">
-          Functions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Functions" data-md-level="3">
-        <label class="md-nav__title" for="__nav_4_3_1">
-          <span class="md-nav__icon md-icon"></span>
-          Functions
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.1_Functions/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.2_Collections/" class="md-nav__link">
-        Collection
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.3_Minting/" class="md-nav__link">
-        Mint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.4_BatchMinting/" class="md-nav__link">
-        BatchMint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/Burn/" class="md-nav__link">
-        Burn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.5_Royalties/" class="md-nav__link">
-        Royalties
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.6_Selling/" class="md-nav__link">
-        Sell
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.7_Buying/" class="md-nav__link">
-        Buy
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.8_Auctioning/" class="md-nav__link">
-        Auction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.9_Bidding/" class="md-nav__link">
-        Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.10_CancellingSale/" class="md-nav__link">
-        CancelSale
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/3_Functions/3.11_BidOrderBook/" class="md-nav__link">
-        BidOrderBook
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3_2" type="checkbox" id="__nav_4_3_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4_3_2">
-          Structs
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Structs" data-md-level="3">
-        <label class="md-nav__title" for="__nav_4_3_2">
-          <span class="md-nav__icon md-icon"></span>
-          Structs
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/Structs/1_Structs/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/Structs/Share/" class="md-nav__link">
-        Share
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/Structs/2_RoyaltiesSet/" class="md-nav__link">
-        RoyaltiesSet
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/Structs/3_TokenMeta/" class="md-nav__link">
-        TokenMeta
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc721/Structs/4_BidOrder/" class="md-nav__link">
-        BidOrder
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4_4">
-          ERC1155
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="ERC1155" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_4">
-          <span class="md-nav__icon md-icon"></span>
-          ERC1155
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4_1" type="checkbox" id="__nav_4_4_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4_4_1">
-          Functions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Functions" data-md-level="3">
-        <label class="md-nav__title" for="__nav_4_4_1">
-          <span class="md-nav__icon md-icon"></span>
-          Functions
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.1_Functions/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.2_Collections/" class="md-nav__link">
-        Collection
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.3_minting/" class="md-nav__link">
-        Mint
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/Burn/" class="md-nav__link">
-        Burn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.5_Royalties/" class="md-nav__link">
-        Royalties
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.6_Selling/" class="md-nav__link">
-        Sell
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.7_Buying/" class="md-nav__link">
-        Buy
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.8_Auctioning/" class="md-nav__link">
-        Auction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.9_Bidding/" class="md-nav__link">
-        Bid
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.10_CancellingSale/" class="md-nav__link">
-        CancelSale
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/4_Functions/3.11_BidOrderBook/" class="md-nav__link">
-        BidOrderBook
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4_2" type="checkbox" id="__nav_4_4_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4_4_2">
-          Structs
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Structs" data-md-level="3">
-        <label class="md-nav__title" for="__nav_4_4_2">
-          <span class="md-nav__icon md-icon"></span>
-          Structs
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/Structs/1_Structs/" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/Structs/Share/" class="md-nav__link">
-        Share
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/Structs/2_RoyalitiesSet/" class="md-nav__link">
-        RoyaltiesSet
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/Structs/3_TokenMeta/" class="md-nav__link">
-        TokenMeta
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/erc1155/Structs/4_BidOrder/" class="md-nav__link">
-        BidOrder
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="smart-conrtracts/1_ContractsDeployment/" class="md-nav__link">
-        Contract deployment
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_5">
-          SDK Usecases
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="SDK Usecases" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
-          <span class="md-nav__icon md-icon"></span>
-          SDK Usecases
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guide/" class="md-nav__link">
-        NFT MarketPlace
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guide1/" class="md-nav__link">
-        NFT Auction Market
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guide2/" class="md-nav__link">
-        NFT-Drop Dapp
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guide3/" class="md-nav__link">
-        NFT-Ticket Booking Dapp
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guide4/" class="md-nav__link">
-        NFT-Lending and Borrowing Dapp
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#welcome-to-express-protocol" class="md-nav__link">
-    Welcome to Express Protocol!
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-started" class="md-nav__link">
-    Get Started
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#protocol-overview" class="md-nav__link">
-    Protocol Overview
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
-                
-
-
-  <h1>Overview</h1>
-
-<h2 id="welcome-to-express-protocol">Welcome to Express Protocol!</h2>
-<p>Express protocol is a decentralized protocol built on top of blockchain layer which aims at bringing/ balancing liquidity in the NFT Marketplaces created using the Protocol's SDK.</p>
-<p>Our protocol backs developer of all kinds, from standard software developer (web2) to blockchain developers (web3), from solo programmers to a professional scaled team and everything in between.</p>
-<hr />
-<h2 id="get-started">Get Started</h2>
-<p>To directly walk through the process of installation and initialization of Express Protocol SDK, get started with <a href="sdk/gettingStarted/">Installation</a>.</p>
-<hr />
-<h2 id="protocol-overview">Protocol Overview</h2>
-<p>The Express Protocol encapsulates a combination of Smart Contracts and Libraries, as well as a Software Development Kit, built over them.</p>
-<p>The Smart Contracts interact directly with the blockchains(multiple supported).</p>
-<p><a class="md-button" href="smart-conrtracts/1_Overview/">Protocol Smart Contracts</a></p>
-<p>These smart contracts have functionalities to mint, trade and auction tokens of <a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-721/">ERC721</a> and <a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/">ERC1155</a> Standards.</p>
-<p>The SDK built on top of the Smart Contracts enable clients to use the Protocol's Smart Contracts functionalities without directly interacting with the blockchain and smart contracts.</p>
-<p><a class="md-button" href="sdk/overview/">Protocol SDK</a></p>
-<hr />
-
-              
-            </article>
-          </div>
+    <div class="tb-right">
+      <a class="tb-ghlink" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        <span>SDK</span>
+      </a>
+      <a class="tb-ghlink" href="https://github.com/Pandora-Finance/express-protocol-docs" target="_blank" rel="noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Docs</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="sb-backdrop" id="sbBackdrop" aria-hidden="true"></div>
+
+  <div class="shell">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <nav aria-label="Documentation navigation">
+        <div class="sb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="sbFilter" placeholder="Filter sections…" aria-label="Filter documentation sections" autocomplete="off" spellcheck="false" />
         </div>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-      
-        
-        <a href="express/" class="md-footer__link md-footer__link--next" aria-label="Next: Why Express?" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Why Express?
+
+        <div class="sb-group">
+          <p class="sb-title"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg> Getting Started</p>
+          <ul class="sb-list">
+            <li><a class="sb-link" href="#overview" data-sec="overview">Overview</a></li>
+            <li><a class="sb-link" href="#why-express" data-sec="why-express">Why Express?</a></li>
+            <li><a class="sb-link" href="#install" data-sec="install">Installation &amp; setup</a></li>
+            <li><a class="sb-link" href="#quickstart" data-sec="quickstart">Quickstart</a></li>
+            <li><a class="sb-link" href="#collections" data-sec="collections">Collections model</a></li>
+          </ul>
+        </div>
+
+        <div class="sb-group">
+          <p class="sb-title"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 22l-5.5-2.5 1-6.3L3 8.9 9 8z"/></svg> SDK · ERC-721</p>
+          <ul class="sb-list">
+            <li><a class="sb-link" href="#erc721" data-sec="erc721">Overview &amp; functions</a></li>
+            <li><a class="sb-link" href="#erc721-mint" data-sec="erc721-mint">Mint</a></li>
+            <li><a class="sb-link" href="#erc721-batch" data-sec="erc721-batch">Batch mint</a></li>
+            <li><a class="sb-link" href="#erc721-burn" data-sec="erc721-burn">Burn</a></li>
+            <li><a class="sb-link" href="#erc721-sell" data-sec="erc721-sell">Sell (fixed price)</a></li>
+            <li><a class="sb-link" href="#erc721-buy" data-sec="erc721-buy">Buy</a></li>
+            <li><a class="sb-link" href="#erc721-auction" data-sec="erc721-auction">Auction</a></li>
+            <li><a class="sb-link" href="#erc721-bid" data-sec="erc721-bid">Bid</a></li>
+            <li><a class="sb-link" href="#erc721-execbid" data-sec="erc721-execbid">Execute bid</a></li>
+            <li><a class="sb-link" href="#erc721-withdrawbid" data-sec="erc721-withdrawbid">Withdraw bid</a></li>
+            <li><a class="sb-link" href="#erc721-cancel" data-sec="erc721-cancel">Cancel sale</a></li>
+            <li><a class="sb-link" href="#erc721-collection" data-sec="erc721-collection">Personal collections</a></li>
+            <li><a class="sb-link" href="#erc721-uri" data-sec="erc721-uri">Token URI</a></li>
+          </ul>
+        </div>
+
+        <div class="sb-group">
+          <p class="sb-title"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> SDK · ERC-1155</p>
+          <ul class="sb-list">
+            <li><a class="sb-link" href="#erc1155" data-sec="erc1155">Overview &amp; functions</a></li>
+            <li><a class="sb-link" href="#erc1155-mint" data-sec="erc1155-mint">Mint (with royalties)</a></li>
+            <li><a class="sb-link" href="#erc1155-trade" data-sec="erc1155-trade">Sell · Buy · Auction</a></li>
+            <li><a class="sb-link" href="#erc1155-bid" data-sec="erc1155-bid">Bid &amp; execute bid</a></li>
+            <li><a class="sb-link" href="#erc1155-collection" data-sec="erc1155-collection">Personal collections</a></li>
+          </ul>
+        </div>
+
+        <div class="sb-group">
+          <p class="sb-title"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg> x402 Payments</p>
+          <ul class="sb-list">
+            <li><a class="sb-link" href="#x402" data-sec="x402">What is x402</a></li>
+            <li><a class="sb-link" href="#x402-setup" data-sec="x402-setup">Enabling the module</a></li>
+            <li><a class="sb-link" href="#x402-agents" data-sec="x402-agents">Agent checkout flow</a></li>
+          </ul>
+        </div>
+
+        <div class="sb-group">
+          <p class="sb-title"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Guides &amp; Storage</p>
+          <ul class="sb-list">
+            <li><a class="sb-link" href="#ipfs" data-sec="ipfs">IPFS &amp; Pinata</a></li>
+            <li><a class="sb-link" href="#guides" data-sec="guides">Build guides</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="content">
+
+        <!-- ===================== OVERVIEW ===================== -->
+        <section class="doc-section active" id="sec-overview" data-key="overview">
+          <div class="crumbs"><b>Getting Started</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Overview</div>
+          <p class="doc-eyebrow">Express Protocol SDK</p>
+          <h1>The SDK for <span class="grad">agentic onchain commerce</span></h1>
+          <div class="pill-row">
+            <span class="pill plain"><span class="dot"></span> v2 · agent-ready</span>
+            <span class="pill">npm: pandora-express</span>
+            <span class="pill mint">Open source · MIT</span>
+          </div>
+          <p class="lead">Express Protocol is a decentralized protocol built on top of the blockchain layer that lets <strong>any Web2 developer</strong> mint, trade, auction, and manage NFTs and real-world assets onchain — without writing a single line of Solidity.</p>
+          <p>The protocol wraps a suite of audited smart contracts and libraries in one typed SDK. It handles every interaction at the blockchain level, so you design a frontend, plug in a wallet, and call an SDK function to ship a fully-operating NFT or RWA application. Building an NFT marketplace used to take days or weeks — with Express it can be done in a few hours.</p>
+
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <div><b>Shared order book.</b> Every marketplace built on Express shares one liquidity layer. An NFT listed in one app can be discovered and filled from any other app on the protocol — solving the fragmented, unbalanced liquidity that plagues siloed NFT markets.</div>
+          </div>
+
+          <h2 id="what-you-get">What you can build</h2>
+          <div class="card-grid">
+            <a class="nav-card" data-goto="erc721-mint" href="#erc721-mint">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 22l-5.5-2.5 1-6.3L3 8.9 9 8z"/></svg></div>
+              <h4>Mint anything</h4>
+              <p>Single or batch mint ERC-721 &amp; ERC-1155 with creator royalties baked in.</p>
+            </a>
+            <a class="nav-card" data-goto="erc721-sell" href="#erc721-sell">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.3A1 1 0 0 0 5.6 19H17"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg></div>
+              <h4>Full marketplace</h4>
+              <p>Fixed-price sales, buys, timed auctions and bidding on a shared order book.</p>
+            </a>
+            <a class="nav-card" data-goto="x402" href="#x402">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+              <h4>Agent payments</h4>
+              <p>Let AI agents pay &amp; settle purchases autonomously with the x402 module.</p>
+            </a>
+            <a class="nav-card" data-goto="ipfs" href="#ipfs">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.8 1 6.4 2.6"/><path d="M8 12l3 3 5-6"/></svg></div>
+              <h4>Decentralized storage</h4>
+              <p>Pin metadata &amp; media to IPFS out of the box with the Pinata integration.</p>
+            </a>
+          </div>
+
+          <div class="callout new">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+            <div><b>New in 2026 — x402 payments.</b> Express now ships an optional module built on the HTTP&nbsp;402 stablecoin standard so autonomous agents can price, authorize, and settle NFT &amp; RWA purchases in USDC on their own. <a class="ilink" data-goto="x402" href="#x402">Read the x402 docs →</a></div>
+          </div>
+
+          <div class="doc-foot">
+            <a class="disabled" aria-hidden="true" tabindex="-1"></a>
+            <a class="next" data-goto="why-express" href="#why-express"><div class="df-dir">Next</div><div class="df-ttl">Why Express? →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== WHY EXPRESS ===================== -->
+        <section class="doc-section" id="sec-why-express" data-key="why-express">
+          <div class="crumbs"><b>Getting Started</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Why Express?</div>
+          <h1>Why Express?</h1>
+          <p class="lead">Through Express Protocol's SDK you can build anything from a simple NFT-minting dApp to a complex, multi-standard, multichain marketplace — with auctions, collections, royalties and more — without becoming a blockchain engineer first.</p>
+
+          <h2 id="challenges">Challenges with building NFT dApps</h2>
+          <ul>
+            <li><strong>Nativity.</strong> Developers normally need deep web3 familiarity and must be proficient at writing smart contracts.</li>
+            <li><strong>Ease of use.</strong> Shipping a dApp means writing efficient functions, adding modifiers and access control, and a great deal more.</li>
+            <li><strong>Time consumption.</strong> Writing and testing those contracts from scratch takes a serious amount of time.</li>
+            <li><strong>Security.</strong> Moving assets and funds through dApps introduces vulnerabilities that have caused real exploits and total application failures in the past.</li>
+          </ul>
+
+          <h2 id="how-express-solves">How Express Protocol solves them</h2>
+          <p>The SDK lets developers create NFT dApps without being intimidated by blockchain and smart-contract complexity. It takes care of interacting at the blockchain level — you just design a frontend, set up a wallet, and call SDK functions to get a working dApp.</p>
+          <p>You never write contracts from scratch, so your energy goes into building innovative products instead of re-inventing the wheel. Express Protocol's codebase is open source and its smart contracts have been through multiple phases of auditing, so dApps built on top inherit that battle-tested foundation.</p>
+
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            <div><b>Audited foundation.</b> Because the SDK is built on well-tested contracts, applications built with Express are hardened against the classes of threats and vulnerabilities that have historically plagued NFT dApps.</div>
+          </div>
+
+          <h2 id="liquidity">Liquidating assets</h2>
+          <p>The centre of attention is liquidity. Today, the major problem with NFT marketplaces is a lack of — or unbalanced — liquidity across markets. An NFT can be listed on one marketplace while the potential bidders and buyers sit on another, unaware of the listing, so the order stays unfilled.</p>
+          <p>Express Protocol liquidates assets through a <strong>shared order book</strong>. Every marketplace built with the SDK shares all listings and placed orders, balancing liquidity across markets. In practice, an NFT listed on one marketplace can be filled through every other marketplace built on the SDK.</p>
+
+          <div class="doc-foot">
+            <a data-goto="overview" href="#overview"><div class="df-dir">Previous</div><div class="df-ttl">← Overview</div></a>
+            <a class="next" data-goto="install" href="#install"><div class="df-dir">Next</div><div class="df-ttl">Installation &amp; setup →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== INSTALL ===================== -->
+        <section class="doc-section" id="sec-install" data-key="install">
+          <div class="crumbs"><b>Getting Started</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Installation</div>
+          <h1>Installation &amp; setup</h1>
+          <p class="lead">Add the package, create an SDK instance with a signer, and you are ready to mint and trade onchain.</p>
+
+          <h2 id="install-pkg">Install the package</h2>
+          <p>The SDK ships on npm as <code>pandora-express</code>.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">terminal</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-p">$</span> npm i pandora-express
+<span class="tk-c"># or</span>
+<span class="tk-p">$</span> pnpm add pandora-express</code></pre>
+          </div>
+
+          <h2 id="init">Initialize the SDK</h2>
+          <p>Create a single SDK instance and reuse it across your app. Pass a signer (a viem / web3 provider connected to the user's wallet) and the chain you want to operate on.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">sdk.ts</span><span class="tag">pandora-express</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">import</span> <span class="tk-p">{</span> <span class="tk-m">createPandoraExpressSDK</span> <span class="tk-p">}</span> <span class="tk-k">from</span> <span class="tk-s">"pandora-express"</span><span class="tk-p">;</span>
+
+<span class="tk-c">// one instance, reused everywhere</span>
+<span class="tk-k">export</span> <span class="tk-k">const</span> <span class="tk-m">sdk</span> <span class="tk-p">=</span> <span class="tk-f">createPandoraExpressSDK</span><span class="tk-p">({</span>
+  <span class="tk-m">signer</span><span class="tk-p">,</span>            <span class="tk-c">// viem / web3 signer from the connected wallet</span>
+  <span class="tk-m">chainId</span><span class="tk-p">:</span> <span class="tk-n">137</span><span class="tk-p">,</span>     <span class="tk-c">// Polygon — see supported networks below</span>
+<span class="tk-p">});</span></code></pre>
+          </div>
+
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div>Every SDK method takes the active <code>chainId</code>. A token minted on a given network can be listed, sold or auctioned on that <b>same</b> network. Under the hood the SDK forwards a configured <code>web3</code> instance and <code>chainId</code> to the protocol contracts.</div>
+          </div>
+
+          <h2 id="networks">Supported networks</h2>
+          <p>The protocol contracts are deployed across multiple EVM chains. Pass the network id as <code>chainId</code> when you create the SDK.</p>
+          <div class="tbl-wrap">
+            <table class="params">
+              <thead><tr><th>Network</th><th>chainId</th></tr></thead>
+              <tbody>
+                <tr><td>Polygon Mainnet</td><td class="ty">137</td></tr>
+                <tr><td>Polygon Mumbai (testnet)</td><td class="ty">80001</td></tr>
+                <tr><td>BSC Mainnet</td><td class="ty">56</td></tr>
+                <tr><td>BSC Testnet</td><td class="ty">97</td></tr>
+                <tr><td>Base <span class="ty">· x402-ready</span></td><td class="ty">8453</td></tr>
+                <tr><td>Arbitrum One <span class="ty">· x402-ready</span></td><td class="ty">42161</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout new">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+            <div><b>Modernized for 2026.</b> Alongside the original Polygon and BSC deployments, Express now targets low-fee L2s — <b>Base</b> and <b>Arbitrum</b> — which are also the settlement chains for the x402 stablecoin module.</div>
+          </div>
+
+          <div class="doc-foot">
+            <a data-goto="why-express" href="#why-express"><div class="df-dir">Previous</div><div class="df-ttl">← Why Express?</div></a>
+            <a class="next" data-goto="quickstart" href="#quickstart"><div class="df-dir">Next</div><div class="df-ttl">Quickstart →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== QUICKSTART ===================== -->
+        <section class="doc-section" id="sec-quickstart" data-key="quickstart">
+          <div class="crumbs"><b>Getting Started</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Quickstart</div>
+          <h1>Quickstart: mint &amp; sell</h1>
+          <p class="lead">From <code>npm install</code> to onchain in one file — mint an ERC-721 into Pandora's public collection, then list it on the shared order book.</p>
+
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">mint-and-sell.ts</span><span class="tag">pandora-express</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">import</span> <span class="tk-p">{</span> <span class="tk-m">createPandoraExpressSDK</span> <span class="tk-p">}</span> <span class="tk-k">from</span> <span class="tk-s">"pandora-express"</span><span class="tk-p">;</span>
+
+<span class="tk-k">const</span> <span class="tk-m">sdk</span> <span class="tk-p">=</span> <span class="tk-f">createPandoraExpressSDK</span><span class="tk-p">({</span> <span class="tk-m">signer</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">:</span> <span class="tk-n">137</span> <span class="tk-p">});</span>
+
+<span class="tk-c">// 1 · mint an ERC-721 into the public collection</span>
+<span class="tk-k">const</span> <span class="tk-m">receipt</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">minterAddress</span><span class="tk-p">,</span>
+  <span class="tk-s">"ipfs://…/asset.json"</span><span class="tk-p">,</span>       <span class="tk-c">// tokenURI</span>
+  <span class="tk-p">[[</span><span class="tk-m">creator</span><span class="tk-p">,</span> <span class="tk-n">500</span><span class="tk-p">]]</span>              <span class="tk-c">// royalties: 5% (500 bps) to creator</span>
+<span class="tk-p">);</span>
+<span class="tk-k">const</span> <span class="tk-m">tokenId</span> <span class="tk-p">=</span> <span class="tk-m">receipt</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">RoyaltiesSetForTokenId</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">tokenId</span><span class="tk-p">;</span>
+
+<span class="tk-c">// 2 · list it for sale on the shared order book</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFT</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenId</span><span class="tk-p">,</span>
+  <span class="tk-s">"25"</span><span class="tk-p">,</span>                          <span class="tk-c">// price</span>
+  <span class="tk-m">minterAddress</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <div>That's a full mint-to-listing flow. Buyers on <b>any</b> Express marketplace can now fill the order via <code>sdk.erc721.order.buyNFT(...)</code>. Continue to the ERC-721 reference for every function and its emitted events.</div>
+          </div>
+
+          <div class="doc-foot">
+            <a data-goto="install" href="#install"><div class="df-dir">Previous</div><div class="df-ttl">← Installation</div></a>
+            <a class="next" data-goto="collections" href="#collections"><div class="df-dir">Next</div><div class="df-ttl">Collections model →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== COLLECTIONS ===================== -->
+        <section class="doc-section" id="sec-collections" data-key="collections">
+          <div class="crumbs"><b>Getting Started</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Collections</div>
+          <h1>Public vs. personal collections</h1>
+          <p class="lead">Every token in Express lives in a collection. You can mint into Pandora's shared public collection to go live instantly, or deploy your own personal collection contract for a fully-branded storefront.</p>
+
+          <div class="card-grid">
+            <div class="nav-card">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <h4>Public collection <span style="font-family:var(--mono);font-size:.62rem;color:#c9bcff">PNDC</span></h4>
+              <p>Mint straight into Pandora's shared contract and go live immediately — no deployment required. Accessed via <code>sdk.erc721.nft.*</code> and <code>sdk.erc721.order.*</code>.</p>
+            </div>
+            <div class="nav-card">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+              <h4>Personal collection</h4>
+              <p>Deploy your own collection contract for a branded storefront, then mint and trade inside it. Accessed via <code>sdk.erc721.collection.*</code>.</p>
             </div>
           </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+
+          <p>The API surface mirrors across both. Public-collection actions hang off <code>nft</code> (mint/burn) and <code>order</code> (trade); personal-collection actions hang off <code>collection</code>, which additionally exposes <code>createCollection()</code>. ERC-1155 follows the exact same shape under <code>sdk.erc1155.*</code>.</p>
+
+          <h3 id="create-personal">Create a personal collection</h3>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">create-collection.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// ERC-1155 shown; ERC-721 exposes the same createCollection()</span>
+<span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">createCollection</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">ownerAddress</span><span class="tk-p">,</span>          <span class="tk-c">// collection creator</span>
+  <span class="tk-m">uri</span><span class="tk-p">,</span>                   <span class="tk-c">// token URL</span>
+  <span class="tk-m">description</span><span class="tk-p">,</span>           <span class="tk-c">// collection description</span>
+  <span class="tk-m">collectionRoyalties</span>    <span class="tk-c">// royalties received by the owner</span>
+<span class="tk-p">);</span>
+
+<span class="tk-c">// the new contract address is emitted in ERC1155Deployed</span>
+<span class="tk-k">const</span> <span class="tk-m">collectionAddress</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">ERC1155Deployed</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">_tokenAddress</span><span class="tk-p">;</span></code></pre>
           </div>
-        </a>
-      
-    </nav>
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
-</div>
-      
-    </div>
+
+          <div class="doc-foot">
+            <a data-goto="quickstart" href="#quickstart"><div class="df-dir">Previous</div><div class="df-ttl">← Quickstart</div></a>
+            <a class="next" data-goto="erc721" href="#erc721"><div class="df-dir">Next</div><div class="df-ttl">SDK · ERC-721 →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 OVERVIEW ===================== -->
+        <section class="doc-section" id="sec-erc721" data-key="erc721">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Overview</div>
+          <h1>ERC-721 functions</h1>
+          <p class="lead">The classic non-fungible standard — one-of-one collectibles, art and tickets. The full mint → trade → auction lifecycle is available through the same typed SDK, in both public and personal collections.</p>
+
+          <div class="pill-row">
+            <span class="pill">sdk.erc721.nft.*</span>
+            <span class="pill">sdk.erc721.order.*</span>
+            <span class="pill">sdk.erc721.collection.*</span>
+          </div>
+
+          <h2 id="erc721-surface">Function surface</h2>
+          <p>Public-collection minting/burning lives under <code>nft</code>, trading lives under <code>order</code>, and personal-collection actions live under <code>collection</code>.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">erc721.d.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// public collection — mint / burn / read</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">burn</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">fetchTokenURI</span><span class="tk-p">()</span>
+
+<span class="tk-c">// trading — shared order book</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFT</span><span class="tk-p">()</span>        <span class="tk-c">// fixed-price listing</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">buyNFT</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFTByBid</span><span class="tk-p">()</span>    <span class="tk-c">// auction</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">bid</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">acceptBid</span><span class="tk-p">()</span>       <span class="tk-c">// execute a bid</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">withdrawBid</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">cancelSale</span><span class="tk-p">()</span>
+
+<span class="tk-c">// personal collection — same lifecycle, your own contract</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">createCollection</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">sellNFTByBid</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">bid</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">buyNFT</span><span class="tk-p">()</span> …</code></pre>
+          </div>
+
+          <div class="doc-foot">
+            <a data-goto="collections" href="#collections"><div class="df-dir">Previous</div><div class="df-ttl">← Collections</div></a>
+            <a class="next" data-goto="erc721-mint" href="#erc721-mint"><div class="df-dir">Next</div><div class="df-ttl">Mint →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 MINT ===================== -->
+        <section class="doc-section" id="sec-erc721-mint" data-key="erc721-mint">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Mint</div>
+          <h1>Mint</h1>
+          <div class="sig"><span class="obj">sdk.erc721.nft.</span><span class="meth">mint</span>(web3, chainId, minterAddress, tokenURI, royalties)</div>
+          <p>Mints a single ERC-721 token into the public collection with creator royalties baked in. Returns the on-chain transaction receipt.</p>
+
+          <div class="tbl-wrap"><table class="params">
+            <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>web3</td><td>Web3 instance configured with the wallet provider.</td></tr>
+              <tr><td>chainId</td><td>Network id of the blockchain.</td></tr>
+              <tr><td>minterAddress</td><td>Address of the minter / creator.</td></tr>
+              <tr><td>tokenURI</td><td>Metadata URI string (e.g. an <code>ipfs://</code> link).</td></tr>
+              <tr><td>royalties</td><td>Nested array <span class="ty">[[recipient, fraction], …]</span> — at most 10 recipients.</td></tr>
+            </tbody>
+          </table></div>
+
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">mint.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">minterAddress</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenURI</span><span class="tk-p">,</span>
+  <span class="tk-m">royalties</span>   <span class="tk-c">// [[addr, 500]] → 5%</span>
+<span class="tk-p">);</span>
+
+<span class="tk-c">// tokenId is emitted in RoyaltiesSetForTokenId</span>
+<span class="tk-k">const</span> <span class="tk-m">tokenId</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">RoyaltiesSetForTokenId</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">tokenId</span><span class="tk-p">;</span></code></pre>
+          </div>
+          <p>Emitted events:</p>
+          <div class="kv-row"><span class="kv-chip">RoyaltiesSetForTokenId</span></div>
+
+          <div class="doc-foot">
+            <a data-goto="erc721" href="#erc721"><div class="df-dir">Previous</div><div class="df-ttl">← ERC-721 overview</div></a>
+            <a class="next" data-goto="erc721-batch" href="#erc721-batch"><div class="df-dir">Next</div><div class="df-ttl">Batch mint →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 BATCH MINT ===================== -->
+        <section class="doc-section" id="sec-erc721-batch" data-key="erc721-batch">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Batch mint</div>
+          <h1>Batch mint</h1>
+          <div class="sig"><span class="obj">sdk.erc721.nft.</span><span class="meth">batchMint</span>(web3, chainId, minterAddress, tokenURIs, royalties)</div>
+          <p>Mint many tokens in a single transaction — ideal for NFT drops. Pass an array of token URIs and per-token royalties. Each minted token emits its own <code>RoyaltiesSetForTokenId</code> so you can collect every new <code>tokenId</code> from the receipt.</p>
+
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">batch-mint.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">batchMint</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">minterAddress</span><span class="tk-p">,</span>
+  <span class="tk-p">[</span><span class="tk-s">"ipfs://…/1.json"</span><span class="tk-p">,</span> <span class="tk-s">"ipfs://…/2.json"</span><span class="tk-p">],</span>  <span class="tk-c">// tokenURIs</span>
+  <span class="tk-p">[[[</span><span class="tk-m">creator</span><span class="tk-p">,</span> <span class="tk-n">500</span><span class="tk-p">]],</span> <span class="tk-p">[[</span><span class="tk-m">creator</span><span class="tk-p">,</span> <span class="tk-n">500</span><span class="tk-p">]]]</span>       <span class="tk-c">// per-token royalties</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div>Batch minting mirrors <code>mint()</code> but accepts arrays. Pin all your assets to IPFS first (see <a class="ilink" data-goto="ipfs" href="#ipfs">IPFS &amp; Pinata</a>), then pass the resulting URIs.</div>
+          </div>
+
+          <div class="doc-foot">
+            <a data-goto="erc721-mint" href="#erc721-mint"><div class="df-dir">Previous</div><div class="df-ttl">← Mint</div></a>
+            <a class="next" data-goto="erc721-burn" href="#erc721-burn"><div class="df-dir">Next</div><div class="df-ttl">Burn →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 BURN ===================== -->
+        <section class="doc-section" id="sec-erc721-burn" data-key="erc721-burn">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Burn</div>
+          <h1>Burn</h1>
+          <div class="sig"><span class="obj">sdk.erc721.nft.</span><span class="meth">burn</span>(web3, chainId, ownerAddress, tokenId)</div>
+          <p>Permanently destroys the token associated with <code>tokenId</code>.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">burn.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">burn</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">ownerAddress</span><span class="tk-p">,</span>   <span class="tk-c">// token owner</span>
+  <span class="tk-m">tokenId</span>         <span class="tk-c">// id of token to burn</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc721-batch" href="#erc721-batch"><div class="df-dir">Previous</div><div class="df-ttl">← Batch mint</div></a>
+            <a class="next" data-goto="erc721-sell" href="#erc721-sell"><div class="df-dir">Next</div><div class="df-ttl">Sell →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 SELL ===================== -->
+        <section class="doc-section" id="sec-erc721-sell" data-key="erc721-sell">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Sell</div>
+          <h1>Sell (fixed price)</h1>
+          <div class="sig"><span class="obj">sdk.erc721.order.</span><span class="meth">sellNFT</span>(web3, chainId, tokenId, tokenPrice, ownerAddress)</div>
+          <p>Lists a token for a fixed price on the shared order book. Emits <code>TokenMetaReturn</code>, from which you can read the <code>saleId</code> and full listing metadata.</p>
+
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">sell.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFT</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenId</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenPrice</span><span class="tk-p">,</span>     <span class="tk-c">// selling price</span>
+  <span class="tk-m">ownerAddress</span>
+<span class="tk-p">);</span>
+
+<span class="tk-c">// listing metadata (incl. saleId) is on TokenMetaReturn</span>
+<span class="tk-k">const</span> <span class="tk-m">meta</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">TokenMetaReturn</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">data</span><span class="tk-p">;</span>
+<span class="tk-c">// meta → { saleId, price, currentOwner, directSale, collectionAddress, … }</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">TokenMetaReturn</span></div>
+
+          <div class="doc-foot">
+            <a data-goto="erc721-burn" href="#erc721-burn"><div class="df-dir">Previous</div><div class="df-ttl">← Burn</div></a>
+            <a class="next" data-goto="erc721-buy" href="#erc721-buy"><div class="df-dir">Next</div><div class="df-ttl">Buy →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 BUY ===================== -->
+        <section class="doc-section" id="sec-erc721-buy" data-key="erc721-buy">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Buy</div>
+          <h1>Buy</h1>
+          <div class="sig"><span class="obj">sdk.erc721.order.</span><span class="meth">buyNFT</span>(web3, chainId, saleId, buyerAddress, price)</div>
+          <p>Fills a fixed-price listing by its <code>saleId</code>. On success, token ownership and the price money are transferred between the new and previous owner respectively.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">buy.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">buyNFT</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">saleId</span><span class="tk-p">,</span>         <span class="tk-c">// from the listing's TokenMetaReturn</span>
+  <span class="tk-m">buyerAddress</span><span class="tk-p">,</span>
+  <span class="tk-m">price</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc721-sell" href="#erc721-sell"><div class="df-dir">Previous</div><div class="df-ttl">← Sell</div></a>
+            <a class="next" data-goto="erc721-auction" href="#erc721-auction"><div class="df-dir">Next</div><div class="df-ttl">Auction →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 AUCTION ===================== -->
+        <section class="doc-section" id="sec-erc721-auction" data-key="erc721-auction">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Auction</div>
+          <h1>Auction</h1>
+          <div class="sig"><span class="obj">sdk.erc721.order.</span><span class="meth">sellNFTByBid</span>(web3, chainId, tokenId, initialPrice, ownerAddress, auctionTime)</div>
+          <p>Puts a token up for a timed auction. Emits the same <code>TokenMetaReturn</code> event as <code>sellNFT</code>; items on auction can then be bid on by others using the <code>saleId</code>.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">auction.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFTByBid</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenId</span><span class="tk-p">,</span>
+  <span class="tk-m">initialPrice</span><span class="tk-p">,</span>   <span class="tk-c">// starting bid</span>
+  <span class="tk-m">ownerAddress</span><span class="tk-p">,</span>
+  <span class="tk-n">120</span>             <span class="tk-c">// auctionTime — seconds (120 = 120s)</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">TokenMetaReturn</span></div>
+          <div class="doc-foot">
+            <a data-goto="erc721-buy" href="#erc721-buy"><div class="df-dir">Previous</div><div class="df-ttl">← Buy</div></a>
+            <a class="next" data-goto="erc721-bid" href="#erc721-bid"><div class="df-dir">Next</div><div class="df-ttl">Bid →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 BID ===================== -->
+        <section class="doc-section" id="sec-erc721-bid" data-key="erc721-bid">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Bid</div>
+          <h1>Bid</h1>
+          <div class="sig"><span class="obj">sdk.erc721.order.</span><span class="meth">bid</span>(web3, chainId, saleId, bidderAddress, bidPrice)</div>
+          <p>Places a bid on an item that is on auction. Emits <code>BidOrderReturn</code> describing the bid.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">bid.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">bid</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">saleId</span><span class="tk-p">,</span>          <span class="tk-c">// item on auction</span>
+  <span class="tk-m">bidderAddress</span><span class="tk-p">,</span>
+  <span class="tk-m">bidPrice</span>
+<span class="tk-p">);</span>
+
+<span class="tk-k">const</span> <span class="tk-m">bid</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">BidOrderReturn</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">bid</span><span class="tk-p">;</span>
+<span class="tk-c">// bid → { saleId, price, buyerAddress, sellerAddress, withdrawn }</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">BidOrderReturn</span></div>
+          <div class="doc-foot">
+            <a data-goto="erc721-auction" href="#erc721-auction"><div class="df-dir">Previous</div><div class="df-ttl">← Auction</div></a>
+            <a class="next" data-goto="erc721-execbid" href="#erc721-execbid"><div class="df-dir">Next</div><div class="df-ttl">Execute bid →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 EXECUTE BID ===================== -->
+        <section class="doc-section" id="sec-erc721-execbid" data-key="erc721-execbid">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Execute bid</div>
+          <h1>Execute bid</h1>
+          <div class="sig"><span class="obj">sdk.erc721.order.</span><span class="meth">acceptBid</span>(web3, chainId, saleId, bidId, sellerAddress)</div>
+          <p>The seller accepts a specific bid before the auction ends. Emits <code>BidExecuted</code>, whose <code>price</code> is the amount at which the bid was accepted.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">execute-bid.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">acceptBid</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">saleId</span><span class="tk-p">,</span>
+  <span class="tk-m">bidId</span><span class="tk-p">,</span>          <span class="tk-c">// the bid the seller accepts</span>
+  <span class="tk-m">sellerAddress</span>
+<span class="tk-p">);</span>
+
+<span class="tk-k">const</span> <span class="tk-m">soldFor</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">BidExecuted</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">price</span><span class="tk-p">;</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">BidExecuted</span></div>
+          <div class="doc-foot">
+            <a data-goto="erc721-bid" href="#erc721-bid"><div class="df-dir">Previous</div><div class="df-ttl">← Bid</div></a>
+            <a class="next" data-goto="erc721-withdrawbid" href="#erc721-withdrawbid"><div class="df-dir">Next</div><div class="df-ttl">Withdraw bid →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 WITHDRAW BID ===================== -->
+        <section class="doc-section" id="sec-erc721-withdrawbid" data-key="erc721-withdrawbid">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Withdraw bid</div>
+          <h1>Withdraw bid</h1>
+          <div class="sig"><span class="obj">sdk.erc721.order.</span><span class="meth">withdrawBid</span>(web3, chainId, saleId, bidId, buyerAddress)</div>
+          <p>A bidder withdraws their bid from an auction. On success the bid is removed and the money is transferred back to the bidder.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">withdraw-bid.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">withdrawBid</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">saleId</span><span class="tk-p">,</span>
+  <span class="tk-m">bidId</span><span class="tk-p">,</span>
+  <span class="tk-m">buyerAddress</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc721-execbid" href="#erc721-execbid"><div class="df-dir">Previous</div><div class="df-ttl">← Execute bid</div></a>
+            <a class="next" data-goto="erc721-cancel" href="#erc721-cancel"><div class="df-dir">Next</div><div class="df-ttl">Cancel sale →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 CANCEL ===================== -->
+        <section class="doc-section" id="sec-erc721-cancel" data-key="erc721-cancel">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Cancel sale</div>
+          <h1>Cancel sale</h1>
+          <div class="sig"><span class="obj">sdk.erc721.order.</span><span class="meth">cancelSale</span>(web3, chainId, sellerAddress, saleId)</div>
+          <p>Removes an item that was on direct sale or auction from sale.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">cancel-sale.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">cancelSale</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">sellerAddress</span><span class="tk-p">,</span>
+  <span class="tk-m">saleId</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc721-withdrawbid" href="#erc721-withdrawbid"><div class="df-dir">Previous</div><div class="df-ttl">← Withdraw bid</div></a>
+            <a class="next" data-goto="erc721-collection" href="#erc721-collection"><div class="df-dir">Next</div><div class="df-ttl">Personal collections →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 PERSONAL COLLECTION ===================== -->
+        <section class="doc-section" id="sec-erc721-collection" data-key="erc721-collection">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Personal collections</div>
+          <h1>Personal collections</h1>
+          <p class="lead">Deploy your own ERC-721 collection contract and run the full lifecycle inside it via <code>sdk.erc721.collection.*</code>. The methods mirror the public-collection ones, with the collection address threaded through where needed.</p>
+
+          <h2 id="erc721-coll-mint">Mint into a collection</h2>
+          <div class="sig"><span class="obj">sdk.erc721.collection.</span><span class="meth">mint</span>(web3, chainId, collectionAddress, tokenURI, minterAddress, royalties)</div>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">collection-mint.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">collectionAddress</span><span class="tk-p">,</span>   <span class="tk-c">// where the item is minted</span>
+  <span class="tk-m">tokenURI</span><span class="tk-p">,</span>
+  <span class="tk-m">minterAddress</span><span class="tk-p">,</span>
+  <span class="tk-m">royalties</span>
+<span class="tk-p">);</span>
+
+<span class="tk-k">const</span> <span class="tk-m">tokenId</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">RoyaltiesSetForTokenId</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">tokenId</span><span class="tk-p">;</span></code></pre>
+          </div>
+
+          <h2 id="erc721-coll-trade">Auction &amp; bid in a collection</h2>
+          <div class="sig"><span class="obj">sdk.erc721.collection.</span><span class="meth">sellNFTByBid</span>(web3, chainId, collectionAddress, tokenId, initialPrice, ownerAddress, auctionTime)</div>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">collection-auction.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// auction inside your collection…</span>
+<span class="tk-k">const</span> <span class="tk-m">a</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">sellNFTByBid</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span> <span class="tk-m">collectionAddress</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenId</span><span class="tk-p">,</span> <span class="tk-m">initialPrice</span><span class="tk-p">,</span> <span class="tk-m">ownerAddress</span><span class="tk-p">,</span> <span class="tk-n">120</span>
+<span class="tk-p">);</span>
+<span class="tk-k">const</span> <span class="tk-m">saleId</span> <span class="tk-p">=</span> <span class="tk-m">a</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">TokenMetaReturn</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">data</span><span class="tk-p">;</span>
+
+<span class="tk-c">// …then bid on it</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">bid</span><span class="tk-p">(</span><span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span> <span class="tk-m">saleId</span><span class="tk-p">,</span> <span class="tk-m">bidderAddress</span><span class="tk-p">,</span> <span class="tk-m">bidPrice</span><span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div>The rest of the lifecycle — <code>buyNFT()</code>, <code>acceptBid()</code>, <code>withdrawBid()</code>, <code>cancelSale()</code> — is identical to the public-collection <code>order.*</code> functions, just namespaced under <code>collection</code>.</div>
+          </div>
+
+          <div class="doc-foot">
+            <a data-goto="erc721-cancel" href="#erc721-cancel"><div class="df-dir">Previous</div><div class="df-ttl">← Cancel sale</div></a>
+            <a class="next" data-goto="erc721-uri" href="#erc721-uri"><div class="df-dir">Next</div><div class="df-ttl">Token URI →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC721 TOKEN URI ===================== -->
+        <section class="doc-section" id="sec-erc721-uri" data-key="erc721-uri">
+          <div class="crumbs"><b>SDK · ERC-721</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Token URI</div>
+          <h1>Fetch token URI</h1>
+          <div class="sig"><span class="obj">sdk.erc721.nft.</span><span class="meth">fetchTokenURI</span>(web3, chainId, tokenId)</div>
+          <p>Reads the metadata URI for a token — resolve it (e.g. through an IPFS gateway) to load the asset's JSON metadata and media.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">token-uri.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">uri</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">fetchTokenURI</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenId</span>
+<span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc721-collection" href="#erc721-collection"><div class="df-dir">Previous</div><div class="df-ttl">← Personal collections</div></a>
+            <a class="next" data-goto="erc1155" href="#erc1155"><div class="df-dir">Next</div><div class="df-ttl">SDK · ERC-1155 →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC1155 OVERVIEW ===================== -->
+        <section class="doc-section" id="sec-erc1155" data-key="erc1155">
+          <div class="crumbs"><b>SDK · ERC-1155</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Overview</div>
+          <h1>ERC-1155 functions</h1>
+          <p class="lead">Fungible and non-fungible editions from a single contract — ideal for game items, passes and semi-fungible drops. The full mint-to-auction lifecycle is available with the same API surface as ERC-721, plus a token <code>amount</code> on every call.</p>
+
+          <div class="pill-row">
+            <span class="pill">sdk.erc1155.nft.*</span>
+            <span class="pill">sdk.erc1155.order.*</span>
+            <span class="pill">sdk.erc1155.collection.*</span>
+          </div>
+
+          <h2 id="erc1155-surface">Function surface</h2>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">erc1155.d.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// public collection</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">burn</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFT</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">buyNFT</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFTByBid</span><span class="tk-p">()</span>   <span class="tk-c">// auction</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">bid</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">acceptBid</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">withdrawBid</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">cancelSale</span><span class="tk-p">()</span>
+
+<span class="tk-c">// personal collection</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">createCollection</span><span class="tk-p">()</span>
+<span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">sellNFT</span><span class="tk-p">()</span> <span class="tk-p">/</span> <span class="tk-f">bid</span><span class="tk-p">()</span> …</code></pre>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc721-uri" href="#erc721-uri"><div class="df-dir">Previous</div><div class="df-ttl">← ERC-721 Token URI</div></a>
+            <a class="next" data-goto="erc1155-mint" href="#erc1155-mint"><div class="df-dir">Next</div><div class="df-ttl">Mint →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC1155 MINT ===================== -->
+        <section class="doc-section" id="sec-erc1155-mint" data-key="erc1155-mint">
+          <div class="crumbs"><b>SDK · ERC-1155</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Mint</div>
+          <h1>Mint (with royalties)</h1>
+          <div class="sig"><span class="obj">sdk.erc1155.nft.</span><span class="meth">mint</span>(web3, chainId, minterAddress, tokenAmount, tokenURI, royalties)</div>
+          <p>Mints <code>tokenAmount</code> copies of an ERC-1155 token. Returns the receipt; two events are emitted — <code>TransferSingle</code> (the mint) and <code>RoyaltiesSetForTokenId</code> (the royalty config).</p>
+
+          <div class="tbl-wrap"><table class="params">
+            <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>tokenAmount</td><td>Number of copies to mint.</td></tr>
+              <tr><td>tokenURI</td><td>Metadata URI string.</td></tr>
+              <tr><td>royalties</td><td>Nested array <span class="ty">[[recipient, fraction], …]</span> — at most 10 recipients.</td></tr>
+            </tbody>
+          </table></div>
+
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">erc1155-mint.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">minterAddress</span><span class="tk-p">,</span>
+  <span class="tk-n">5</span><span class="tk-p">,</span>                        <span class="tk-c">// tokenAmount</span>
+  <span class="tk-m">tokenURI</span><span class="tk-p">,</span>
+  <span class="tk-p">[[</span><span class="tk-m">creator</span><span class="tk-p">,</span> <span class="tk-s">"100"</span><span class="tk-p">]]</span>          <span class="tk-c">// royalties (max 10 recipients)</span>
+<span class="tk-p">);</span>
+
+<span class="tk-k">const</span> <span class="tk-m">transfer</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">TransferSingle</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">;</span>
+<span class="tk-c">// transfer → { to, tokenId, value, … }</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">TransferSingle</span><span class="kv-chip">RoyaltiesSetForTokenId</span></div>
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div><b>Royalties shape.</b> <code>[[recipient1, fraction1], …, [recipientN, fractionN]]</code> where <b>N ≤ 10</b>. A token minted on a given network can be listed for sale or auction on that same network.</div>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc1155" href="#erc1155"><div class="df-dir">Previous</div><div class="df-ttl">← ERC-1155 overview</div></a>
+            <a class="next" data-goto="erc1155-trade" href="#erc1155-trade"><div class="df-dir">Next</div><div class="df-ttl">Sell · Buy · Auction →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC1155 TRADE ===================== -->
+        <section class="doc-section" id="sec-erc1155-trade" data-key="erc1155-trade">
+          <div class="crumbs"><b>SDK · ERC-1155</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Sell · Buy · Auction</div>
+          <h1>Sell, buy &amp; auction</h1>
+          <p class="lead">Identical to ERC-721 trading, with a token <code>amount</code> on every call since editions are semi-fungible.</p>
+
+          <h2 id="erc1155-sell">Sell</h2>
+          <div class="sig"><span class="obj">sdk.erc1155.order.</span><span class="meth">sellNFT</span>(web3, chainId, tokenId, tokenPrice, ownerAddress, tokenAmount)</div>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">erc1155-sell.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFT</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">tokenId</span><span class="tk-p">,</span> <span class="tk-m">tokenPrice</span><span class="tk-p">,</span> <span class="tk-m">ownerAddress</span><span class="tk-p">,</span>
+  <span class="tk-n">10</span>              <span class="tk-c">// tokenAmount to sell</span>
+<span class="tk-p">);</span>
+<span class="tk-k">const</span> <span class="tk-m">meta</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">TokenMetaReturn</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">data</span><span class="tk-p">;</span>
+<span class="tk-c">// meta → { saleId, price, numberOfTokens, collectionAddress, … }</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">TokenMetaReturn</span></div>
+
+          <h2 id="erc1155-buy">Buy</h2>
+          <div class="sig"><span class="obj">sdk.erc1155.order.</span><span class="meth">buyNFT</span>(web3, chainId, saleId, buyerAddress, price, amount)</div>
+          <h2 id="erc1155-auction">Auction</h2>
+          <div class="sig"><span class="obj">sdk.erc1155.order.</span><span class="meth">sellNFTByBid</span>(web3, chainId, tokenId, initialPrice, ownerAddress, amount)</div>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">erc1155-buy-auction.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// fill part of a listing</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">buyNFT</span><span class="tk-p">(</span><span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span> <span class="tk-m">saleId</span><span class="tk-p">,</span> <span class="tk-m">buyerAddress</span><span class="tk-p">,</span> <span class="tk-m">price</span><span class="tk-p">,</span> <span class="tk-n">3</span><span class="tk-p">);</span>
+
+<span class="tk-c">// auction an amount of the edition</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFTByBid</span><span class="tk-p">(</span><span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span> <span class="tk-m">tokenId</span><span class="tk-p">,</span> <span class="tk-m">initialPrice</span><span class="tk-p">,</span> <span class="tk-m">ownerAddress</span><span class="tk-p">,</span> <span class="tk-n">10</span><span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="erc1155-mint" href="#erc1155-mint"><div class="df-dir">Previous</div><div class="df-ttl">← Mint</div></a>
+            <a class="next" data-goto="erc1155-bid" href="#erc1155-bid"><div class="df-dir">Next</div><div class="df-ttl">Bid &amp; execute →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC1155 BID ===================== -->
+        <section class="doc-section" id="sec-erc1155-bid" data-key="erc1155-bid">
+          <div class="crumbs"><b>SDK · ERC-1155</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Bid &amp; execute</div>
+          <h1>Bid &amp; execute bid</h1>
+          <div class="sig"><span class="obj">sdk.erc1155.order.</span><span class="meth">bid</span>(web3, chainId, saleId, buyerAddress, bidPrice, amount)</div>
+          <p>Bid on an ERC-1155 auction (with the token <code>amount</code>). Emits <code>BidOrderReturn</code>. The seller later calls <code>acceptBid</code> to settle.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">erc1155-bid.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">const</span> <span class="tk-m">result</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">bid</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span>
+  <span class="tk-m">saleId</span><span class="tk-p">,</span> <span class="tk-m">buyerAddress</span><span class="tk-p">,</span> <span class="tk-m">bidPrice</span><span class="tk-p">,</span>
+  <span class="tk-n">10</span>              <span class="tk-c">// amount of token</span>
+<span class="tk-p">);</span>
+<span class="tk-k">const</span> <span class="tk-m">bid</span> <span class="tk-p">=</span> <span class="tk-m">result</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">BidOrderReturn</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">bid</span><span class="tk-p">;</span>
+
+<span class="tk-c">// seller accepts before auction end → BidExecuted</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">acceptBid</span><span class="tk-p">(</span><span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span> <span class="tk-m">saleId</span><span class="tk-p">,</span> <span class="tk-m">bidId</span><span class="tk-p">,</span> <span class="tk-m">sellerAddress</span><span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">BidOrderReturn</span><span class="kv-chip">BidExecuted</span></div>
+          <div class="doc-foot">
+            <a data-goto="erc1155-trade" href="#erc1155-trade"><div class="df-dir">Previous</div><div class="df-ttl">← Sell · Buy · Auction</div></a>
+            <a class="next" data-goto="erc1155-collection" href="#erc1155-collection"><div class="df-dir">Next</div><div class="df-ttl">Personal collections →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== ERC1155 COLLECTION ===================== -->
+        <section class="doc-section" id="sec-erc1155-collection" data-key="erc1155-collection">
+          <div class="crumbs"><b>SDK · ERC-1155</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Personal collections</div>
+          <h1>ERC-1155 personal collections</h1>
+          <p class="lead">Deploy your own ERC-1155 collection with <code>createCollection()</code>, then mint and trade inside it via <code>sdk.erc1155.collection.*</code>.</p>
+
+          <h2 id="erc1155-coll-create">Create collection</h2>
+          <div class="sig"><span class="obj">sdk.erc1155.collection.</span><span class="meth">createCollection</span>(web3, chainId, ownerAddress, uri, description, collectionRoyalties)</div>
+          <h2 id="erc1155-coll-mint">Mint into collection</h2>
+          <div class="sig"><span class="obj">sdk.erc1155.collection.</span><span class="meth">mint</span>(web3, collectionAddress, tokenId, tokenAmount, tokenURI, minterAddress, royalties)</div>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">erc1155-collection.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// 1 · deploy the collection</span>
+<span class="tk-k">const</span> <span class="tk-m">c</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">createCollection</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span> <span class="tk-m">ownerAddress</span><span class="tk-p">,</span> <span class="tk-m">uri</span><span class="tk-p">,</span> <span class="tk-m">description</span><span class="tk-p">,</span> <span class="tk-m">collectionRoyalties</span>
+<span class="tk-p">);</span>
+<span class="tk-k">const</span> <span class="tk-m">addr</span> <span class="tk-p">=</span> <span class="tk-m">c</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">ERC1155Deployed</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">_tokenAddress</span><span class="tk-p">;</span>
+
+<span class="tk-c">// 2 · mint into it</span>
+<span class="tk-k">const</span> <span class="tk-m">m</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">collection</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">(</span>
+  <span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">addr</span><span class="tk-p">,</span> <span class="tk-m">tokenId</span><span class="tk-p">,</span> <span class="tk-n">10</span><span class="tk-p">,</span> <span class="tk-m">tokenURI</span><span class="tk-p">,</span> <span class="tk-m">minterAddress</span><span class="tk-p">,</span> <span class="tk-m">royalties</span>
+<span class="tk-p">);</span>
+<span class="tk-k">const</span> <span class="tk-m">newId</span> <span class="tk-p">=</span> <span class="tk-m">m</span><span class="tk-p">.</span><span class="tk-m">events</span><span class="tk-p">.</span><span class="tk-m">RoyaltiesSetForTokenId</span><span class="tk-p">.</span><span class="tk-m">returnValues</span><span class="tk-p">.</span><span class="tk-m">tokenId</span><span class="tk-p">;</span></code></pre>
+          </div>
+          <div class="kv-row"><span class="kv-chip">ERC1155Deployed</span><span class="kv-chip">RoyaltiesSetForTokenId</span></div>
+          <div class="doc-foot">
+            <a data-goto="erc1155-bid" href="#erc1155-bid"><div class="df-dir">Previous</div><div class="df-ttl">← Bid &amp; execute</div></a>
+            <a class="next" data-goto="x402" href="#x402"><div class="df-dir">Next</div><div class="df-ttl">x402 Payments →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== x402 OVERVIEW ===================== -->
+        <section class="doc-section" id="sec-x402" data-key="x402">
+          <div class="crumbs"><b>x402 Payments</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> What is x402</div>
+          <p class="doc-eyebrow">New in 2026</p>
+          <h1>x402 — payments for AI agents</h1>
+          <p class="lead">Express Protocol now ships an optional <code>x402</code> module built on the HTTP&nbsp;402 stablecoin standard, so autonomous agents can price, authorize and settle NFT &amp; RWA purchases on their own — paying in USDC over the wire, with no human checkout and no API keys to babysit.</p>
+
+          <div class="pill-row">
+            <span class="pill">USDC stablecoin</span>
+            <span class="pill">Base &amp; Arbitrum</span>
+            <span class="pill">HTTP 402 native</span>
+            <span class="pill mint">opt-in module</span>
+          </div>
+
+          <div class="callout new">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+            <div>x402 revives the long-dormant <b>HTTP 402 "Payment Required"</b> status code as a real settlement rail. Instead of a human clicking through a checkout, a protected endpoint answers a request with <code>402</code> and a price, and the caller attaches a signed stablecoin payment to retry — a natural fit for machine-to-machine commerce.</div>
+          </div>
+
+          <h2 id="x402-how">How it fits Express</h2>
+          <p>The module plugs into the same SDK you already use. When an agent (or any client) tries to buy a listing, the module can settle the purchase inline by attaching a USDC payment, then the protocol clears funds and transfers the asset into the buyer's wallet. Nothing about your minting, listing or order-book code changes — payment is just another method on <code>buy</code>.</p>
+
+          <div class="callout" style="margin-bottom:10px"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div><b>1 · Agent requests an asset.</b> It hits a protected endpoint and receives an HTTP 402 response carrying the price.</div></div>
+          <div class="callout" style="margin-bottom:10px"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div><b>2 · x402 signs a USDC payment.</b> The module attaches a stablecoin payment header — no seat at a checkout page, no stored card.</div></div>
+          <div class="callout"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><div><b>3 · Protocol settles &amp; transfers.</b> Funds clear on Base or Arbitrum and the NFT/RWA lands in the agent's wallet.</div></div>
+
+          <div class="doc-foot">
+            <a data-goto="erc1155-collection" href="#erc1155-collection"><div class="df-dir">Previous</div><div class="df-ttl">← ERC-1155 collections</div></a>
+            <a class="next" data-goto="x402-setup" href="#x402-setup"><div class="df-dir">Next</div><div class="df-ttl">Enabling the module →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== x402 SETUP ===================== -->
+        <section class="doc-section" id="sec-x402-setup" data-key="x402-setup">
+          <div class="crumbs"><b>x402 Payments</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Enabling</div>
+          <h1>Enabling the x402 module</h1>
+          <p class="lead">x402 is opt-in. Import it and register it in the <code>modules</code> array when you create the SDK. Point the SDK at an x402-ready chain — <strong>Base (8453)</strong> or <strong>Arbitrum One (42161)</strong> — and choose the settlement asset.</p>
+
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">sdk-x402.ts</span><span class="tag">pandora-express/x402</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-k">import</span> <span class="tk-p">{</span> <span class="tk-m">createPandoraExpressSDK</span> <span class="tk-p">}</span> <span class="tk-k">from</span> <span class="tk-s">"pandora-express"</span><span class="tk-p">;</span>
+<span class="tk-k">import</span> <span class="tk-p">{</span> <span class="tk-m">x402</span> <span class="tk-p">}</span> <span class="tk-k">from</span> <span class="tk-s">"pandora-express/x402"</span><span class="tk-p">;</span>
+
+<span class="tk-k">const</span> <span class="tk-m">sdk</span> <span class="tk-p">=</span> <span class="tk-f">createPandoraExpressSDK</span><span class="tk-p">({</span>
+  <span class="tk-m">signer</span><span class="tk-p">:</span> <span class="tk-m">agentWallet</span><span class="tk-p">,</span>
+  <span class="tk-m">chainId</span><span class="tk-p">:</span> <span class="tk-n">8453</span><span class="tk-p">,</span>                     <span class="tk-c">// Base</span>
+  <span class="tk-m">modules</span><span class="tk-p">:</span> <span class="tk-p">[</span><span class="tk-f">x402</span><span class="tk-p">({</span> <span class="tk-m">asset</span><span class="tk-p">:</span> <span class="tk-s">"USDC"</span> <span class="tk-p">})],</span>  <span class="tk-c">// settlement asset</span>
+<span class="tk-p">});</span></code></pre>
+          </div>
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div>Because it's a module, x402 is entirely optional — omit it and the SDK behaves exactly as before. Add it and you unlock the <code>paymentMethod: 'x402'</code> flag on purchases.</div>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="x402" href="#x402"><div class="df-dir">Previous</div><div class="df-ttl">← What is x402</div></a>
+            <a class="next" data-goto="x402-agents" href="#x402-agents"><div class="df-dir">Next</div><div class="df-ttl">Agent checkout flow →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== x402 AGENTS ===================== -->
+        <section class="doc-section" id="sec-x402-agents" data-key="x402-agents">
+          <div class="crumbs"><b>x402 Payments</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Agent checkout</div>
+          <h1>Agent checkout flow</h1>
+          <p class="lead">With the module registered, an agent buys exactly like a human would — except payment is handled inline. Pass <code>paymentMethod: 'x402'</code> and the module prices, authorizes and settles the purchase in USDC.</p>
+
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">agent-checkout.ts</span><span class="tag">@pandora-express/x402</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// the agent buys — the x402 module settles payment inline</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">buyNFT</span><span class="tk-p">({</span>
+  <span class="tk-m">saleId</span><span class="tk-p">,</span>
+  <span class="tk-m">buyerAddress</span><span class="tk-p">:</span> <span class="tk-m">agentWallet</span><span class="tk-p">.</span><span class="tk-m">address</span><span class="tk-p">,</span>
+  <span class="tk-m">paymentMethod</span><span class="tk-p">:</span> <span class="tk-s">"x402"</span><span class="tk-p">,</span>   <span class="tk-c">// HTTP 402 · USDC on Base</span>
+<span class="tk-p">});</span>
+
+<span class="tk-c">// works for RWA & ERC-1155 listings too</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc1155</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">buyNFT</span><span class="tk-p">({</span>
+  <span class="tk-m">saleId</span><span class="tk-p">,</span> <span class="tk-m">amount</span><span class="tk-p">:</span> <span class="tk-n">1</span><span class="tk-p">,</span>
+  <span class="tk-m">buyerAddress</span><span class="tk-p">:</span> <span class="tk-m">agentWallet</span><span class="tk-p">.</span><span class="tk-m">address</span><span class="tk-p">,</span>
+  <span class="tk-m">paymentMethod</span><span class="tk-p">:</span> <span class="tk-s">"x402"</span><span class="tk-p">,</span>
+<span class="tk-p">});</span></code></pre>
+          </div>
+          <div class="callout new">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+            <div><b>Autonomous end to end.</b> No human checkout, no card on file, no API key rotation — the agent's wallet signs a USDC payment, funds settle on Base or Arbitrum, and the asset transfers in a single call.</div>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="x402-setup" href="#x402-setup"><div class="df-dir">Previous</div><div class="df-ttl">← Enabling the module</div></a>
+            <a class="next" data-goto="ipfs" href="#ipfs"><div class="df-dir">Next</div><div class="df-ttl">IPFS &amp; Pinata →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== IPFS / PINATA ===================== -->
+        <section class="doc-section" id="sec-ipfs" data-key="ipfs">
+          <div class="crumbs"><b>Guides &amp; Storage</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> IPFS &amp; Pinata</div>
+          <h1>IPFS &amp; Pinata</h1>
+          <p class="lead">NFT metadata and media belong on decentralized storage. Express ships with a Pinata integration so you can pin assets to IPFS and get back an <code>ipfs://</code> URI to use as your <code>tokenURI</code>.</p>
+
+          <h2 id="pin-flow">Pin, then mint</h2>
+          <p>The typical flow: upload your media, upload a metadata JSON that references it, then pass the resulting metadata URI into <code>mint()</code> or <code>batchMint()</code>.</p>
+          <div class="code-card">
+            <div class="code-top"><div class="dots"><i></i><i></i><i></i></div><span class="fname">pin-and-mint.ts</span><button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button></div>
+<pre><code><span class="tk-c">// 1 · pin media + metadata to IPFS via Pinata</span>
+<span class="tk-k">const</span> <span class="tk-p">{</span> <span class="tk-m">uri</span> <span class="tk-p">}</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">pinata</span><span class="tk-p">.</span><span class="tk-f">upload</span><span class="tk-p">({</span>
+  <span class="tk-m">name</span><span class="tk-p">:</span> <span class="tk-s">"Asset #1"</span><span class="tk-p">,</span>
+  <span class="tk-m">image</span><span class="tk-p">:</span> <span class="tk-m">file</span><span class="tk-p">,</span>          <span class="tk-c">// media to pin</span>
+  <span class="tk-m">attributes</span><span class="tk-p">:</span> <span class="tk-p">[…],</span>
+<span class="tk-p">});</span>
+<span class="tk-c">// uri → "ipfs://…/metadata.json"</span>
+
+<span class="tk-c">// 2 · mint with the pinned metadata URI</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">nft</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">(</span><span class="tk-m">web3</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">,</span> <span class="tk-m">minterAddress</span><span class="tk-p">,</span> <span class="tk-m">uri</span><span class="tk-p">,</span> <span class="tk-m">royalties</span><span class="tk-p">);</span></code></pre>
+          </div>
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.8 1 6.4 2.6"/><path d="M8 12l3 3 5-6"/></svg>
+            <div>Express supports presigned Pinata uploads, so large media can be pushed straight to IPFS from the client without proxying bytes through your backend.</div>
+          </div>
+          <div class="doc-foot">
+            <a data-goto="x402-agents" href="#x402-agents"><div class="df-dir">Previous</div><div class="df-ttl">← Agent checkout</div></a>
+            <a class="next" data-goto="guides" href="#guides"><div class="df-dir">Next</div><div class="df-ttl">Build guides →</div></a>
+          </div>
+        </section>
+
+        <!-- ===================== GUIDES ===================== -->
+        <section class="doc-section" id="sec-guides" data-key="guides">
+          <div class="crumbs"><b>Guides &amp; Storage</b> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg> Build guides</div>
+          <h1>Build guides</h1>
+          <p class="lead">End-to-end walkthroughs that build a working product on the SDK. Each pulls together minting, the shared order book, auctions and IPFS.</p>
+
+          <div class="card-grid">
+            <div class="nav-card">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.3A1 1 0 0 0 5.6 19H17"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg></div>
+              <h4>NFT Marketplace</h4>
+              <p>Stand up a full mint-list-buy marketplace with public collections and the shared order book.</p>
+            </div>
+            <div class="nav-card">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M4.9 7l4.2 3M2 14h6M19.1 7l-4.2 3M22 14h-6M8 22l4-8 4 8"/></svg></div>
+              <h4>NFT Auction Market</h4>
+              <p>Wire up timed auctions, bidding, bid execution and withdrawals end to end.</p>
+            </div>
+            <div class="nav-card">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 22l-5.5-2.5 1-6.3L3 8.9 9 8z"/></svg></div>
+              <h4>NFT Drop dApp</h4>
+              <p>Batch-mint a drop, pin assets to IPFS and open sales in a few lines of SDK code.</p>
+            </div>
+            <div class="nav-card">
+              <div class="nc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v6a2 2 0 0 0 0 4v6H4v-6a2 2 0 0 0 0-4z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg></div>
+              <h4>NFT Ticket Booking dApp</h4>
+              <p>Use ERC-1155 editions as event tickets, with royalties and resale baked in.</p>
+            </div>
+          </div>
+
+          <div class="callout">
+            <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <div>The complete, runnable guide sources live in the docs repo: <a class="ilink" href="https://github.com/Pandora-Finance/express-protocol-docs" target="_blank" rel="noreferrer">Pandora-Finance/express-protocol-docs</a>. Clone the <a class="ilink" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">SDK repo</a> to get started.</div>
+          </div>
+
+          <div class="doc-foot">
+            <a data-goto="ipfs" href="#ipfs"><div class="df-dir">Previous</div><div class="df-ttl">← IPFS &amp; Pinata</div></a>
+            <a class="next" data-goto="overview" href="#overview"><div class="df-dir">Back to</div><div class="df-ttl">Overview ↺</div></a>
+          </div>
+        </section>
+
+      </div>
+    </main>
   </div>
-</footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
-    
-    
-      <script src="assets/javascripts/bundle.748e2769.min.js"></script>
-      
-    
-  </body>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script>
+  (function(){
+    "use strict";
+    var sections = Array.prototype.slice.call(document.querySelectorAll('.doc-section'));
+    var links = Array.prototype.slice.call(document.querySelectorAll('.sb-link'));
+    var body = document.body;
+    var backdrop = document.getElementById('sbBackdrop');
+    var menuToggle = document.getElementById('menuToggle');
+    var byKey = {};
+    sections.forEach(function(s){ byKey[s.getAttribute('data-key')] = s; });
+
+    function closeMobileNav(){
+      body.classList.remove('nav-open');
+      if(menuToggle) menuToggle.setAttribute('aria-expanded','false');
+    }
+    function isMobile(){ return window.matchMedia('(max-width:960px)').matches; }
+
+    function activate(key, opts){
+      opts = opts || {};
+      var target = byKey[key];
+      if(!target){ key = 'overview'; target = byKey.overview; }
+      sections.forEach(function(s){ s.classList.toggle('active', s === target); });
+      links.forEach(function(l){
+        var on = l.getAttribute('data-sec') === key;
+        l.classList.toggle('active', on);
+        if(on){ l.setAttribute('aria-current','page'); } else { l.removeAttribute('aria-current'); }
+      });
+      var activeLink = document.querySelector('.sb-link.active');
+      if(activeLink && activeLink.scrollIntoView){ try{ activeLink.scrollIntoView({block:'nearest'}); }catch(e){} }
+      if(!opts.noScroll){
+        window.scrollTo({ top: 0, behavior: opts.instant ? 'auto' : 'smooth' });
+      }
+      if(opts.pushHash !== false){
+        if(history.replaceState){ history.replaceState(null, '', '#' + key); }
+        else { location.hash = key; }
+      }
+      var h1 = target.querySelector('h1');
+      document.title = 'Docs · ' + (h1 ? h1.textContent.trim() : 'Express Protocol SDK');
+      if(isMobile()) closeMobileNav();
+    }
+
+    // sidebar link clicks
+    links.forEach(function(l){
+      l.addEventListener('click', function(e){
+        e.preventDefault();
+        activate(l.getAttribute('data-sec'));
+      });
+    });
+
+    // any element with data-goto (cards, footer prev/next, inline links)
+    document.addEventListener('click', function(e){
+      var el = e.target.closest ? e.target.closest('[data-goto]') : null;
+      if(el){
+        e.preventDefault();
+        activate(el.getAttribute('data-goto'));
+      }
+    });
+
+    // hash navigation (back/forward + initial load)
+    function fromHash(instant){
+      var key = (location.hash || '').replace('#','');
+      activate(byKey[key] ? key : 'overview', { instant: !!instant, pushHash:false });
+    }
+    window.addEventListener('hashchange', function(){ fromHash(false); });
+
+    // mobile menu toggle
+    if(menuToggle){
+      menuToggle.addEventListener('click', function(){
+        var open = body.classList.toggle('nav-open');
+        menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+    if(backdrop){ backdrop.addEventListener('click', closeMobileNav); }
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && body.classList.contains('nav-open')) closeMobileNav();
+    });
+
+    // sidebar filter
+    var filter = document.getElementById('sbFilter');
+    if(filter){
+      filter.addEventListener('input', function(){
+        var q = filter.value.trim().toLowerCase();
+        links.forEach(function(l){
+          var match = l.textContent.toLowerCase().indexOf(q) !== -1;
+          l.style.display = match ? '' : 'none';
+        });
+        var groups = document.querySelectorAll('.sb-group');
+        Array.prototype.forEach.call(groups, function(g){
+          var vis = Array.prototype.some.call(g.querySelectorAll('.sb-link'), function(l){ return l.style.display !== 'none'; });
+          var title = g.querySelector('.sb-title');
+          if(title) title.style.opacity = vis ? '' : '.35';
+        });
+      });
+    }
+
+    // copy buttons
+    var copyBtns = document.querySelectorAll('.copy-btn');
+    Array.prototype.forEach.call(copyBtns, function(btn){
+      btn.addEventListener('click', function(){
+        var card = btn.closest('.code-card');
+        var code = card ? card.querySelector('pre code') : null;
+        if(!code) return;
+        var text = code.innerText;
+        var label = btn.childNodes[btn.childNodes.length-1];
+        var prev = (label && label.nodeType===3) ? label.nodeValue : null;
+        var done = function(){
+          btn.classList.add('copied');
+          if(label && label.nodeType===3) label.nodeValue = 'Copied';
+          setTimeout(function(){
+            btn.classList.remove('copied');
+            if(label && label.nodeType===3 && prev!=null) label.nodeValue = prev;
+          }, 1400);
+        };
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(done).catch(done);
+        } else {
+          try {
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+            document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+            document.body.removeChild(ta); done();
+          } catch(err){ done(); }
+        }
+      });
+    });
+
+    // initial load
+    fromHash(true);
+  })();
+  </script>
+</body>
 </html>
