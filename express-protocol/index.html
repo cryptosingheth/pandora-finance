@@ -193,6 +193,22 @@
     .footer .f-bottom .rehab{display:inline-flex;align-items:center;gap:8px}
     .footer .f-bottom code{font-family:var(--mono);color:#c9bcff}
 
+    /* ---------- BUILT IN THE OPEN (GitHub proof-of-work) ---------- */
+    .oss{background:var(--bg)}
+    .oss-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+    @media(max-width:900px){.oss-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.oss-grid{grid-template-columns:1fr}}
+    .repo{display:block;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:24px;transition:.25s}
+    .repo:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+    .repo .gh{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:rgba(121,73,232,.1);
+      border:1px solid var(--ep-line);color:var(--c-express);margin-bottom:14px}
+    .repo .gh svg{width:21px;height:21px}
+    .repo .rpath{font-family:var(--mono);font-weight:700;font-size:.9rem;letter-spacing:-.01em;color:var(--navy);
+      display:inline-flex;align-items:center;gap:6px;word-break:break-word}
+    .repo .rpath svg{width:13px;height:13px;color:var(--c-express);flex:none;transition:transform .25s}
+    .repo:hover .rpath svg{transform:translate(2px,-2px)}
+    .repo .rdesc{color:var(--slate);font-size:.88rem;margin:6px 0 0;line-height:1.5}
+
     /* reveal easing already in DS; add stagger helper */
     .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
     @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
@@ -509,6 +525,39 @@
           </a>
         </div>
         <div class="install">$ <b>npm i pandora-express</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BUILT IN THE OPEN ============ -->
+  <section class="section oss">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Open source</p>
+        <h2>Read the code, fork the SDK</h2>
+        <p class="lead">Express Protocol is open source end to end — the SDK, its documentation, and the smart contracts underneath. Inspect every line, open an issue, or ship a PR.</p>
+      </div>
+      <div class="oss-grid">
+        <a class="repo reveal" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noopener">
+          <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
+          <span class="rpath">Pandora-Finance/Express-Protocol-SDK <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">The SDK (JavaScript)</p>
+        </a>
+        <a class="repo reveal d1" href="https://github.com/Pandora-Finance/express-protocol-docs" target="_blank" rel="noopener">
+          <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
+          <span class="rpath">Pandora-Finance/express-protocol-docs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">Documentation source</p>
+        </a>
+        <a class="repo reveal d2" href="https://github.com/Pandora-Finance/Modular-contract" target="_blank" rel="noopener">
+          <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
+          <span class="rpath">Pandora-Finance/Modular-contract <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">Express smart contracts</p>
+        </a>
+        <a class="repo reveal d3" href="https://www.npmjs.com/package/pandora-express" target="_blank" rel="noopener">
+          <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 4h20v16H12v-3H8v3H2V4zm2 2v12h2V8h2v10h2V6H4zm10 0v12h4V8h2v10h-2V6h-4z" opacity=".92"/></svg></span>
+          <span class="rpath">npm: pandora-express <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">npm: pandora-express</p>
+        </a>
       </div>
     </div>
   </section>
