@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Express Protocol — the open-source SDK to mint, trade, and manage NFTs & real-world assets onchain, now built for the AI-agent era with an optional x402 payments module." />
+  <title>Express Protocol — The SDK for agentic onchain commerce</title>
+  <link rel="stylesheet" href="../assets/design-system.css" />
+  <style>
+    /* ============================================================
+       EXPRESS PROTOCOL — page styles (accent: purple)
+       Tokens come from ../assets/design-system.css. Do not redefine.
+       ============================================================ */
+    :root{
+      --ep-ink:#0b1220;              /* deep hero ink, darker than navy */
+      --ep-ink-2:#0e1730;
+      --mono:'JetBrains Mono','SFMono-Regular',ui-monospace,'Menlo','Consolas',monospace;
+      --ep-line:rgba(121,73,232,.18);
+      --ep-glass:rgba(255,255,255,.04);
+    }
+
+    /* --- selection + focus in brand purple --- */
+    ::selection{background:rgba(131,62,242,.28);color:#fff}
+    a:focus-visible,button:focus-visible,.copy-pill:focus-visible{outline:2px solid var(--c-express-2);outline-offset:3px;border-radius:8px}
+
+    /* purple-accented buttons on top of shared .btn base */
+    .btn-express{background:linear-gradient(135deg,var(--c-express) 0%,var(--c-express-2) 100%);color:#fff;box-shadow:0 8px 24px rgba(121,73,232,.35)}
+    .btn-express:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(121,73,232,.5)}
+    .btn-onlight{background:#fff;color:var(--navy);border:1px solid var(--gray-200)}
+    .btn-onlight:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:transparent}
+    .btn-wire{background:transparent;border:1.5px solid rgba(255,255,255,.22);color:#fff}
+    .btn-wire:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.05)}
+
+    /* ---------- NAV ---------- */
+    .ep-nav{position:sticky;top:0;z-index:60;background:rgba(11,18,32,.72);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.07)}
+    .ep-nav .nav-inner{display:flex;align-items:center;gap:20px;height:68px}
+    .ep-nav .brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+    .ep-nav .brand img{height:26px;width:auto;display:block}
+    .ep-nav .backhub{font-size:.82rem;color:rgba(255,255,255,.55);display:inline-flex;align-items:center;gap:6px;padding-right:16px;border-right:1px solid rgba(255,255,255,.12)}
+    .ep-nav .backhub:hover{color:#fff}
+    .ep-nav .nlinks{display:flex;align-items:center;gap:26px;margin-left:auto}
+    .ep-nav .nlink{color:rgba(255,255,255,.68);font-weight:500;font-size:.92rem;display:inline-flex;align-items:center;gap:7px}
+    .ep-nav .nlink:hover{color:#fff}
+    .ep-nav .nlink svg{width:15px;height:15px}
+    .copy-pill{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.82rem;color:#e8e3ff;
+      background:rgba(121,73,232,.14);border:1px solid var(--ep-line);padding:8px 12px;border-radius:var(--r-pill);cursor:pointer;transition:.2s}
+    .copy-pill:hover{background:rgba(121,73,232,.24);border-color:rgba(131,62,242,.5)}
+    .copy-pill .dollar{color:var(--c-express-2);opacity:.9}
+    .copy-pill .cicon{width:14px;height:14px;opacity:.7}
+    .copy-pill.copied{background:rgba(0,171,110,.16);border-color:rgba(0,171,110,.5);color:#c9f7e3}
+    @media(max-width:900px){.ep-nav .nlinks{gap:16px}.ep-nav .backhub,.ep-nav .nlink.docs{display:none}}
+    @media(max-width:620px){.copy-pill{display:none}}
+
+    /* ---------- HERO ---------- */
+    .hero{position:relative;overflow:hidden;background:var(--ep-ink);color:#fff;padding:96px 0 88px;isolation:isolate}
+    .hero::before{content:"";position:absolute;inset:0;z-index:-2;
+      background:
+        radial-gradient(60rem 34rem at 78% -8%,rgba(131,62,242,.42),transparent 60%),
+        radial-gradient(48rem 30rem at 8% 12%,rgba(121,73,232,.24),transparent 62%),
+        radial-gradient(40rem 40rem at 50% 118%,rgba(90,52,196,.28),transparent 60%);}
+    .hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+      background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+      background-size:56px 56px;mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 40%,transparent 100%);
+      -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 40%,transparent 100%)}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+    @media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+    .hero .eyebrow{color:#c9bcff}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+    .pill{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;font-weight:600;letter-spacing:.02em;
+      padding:6px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#e9e5ff}
+    .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--c-aconomy-mint);box-shadow:0 0 10px var(--c-aconomy-mint)}
+    .hero h1{font-size:clamp(2.5rem,5.4vw,4.05rem);letter-spacing:-.03em;line-height:1.02;margin-bottom:20px}
+    .hero h1 .grad{background:linear-gradient(100deg,#a98bff 0%,#d7c6ff 45%,#8f6bff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero .lead{color:rgba(233,231,246,.82);max-width:44ch;font-size:clamp(1.05rem,1.7vw,1.24rem)}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;font-size:.84rem;color:rgba(233,231,246,.6)}
+    .hero-meta span{display:inline-flex;align-items:center;gap:8px}
+    .hero-meta svg{width:16px;height:16px;color:var(--c-express-2)}
+
+    /* ---------- CODE CARD ---------- */
+    .code-card{background:linear-gradient(180deg,#0c1428 0%,#0a1020 100%);border:1px solid var(--ep-line);border-radius:16px;
+      box-shadow:0 30px 70px rgba(3,6,16,.6),0 0 0 1px rgba(255,255,255,.02) inset;overflow:hidden;position:relative}
+    .code-card::before{content:"";position:absolute;inset:0;border-radius:16px;padding:1px;pointer-events:none;
+      background:linear-gradient(135deg,rgba(131,62,242,.55),transparent 40%,transparent 70%,rgba(121,73,232,.35));
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+    .code-top{display:flex;align-items:center;gap:8px;padding:13px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
+    .code-top .dots{display:flex;gap:7px}
+    .code-top .dots i{width:11px;height:11px;border-radius:50%;display:block}
+    .code-top .dots i:nth-child(1){background:#ff5f57}.code-top .dots i:nth-child(2){background:#febc2e}.code-top .dots i:nth-child(3){background:#28c840}
+    .code-top .fname{margin-left:8px;font-family:var(--mono);font-size:.76rem;color:rgba(255,255,255,.45)}
+    .code-top .tag{margin-left:auto;font-family:var(--mono);font-size:.68rem;color:#c9bcff;background:rgba(121,73,232,.16);padding:3px 9px;border-radius:6px;border:1px solid var(--ep-line)}
+    pre{margin:0;padding:20px 20px 22px;overflow-x:auto;font-family:var(--mono);font-size:.83rem;line-height:1.75;color:#d7dbe8;-webkit-overflow-scrolling:touch}
+    pre code{font-family:inherit}
+    .tk-c{color:#5b6b8c;font-style:italic}     /* comment */
+    .tk-k{color:#c792ea}                        /* keyword */
+    .tk-f{color:#82aaff}                        /* function */
+    .tk-s{color:#9be0a8}                        /* string */
+    .tk-n{color:#f6b17a}                        /* number */
+    .tk-p{color:#7f8db3}                        /* punctuation */
+    .tk-m{color:#e6d3ff}                        /* method / property */
+
+    /* ---------- SECTIONS (light) ---------- */
+    .sec-head{max-width:60ch}
+    .sec-head .eyebrow{color:var(--c-express)}
+    .sec-head h2{margin:14px 0 14px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    @media(max-width:900px){.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}}
+
+    /* token-standard cards */
+    .std-card{position:relative;overflow:hidden}
+    .std-card .std-tag{font-family:var(--mono);font-weight:700;font-size:1.5rem;letter-spacing:-.01em;color:var(--navy)}
+    .std-card .std-tag b{color:var(--c-express)}
+    .std-card .kv{display:inline-flex;align-items:center;gap:7px;margin-top:2px;margin-bottom:14px}
+    .std-card .kv .badge{font-size:.68rem}
+    .std-card p{color:var(--slate);font-size:.96rem;margin:0}
+    .std-card .rail{position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--c-express),var(--c-express-2))}
+
+    /* feature grid */
+    .feat{display:flex;flex-direction:column;gap:14px}
+    .feat .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+      background:rgba(121,73,232,.1);border:1px solid var(--ep-line);color:var(--c-express)}
+    .feat .ic svg{width:23px;height:23px}
+    .feat h3{font-size:1.18rem}
+    .feat p{color:var(--slate);margin:0;font-size:.96rem}
+    .feat .funcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+    .feat .funcs code{font-family:var(--mono);font-size:.72rem;color:var(--c-express);background:rgba(121,73,232,.09);border:1px solid var(--ep-line);padding:3px 8px;border-radius:6px}
+
+    /* ---------- x402 MODULE (dark feature band) ---------- */
+    .x402{position:relative;overflow:hidden;background:var(--ep-ink-2);color:#fff;isolation:isolate}
+    .x402::before{content:"";position:absolute;inset:0;z-index:-1;
+      background:radial-gradient(50rem 30rem at 88% 0%,rgba(131,62,242,.34),transparent 58%),radial-gradient(40rem 30rem at 0% 100%,rgba(0,108,255,.16),transparent 55%)}
+    .x402 .badge-new{display:inline-flex;align-items:center;gap:8px;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+      color:#fff;background:linear-gradient(135deg,var(--c-express),var(--c-express-2));padding:6px 13px;border-radius:var(--r-pill);box-shadow:0 6px 20px rgba(121,73,232,.4)}
+    .x402 h2{color:#fff;margin:18px 0 16px}
+    .x402 .lead{color:rgba(233,231,246,.82)}
+    .x402-grid{display:grid;grid-template-columns:1fr 1.02fr;gap:48px;align-items:center}
+    @media(max-width:940px){.x402-grid{grid-template-columns:1fr;gap:34px}}
+    .x402 .flow{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+    .x402 .flow li{display:flex;gap:14px;align-items:flex-start}
+    .x402 .flow .n{flex-shrink:0;width:27px;height:27px;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:.78rem;font-weight:700;
+      color:#e6d3ff;background:rgba(121,73,232,.2);border:1px solid var(--ep-line)}
+    .x402 .flow b{color:#fff;font-weight:600}
+    .x402 .flow span{color:rgba(233,231,246,.66);font-size:.92rem}
+    .x402-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+    .x402-chips .chip{font-size:.76rem;font-weight:600;color:#e9e5ff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:6px 12px;border-radius:var(--r-pill)}
+    .x402-chips .chip b{color:#b9a6ff}
+
+    /* ---------- MODERNIZED STRIP ---------- */
+    .modern{background:var(--bg)}
+    .modern-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    @media(max-width:900px){.modern-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.modern-grid{grid-template-columns:1fr}}
+    .mcard{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:24px;transition:.25s}
+    .mcard:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+    .mcard .ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:rgba(121,73,232,.1);color:var(--c-express);margin-bottom:14px}
+    .mcard .ic svg{width:21px;height:21px}
+    .mcard h4{font-size:1.02rem;margin-bottom:6px}
+    .mcard p{color:var(--slate);font-size:.88rem;margin:0}
+
+    /* ---------- GUIDES ---------- */
+    .guide{display:flex;align-items:center;gap:18px;padding:22px 24px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);transition:.22s}
+    .guide:hover{border-color:transparent;box-shadow:var(--shadow);transform:translateX(4px)}
+    .guide .gnum{font-family:var(--mono);font-size:.86rem;color:var(--c-express);font-weight:700;flex-shrink:0}
+    .guide .gbody{flex:1;min-width:0}
+    .guide h3{font-size:1.12rem;margin-bottom:3px}
+    .guide p{margin:0;color:var(--slate);font-size:.9rem}
+    .guide .garrow{flex-shrink:0;color:var(--gray-300);transition:.22s}
+    .guide:hover .garrow{color:var(--c-express);transform:translateX(3px)}
+    .guide .garrow svg{width:22px;height:22px;display:block}
+    .guides-list{display:grid;gap:14px}
+
+    /* ---------- DOCS CTA ---------- */
+    .cta{position:relative;overflow:hidden;background:var(--ep-ink);color:#fff;border-radius:var(--r-lg);padding:64px 56px;isolation:isolate;text-align:center}
+    .cta::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(40rem 24rem at 50% -20%,rgba(131,62,242,.5),transparent 60%)}
+    .cta h2{color:#fff;margin-bottom:14px}
+    .cta p{color:rgba(233,231,246,.8);max-width:52ch;margin:0 auto 28px}
+    .cta .cta-btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+    .cta .install{margin-top:26px;font-family:var(--mono);font-size:.82rem;color:rgba(233,231,246,.55)}
+    .cta .install b{color:#c9bcff}
+    @media(max-width:600px){.cta{padding:48px 24px}}
+
+    /* ---------- FOOTER extras ---------- */
+    .footer .f-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+    @media(max-width:820px){.footer .f-top{grid-template-columns:1fr 1fr}}
+    @media(max-width:520px){.footer .f-top{grid-template-columns:1fr}}
+    .footer .flogo{height:26px;margin-bottom:16px}
+    .footer .fabout{color:rgba(255,255,255,.62);font-size:.9rem;max-width:34ch}
+    .footer h5{color:#fff;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;font-weight:700}
+    .footer .fcol a{display:block;font-size:.92rem;padding:5px 0}
+    .footer .f-bottom{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
+      margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);font-size:.84rem;color:rgba(255,255,255,.5)}
+    .footer .f-bottom .rehab{display:inline-flex;align-items:center;gap:8px}
+    .footer .f-bottom code{font-family:var(--mono);color:#c9bcff}
+
+    /* reveal easing already in DS; add stagger helper */
+    .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="ep-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Express Protocol home">
+        <img src="../assets/logos/ExpressProtocol_White.png" alt="Express Protocol" />
+      </a>
+      <a class="backhub" href="../index.html" title="Back to Pandora hub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Pandora
+      </a>
+      <div class="nlinks">
+        <a class="nlink docs" href="docs/">Docs</a>
+        <a class="nlink" href="https://github.com/cryptosingheth/Express-Protocol-SDK" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+          GitHub
+        </a>
+        <button class="copy-pill" data-copy="npm i pandora-express" aria-label="Copy install command">
+          <span class="dollar">$</span><span class="ctext">npm i pandora-express</span>
+          <svg class="cicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-badges reveal">
+          <span class="pill"><span class="dot"></span> v2 · agent-ready</span>
+          <span class="pill">Open source · MIT</span>
+          <span class="pill">npm: pandora-express</span>
+        </div>
+        <p class="eyebrow reveal">Express Protocol SDK</p>
+        <h1 class="reveal d1">The SDK for <span class="grad">agentic onchain commerce</span></h1>
+        <p class="lead reveal d2">
+          One open-source SDK to mint, trade, and manage NFTs and real-world assets onchain —
+          without touching Solidity. Now built for the AI-agent era, with an optional
+          <b style="color:#d7c6ff">x402</b> module so autonomous agents can pay and settle on their own.
+        </p>
+        <div class="hero-cta reveal d3">
+          <a class="btn btn-express" href="docs/">Read the docs
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-wire" href="https://github.com/cryptosingheth/Express-Protocol-SDK" target="_blank" rel="noreferrer">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+            Star on GitHub
+          </a>
+        </div>
+        <div class="hero-meta reveal d3">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> ERC-721 · 1155 · 404</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Mint · trade · auction</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> IPFS storage built in</span>
+        </div>
+      </div>
+
+      <!-- CODE CARD -->
+      <div class="code-card reveal d2" aria-hidden="false">
+        <div class="code-top">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <span class="fname">mint-and-sell.ts</span>
+          <span class="tag">pandora-express</span>
+        </div>
+        <pre><code><span class="tk-k">import</span> <span class="tk-p">{</span> <span class="tk-m">createPandoraExpressSDK</span> <span class="tk-p">}</span> <span class="tk-k">from</span> <span class="tk-s">"pandora-express"</span><span class="tk-p">;</span>
+
+<span class="tk-c">// wire up the SDK with a viem/web3 signer</span>
+<span class="tk-k">const</span> <span class="tk-m">sdk</span> <span class="tk-p">=</span> <span class="tk-f">createPandoraExpressSDK</span><span class="tk-p">({</span> <span class="tk-m">signer</span><span class="tk-p">,</span> <span class="tk-m">chainId</span><span class="tk-p">:</span> <span class="tk-n">8453</span> <span class="tk-p">});</span>
+
+<span class="tk-c">// 1 · mint an ERC-721 into the public collection</span>
+<span class="tk-k">const</span> <span class="tk-p">{</span> <span class="tk-m">tokenId</span> <span class="tk-p">}</span> <span class="tk-p">=</span> <span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-f">mint</span><span class="tk-p">({</span>
+  <span class="tk-m">tokenURI</span><span class="tk-p">:</span> <span class="tk-s">"ipfs://…/asset.json"</span><span class="tk-p">,</span>
+  <span class="tk-m">royalty</span><span class="tk-p">:</span> <span class="tk-n">5</span><span class="tk-p">,</span> <span class="tk-c">// % to the creator, forever</span>
+<span class="tk-p">});</span>
+
+<span class="tk-c">// 2 · list it for sale on the shared orderbook</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-m">order</span><span class="tk-p">.</span><span class="tk-f">sellNFT</span><span class="tk-p">({</span>
+  <span class="tk-m">tokenId</span><span class="tk-p">,</span>
+  <span class="tk-m">price</span><span class="tk-p">:</span> <span class="tk-s">"25.0"</span><span class="tk-p">,</span> <span class="tk-c">// USDC</span>
+<span class="tk-p">});</span></code></pre>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ TOKEN STANDARDS ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Token standards</p>
+        <h2>Three standards, one interface</h2>
+        <p class="lead">Deploy and manage any token type through the same typed SDK. Express abstracts the contract calls so you ship features, not ABIs.</p>
+      </div>
+      <div class="grid-3" style="margin-top:44px">
+        <div class="card std-card reveal">
+          <span class="rail"></span>
+          <div class="std-tag">ERC&#8209;<b>721</b></div>
+          <div class="kv"><span class="badge badge-purple">Unique NFTs</span></div>
+          <p>The classic non-fungible standard — one-of-one collectibles, art, and tickets. Mint, batch-mint, sell, buy, auction, and bid, in personal or public collections.</p>
+        </div>
+        <div class="card std-card reveal d1">
+          <span class="rail"></span>
+          <div class="std-tag">ERC&#8209;<b>1155</b></div>
+          <div class="kv"><span class="badge badge-purple">Multi-token</span></div>
+          <p>Fungible and non-fungible editions from a single contract — ideal for game items, passes, and semi-fungible drops. Full mint-to-auction lifecycle, same API surface.</p>
+        </div>
+        <div class="card std-card reveal d2">
+          <span class="rail"></span>
+          <div class="std-tag">ERC&#8209;<b>404</b></div>
+          <div class="kv"><span class="badge badge-purple">Fractional</span></div>
+          <p>The experimental hybrid: an NFT and its ERC-20 fraction move together. Transfer the token, the fungible units follow — native fractional ownership and liquidity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURE GRID ============ -->
+  <section class="section" style="background:var(--bg)">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Everything to trade onchain</p>
+        <h2>A protocol toolkit that lets you focus on your product</h2>
+        <p class="lead">Express Protocol wraps a suite of audited smart contracts and libraries in a Software Development Kit — so any Web2 developer can build NFT and RWA applications without diving into the chain.</p>
+      </div>
+      <div class="grid-3" style="margin-top:44px">
+        <div class="card feat reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 22l-5.5-2.5 1-6.3L3 8.9 9 8z"/></svg></div>
+          <h3>Minting</h3>
+          <p>Mint single assets or thousands at once into a personal or public collection, each with creator royalties baked in.</p>
+          <div class="funcs"><code>mint()</code><code>batchMint()</code><code>burn()</code></div>
+        </div>
+        <div class="card feat reveal d1">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.3A1 1 0 0 0 5.6 19H17"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg></div>
+          <h3>Marketplace</h3>
+          <p>A complete trading lifecycle — fixed-price sales, buys, timed auctions and bids — all settling against a shared orderbook across every app on the protocol.</p>
+          <div class="funcs"><code>sellNFT()</code><code>buy()</code><code>auction()</code><code>bid()</code></div>
+        </div>
+        <div class="card feat reveal d2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3>Royalties</h3>
+          <p>A single royalty standard for protocol-minted and externally minted NFTs. Creators keep earning on every resale across all protocol applications.</p>
+          <div class="funcs"><code>setRoyalties()</code><code>RoyaltiesSet</code></div>
+        </div>
+        <div class="card feat reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+          <h3>Collections</h3>
+          <p>Mint into Pandora's public collection to go live instantly, or spin up your own personal collection contract for a fully branded storefront.</p>
+          <div class="funcs"><code>createCollection()</code><code>public</code><code>personal</code></div>
+        </div>
+        <div class="card feat reveal d1">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.8 1 6.4 2.6"/><path d="M8 12l3 3 5-6"/></svg></div>
+          <h3>IPFS storage</h3>
+          <p>Pin metadata and media to decentralized storage out of the box — Express ships with Pinata integration and presigned uploads for your assets.</p>
+          <div class="funcs"><code>pinata.upload()</code><code>ipfs://</code></div>
+        </div>
+        <div class="card feat reveal d2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a2 2 0 0 1 2-2h2M4 17v2a2 2 0 0 0 2 2h2M20 7V5a2 2 0 0 0-2-2h-2M20 17v2a2 2 0 0 1-2 2h-2"/><path d="M9 9h6v6H9z"/></svg></div>
+          <h3>NFT indexer &amp; data</h3>
+          <p>Query rich, multichain data on NFTs and their creators through one unified API — as an open-source storehouse for indexing and analytics.</p>
+          <div class="funcs"><code>index()</code><code>unified API</code></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ x402 MODULE ============ -->
+  <section class="section x402" id="x402">
+    <div class="container x402-grid">
+      <div>
+        <span class="badge-new reveal">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+          New in 2026
+        </span>
+        <p class="eyebrow reveal d1" style="color:#c9bcff;margin-top:14px">x402 · payments for AI agents</p>
+        <h2 class="reveal d1">Let agents pay for and settle assets on their own</h2>
+        <p class="lead reveal d2">
+          Express Protocol now ships an optional <b>x402</b> module built on Coinbase's HTTP&nbsp;402 stablecoin
+          standard. Point an agent at a listing and it can price, authorize, and settle the purchase
+          autonomously — paying in USDC over the wire, no human checkout, no API keys to babysit.
+        </p>
+        <ol class="flow reveal d2">
+          <li><span class="n">1</span><div><b>Agent requests an asset</b> <span>— hits a protected endpoint and gets back an HTTP 402 with the price.</span></div></li>
+          <li><span class="n">2</span><div><b>x402 signs a USDC payment</b> <span>— the module attaches a stablecoin payment header, no seat at a checkout page.</span></div></li>
+          <li><span class="n">3</span><div><b>Protocol settles &amp; transfers</b> <span>— funds clear on Base or Arbitrum and the NFT/RWA lands in the agent's wallet.</span></div></li>
+        </ol>
+        <div class="x402-chips reveal d3">
+          <span class="chip"><b>USDC</b> stablecoin</span>
+          <span class="chip">Base &amp; Arbitrum</span>
+          <span class="chip">HTTP <b>402</b> native</span>
+          <span class="chip">opt-in module</span>
+        </div>
+      </div>
+
+      <div class="code-card reveal d2">
+        <div class="code-top">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <span class="fname">agent-checkout.ts</span>
+          <span class="tag">@pandora-express/x402</span>
+        </div>
+        <pre><code><span class="tk-k">import</span> <span class="tk-p">{</span> <span class="tk-m">createPandoraExpressSDK</span> <span class="tk-p">}</span> <span class="tk-k">from</span> <span class="tk-s">"pandora-express"</span><span class="tk-p">;</span>
+<span class="tk-k">import</span> <span class="tk-p">{</span> <span class="tk-m">x402</span> <span class="tk-p">}</span> <span class="tk-k">from</span> <span class="tk-s">"pandora-express/x402"</span><span class="tk-p">;</span>
+
+<span class="tk-k">const</span> <span class="tk-m">sdk</span> <span class="tk-p">=</span> <span class="tk-f">createPandoraExpressSDK</span><span class="tk-p">({</span>
+  <span class="tk-m">signer</span><span class="tk-p">:</span> <span class="tk-m">agentWallet</span><span class="tk-p">,</span>
+  <span class="tk-m">chainId</span><span class="tk-p">:</span> <span class="tk-n">8453</span><span class="tk-p">,</span> <span class="tk-c">// Base</span>
+  <span class="tk-m">modules</span><span class="tk-p">:</span> <span class="tk-p">[</span><span class="tk-f">x402</span><span class="tk-p">({</span> <span class="tk-m">asset</span><span class="tk-p">:</span> <span class="tk-s">"USDC"</span> <span class="tk-p">})]</span><span class="tk-p">,</span>
+<span class="tk-p">});</span>
+
+<span class="tk-c">// the agent buys — payment is handled inline</span>
+<span class="tk-k">await</span> <span class="tk-m">sdk</span><span class="tk-p">.</span><span class="tk-m">erc721</span><span class="tk-p">.</span><span class="tk-f">buy</span><span class="tk-p">({</span>
+  <span class="tk-m">tokenId</span><span class="tk-p">,</span>
+  <span class="tk-m">paymentMethod</span><span class="tk-p">:</span> <span class="tk-s">"x402"</span><span class="tk-p">,</span> <span class="tk-c">// HTTP 402 · USDC</span>
+<span class="tk-p">});</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODERNIZED FOR 2026 ============ -->
+  <section class="section modern">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Modernized for 2026</p>
+        <h2>Rebuilt on today's onchain stack</h2>
+      </div>
+      <div class="modern-grid" style="margin-top:40px">
+        <div class="mcard reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+          <h4>TypeScript + viem</h4>
+          <p>Fully typed SDK with first-class viem support and modern async ergonomics.</p>
+        </div>
+        <div class="mcard reveal d1">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4.5v11L12 22 3 17.5v-11z"/><path d="M12 22V12M3 6.5L12 12l9-5.5"/></svg></div>
+          <h4>Built for L2s</h4>
+          <p>Deploy to Base, Arbitrum, and Optimism — low-fee settlement where users are.</p>
+        </div>
+        <div class="mcard reveal d2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h4>Account abstraction</h4>
+          <p>ERC-4337 smart accounts and gas sponsorship for frictionless agent flows.</p>
+        </div>
+        <div class="mcard reveal d3">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+          <h4>Open source &amp; audited</h4>
+          <p>MIT-licensed, community-driven, and audited — inspect every line on GitHub.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GUIDES ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Guides</p>
+        <h2>Ship a real dapp in an afternoon</h2>
+        <p class="lead">Step-by-step walkthroughs, straight from the Express Protocol docs — each one builds a working product on the SDK.</p>
+      </div>
+      <div class="guides-list" style="margin-top:40px">
+        <a class="guide reveal" href="docs/">
+          <span class="gnum">01</span>
+          <div class="gbody">
+            <h3>Create an NFT Marketplace using Express Protocol</h3>
+            <p>Stand up a full mint-list-buy marketplace with public collections and the shared orderbook.</p>
+          </div>
+          <span class="garrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="guide reveal d1" href="docs/">
+          <span class="gnum">02</span>
+          <div class="gbody">
+            <h3>Create an NFT Auction Marketplace</h3>
+            <p>Wire up timed auctions, bidding, bid execution, and withdrawals end to end.</p>
+          </div>
+          <span class="garrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="guide reveal d2" href="docs/">
+          <span class="gnum">03</span>
+          <div class="gbody">
+            <h3>Create an NFT Drop Dapp in a matter of minutes</h3>
+            <p>Batch-mint a drop, pin assets to IPFS, and open sales with a few lines of SDK code.</p>
+          </div>
+          <span class="garrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="guide reveal d3" href="docs/">
+          <span class="gnum">04</span>
+          <div class="gbody">
+            <h3>Guide to creating an NFT Ticket Booking Dapp</h3>
+            <p>Use ERC-1155 editions as event tickets, with royalties and resale baked in.</p>
+          </div>
+          <span class="garrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOCS CTA ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="cta reveal">
+        <p class="eyebrow" style="color:#c9bcff">Start building</p>
+        <h2>From <code style="font-family:var(--mono);font-size:.85em;color:#d7c6ff">npm install</code> to onchain in minutes</h2>
+        <p>Install the package, plug in a signer, and mint your first asset. The docs cover every function across ERC-721, ERC-1155, ERC-404, and the x402 agent module.</p>
+        <div class="cta-btns">
+          <a class="btn btn-onlight" href="docs/">Read the docs
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-express" href="https://github.com/cryptosingheth/Express-Protocol-SDK" target="_blank" rel="noreferrer">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+        <div class="install">$ <b>npm i pandora-express</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="f-top">
+        <div>
+          <img class="flogo" src="../assets/logos/ExpressProtocol_White.png" alt="Express Protocol" />
+          <p class="fabout">An open-source, decentralized, interoperable SDK to mint, trade, and manage NFTs and real-world assets onchain — built for developers and, now, for AI agents.</p>
+        </div>
+        <div class="fcol">
+          <h5>Build</h5>
+          <a href="docs/">Documentation</a>
+          <a href="https://github.com/cryptosingheth/Express-Protocol-SDK" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://www.npmjs.com/package/pandora-express" target="_blank" rel="noreferrer">npm package</a>
+          <a href="#x402">x402 module</a>
+        </div>
+        <div class="fcol">
+          <h5>Standards</h5>
+          <a href="docs/">ERC-721</a>
+          <a href="docs/">ERC-1155</a>
+          <a href="docs/">ERC-404</a>
+          <a href="docs/">Royalties</a>
+        </div>
+        <div class="fcol">
+          <h5>Ecosystem</h5>
+          <a href="../index.html">Pandora Hub</a>
+          <a href="docs/">Guides</a>
+          <a href="docs/">Smart contracts</a>
+          <a href="docs/">IPFS / Pinata</a>
+        </div>
+      </div>
+      <div class="f-bottom">
+        <div>© 2026 Express Protocol · Part of the Pandora Finance ecosystem</div>
+        <a class="rehab" href="../index.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          Back to Pandora hub · <code>npm i pandora-express</code>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script>
+    // Scroll-reveal
+    (function(){
+      var els = document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} });
+      },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+      els.forEach(function(e){io.observe(e)});
+    })();
+
+    // Copy-to-clipboard for install pills
+    (function(){
+      function flash(btn, textNode, original){
+        btn.classList.add('copied');
+        if(textNode) textNode.textContent = 'copied ✓';
+        setTimeout(function(){ btn.classList.remove('copied'); if(textNode) textNode.textContent = original; }, 1400);
+      }
+      document.querySelectorAll('[data-copy]').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var val = btn.getAttribute('data-copy');
+          var textNode = btn.querySelector('.ctext');
+          var original = textNode ? textNode.textContent : '';
+          if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(val).then(function(){flash(btn,textNode,original)}).catch(function(){flash(btn,textNode,original)});
+          } else { flash(btn,textNode,original); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

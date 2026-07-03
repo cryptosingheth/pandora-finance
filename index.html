@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pandora Finance — The studio building Web3 for the real world</title>
+<meta name="description" content="Pandora Finance is the parent studio behind a family of Web3 and real-world products — Aconomy, Propty, Express Protocol, The DPP Company and UnityMarket. Building at the intersection of blockchain and real-world value since 2021." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="assets/design-system.css" />
+<style>
+/* ============================================================
+   HUB — page-specific styles (tokens come from design-system.css)
+   ============================================================ */
+  :root{
+    --hub-ink:#0b1834;               /* deeper navy for hero contrast */
+    --edge:1px solid var(--gray-200);
+    --mono:'Figtree', ui-monospace, monospace;
+  }
+
+  /* --- shared refinements --- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+  .kicker{font-weight:700;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pan-blue);
+    display:inline-flex;align-items:center;gap:10px}
+  .kicker::before{content:"";width:22px;height:1.5px;background:var(--pan-blue);display:inline-block}
+  .kicker.on-dark{color:#7fb2ff}
+  .kicker.on-dark::before{background:#7fb2ff}
+
+  /* --- NAV --- */
+  .nav-inner{gap:20px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:26px;width:auto}
+  .nav-links{display:flex;align-items:center;gap:34px}
+  .navlink{position:relative}
+  .navlink::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:1.5px;background:var(--navy);transition:right .28s cubic-bezier(.2,.7,.2,1)}
+  .navlink:hover::after{right:0}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-toggle{display:none}
+
+  /* --- HERO --- */
+  .hero{position:relative;overflow:hidden;padding:clamp(70px,11vw,140px) 0 clamp(60px,8vw,110px)}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-2;
+    background:
+      radial-gradient(1100px 620px at 78% -8%, rgba(0,108,255,.16), transparent 60%),
+      radial-gradient(760px 520px at 6% 24%, rgba(0,171,190,.10), transparent 62%),
+      linear-gradient(180deg,#fbfcff 0%,var(--white) 46%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+    background-image:linear-gradient(var(--gray-200) 1px,transparent 1px),linear-gradient(90deg,var(--gray-200) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(760px 520px at 80% 0%, #000 0%, transparent 72%);
+            mask-image:radial-gradient(760px 520px at 80% 0%, #000 0%, transparent 72%)}
+  .hero-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:clamp(30px,5vw,72px);align-items:center}
+  .hero h1{font-size:clamp(2.6rem,6.4vw,5rem);letter-spacing:-.035em;margin:22px 0 0}
+  .hero h1 .grad{background:linear-gradient(100deg,var(--pan-blue),#00abbe 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{margin-top:26px;font-size:clamp(1.08rem,1.7vw,1.3rem);max-width:52ch}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+  .hero-stats{display:flex;gap:38px;margin-top:48px;flex-wrap:wrap}
+  .stat .n{font-size:clamp(1.7rem,3vw,2.3rem);font-weight:800;letter-spacing:-.03em;line-height:1;
+    background:linear-gradient(120deg,var(--navy),var(--pan-blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{display:block;margin-top:8px;font-size:.82rem;color:var(--slate);letter-spacing:.02em}
+
+  /* hero side: floating product chips */
+  .orbit{position:relative;height:100%;min-height:340px}
+  .chip{position:absolute;background:rgba(255,255,255,.9);border:var(--edge);border-radius:var(--r);
+    box-shadow:var(--shadow);padding:14px 18px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(8px);
+    animation:float 7s ease-in-out infinite}
+  .chip .dot{width:10px;height:10px;border-radius:50%;flex:none}
+  .chip .t{font-weight:700;font-size:.95rem;letter-spacing:-.01em}
+  .chip .s{font-size:.74rem;color:var(--slate)}
+  .chip-1{top:2%;left:4%;animation-delay:0s}
+  .chip-2{top:34%;right:-2%;animation-delay:.9s}
+  .chip-3{bottom:16%;left:-2%;animation-delay:1.8s}
+  .chip-4{bottom:-2%;right:12%;animation-delay:2.6s}
+  .orbit-core{position:absolute;inset:0;margin:auto;width:min(72%,240px);aspect-ratio:1;border-radius:50%;
+    background:conic-gradient(from 210deg,var(--pan-blue),#00abbe,#7949e8,#f1a940,var(--pan-blue));
+    filter:blur(6px);opacity:.9;
+    -webkit-mask:radial-gradient(closest-side,transparent 61%,#000 62%,#000 70%,transparent 71%);
+            mask:radial-gradient(closest-side,transparent 61%,#000 62%,#000 70%,transparent 71%);
+    animation:spin 26s linear infinite}
+  .orbit-logo{position:absolute;inset:0;margin:auto;width:112px;height:112px;border-radius:50%;background:#fff;
+    border:var(--edge);box-shadow:var(--shadow);display:grid;place-items:center}
+  .orbit-logo img{width:64px;height:auto}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* marquee of what they build */
+  .ticker{border-top:var(--edge);border-bottom:var(--edge);background:#fff;overflow:hidden;padding:18px 0}
+  .ticker-row{display:flex;gap:56px;white-space:nowrap;width:max-content;animation:slide 34s linear infinite}
+  .ticker-item{display:inline-flex;align-items:center;gap:12px;color:var(--slate);font-weight:600;letter-spacing:.01em;font-size:.98rem}
+  .ticker-item svg{color:var(--pan-blue)}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* --- SECTION HEADS --- */
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:52px}
+  .sec-head h2{max-width:20ch}
+  .sec-head p{margin:0;max-width:40ch}
+
+  /* --- PRODUCTS --- */
+  #products{background:linear-gradient(180deg,var(--bg),#fff)}
+  .prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+  .pcard{position:relative;display:flex;flex-direction:column;background:#fff;border:var(--edge);
+    border-radius:var(--r-lg);padding:34px 34px 28px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
+  .pcard::before{content:"";position:absolute;left:0;top:0;height:100%;width:4px;background:var(--acc);transform:scaleY(0);transform-origin:top;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .pcard::after{content:"";position:absolute;right:-40%;top:-60%;width:70%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,var(--acc),transparent 68%);opacity:0;transition:opacity .35s;pointer-events:none;filter:blur(8px)}
+  .pcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+  .pcard:hover::before{transform:scaleY(1)}
+  .pcard:hover::after{opacity:.12}
+  .pcard.archived{opacity:.86}
+  .pcard.archived:hover{transform:translateY(-3px)}
+  .pcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px}
+  .pnum{font-family:var(--mono);font-size:.78rem;font-weight:700;letter-spacing:.14em;color:var(--slate);opacity:.7}
+  .pmark{display:flex;align-items:center;gap:12px}
+  .pmark .glyph{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;
+    background:color-mix(in srgb,var(--acc) 14%,#fff);color:var(--acc);border:1px solid color-mix(in srgb,var(--acc) 26%,transparent)}
+  .pmark .glyph svg{width:22px;height:22px}
+  .pname{font-size:1.5rem;font-weight:800;letter-spacing:-.025em;line-height:1.05}
+  .psub{font-size:.78rem;font-weight:600;letter-spacing:.02em;color:var(--acc)}
+  .pcard .desc{color:var(--slate);font-size:1rem;margin:0 0 20px;flex:1}
+  .ptags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .ptag{font-size:.74rem;font-weight:600;padding:5px 11px;border-radius:var(--r-pill);
+    background:color-mix(in srgb,var(--acc) 9%,#fff);color:color-mix(in srgb,var(--acc) 72%,var(--navy));
+    border:1px solid color-mix(in srgb,var(--acc) 18%,transparent)}
+  .pcard .go{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem;color:var(--navy);margin-top:auto}
+  .pcard .go svg{transition:transform .25s}
+  .pcard:hover .go svg{transform:translateX(5px)}
+  .pcard .go .arch{margin-left:auto;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--slate);background:var(--gray-200);padding:4px 10px;border-radius:var(--r-pill)}
+
+  /* --- ABOUT --- */
+  #about{background:var(--hub-ink);color:#fff;position:relative;overflow:hidden}
+  #about::before{content:"";position:absolute;inset:0;opacity:.6;
+    background:radial-gradient(760px 460px at 88% 10%, rgba(0,108,255,.28), transparent 60%),
+              radial-gradient(620px 420px at 0% 96%, rgba(0,171,190,.20), transparent 62%)}
+  #about .wrap{position:relative}
+  #about h2,#about h3{color:#fff}
+  .about-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(36px,6vw,84px);align-items:center}
+  .about-lead{font-size:clamp(1.15rem,1.7vw,1.4rem);color:rgba(255,255,255,.82);line-height:1.6;max-width:46ch}
+  .about-lead strong{color:#fff;font-weight:700}
+  .about-note{margin-top:26px;color:rgba(255,255,255,.62);font-size:1rem;max-width:48ch}
+  .about-panel{border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg);padding:8px;
+    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}
+  .tl{list-style:none;margin:0;padding:0}
+  .tl li{display:grid;grid-template-columns:78px 1fr;gap:18px;padding:20px 22px;position:relative}
+  .tl li+li{border-top:1px solid rgba(255,255,255,.10)}
+  .tl .yr{font-family:var(--mono);font-weight:700;font-size:.9rem;color:#7fb2ff;letter-spacing:.04em}
+  .tl .ev strong{display:block;color:#fff;font-weight:700;font-size:1.02rem;margin-bottom:3px}
+  .tl .ev span{color:rgba(255,255,255,.6);font-size:.92rem}
+
+  /* --- CONTACT --- */
+  #contact .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(34px,6vw,72px);align-items:center}
+  .contact-card{border:var(--edge);border-radius:var(--r-lg);padding:clamp(28px,4vw,44px);
+    background:linear-gradient(160deg,#fff,var(--bg));box-shadow:var(--shadow)}
+  .contact-row{display:flex;align-items:center;gap:16px;padding:16px 0}
+  .contact-row+.contact-row{border-top:var(--edge)}
+  .contact-row .ic{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:rgba(0,108,255,.1);color:var(--pan-blue)}
+  .contact-row .k{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:700}
+  .contact-row .v{font-weight:700;color:var(--navy);font-size:1.05rem}
+  .contact-row a.v:hover{color:var(--pan-blue)}
+  .addr-ph{font-style:normal;color:var(--slate);font-weight:600;line-height:1.5}
+  .addr-ph b{display:block;color:var(--navy);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;font-weight:800}
+
+  /* --- FOOTER --- */
+  .footer{padding-top:72px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:52px}
+  .foot-brand img{height:30px;width:auto;margin-bottom:20px}
+  .foot-brand p{color:rgba(255,255,255,.6);max-width:34ch;font-size:.96rem}
+  .foot-col h4{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:18px;font-weight:700}
+  .foot-col a{display:block;padding:7px 0;font-size:.98rem}
+  .foot-addr{color:rgba(255,255,255,.7);font-style:normal;line-height:1.6;font-size:.96rem}
+  .foot-addr b{display:block;color:#fff;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .socials{display:flex;gap:12px;margin-top:20px}
+  .socials a{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.8);transition:.2s}
+  .socials a:hover{background:#fff;color:var(--navy);transform:translateY(-3px);border-color:#fff}
+  .foot-bar{border-top:1px solid rgba(255,255,255,.12);padding:26px 0;display:flex;justify-content:space-between;
+    align-items:center;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.9rem}
+  .foot-bar .made{display:inline-flex;align-items:center;gap:8px}
+
+  /* --- RESPONSIVE --- */
+  @media(max-width:960px){
+    .hero-grid,.about-grid,#contact .wrap{grid-template-columns:1fr}
+    .orbit{min-height:300px;order:-1;margin-bottom:8px}
+    .prod-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .sec-head{flex-direction:column;align-items:flex-start}
+  }
+  @media(max-width:640px){
+    .nav-links,.nav-cta .btn-ghost{display:none}
+    .nav-toggle{display:inline-flex}
+    .hero-stats{gap:26px}
+    .foot-grid{grid-template-columns:1fr}
+    .tl li{grid-template-columns:64px 1fr;gap:12px;padding:18px 16px}
+    .pcard{padding:28px 24px 24px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="Pandora Finance home">
+      <img src="assets/logos/Pandora_Dark.svg" alt="Pandora Finance" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="navlink" href="#products">Products</a>
+      <a class="navlink" href="#about">About</a>
+      <a class="navlink" href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost hide-mobile" href="#products">Explore studio</a>
+      <a class="btn btn-primary" href="aconomy/index.html">Launch
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+      <a class="btn btn-ghost nav-toggle" href="#products" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="kicker">Web3 product studio · Est. 2021</span>
+      <h1>The studio building <span class="grad">Web3 for the&nbsp;real world.</span></h1>
+      <p class="lead">Pandora Finance is the parent company behind a family of products that connect blockchain with tangible value — real-world assets, rental infrastructure, agentic commerce and digital collectibles. One studio, many bets, a single thesis: onchain rails belong in everyday life.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#products">See the product family
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#about">Our story</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="n">4</span><span class="l">Products shipped</span></div>
+        <div class="stat"><span class="n">2021</span><span class="l">Building since</span></div>
+        <div class="stat"><span class="n">RWA</span><span class="l">Core focus area</span></div>
+      </div>
+    </div>
+
+    <!-- orbiting product identity -->
+    <div class="orbit reveal" aria-hidden="true">
+      <div class="orbit-core"></div>
+      <div class="orbit-logo"><img src="assets/logos/Pandora_Dark.svg" alt="" /></div>
+      <div class="chip chip-1"><span class="dot" style="background:var(--c-aconomy)"></span><span><span class="t">Aconomy</span><br><span class="s">RWA marketplace</span></span></div>
+      <div class="chip chip-2"><span class="dot" style="background:var(--pan-blue)"></span><span><span class="t">Propty</span><br><span class="s">Rental rails</span></span></div>
+      <div class="chip chip-3"><span class="dot" style="background:var(--c-express)"></span><span><span class="t">Express</span><br><span class="s">Commerce SDK</span></span></div>
+      <div class="chip chip-4"><span class="dot" style="background:var(--c-unity)"></span><span><span class="t">UnityMarket</span><br><span class="s">NFT market</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TICKER ===================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-row">
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Real-world asset tokenization</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Asset-backed NFTs</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Rent guarantees &amp; newcomer credit</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic onchain commerce</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Induced liquidity</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Real-world asset tokenization</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Asset-backed NFTs</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Rent guarantees &amp; newcomer credit</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic onchain commerce</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Induced liquidity</span>
+  </div>
+</div>
+
+<!-- ===================== PRODUCTS ===================== -->
+<section id="products" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Our products</span>
+        <h2 style="margin-top:18px">Four products, one shared mission.</h2>
+      </div>
+      <p class="muted">Each product is an independent bet on bringing a slice of the real economy onchain — built, backed and shipped from inside the Pandora studio.</p>
+    </div>
+
+    <div class="prod-grid">
+
+      <!-- ACONOMY -->
+      <a class="pcard reveal" style="--acc:var(--c-aconomy)" href="aconomy/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>
+            <div><div class="pname">Aconomy</div><div class="psub">Real-world asset marketplace</div></div>
+          </div>
+          <span class="pnum">01</span>
+        </div>
+        <p class="desc">A marketplace for physical assets. Tokenize luxury watches, real estate, gold and art into asset-backed Pi-NFTs, get them verified by asset validators, then trade, swap or borrow against them.</p>
+        <div class="ptags"><span class="ptag">RWA</span><span class="ptag">Pi-NFTs</span><span class="ptag">Asset validators</span></div>
+        <span class="go">Explore Aconomy <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- PROPTY -->
+      <a class="pcard reveal" style="--acc:#00915e" href="propty/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5M9.5 21v-5h5v5"/><path d="M15.5 12.5h.01"/></svg></span>
+            <div><div class="pname">Propty</div><div class="psub">Rental infrastructure</div></div>
+          </div>
+          <span class="pnum">02</span>
+        </div>
+        <p class="desc">Rental infrastructure that guarantees rent for landlords and builds credit history for newcomers. Propty turns on-time rent into a portable, verifiable financial track record from day one.</p>
+        <div class="ptags"><span class="ptag">Rent guarantee</span><span class="ptag">Newcomer credit</span><span class="ptag">Proptech</span></div>
+        <span class="go">Explore Propty <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- EXPRESS PROTOCOL -->
+      <a class="pcard reveal" style="--acc:var(--c-express)" href="express-protocol/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/></svg></span>
+            <div><div class="pname">Express Protocol</div><div class="psub">SDK for onchain commerce</div></div>
+          </div>
+          <span class="pnum">03</span>
+        </div>
+        <p class="desc">The SDK for agentic onchain commerce. Give AI agents and applications the primitives to discover, transact and settle onchain — commerce rails built for a world where software does the buying.</p>
+        <div class="ptags"><span class="ptag">Developer SDK</span><span class="ptag">Agentic commerce</span><span class="ptag">Onchain</span></div>
+        <span class="go">Explore Express <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- THE DPP COMPANY -->
+      <a class="pcard reveal" style="--acc:#0f9d6b" href="dpp/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5"/><path d="m8.5 13 2.2 2.2L15 11"/></svg></span>
+            <div><div class="pname">The DPP Company</div><div class="psub">Digital Product Passports</div></div>
+          </div>
+          <span class="pnum">04</span>
+        </div>
+        <p class="desc">Verifiable digital passports for physical products. Brands prove authenticity, provenance and sustainability; consumers scan to verify — blockchain-anchored and built for the EU's Digital Product Passport mandate.</p>
+        <div class="ptags"><span class="ptag">Authenticity</span><span class="ptag">EU DPP</span><span class="ptag">Traceability</span></div>
+        <span class="go">Explore DPP <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- UNITYMARKET -->
+      <a class="pcard reveal" style="--acc:var(--c-unity)" href="unitymarket/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v8l9 5 9-5V8l-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></span>
+            <div><div class="pname">UnityMarket</div><div class="psub">NFT marketplace</div></div>
+          </div>
+          <span class="pnum">05</span>
+        </div>
+        <p class="desc">A creator-first NFT marketplace to mint, discover, buy, sell and auction digital collectibles across curated collections. One of the earliest products in the Pandora family.</p>
+        <div class="ptags"><span class="ptag">NFTs</span><span class="ptag">Marketplace</span><span class="ptag">Creators</span></div>
+        <span class="go">Explore UnityMarket <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="section">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <span class="kicker on-dark">About Pandora</span>
+      <h2 style="margin-top:18px">Building at the intersection of blockchain and real-world value.</h2>
+      <p class="about-lead">Founded around <strong>2021</strong>, Pandora Finance set out with a stubborn belief: the most valuable things in the world — property, collectibles, precious metals, everyday commerce — still live off-chain, illiquid and hard to reach. So we build the rails to bring them on.</p>
+      <p class="about-note">From that thesis grew a family of products. <strong style="color:#fff">Aconomy</strong> — our flagship real-world asset marketplace and the rebrand of our earliest work — sits alongside Propty, Express Protocol, The DPP Company and UnityMarket. Same studio, same mission, expressed across markets.</p>
+    </div>
+    <div class="about-panel reveal">
+      <ul class="tl">
+        <li><span class="yr">2021</span><span class="ev"><strong>Pandora Finance is founded</strong><span>A studio to connect blockchain with real-world value.</span></span></li>
+        <li><span class="yr">2022</span><span class="ev"><strong>UnityMarket &amp; early NFT bets</strong><span>First experiments in onchain ownership and collectibles.</span></span></li>
+        <li><span class="yr">2023</span><span class="ev"><strong>Aconomy takes shape</strong><span>Pi-NFTs, asset validators and a testnet for tokenizing RWAs.</span></span></li>
+        <li><span class="yr">Now</span><span class="ev"><strong>An expanding product family</strong><span>Aconomy, Propty and Express Protocol pushing onchain into daily life.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="kicker">Get in touch</span>
+      <h2 style="margin-top:18px">Building something real?<br>Let's talk.</h2>
+      <p class="lead" style="margin-top:20px">Whether you're an asset owner, a developer building on our SDK, a partner, or press — reach the Pandora team directly. We read everything.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:hello@pandora.finance">Email the team
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="contact-card reveal">
+      <div class="contact-row">
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span>
+        <div><div class="k">Email</div><a class="v" href="mailto:hello@pandora.finance">hello@pandora.finance</a></div>
+      </div>
+      <div class="contact-row">
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <div><div class="k">Headquarters</div>
+          <address class="addr-ph"><b>Pandora Finance</b>111 Peter Street, 9th Floor, Suite 902<br>Toronto, ON&nbsp;&nbsp;M5V 2H1</address>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m8 9 4 3 4-3"/></svg></span>
+        <div><div class="k">Follow along</div><div class="v">@aconomyfdn · Pandora-Finance</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logos/Pandora_White.png" alt="Pandora Finance" />
+        <p>The Web3 product studio building at the intersection of blockchain and real-world value since 2021.</p>
+        <div class="socials">
+          <a href="https://x.com/aconomyfdn" target="_blank" rel="noopener" aria-label="X (Twitter)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          </a>
+          <a href="https://github.com/Pandora-Finance" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h4>Products</h4>
+        <a href="aconomy/index.html">Aconomy</a>
+        <a href="propty/index.html">Propty</a>
+        <a href="express-protocol/index.html">Express Protocol</a>
+        <a href="dpp/index.html">The DPP Company</a>
+        <a href="unitymarket/index.html">UnityMarket</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://x.com/aconomyfdn" target="_blank" rel="noopener">Twitter / X</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Registered office</h4>
+        <address class="foot-addr">
+          <b>Pandora Finance</b>
+          111 Peter Street, 9th Floor,<br>Suite 902, Toronto, ON&nbsp; M5V 2H1<br>
+          <a href="mailto:hello@pandora.finance" style="margin-top:10px;display:inline-block">hello@pandora.finance</a>
+        </address>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <span>© 2021–2026 Pandora Finance. All rights reserved.</span>
+      <span class="made">Built for the real world <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Reveal-on-scroll: adds .in to .reveal elements as they enter the viewport */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(el){ el.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function(el, i){ el.style.transitionDelay = (Math.min(i,6)*60) + 'ms'; io.observe(el); });
+})();
+</script>
+</body>
+</html>

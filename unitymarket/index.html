@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="UnityMarket — the next-gen NFT marketplace from Pandora. Mint, buy, sell and auction NFTs across curated collections, with creator royalties and multi-chain support." />
+  <title>UnityMarket — The next-gen NFT marketplace</title>
+  <link rel="stylesheet" href="../assets/design-system.css" />
+  <style>
+    /* ============================================================
+       UNITYMARKET — page styles (accent: gold --c-unity #f1a940)
+       Tokens come from ../assets/design-system.css. Do not redefine.
+       ============================================================ */
+    :root{
+      --um-ink:#0b0d1a;              /* deep gallery ink, darker than navy */
+      --um-ink-2:#0e1120;
+      --um-gold:#f1a940;
+      --um-gold-2:#ffcf72;          /* lighter gold for gradients */
+      --um-gold-deep:#d68a1f;
+      --um-line:rgba(241,169,64,.20);
+      --um-glass:rgba(255,255,255,.04);
+    }
+
+    /* --- selection + focus in brand gold --- */
+    ::selection{background:rgba(241,169,64,.30);color:#1a1205}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--um-gold);outline-offset:3px;border-radius:10px}
+
+    /* gold-accented buttons on top of shared .btn base */
+    .btn-unity{background:linear-gradient(135deg,var(--um-gold) 0%,var(--um-gold-2) 100%);color:#231704;font-weight:600;box-shadow:0 8px 26px rgba(241,169,64,.38)}
+    .btn-unity:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(241,169,64,.52)}
+    .btn-onlight{background:#fff;color:var(--navy);border:1px solid var(--gray-200)}
+    .btn-onlight:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:transparent}
+    .btn-wire{background:transparent;border:1.5px solid rgba(255,255,255,.22);color:#fff}
+    .btn-wire:hover{border-color:var(--um-gold);background:rgba(241,169,64,.08);color:#ffe9c2}
+
+    /* ---------- NAV ---------- */
+    .um-nav{position:sticky;top:0;z-index:60;background:rgba(11,13,26,.72);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.07)}
+    .um-nav .nav-inner{display:flex;align-items:center;gap:20px;height:70px}
+    .um-nav .brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+    .um-nav .brand img{height:26px;width:auto;display:block}
+    .um-nav .v1{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ffdca0;
+      background:rgba(241,169,64,.14);border:1px solid var(--um-line);padding:3px 8px;border-radius:var(--r-pill)}
+    .um-nav .backhub{font-size:.82rem;color:rgba(255,255,255,.55);display:inline-flex;align-items:center;gap:6px;padding-right:16px;border-right:1px solid rgba(255,255,255,.12)}
+    .um-nav .backhub:hover{color:#fff}
+    .um-nav .nlinks{display:flex;align-items:center;gap:26px;margin-left:auto}
+    .um-nav .nlink{color:rgba(255,255,255,.68);font-weight:500;font-size:.92rem}
+    .um-nav .nlink:hover{color:#fff}
+    @media(max-width:900px){.um-nav .nlinks{gap:16px}.um-nav .backhub,.um-nav .nlink.collections{display:none}}
+    @media(max-width:560px){.um-nav .nlink.drops{display:none}}
+
+    /* ---------- HERO ---------- */
+    .hero{position:relative;overflow:hidden;background:var(--um-ink);color:#fff;padding:104px 0 92px;isolation:isolate}
+    .hero::before{content:"";position:absolute;inset:0;z-index:-2;
+      background:
+        radial-gradient(58rem 34rem at 82% -6%,rgba(241,169,64,.34),transparent 60%),
+        radial-gradient(44rem 30rem at 6% 16%,rgba(255,207,114,.14),transparent 62%),
+        radial-gradient(46rem 40rem at 50% 122%,rgba(214,138,31,.22),transparent 60%);}
+    .hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+      background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+      background-size:56px 56px;mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 40%,transparent 100%);
+      -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 40%,transparent 100%)}
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center}
+    @media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:48px}}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+    .pill{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;font-weight:600;letter-spacing:.02em;
+      padding:6px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#f6ecd9}
+    .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--c-aconomy-mint);box-shadow:0 0 10px var(--c-aconomy-mint)}
+    .hero .eyebrow{color:#ffd79a}
+    .hero h1{font-size:clamp(2.6rem,5.6vw,4.15rem);letter-spacing:-.03em;line-height:1.01;margin-bottom:20px;font-weight:700}
+    .hero h1 .grad{background:linear-gradient(100deg,#ffcf72 0%,#f1a940 48%,#ffdca0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero .lead{color:rgba(246,236,217,.82);max-width:46ch;font-size:clamp(1.05rem,1.7vw,1.24rem)}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+    .hero-stats{display:flex;flex-wrap:wrap;gap:30px;margin-top:38px}
+    .hero-stats .st b{display:block;font-size:1.5rem;font-weight:700;color:#fff;letter-spacing:-.01em;line-height:1}
+    .hero-stats .st span{font-size:.8rem;color:rgba(246,236,217,.58);margin-top:5px;display:block}
+
+    /* ---------- HERO NFT GALLERY VISUAL ---------- */
+    .gallery{position:relative}
+    .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .nft{position:relative;border-radius:16px;overflow:hidden;background:#12152a;border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 24px 60px rgba(3,4,12,.55);transition:.35s cubic-bezier(.2,.7,.2,1)}
+    .nft:hover{transform:translateY(-6px);border-color:var(--um-line);box-shadow:0 32px 72px rgba(3,4,12,.7)}
+    .nft .art{aspect-ratio:1/1;position:relative;overflow:hidden}
+    .nft .art::after{content:"";position:absolute;inset:0;background:
+      radial-gradient(120% 90% at 20% 15%,rgba(255,255,255,.28),transparent 45%),
+      radial-gradient(80% 80% at 85% 90%,rgba(0,0,0,.35),transparent 55%);mix-blend-mode:overlay}
+    .nft .grain{position:absolute;inset:0;opacity:.5;background-image:
+      radial-gradient(rgba(255,255,255,.16) .6px,transparent .6px);background-size:6px 6px}
+    .nft .meta{padding:12px 13px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .nft .meta .t{font-size:.82rem;font-weight:700;color:#fff;letter-spacing:-.01em}
+    .nft .meta .c{font-size:.66rem;color:rgba(246,236,217,.5);margin-top:2px}
+    .nft .price{text-align:right;flex-shrink:0}
+    .nft .price .p{font-size:.82rem;font-weight:700;color:var(--um-gold-2)}
+    .nft .price .l{font-size:.6rem;color:rgba(246,236,217,.45);letter-spacing:.06em;text-transform:uppercase}
+    .nft.tall{grid-row:span 2}
+    /* offset the second column for a masonry/gallery rhythm */
+    .gallery-grid > .col{display:grid;gap:16px;align-content:start}
+    .gallery-grid > .col.push{margin-top:34px}
+    @media(max-width:940px){.gallery-grid > .col.push{margin-top:0}}
+    /* art gradient palettes */
+    .g1{background:linear-gradient(150deg,#ff8a00,#f1a940 45%,#7a4bff)}
+    .g2{background:linear-gradient(150deg,#00abbe,#00ffc2 60%,#0b6bff)}
+    .g3{background:linear-gradient(150deg,#7949e8,#c86bff 55%,#ff6bd0)}
+    .g4{background:linear-gradient(150deg,#0b1220,#2b3f7a 55%,#f1a940)}
+    .g5{background:linear-gradient(150deg,#ff5f6d,#ffc371)}
+    .float-badge{position:absolute;z-index:3;display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;
+      color:#231704;background:linear-gradient(135deg,var(--um-gold),var(--um-gold-2));padding:7px 12px;border-radius:var(--r-pill);
+      box-shadow:0 10px 26px rgba(241,169,64,.45)}
+    .float-badge.live{top:-14px;left:-10px}
+    .float-badge .ld{width:7px;height:7px;border-radius:50%;background:#231704;animation:pulse 1.4s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+    /* ---------- SECTIONS (light) ---------- */
+    .sec-head{max-width:62ch}
+    .sec-head .eyebrow{color:var(--um-gold-deep)}
+    .sec-head h2{margin:14px 0 14px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    @media(max-width:900px){.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}}
+
+    /* feature cards */
+    .feat{display:flex;flex-direction:column;gap:13px}
+    .feat .ic{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;
+      background:rgba(241,169,64,.12);border:1px solid var(--um-line);color:var(--um-gold-deep)}
+    .feat .ic svg{width:23px;height:23px}
+    .feat h3{font-size:1.18rem}
+    .feat p{color:var(--slate);margin:0;font-size:.96rem}
+
+    /* ---------- FEATURED DROPS (dark gallery band) ---------- */
+    .drops{position:relative;overflow:hidden;background:var(--um-ink-2);color:#fff;isolation:isolate}
+    .drops::before{content:"";position:absolute;inset:0;z-index:-1;
+      background:radial-gradient(48rem 30rem at 90% -10%,rgba(241,169,64,.24),transparent 58%),radial-gradient(40rem 30rem at 0% 110%,rgba(122,75,255,.14),transparent 55%)}
+    .drops .sec-head .eyebrow{color:#ffd79a}
+    .drops h2{color:#fff}
+    .drops .lead{color:rgba(246,236,217,.78)}
+    .drops-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+    .drops .seeall{color:#ffdca0;font-weight:600;font-size:.92rem;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+    .drops .seeall:hover{color:#fff}
+    .drops-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px}
+    @media(max-width:940px){.drops-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.drops-grid{grid-template-columns:1fr}}
+    .dcard{background:#12152a;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;transition:.3s cubic-bezier(.2,.7,.2,1)}
+    .dcard:hover{transform:translateY(-6px);border-color:var(--um-line);box-shadow:0 26px 60px rgba(3,4,12,.6)}
+    .dcard .art{aspect-ratio:4/3;position:relative;overflow:hidden}
+    .dcard .art::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 20% 12%,rgba(255,255,255,.24),transparent 46%),radial-gradient(80% 80% at 85% 92%,rgba(0,0,0,.4),transparent 55%);mix-blend-mode:overlay}
+    .dcard .grain{position:absolute;inset:0;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.16) .6px,transparent .6px);background-size:6px 6px}
+    .dcard .tagline{position:absolute;top:12px;left:12px;z-index:2;font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+      color:#231704;background:rgba(255,255,255,.9);padding:4px 9px;border-radius:var(--r-pill)}
+    .dcard .body{padding:15px 15px 17px}
+    .dcard .cname{font-size:1rem;font-weight:700;color:#fff;letter-spacing:-.01em}
+    .dcard .cby{font-size:.72rem;color:rgba(246,236,217,.5);margin:3px 0 12px}
+    .dcard .row{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)}
+    .dcard .row .l{font-size:.62rem;color:rgba(246,236,217,.45);letter-spacing:.06em;text-transform:uppercase}
+    .dcard .row .p{font-size:.92rem;font-weight:700;color:var(--um-gold-2)}
+    .dcard .row .items{font-size:.78rem;color:rgba(246,236,217,.7);text-align:right}
+
+    /* ---------- HOW IT WORKS ---------- */
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:44px}
+    @media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.steps{grid-template-columns:1fr}}
+    .step{position:relative;padding:26px 24px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);transition:.25s}
+    .step:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+    .step .n{font-family:'Figtree';font-weight:800;font-size:2.2rem;letter-spacing:-.02em;
+      background:linear-gradient(135deg,var(--um-gold-deep),var(--um-gold));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+    .step h4{font-size:1.06rem;margin:12px 0 6px}
+    .step p{color:var(--slate);font-size:.9rem;margin:0}
+
+    /* ---------- FOR CREATORS (dark strip) ---------- */
+    .creators{position:relative;overflow:hidden;background:var(--um-ink);color:#fff;isolation:isolate}
+    .creators::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(46rem 28rem at 12% 0%,rgba(241,169,64,.26),transparent 58%),radial-gradient(38rem 30rem at 100% 100%,rgba(255,207,114,.10),transparent 55%)}
+    .creators-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+    @media(max-width:940px){.creators-grid{grid-template-columns:1fr;gap:38px}}
+    .creators .eyebrow{color:#ffd79a}
+    .creators h2{color:#fff;margin:14px 0 16px}
+    .creators .lead{color:rgba(246,236,217,.82)}
+    .clist{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:14px}
+    .clist li{display:flex;gap:14px;align-items:flex-start}
+    .clist .ck{flex-shrink:0;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:var(--um-gold-2);
+      background:rgba(241,169,64,.16);border:1px solid var(--um-line)}
+    .clist .ck svg{width:16px;height:16px}
+    .clist b{color:#fff;font-weight:600}
+    .clist span{color:rgba(246,236,217,.68);font-size:.94rem}
+    /* creator earnings panel */
+    .earn{background:linear-gradient(180deg,#12152a 0%,#0e1120 100%);border:1px solid var(--um-line);border-radius:18px;
+      padding:28px;box-shadow:0 30px 70px rgba(3,4,12,.55);position:relative;overflow:hidden}
+    .earn::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;pointer-events:none;
+      background:linear-gradient(135deg,rgba(241,169,64,.55),transparent 42%,transparent 72%,rgba(255,207,114,.32));
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+    .earn .eh{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .earn .eh .lbl{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,236,217,.55)}
+    .earn .eh .roy{font-size:.72rem;font-weight:700;color:#231704;background:linear-gradient(135deg,var(--um-gold),var(--um-gold-2));padding:4px 10px;border-radius:var(--r-pill)}
+    .earn .amt{font-size:2.4rem;font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1}
+    .earn .amt small{font-size:1rem;font-weight:600;color:var(--um-gold-2);margin-left:6px}
+    .earn .sub{font-size:.82rem;color:rgba(246,236,217,.55);margin-top:6px}
+    .earn .bar{height:8px;border-radius:var(--r-pill);background:rgba(255,255,255,.08);margin:22px 0 8px;overflow:hidden}
+    .earn .bar i{display:block;height:100%;width:72%;background:linear-gradient(90deg,var(--um-gold-deep),var(--um-gold-2));border-radius:var(--r-pill)}
+    .earn .barrow{display:flex;justify-content:space-between;font-size:.72rem;color:rgba(246,236,217,.5)}
+    .earn .split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+    .earn .split .cell{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px}
+    .earn .split .cell b{display:block;font-size:1.2rem;color:#fff;font-weight:700}
+    .earn .split .cell span{font-size:.72rem;color:rgba(246,236,217,.55)}
+
+    /* ---------- CHAINS STRIP ---------- */
+    .chains{background:var(--bg)}
+    .chain-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px}
+    .chip-chain{display:inline-flex;align-items:center;gap:9px;font-size:.88rem;font-weight:600;color:var(--navy);
+      background:#fff;border:1px solid var(--gray-200);padding:11px 18px;border-radius:var(--r-pill);transition:.22s}
+    .chip-chain:hover{border-color:var(--um-gold);box-shadow:var(--shadow);transform:translateY(-2px)}
+    .chip-chain .cd{width:9px;height:9px;border-radius:50%}
+
+    /* ---------- CTA BAND ---------- */
+    .cta{position:relative;overflow:hidden;background:var(--um-ink);color:#fff;border-radius:var(--r-lg);padding:66px 56px;isolation:isolate;text-align:center}
+    .cta::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(42rem 24rem at 50% -20%,rgba(241,169,64,.42),transparent 60%),radial-gradient(30rem 20rem at 50% 120%,rgba(214,138,31,.28),transparent 60%)}
+    .cta .eyebrow{color:#ffd79a}
+    .cta h2{color:#fff;margin:14px 0 14px}
+    .cta p{color:rgba(246,236,217,.82);max-width:54ch;margin:0 auto 28px}
+    .cta .cta-btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+    @media(max-width:600px){.cta{padding:48px 24px}}
+
+    /* ---------- FOOTER extras ---------- */
+    .footer .f-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+    @media(max-width:820px){.footer .f-top{grid-template-columns:1fr 1fr}}
+    @media(max-width:520px){.footer .f-top{grid-template-columns:1fr}}
+    .footer .flogo{height:26px;margin-bottom:16px}
+    .footer .fabout{color:rgba(255,255,255,.62);font-size:.9rem;max-width:34ch}
+    .footer h5{color:#fff;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;font-weight:700}
+    .footer .fcol a{display:block;font-size:.92rem;padding:5px 0}
+    .footer .f-bottom{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
+      margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);font-size:.84rem;color:rgba(255,255,255,.5)}
+    .footer .f-bottom .rehab{display:inline-flex;align-items:center;gap:8px}
+    .footer .f-bottom .rehab:hover{color:#fff}
+
+    /* reveal stagger helper (base .reveal easing already in DS) */
+    .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="um-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="UnityMarket home">
+        <img src="../assets/logos/UnityMarket_White.png" alt="UnityMarket" />
+        <span class="v1">Legacy · v1</span>
+      </a>
+      <a class="backhub" href="../index.html" title="Back to Pandora hub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Pandora
+      </a>
+      <div class="nlinks">
+        <a class="nlink drops" href="#drops">Drops</a>
+        <a class="nlink collections" href="#collections">Collections</a>
+        <a class="nlink" href="#creators">For creators</a>
+        <a class="btn btn-unity" href="#drops" style="padding:10px 20px;font-size:.92rem">Explore the marketplace</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-badges reveal">
+          <span class="pill"><span class="dot"></span> Live on-chain marketplace</span>
+          <span class="pill">Part of Pandora</span>
+          <span class="pill">Multi-chain</span>
+        </div>
+        <p class="eyebrow reveal">UnityMarket · NFT marketplace</p>
+        <h1 class="reveal d1">The next-gen <span class="grad">NFT marketplace</span></h1>
+        <p class="lead reveal d2">
+          Mint, buy, sell and auction NFTs across curated collections — one gallery-grade
+          marketplace from the Pandora family, with creator royalties baked in and support for
+          every major chain.
+        </p>
+        <div class="hero-cta reveal d3">
+          <a class="btn btn-unity" href="#drops">Explore the marketplace
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-wire" href="#creators">Start creating</a>
+        </div>
+        <div class="hero-stats reveal d3">
+          <div class="st"><b>48K+</b><span>NFTs minted</span></div>
+          <div class="st"><b>2.6K</b><span>Creators</span></div>
+          <div class="st"><b>120+</b><span>Collections</span></div>
+          <div class="st"><b>5</b><span>Chains</span></div>
+        </div>
+      </div>
+
+      <!-- HERO NFT GALLERY -->
+      <div class="gallery reveal d2" aria-hidden="false">
+        <span class="float-badge live"><span class="ld"></span> Live auction</span>
+        <div class="gallery-grid">
+          <div class="col">
+            <div class="nft tall">
+              <div class="art"><div class="g1" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+              <div class="meta">
+                <div><div class="t">Aurum Genesis #017</div><div class="c">Unity Originals</div></div>
+                <div class="price"><div class="p">3.2 ETH</div><div class="l">Top bid</div></div>
+              </div>
+            </div>
+            <div class="nft">
+              <div class="art"><div class="g2" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+              <div class="meta">
+                <div><div class="t">Tidal Form #204</div><div class="c">Mint Editions</div></div>
+                <div class="price"><div class="p">0.8 ETH</div><div class="l">Buy now</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="col push">
+            <div class="nft">
+              <div class="art"><div class="g3" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+              <div class="meta">
+                <div><div class="t">Neon Relic #88</div><div class="c">Prism Vault</div></div>
+                <div class="price"><div class="p">1.5 ETH</div><div class="l">Buy now</div></div>
+              </div>
+            </div>
+            <div class="nft tall">
+              <div class="art"><div class="g4" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+              <div class="meta">
+                <div><div class="t">Nightshade #001</div><div class="c">Curated Drop</div></div>
+                <div class="price"><div class="p">2.1 ETH</div><div class="l">On auction</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ WHAT YOU CAN DO ============ -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">What you can do</p>
+        <h2>Everything an NFT marketplace should be</h2>
+        <p class="lead">From a first mint to a headline auction, UnityMarket covers the full lifecycle of onchain collectibles — for collectors and creators alike.</p>
+      </div>
+      <div class="grid-3" style="margin-top:44px">
+        <div class="card feat reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 18l-5.5 1.5 1-6.3L4 8.9 10 8z"/></svg></div>
+          <h3>Mint NFTs</h3>
+          <p>Turn any artwork, media or asset into an NFT in a few clicks. Metadata and media are pinned to decentralized storage, with royalties set at mint time.</p>
+        </div>
+        <div class="card feat reveal d1">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.3A1 1 0 0 0 5.6 19H17"/><circle cx="9" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg></div>
+          <h3>Buy &amp; sell</h3>
+          <p>List one-of-ones or whole editions at a fixed price and settle instantly against a shared orderbook. Browse, offer and own — all in a clean gallery view.</p>
+        </div>
+        <div class="card feat reveal d2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V10M10 21V6M14 21V13M18 21V8M4 6l6-3 5 4 5-3"/></svg></div>
+          <h3>Live auctions &amp; bidding</h3>
+          <p>Run timed auctions, place and raise bids, and let the smart contract handle settlement and withdrawals when the clock hits zero. No middleman.</p>
+        </div>
+        <div class="card feat reveal">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+          <h3>Curated collections</h3>
+          <p>Discover work grouped into hand-picked and creator-owned collections — go live instantly in the public collection or spin up a branded storefront of your own.</p>
+        </div>
+        <div class="card feat reveal d1">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3>Creator royalties</h3>
+          <p>Set a royalty once and earn on every resale, forever. UnityMarket honours a single royalty standard across the whole marketplace and the wider protocol.</p>
+        </div>
+        <div class="card feat reveal d2">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4.5v11L12 22 3 17.5v-11z"/><path d="M12 22V12M3 6.5L12 12l9-5.5"/></svg></div>
+          <h3>Multi-chain</h3>
+          <p>Trade where your community already is. UnityMarket indexes and settles NFTs across multiple chains through one unified, Pandora-powered marketplace.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED DROPS ============ -->
+  <section class="section drops" id="drops">
+    <div class="container">
+      <div class="drops-head reveal">
+        <div class="sec-head">
+          <p class="eyebrow">Featured drops</p>
+          <h2>Fresh from the gallery</h2>
+          <p class="lead">A rotating selection of the newest collections and one-of-one drops going live on UnityMarket right now.</p>
+        </div>
+        <a class="seeall" href="#collections">Browse all collections
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="drops-grid">
+        <div class="dcard reveal">
+          <div class="art"><span class="tagline">New drop</span><div class="g1" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+          <div class="body">
+            <div class="cname">Aurum Genesis</div>
+            <div class="cby">by Unity Originals</div>
+            <div class="row"><div><div class="l">Floor</div><div class="p">1.8 ETH</div></div><div class="items">88 items</div></div>
+          </div>
+        </div>
+        <div class="dcard reveal d1">
+          <div class="art"><span class="tagline">Auction</span><div class="g3" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+          <div class="body">
+            <div class="cname">Prism Vault</div>
+            <div class="cby">by Kaleido Studio</div>
+            <div class="row"><div><div class="l">Top bid</div><div class="p">2.4 ETH</div></div><div class="items">Ends 6h</div></div>
+          </div>
+        </div>
+        <div class="dcard reveal d2">
+          <div class="art"><span class="tagline">Trending</span><div class="g2" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+          <div class="body">
+            <div class="cname">Tidal Forms</div>
+            <div class="cby">by Marisol.eth</div>
+            <div class="row"><div><div class="l">Floor</div><div class="p">0.6 ETH</div></div><div class="items">240 items</div></div>
+          </div>
+        </div>
+        <div class="dcard reveal d3">
+          <div class="art"><span class="tagline">Curated</span><div class="g4" style="position:absolute;inset:0"></div><div class="grain"></div></div>
+          <div class="body">
+            <div class="cname">Nightshade</div>
+            <div class="cby">by Pandora Curated</div>
+            <div class="row"><div><div class="l">Floor</div><div class="p">1.1 ETH</div></div><div class="items">50 items</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS / COLLECTIONS ============ -->
+  <section class="section" id="collections">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">How it works</p>
+        <h2>From wallet to gallery in four steps</h2>
+        <p class="lead">Connect, create and collect — UnityMarket keeps the onchain plumbing out of your way so you can focus on the art.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="n">01</div>
+          <h4>Connect a wallet</h4>
+          <p>Link your Web3 wallet to browse, bid and manage everything you own in one place.</p>
+        </div>
+        <div class="step reveal d1">
+          <div class="n">02</div>
+          <h4>Mint or list</h4>
+          <p>Upload your work to mint a fresh NFT, or list an existing one for sale or auction.</p>
+        </div>
+        <div class="step reveal d2">
+          <div class="n">03</div>
+          <h4>Trade &amp; bid</h4>
+          <p>Buy instantly at a fixed price or place a bid in a live, on-chain timed auction.</p>
+        </div>
+        <div class="step reveal d3">
+          <div class="n">04</div>
+          <h4>Earn royalties</h4>
+          <p>Collect your sale, and keep earning a set royalty every time the piece resells.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOR CREATORS ============ -->
+  <section class="section creators" id="creators">
+    <div class="container creators-grid">
+      <div>
+        <p class="eyebrow reveal">For creators</p>
+        <h2 class="reveal d1">Built for the people who make the art</h2>
+        <p class="lead reveal d2">
+          UnityMarket puts creators first. Mint in minutes, launch a branded collection, and
+          set royalties that follow your work across every resale — no gatekeepers, no lost upside.
+        </p>
+        <ul class="clist reveal d2">
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Royalties that last.</b> <span>Set your percentage once and earn on every secondary sale, forever.</span></div></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Your own collection.</b> <span>Launch a personal, fully branded storefront — or go live instantly in the public collection.</span></div></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Batch drops.</b> <span>Mint whole editions at once and open sales to your community in a single flow.</span></div></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Own your assets.</b> <span>Media pinned to decentralized storage; the NFT lives on-chain, always yours.</span></div></li>
+        </ul>
+        <div class="hero-cta reveal d3">
+          <a class="btn btn-unity" href="#top">Start creating
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Creator earnings panel -->
+      <div class="earn reveal d2">
+        <div class="eh">
+          <span class="lbl">Creator earnings · lifetime</span>
+          <span class="roy">7.5% royalty</span>
+        </div>
+        <div class="amt">42.6<small>ETH</small></div>
+        <div class="sub">across primary sales + secondary royalties</div>
+        <div class="bar"><i></i></div>
+        <div class="barrow"><span>Secondary royalties</span><span>72%</span></div>
+        <div class="split">
+          <div class="cell"><b>1,284</b><span>Editions sold</span></div>
+          <div class="cell"><b>936</b><span>Unique collectors</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHAINS STRIP ============ -->
+  <section class="section chains">
+    <div class="container center">
+      <div class="sec-head reveal" style="margin:0 auto">
+        <p class="eyebrow" style="color:var(--um-gold-deep)">Multi-chain by design</p>
+        <h2>Your collectors, wherever they are</h2>
+        <p class="lead" style="margin:14px auto 0">One marketplace, indexed and settling across the chains your community already calls home.</p>
+      </div>
+      <div class="chain-row reveal d1">
+        <span class="chip-chain"><span class="cd" style="background:#627eea"></span>Ethereum</span>
+        <span class="chip-chain"><span class="cd" style="background:#0052ff"></span>Base</span>
+        <span class="chip-chain"><span class="cd" style="background:#28a0f0"></span>Arbitrum</span>
+        <span class="chip-chain"><span class="cd" style="background:#ff0420"></span>Optimism</span>
+        <span class="chip-chain"><span class="cd" style="background:#8247e5"></span>Polygon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="cta reveal">
+        <p class="eyebrow">Enter the gallery</p>
+        <h2>Start collecting &amp; creating on UnityMarket</h2>
+        <p>Connect your wallet to browse curated drops, bid in live auctions, and mint your first NFT — with royalties that keep earning long after the sale.</p>
+        <div class="cta-btns">
+          <a class="btn btn-unity" href="#drops">Explore the marketplace
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-onlight" href="../index.html">Back to Pandora</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="f-top">
+        <div>
+          <img class="flogo" src="../assets/logos/UnityMarket_White.png" alt="UnityMarket" />
+          <p class="fabout">A next-gen NFT marketplace from the Pandora family — mint, buy, sell and auction NFTs across curated collections, with creator royalties and multi-chain support.</p>
+        </div>
+        <div class="fcol">
+          <h5>Marketplace</h5>
+          <a href="#drops">Featured drops</a>
+          <a href="#collections">Collections</a>
+          <a href="#drops">Live auctions</a>
+          <a href="#features">How it works</a>
+        </div>
+        <div class="fcol">
+          <h5>Create</h5>
+          <a href="#creators">For creators</a>
+          <a href="#creators">Mint an NFT</a>
+          <a href="#creators">Royalties</a>
+          <a href="#collections">Launch a collection</a>
+        </div>
+        <div class="fcol">
+          <h5>Ecosystem</h5>
+          <a href="../index.html">Pandora Hub</a>
+          <a href="../express-protocol/index.html">Express Protocol</a>
+          <a href="../aconomy/index.html">Aconomy</a>
+          <a href="../propty/index.html">Propty</a>
+        </div>
+      </div>
+      <div class="f-bottom">
+        <div>© 2026 UnityMarket · Legacy v1 · Part of the Pandora Finance ecosystem</div>
+        <a class="rehab" href="../index.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          Back to Pandora hub
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script>
+    // Scroll-reveal
+    (function(){
+      var els = document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} });
+      },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+      els.forEach(function(e){io.observe(e)});
+    })();
+  </script>
+</body>
+</html>
