@@ -1,0 +1,347 @@
+<title>Aconomy Agent — AI Asset Validation & Tokenization</title>
+<style>
+  :root{
+    --bg:#e6eef0; --surface:#ffffff; --surface-2:#f2f8f9; --panel:#0a1f24;
+    --ink:#0f2329; --ink-2:#4a5f65; --ink-3:#84989e;
+    --line:#dde8ea; --line-2:#edf3f4;
+    --teal:#00abbe; --teal-ink:#067f8c; --teal-bg:#e2f5f7;
+    --navy:#172b4d;
+    --blue:#006cff; --blue-bg:#e9f1ff;
+    --amber:#a4670a; --amber-bg:#fbf0dd; --red:#c0392b;
+    --sans:'Figtree',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  /* top bar */
+  .top{display:flex;align-items:center;gap:14px;padding:12px 18px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1.1rem;color:var(--navy)}
+  .brand .m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#00abbe,#00d9c0);display:grid;place-items:center;color:#04252a;font-weight:800;font-size:.9rem;box-shadow:0 4px 12px rgba(0,171,190,.36)}
+  .agent-badge{display:inline-flex;align-items:center;gap:7px;font-size:.74rem;font-weight:700;color:var(--teal-ink);background:var(--teal-bg);padding:5px 11px;border-radius:999px}
+  .agent-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,171,190,.5)}70%{box-shadow:0 0 0 7px rgba(0,171,190,0)}100%{box-shadow:0 0 0 0 rgba(0,171,190,0)}}
+  .top .demo{margin-left:auto;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--ink-3);border:1px dashed var(--line);padding:5px 9px;border-radius:8px}
+  .top .reset{border:1px solid var(--line);background:#fff;color:var(--ink-2);font-weight:600;font-size:.82rem;padding:7px 13px;border-radius:9px;cursor:pointer}
+  .top .reset:hover{border-color:var(--ink-3);color:var(--ink)}
+
+  /* split */
+  .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);height:calc(100vh - 53px)}
+  @media(max-width:820px){.split{grid-template-columns:1fr;height:auto}}
+
+  /* chat */
+  .chat{display:flex;flex-direction:column;border-right:1px solid var(--line);min-height:0;background:var(--surface)}
+  .chat-scroll{flex:1;overflow-y:auto;padding:22px 20px;display:flex;flex-direction:column;gap:16px}
+  @media(max-width:820px){.chat-scroll{height:54vh}}
+  .msg{display:flex;gap:11px;max-width:92%}
+  .msg .av{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;font-weight:800;font-size:.78rem}
+  .msg.agent .av{background:var(--teal-bg);color:var(--teal-ink)}
+  .msg.user{align-self:flex-end;flex-direction:row-reverse}
+  .msg.user .av{background:var(--navy);color:#fff}
+  .bubble{padding:12px 15px;border-radius:14px;font-size:.95rem}
+  .msg.agent .bubble{background:var(--surface-2);border:1px solid var(--line);border-top-left-radius:5px}
+  .msg.user .bubble{background:var(--teal);color:#03272c;font-weight:500;border-top-right-radius:5px}
+  .typing{display:inline-flex;gap:4px;padding:14px 15px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--ink-3);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+
+  .prompts{border-top:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;font-size:.86rem;font-weight:500;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left;transition:.15s}
+  .chip:hover{border-color:var(--teal);color:var(--teal-ink);background:var(--teal-bg)}
+  .chip[disabled]{opacity:.4;cursor:default}
+  .fauxin{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--ink-3);font-size:.9rem;background:var(--surface-2)}
+  .fauxin .snd{margin-left:auto;width:28px;height:28px;border-radius:8px;background:var(--navy);display:grid;place-items:center;color:#fff}
+
+  /* workspace */
+  .ws{background:var(--panel);color:#e2eff0;min-height:0;display:flex;flex-direction:column}
+  .ws-head{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700;font-size:.9rem;color:#fff}
+  .ws-head .k{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6fa5ac}
+  .ws-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+  @media(max-width:820px){.ws-scroll{height:60vh}}
+  .ws-empty{color:#6fa5ac;font-size:.9rem;text-align:center;margin:auto;max-width:36ch}
+
+  .act{border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);opacity:0;transform:translateY(8px);animation:rise .35s forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .act-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .act-call{font-family:var(--mono);font-size:.8rem;color:#a9d4da;word-break:break-word}
+  .act-call .fn{color:#3fd8ea}
+  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#3fd8ea;animation:spin .7s linear infinite;flex:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ok{width:16px;height:16px;border-radius:50%;background:var(--teal);color:#04252a;display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+  .stop{width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+  .act-body{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:5px 10px;border-radius:999px}
+  .p-green{background:rgba(0,171,190,.2);color:#79ecf6}
+  .p-blue{background:rgba(0,108,255,.2);color:#9dc0ff}
+  .p-amber{background:rgba(164,103,10,.24);color:#f0c78a}
+  .p-red{background:rgba(192,57,43,.24);color:#ff9b8a}
+  .kv{display:flex;justify-content:space-between;font-size:.85rem;color:#a9d4da;gap:12px}
+  .kv b{color:#fff;font-family:var(--mono);font-weight:700}
+  .score{display:flex;align-items:center;gap:12px}
+  .score .n{font-family:var(--mono);font-size:1.7rem;font-weight:800;color:#79ecf6}
+  .wrapchips{display:flex;flex-wrap:wrap;gap:7px}
+
+  /* comps rows */
+  .comp{display:flex;align-items:center;gap:11px;font-size:.86rem}
+  .comp .th{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#123840,#0c262b);flex:none;display:grid;place-items:center;font-size:.9rem}
+  .comp .price{margin-left:auto;font-family:var(--mono);font-weight:700;color:#fff}
+  .comp .meta{color:#7fa5ac;font-size:.77rem}
+
+  /* condition grade bar */
+  .gradebar{height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:4px}
+  .gradebar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#00abbe,#00d9c0)}
+
+  /* provenance timeline */
+  .tl{display:flex;flex-direction:column;gap:0;margin:2px 0}
+  .tl .step{display:flex;gap:11px;padding-bottom:13px;position:relative}
+  .tl .step:not(:last-child)::before{content:"";position:absolute;left:6px;top:15px;bottom:-2px;width:2px;background:rgba(255,255,255,.14)}
+  .tl .dot{width:14px;height:14px;border-radius:50%;background:var(--teal);flex:none;margin-top:2px;box-shadow:0 0 0 3px rgba(0,171,190,.2)}
+  .tl .dot.bad{background:var(--red);box-shadow:0 0 0 3px rgba(192,57,43,.2)}
+  .tl .t{font-size:.86rem;color:#fff;font-weight:600}
+  .tl .s{font-size:.76rem;color:#7fa5ac}
+
+  /* piNFT token card */
+  .nft{border:1px solid rgba(0,171,190,.4);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(0,171,190,.12),rgba(255,255,255,.02))}
+  .nft-top{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .nft-badge{width:46px;height:46px;border-radius:10px;flex:none;background:linear-gradient(135deg,#00abbe,#00d9c0);display:grid;place-items:center;color:#04252a;font-weight:900;font-size:.66rem;letter-spacing:.02em}
+  .nft-top .nm{font-weight:800;color:#fff}.nft-top .id{font-family:var(--mono);font-size:.74rem;color:#7fa5ac}
+  .nft-body{padding:13px 15px;display:flex;flex-direction:column;gap:8px}
+  .listing{display:flex;align-items:center;gap:8px;border-top:1px dashed rgba(255,255,255,.12);margin-top:2px;padding-top:10px;font-size:.83rem;color:#a9d4da}
+  .listing .lp{margin-left:auto;font-family:var(--mono);font-weight:700;color:#79ecf6}
+
+  .foot{padding:9px 20px;font-size:.72rem;color:#5f8c93;border-top:1px solid rgba(255,255,255,.08)}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:8px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="top">
+  <div class="brand"><span class="m">Ac</span>Aconomy</div>
+  <span class="agent-badge"><span class="pulse"></span>AI Asset-Validation Agent</span>
+  <span class="demo">LIVE DEMO</span>
+  <button class="reset" id="reset">Reset</button>
+</div>
+
+<div class="split">
+  <section class="chat">
+    <div class="chat-scroll" id="chat"></div>
+    <div class="prompts">
+      <div class="chips" id="chips"></div>
+      <div class="fauxin">Ask the Aconomy agent to validate an asset…<span class="snd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </div>
+  </section>
+  <section class="ws">
+    <div class="ws-head"><span class="k">Agent workspace</span> <span id="ws-status">idle</span></div>
+    <div class="ws-scroll" id="ws"><div class="ws-empty" id="ws-empty">The agent's actions appear here as it works — authenticating, grading, valuing, and minting the asset as a tokenized RWA.</div></div>
+    <div class="foot">Illustrative demo · Aconomy by Aconomy Labs Inc. · actions and data are simulated</div>
+  </section>
+</div>
+
+<script>
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var chat=document.getElementById('chat'), ws=document.getElementById('ws'), chips=document.getElementById('chips');
+  var wsEmpty=document.getElementById('ws-empty'), wsStatus=document.getElementById('ws-status');
+
+  function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.appendChild(document.createTextNode(txt));return e;}
+  function clr(n){while(n.firstChild)n.removeChild(n.firstChild);}
+  function scrollC(){chat.scrollTop=chat.scrollHeight;}
+  function scrollW(){ws.scrollTop=ws.scrollHeight;}
+
+  // ---- queue player ----
+  var Q=[],busy=false;
+  function q(fn,delay){Q.push({fn:fn,delay:delay==null?600:delay});if(!busy)deq();}
+  function deq(){if(!Q.length){busy=false;wsStatus.textContent='done';return;}busy=true;var b=Q.shift();setTimeout(function(){b.fn();deq();},reduce?0:b.delay);}
+
+  // ---- chat ----
+  function userMsg(text){var m=el('div','msg user');m.appendChild(el('span','av','You'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function agentMsg(text){var m=el('div','msg agent');m.appendChild(el('span','av','AI'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function typing(){var m=el('div','msg agent');m.appendChild(el('span','av','AI'));var b=el('div','bubble typing');b.appendChild(el('i'));b.appendChild(el('i'));b.appendChild(el('i'));m.appendChild(b);chat.appendChild(m);scrollC();return m;}
+  function say(text,delay){q(function(){var t=typing();q(function(){chat.removeChild(t);agentMsg(text);},reduce?0:520);},delay);}
+
+  // ---- workspace actions ----
+  function actionCard(fnName,args){
+    if(wsEmpty&&wsEmpty.parentNode)wsEmpty.parentNode.removeChild(wsEmpty);
+    var card=el('div','act'),head=el('div','act-head'),spin=el('span','dotspin'),call=el('code','act-call');
+    call.appendChild(el('span','fn',fnName));call.appendChild(document.createTextNode('('+args+')'));
+    head.appendChild(spin);head.appendChild(call);card.appendChild(head);ws.appendChild(card);scrollW();
+    return {card:card,spin:spin};
+  }
+  function complete(ref,node,fail){
+    var mark=fail?el('span','stop','✕'):el('span','ok','✓');
+    ref.spin.parentNode.replaceChild(mark,ref.spin);
+    if(node){var b=el('div','act-body');b.appendChild(node);ref.card.appendChild(b);scrollW();}
+  }
+  // an "agent action": show running call, then complete with result
+  function act(fnName,args,build,runMs,fail){
+    q(function(){wsStatus.textContent='working…';var ref=actionCard(fnName,args);
+      q(function(){complete(ref,build?build():null,fail);},reduce?0:(runMs||760));
+    });
+  }
+
+  // ---- result builders ----
+  function reference(){
+    var w=el('div');
+    [['Model','Rolex Submariner Date'],['Reference','116610LN'],['Serial','random · 2019 (M-series)'],['Movement','Cal. 3135 · verified engraving']].forEach(function(kv){
+      var r=el('div','kv');r.appendChild(el('span',null,kv[0]));r.appendChild(el('b',null,kv[1]));w.appendChild(r);
+    });
+    var p=el('div');p.style.marginTop='8px';
+    var g=el('span','pill p-green');g.appendChild(document.createTextNode('Reference ↔ serial consistent'));p.appendChild(g);w.appendChild(p);
+    return w;
+  }
+  function provenance(){
+    var w=el('div','tl');
+    [['Retail sale','Authorized dealer · Geneva · 2019'],['Warranty card','Matches serial · registered'],['Ownership','2 verified owners · clean title'],['Theft / lien check','Clear · no adverse records']].forEach(function(st){
+      var step=el('div','step');step.appendChild(el('span','dot'));var m=el('div');m.appendChild(el('div','t',st[0]));m.appendChild(el('div','s',st[1]));step.appendChild(m);w.appendChild(step);
+    });
+    return w;
+  }
+  function condition(){
+    var w=el('div');
+    var s=el('div','score');var n=el('span','n','92');s.appendChild(n);
+    var p=el('span','pill p-green');p.appendChild(document.createTextNode('Grade A — Excellent'));s.appendChild(p);
+    w.appendChild(s);
+    var bar=el('div','gradebar');var fill=el('i');fill.style.width='92%';bar.appendChild(fill);w.appendChild(bar);
+    var c=el('div','wrapchips');c.style.marginTop='9px';
+    ['Unpolished case','Full box + papers','Original bracelet','Light desk wear'].forEach(function(t){var pp=el('span','pill p-blue');pp.appendChild(document.createTextNode(t));c.appendChild(pp);});
+    w.appendChild(c);return w;
+  }
+  var COMPS=[
+    {ico:'⌚',name:'116610LN · A / box+papers',meta:'Sold · Chrono24 · 3 wks ago',price:'$13,950'},
+    {ico:'⌚',name:'116610LN · A- / papers only',meta:'Sold · auction · 6 wks ago',price:'$12,800'},
+    {ico:'⌚',name:'116610LN · A / full set',meta:'Live ask · dealer',price:'$14,400'}
+  ];
+  function comps(){
+    var w=el('div');
+    COMPS.forEach(function(c){
+      var row=el('div','comp');
+      var th=el('span','th');th.appendChild(document.createTextNode(c.ico));row.appendChild(th);
+      var mid=el('div');mid.appendChild(el('div',null,c.name));mid.appendChild(el('div','meta',c.meta));row.appendChild(mid);
+      row.appendChild(el('span','price',c.price));
+      w.appendChild(row);
+    });
+    return w;
+  }
+  function valuation(){
+    var w=el('div');
+    var r1=el('div','kv');r1.appendChild(el('span',null,'Fair-value estimate'));var b=el('b',null,'$13,600');b.style.color='#79ecf6';r1.appendChild(b);w.appendChild(r1);
+    var r2=el('div','kv');r2.appendChild(el('span',null,'Confidence range'));r2.appendChild(el('b',null,'$13.0k – $14.2k'));w.appendChild(r2);
+    var r3=el('div','kv');r3.appendChild(el('span',null,'Method'));r3.appendChild(el('b',null,'3 comps · median-adj'));w.appendChild(r3);
+    var p=el('div');p.style.marginTop='8px';var g=el('span','pill p-green');g.appendChild(document.createTextNode('90-day trend +2.1%'));p.appendChild(g);w.appendChild(p);
+    return w;
+  }
+  function pinft(){
+    var w=el('div','nft');
+    var top=el('div','nft-top');
+    var badge=el('div','nft-badge');badge.appendChild(document.createTextNode('piNFT'));top.appendChild(badge);
+    var nm=el('div');nm.appendChild(el('div','nm','Rolex Submariner 116610LN'));nm.appendChild(el('div','id','tokenId #4417 · Aconomy RWA · 0x7b…C2e9'));top.appendChild(nm);
+    w.appendChild(top);
+    var body=el('div','nft-body');
+    var a=el('div','wrapchips');
+    var g=el('span','pill p-green');g.appendChild(document.createTextNode('✓ Authenticated'));a.appendChild(g);
+    var b2=el('span','pill p-blue');b2.appendChild(document.createTextNode('Grade A'));a.appendChild(b2);
+    var b3=el('span','pill p-blue');b3.appendChild(document.createTextNode('Provenance traced'));a.appendChild(b3);
+    body.appendChild(a);
+    var kv=el('div','kv');kv.style.marginTop='2px';kv.appendChild(el('span',null,'Record'));kv.appendChild(el('b',null,'On-chain · tamper-proof'));body.appendChild(kv);
+    var lst=el('div','listing');lst.appendChild(document.createTextNode('Listed on Aconomy marketplace'));var lp=el('span','lp','$13,600');lst.appendChild(lp);body.appendChild(lst);
+    w.appendChild(body);return w;
+  }
+
+  // ---- chips helper ----
+  function setChips(list){clr(chips);list.forEach(function(c){var b=el('button','chip',c.label);b.addEventListener('click',c.run);chips.appendChild(b);});}
+
+  // ---- happy path: authenticate + value + tokenize ----
+  function validateFlow(){
+    setChips([]);
+    userMsg("Authenticate & value my Rolex Submariner 116610LN, box + papers.");
+    say("On it. I'll authenticate the watch, grade its condition, pull market comparables, compute a fair value, then mint it as a tokenized RWA. Streaming my work on the right.",420);
+    act('read_reference_and_serial','{ asset:"watch", ref:"116610LN" }',reference,860);
+    say("Reference and serial line up. Cross-checking the model database and caliber engravings.",300);
+    act('cross_check_model_db','{ brand:"Rolex", caliber:"3135" }',function(){
+      var w=el('div');var r=el('div','kv');r.appendChild(el('span',null,'Model DB match'));var b=el('b',null,'Exact · 116610LN');b.style.color='#79ecf6';r.appendChild(b);w.appendChild(r);
+      var r2=el('div','kv');r2.appendChild(el('span',null,'Caliber engraving'));r2.appendChild(el('b',null,'Consistent'));w.appendChild(r2);return w;
+    },760);
+    act('verify_provenance','{ warranty_card:true, ownership_chain:true }',provenance,880);
+    say("Provenance is clean — clear title, no liens or theft records. Grading condition from your photos now.",300);
+    act('grade_condition','{ photos:6, model:"vision-grade-v3" }',condition,860);
+    act('pull_market_comparables','{ sources:["chrono24","auction","dealer"] }',comps,820);
+    say("Three strong comparables. Computing a fair value with a median adjustment for condition and full set.",280);
+    act('compute_fair_value','{ method:"comps_median_adjusted" }',valuation,780);
+    say("Fair value: about $13,600. Everything checks out — minting it as a piNFT and listing it on the Aconomy marketplace.",300);
+    act('mint_rwa_pinft','{ standard:"piNFT", chain:"Aconomy", list:true }',pinft,900);
+    say("Done. Your Submariner is authenticated (Grade A), valued at $13,600, and now lives on-chain as piNFT tokenId #4417 — listed and ready to sell, borrow against, or fractionalize.",340);
+    q(function(){setChips([
+      {label:"What is a piNFT?",run:pinftInfoFlow},
+      {label:"Run one that fails authentication",run:fakeFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+
+  // ---- alternative path: counterfeit / failed authentication -> refuse to tokenize ----
+  function fakeFlow(){
+    setChips([]);
+    userMsg("Authenticate & value this Submariner 116610LN — serial on the case doesn't match the papers.");
+    say("Checking. Same reference, but I'll verify the serial against the model database and the ownership chain before valuing anything.",420);
+    act('read_reference_and_serial','{ asset:"watch", ref:"116610LN" }',function(){
+      var w=el('div');
+      var r=el('div','kv');r.appendChild(el('span',null,'Reference'));r.appendChild(el('b',null,'116610LN'));w.appendChild(r);
+      var r2=el('div','kv');r2.appendChild(el('span',null,'Case serial ↔ papers'));var b=el('b',null,'Mismatch');b.style.color='#ff9b8a';r2.appendChild(b);w.appendChild(r2);return w;
+    },840);
+    say("Problem: the case serial doesn't match the warranty papers. Verifying against the manufacturer database.",300);
+    act('cross_check_model_db','{ serial:"claimed", caliber:"engraving" }',function(){
+      var w=el('div');
+      var s=el('div','score');var n=el('span','n');n.style.color='#ff9b8a';n.textContent='14';s.appendChild(n);
+      var p=el('span','pill p-red');p.appendChild(document.createTextNode('Fails authentication'));s.appendChild(p);w.appendChild(s);
+      var r=el('div','kv');r.style.marginTop='8px';r.appendChild(el('span',null,'Serial in DB'));var b=el('b',null,'Bound to another watch');b.style.color='#ff9b8a';r.appendChild(b);w.appendChild(r);
+      var r2=el('div','kv');r2.appendChild(el('span',null,'Caliber engraving'));var b2=el('b',null,'Aftermarket / recut');b2.style.color='#ff9b8a';r2.appendChild(b2);w.appendChild(r2);return w;
+    },860,true);
+    say("This is a serial/reference mismatch — the serial is already bound to a different watch and the engraving looks recut. I'm treating it as a suspected counterfeit.",320);
+    act('verify_provenance','{ ownership_chain:true, theft_check:true }',function(){
+      var w=el('div','tl');
+      [['Warranty card','Does NOT match case serial',true],['Ownership','Broken chain · unverifiable',true],['Manufacturer record','No matching production entry',true]].forEach(function(st){
+        var step=el('div','step');var d=el('span','dot bad');step.appendChild(d);var m=el('div');m.appendChild(el('div','t',st[0]));m.appendChild(el('div','s',st[1]));step.appendChild(m);w.appendChild(step);
+      });
+      return w;
+    },820,true);
+    say("Authentication failed, so I'm stopping here. I will NOT tokenize this — no piNFT is minted, nothing is listed. Minting a fake would put a counterfeit on-chain, and the whole point of Aconomy is that every tokenized asset is real.",340);
+    act('mint_rwa_pinft','{ standard:"piNFT" }',function(){
+      var w=el('div');
+      var p=el('div');var g=el('span','pill p-red');g.appendChild(document.createTextNode('Blocked — authentication required'));p.appendChild(g);w.appendChild(p);
+      var r=el('div','kv');r.style.marginTop='8px';r.appendChild(el('span',null,'Token minted'));var b=el('b',null,'None');b.style.color='#ff9b8a';r.appendChild(b);w.appendChild(r);
+      var r2=el('div','kv');r2.appendChild(el('span',null,'Seller / listing'));var b2=el('b',null,'Flagged for review');b2.style.color='#ff9b8a';r2.appendChild(b2);w.appendChild(r2);return w;
+    },820,true);
+    say("Rejected and the submission is flagged. If you can supply the matching original papers and a serial that checks out, I'll happily re-run authentication.",320);
+    q(function(){setChips([
+      {label:"Validate the genuine one",run:validateFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+
+  // ---- side flow: explain piNFT ----
+  function pinftInfoFlow(){
+    setChips([]);
+    userMsg("What is a piNFT?");
+    say("A piNFT (programmable interactive NFT) is Aconomy's token wrapper for a real-world asset. It carries the asset itself plus my full validation report — authenticity, condition grade, provenance and valuation — so the token is the asset's verifiable identity. Because it's programmable, you can list it, use it as loan collateral, or fractionalize ownership, all while the physical asset stays custodied and insured.",520);
+    q(function(){setChips([
+      {label:"Validate an asset →",run:validateFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+
+  function resetAll(){
+    Q.length=0;busy=false;clr(chat);clr(ws);wsStatus.textContent='idle';
+    var e=el('div','ws-empty');e.id='ws-empty';e.appendChild(document.createTextNode("The agent's actions appear here as it works — authenticating, grading, valuing, and minting the asset as a tokenized RWA."));ws.appendChild(e);wsEmpty=e;
+    agentMsg("Hi — I'm the Aconomy asset-validation agent. Hand me a real-world asset and I'll authenticate it, grade its condition, value it against market comparables, and mint it as a tokenized RWA (piNFT) — refusing to tokenize anything that fails authentication. Try one:");
+    setChips([
+      {label:"Authenticate & value my Rolex Submariner 116610LN (box + papers)",run:validateFlow},
+      {label:"Try one that's a counterfeit",run:fakeFlow},
+      {label:"How does tokenizing an asset work?",run:pinftInfoFlow}
+    ]);
+  }
+  document.getElementById('reset').addEventListener('click',resetAll);
+  resetAll();
+</script>
