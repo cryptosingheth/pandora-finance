@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pandora Finance — The studio building Web3 for the real world</title>
-<meta name="description" content="Pandora Finance is the parent studio behind a family of Web3 and real-world products — Aconomy, Propty, Express Protocol, The DPP Company and UnityMarket. Building at the intersection of blockchain and real-world value since 2021." />
+<title>Pandora Finance — an AI-native product company building software for real-world commerce</title>
+<meta name="description" content="Pandora Finance (Aconomy Labs Inc., Canada) is an AI-native product company and technology studio that builds and owns a portfolio of applied-AI products for real-world commerce — Aconomy, Propty, Express Protocol, The DPP Company and UnityMarket. Applied AI and agents on top of on-chain infrastructure, since 2021." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="assets/design-system.css" />
@@ -215,6 +215,49 @@
   .repo:hover .rpath svg{transform:translate(2px,-2px)}
   .repo .rdesc{color:var(--slate);font-size:.9rem;margin:6px 0 0;line-height:1.5}
   @media(max-width:960px){.oss-grid{grid-template-columns:1fr}}
+
+  /* --- ACONOMY IS LIVE (shipped-product showcase) --- */
+  #live{background:var(--hub-ink);color:#fff;position:relative;overflow:hidden}
+  #live::before{content:"";position:absolute;inset:0;opacity:.6;
+    background:radial-gradient(720px 460px at 12% 8%, rgba(0,171,190,.24), transparent 60%),
+              radial-gradient(620px 420px at 96% 92%, rgba(0,108,255,.24), transparent 62%)}
+  #live .wrap{position:relative}
+  #live h2,#live h3{color:#fff}
+  .live-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:center}
+  .live-lead{font-size:clamp(1.1rem,1.6vw,1.32rem);color:rgba(255,255,255,.82);line-height:1.6;max-width:44ch}
+  .live-note{margin-top:18px;color:rgba(255,255,255,.6);font-size:1rem;max-width:46ch}
+  .live-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;align-items:center}
+  /* Google Play badge — built inline, no external image */
+  .gplay{display:inline-flex;align-items:center;gap:12px;background:#000;color:#fff;border:1px solid rgba(255,255,255,.22);
+    border-radius:12px;padding:10px 20px;transition:transform .2s,border-color .2s,box-shadow .2s}
+  .gplay:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.5);box-shadow:var(--shadow)}
+  .gplay .gp-ic{width:26px;height:26px;flex:none}
+  .gplay .gp-txt{display:flex;flex-direction:column;line-height:1.1;text-align:left}
+  .gplay .gp-txt .s{font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+  .gplay .gp-txt .b{font-size:1.12rem;font-weight:700;letter-spacing:.01em}
+  .video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;
+    border-radius:var(--r-lg);border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow-lg);
+    background:rgba(255,255,255,.04)}
+  .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  @media(max-width:960px){.live-grid{grid-template-columns:1fr}}
+
+  /* --- INCUBATED IN CANADA (backed-by strip) --- */
+  #backed{background:linear-gradient(180deg,var(--bg),#fff)}
+  .backed-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:8px}
+  .backer{display:flex;gap:18px;align-items:flex-start;background:#fff;border:var(--edge);border-radius:var(--r-lg);
+    padding:26px 26px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+  .backer:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--pan-blue) 30%,transparent)}
+  .backer .bmark{flex:none;display:grid;place-items:center;width:60px;height:60px;border-radius:14px;
+    font-family:var(--mono);font-weight:800;font-size:1.02rem;letter-spacing:-.02em;
+    background:color-mix(in srgb,var(--pan-blue) 10%,#fff);color:var(--pan-blue);
+    border:1px solid color-mix(in srgb,var(--pan-blue) 22%,transparent)}
+  .backer .bbody{min-width:0}
+  .backer .bname{font-weight:800;font-size:1.12rem;letter-spacing:-.02em;color:var(--navy);
+    display:inline-flex;align-items:center;gap:7px}
+  .backer .bname svg{width:14px;height:14px;color:var(--slate);flex:none;transition:transform .25s}
+  .backer:hover .bname svg{transform:translate(2px,-2px)}
+  .backer .brole{color:var(--slate);font-size:.92rem;margin:6px 0 0;line-height:1.5}
+  @media(max-width:720px){.backed-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -248,19 +291,19 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="reveal">
-      <span class="kicker">Web3 product studio · Est. 2021</span>
-      <h1>The studio building <span class="grad">Web3 for the&nbsp;real world.</span></h1>
-      <p class="lead">Pandora Finance is the parent company behind a family of products that connect blockchain with tangible value — real-world assets, rental infrastructure, agentic commerce and digital collectibles. One studio, many bets, a single thesis: onchain rails belong in everyday life.</p>
+      <span class="kicker">AI-native product company · Est. 2021</span>
+      <h1>We build <span class="grad">AI-native software for the&nbsp;real world.</span></h1>
+      <p class="lead">Pandora Finance is an AI-native product company — a technology studio that builds and owns a portfolio of products for real-world commerce. Every product pairs applied AI and agents with on-chain infrastructure underneath. Most companies pick AI or on-chain. We build products on both.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#products">See the product family
+        <a class="btn btn-primary" href="#products">See the products we've built
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="btn btn-ghost" href="#about">Our story</a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><span class="n">4</span><span class="l">Products shipped</span></div>
+        <div class="stat"><span class="n">AI-led</span><span class="l">Applied AI &amp; agents</span></div>
+        <div class="stat"><span class="n">On-chain</span><span class="l">Infrastructure layer</span></div>
         <div class="stat"><span class="n">2021</span><span class="l">Building since</span></div>
-        <div class="stat"><span class="n">RWA</span><span class="l">Core focus area</span></div>
       </div>
     </div>
 
@@ -268,9 +311,9 @@
     <div class="orbit reveal" aria-hidden="true">
       <div class="orbit-core"></div>
       <div class="orbit-logo"><img src="assets/logos/Pandora_Dark.svg" alt="" /></div>
-      <div class="chip chip-1"><span class="dot" style="background:var(--c-aconomy)"></span><span><span class="t">Aconomy</span><br><span class="s">RWA marketplace</span></span></div>
-      <div class="chip chip-2"><span class="dot" style="background:var(--pan-blue)"></span><span><span class="t">Propty</span><br><span class="s">Rental rails</span></span></div>
-      <div class="chip chip-3"><span class="dot" style="background:var(--c-express)"></span><span><span class="t">Express</span><br><span class="s">Commerce SDK</span></span></div>
+      <div class="chip chip-1"><span class="dot" style="background:var(--c-aconomy)"></span><span><span class="t">Aconomy</span><br><span class="s">AI-assisted RWA market</span></span></div>
+      <div class="chip chip-2"><span class="dot" style="background:var(--pan-blue)"></span><span><span class="t">Propty</span><br><span class="s">Agentic rentals</span></span></div>
+      <div class="chip chip-3"><span class="dot" style="background:var(--c-express)"></span><span><span class="t">Express</span><br><span class="s">Agentic commerce SDK</span></span></div>
       <div class="chip chip-4"><span class="dot" style="background:var(--c-unity)"></span><span><span class="t">UnityMarket</span><br><span class="s">NFT market</span></span></div>
     </div>
   </div>
@@ -279,17 +322,17 @@
 <!-- ===================== TICKER ===================== -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-row">
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Real-world asset tokenization</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Asset-backed NFTs</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Rent guarantees &amp; newcomer credit</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic onchain commerce</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Induced liquidity</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Applied AI for real-world commerce</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic software</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>AI-assisted real-world assets</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>On-chain infrastructure</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Verifiable systems</span>
     <!-- duplicate for seamless loop -->
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Real-world asset tokenization</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Asset-backed NFTs</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Rent guarantees &amp; newcomer credit</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic onchain commerce</span>
-    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Induced liquidity</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Applied AI for real-world commerce</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic software</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>AI-assisted real-world assets</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>On-chain infrastructure</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Verifiable systems</span>
   </div>
 </div>
 
@@ -299,9 +342,9 @@
     <div class="sec-head reveal">
       <div>
         <span class="kicker">Our products</span>
-        <h2 style="margin-top:18px">Four products, one shared mission.</h2>
+        <h2 style="margin-top:18px">The products we've built and own.</h2>
       </div>
-      <p class="muted">Each product is an independent bet on bringing a slice of the real economy onchain — built, backed and shipped from inside the Pandora studio.</p>
+      <p class="muted">Each is an AI-native product we design, build and own — applied AI and agents on top of on-chain infrastructure, shipped from inside the Pandora studio.</p>
     </div>
 
     <div class="prod-grid">
@@ -311,12 +354,12 @@
         <div class="pcard-top">
           <div class="pmark">
             <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>
-            <div><div class="pname">Aconomy</div><div class="psub">Real-world asset marketplace</div></div>
+            <div><div class="pname">Aconomy</div><div class="psub">AI-assisted marketplace for real-world assets</div></div>
           </div>
           <span class="pnum">01</span>
         </div>
-        <p class="desc">A marketplace for physical assets. Tokenize luxury watches, real estate, gold and art into asset-backed Pi-NFTs, get them verified by asset validators, then trade, swap or borrow against them.</p>
-        <div class="ptags"><span class="ptag">RWA</span><span class="ptag">Pi-NFTs</span><span class="ptag">Asset validators</span></div>
+        <p class="desc">An AI-assisted marketplace for real-world assets. Tokenize, validate and trade luxury watches, real estate, gold and art — with AI guiding discovery and validation, and on-chain infrastructure making ownership verifiable. Live today as a mobile app.</p>
+        <div class="ptags"><span class="ptag">Applied AI</span><span class="ptag">Real-world assets</span><span class="ptag">Live mobile app</span></div>
         <span class="go">Explore Aconomy <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
 
@@ -325,12 +368,12 @@
         <div class="pcard-top">
           <div class="pmark">
             <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5M9.5 21v-5h5v5"/><path d="M15.5 12.5h.01"/></svg></span>
-            <div><div class="pname">Propty</div><div class="psub">Rental infrastructure</div></div>
+            <div><div class="pname">Propty</div><div class="psub">Agentic rental infrastructure</div></div>
           </div>
           <span class="pnum">02</span>
         </div>
-        <p class="desc">Rental infrastructure that guarantees rent for landlords and builds credit history for newcomers. Propty turns on-time rent into a portable, verifiable financial track record from day one.</p>
-        <div class="ptags"><span class="ptag">Rent guarantee</span><span class="ptag">Newcomer credit</span><span class="ptag">Proptech</span></div>
+        <p class="desc">Agentic rental infrastructure that protects both tenants and owners. AI-driven screening and matching pairs the right tenant with the right home, guarantees rent for owners, and turns on-time payments into a credit history newcomers can build from day one.</p>
+        <div class="ptags"><span class="ptag">AI screening &amp; matching</span><span class="ptag">Guaranteed rent</span><span class="ptag">Newcomer credit</span></div>
         <span class="go">Explore Propty <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
 
@@ -339,12 +382,12 @@
         <div class="pcard-top">
           <div class="pmark">
             <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/></svg></span>
-            <div><div class="pname">Express Protocol</div><div class="psub">SDK for onchain commerce</div></div>
+            <div><div class="pname">Express Protocol</div><div class="psub">SDK for agentic onchain commerce</div></div>
           </div>
           <span class="pnum">03</span>
         </div>
-        <p class="desc">The SDK for agentic onchain commerce. Give AI agents and applications the primitives to discover, transact and settle onchain — commerce rails built for a world where software does the buying.</p>
-        <div class="ptags"><span class="ptag">Developer SDK</span><span class="ptag">Agentic commerce</span><span class="ptag">Onchain</span></div>
+        <p class="desc">The SDK for agentic onchain commerce. It gives AI agents the primitives to discover, transact and settle on their own — with x402 payments built in — commerce rails for a world where software does the buying.</p>
+        <div class="ptags"><span class="ptag">AI agents</span><span class="ptag">x402 payments</span><span class="ptag">Developer SDK</span></div>
         <span class="go">Explore Express <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
 
@@ -353,12 +396,12 @@
         <div class="pcard-top">
           <div class="pmark">
             <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5"/><path d="m8.5 13 2.2 2.2L15 11"/></svg></span>
-            <div><div class="pname">The DPP Company</div><div class="psub">Digital Product Passports</div></div>
+            <div><div class="pname">The DPP Company</div><div class="psub">Agentic product intelligence</div></div>
           </div>
           <span class="pnum">04</span>
         </div>
-        <p class="desc">Verifiable digital passports for physical products. Brands prove authenticity, provenance and sustainability; consumers scan to verify — blockchain-anchored and built for the EU's Digital Product Passport mandate.</p>
-        <div class="ptags"><span class="ptag">Authenticity</span><span class="ptag">EU DPP</span><span class="ptag">Traceability</span></div>
+        <p class="desc">Agentic product intelligence for physical goods. AI verifies authenticity, provenance and sustainability, and consumers scan to check any item — built to align with the EU's Digital Product Passport mandate, with verifiable records underneath.</p>
+        <div class="ptags"><span class="ptag">AI verification</span><span class="ptag">Provenance</span><span class="ptag">EU DPP-aligned</span></div>
         <span class="go">Explore DPP <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
 
@@ -371,11 +414,35 @@
           </div>
           <span class="pnum">05</span>
         </div>
-        <p class="desc">A creator-first NFT marketplace to mint, discover, buy, sell and auction digital collectibles across curated collections. One of the earliest products in the Pandora family.</p>
-        <div class="ptags"><span class="ptag">NFTs</span><span class="ptag">Marketplace</span><span class="ptag">Creators</span></div>
+        <p class="desc">A creator-first NFT marketplace to mint, discover, buy, sell and auction digital collectibles across curated collections. One of the earliest products we built.</p>
+        <div class="ptags"><span class="ptag">NFTs</span><span class="ptag">Marketplace</span><span class="ptag">Earlier product</span></div>
         <span class="go">Explore UnityMarket <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
 
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ACONOMY IS LIVE ===================== -->
+<section id="live" class="section">
+  <div class="wrap live-grid">
+    <div class="reveal">
+      <span class="kicker on-dark">Aconomy is live</span>
+      <h2 style="margin-top:18px">A real, shipped product you can download today.</h2>
+      <p class="live-lead">Aconomy — our AI-assisted marketplace for real-world assets — is live as a mobile app. Tokenize, validate and trade real-world assets from your phone, on infrastructure that keeps ownership verifiable.</p>
+      <p class="live-note">Watch the brand film, or get the app on Google Play.</p>
+      <div class="live-cta">
+        <a class="gplay" href="https://play.google.com/store/apps/details?id=com.aconomyfoundation.aconomy" target="_blank" rel="noopener" aria-label="Get Aconomy on Google Play">
+          <svg class="gp-ic" viewBox="0 0 512 512" aria-hidden="true"><path fill="#00d3ff" d="M47 24 279 256 47 488c-9-5-15-15-15-27V51c0-12 6-22 15-27z"/><path fill="#00f076" d="m47 24c9-5 20-4 30 2l253 146-63 63L47 24z"/><path fill="#ffce00" d="m267 237 63-63 89 51c20 12 20 40 0 52l-89 51-63-63 32-14z"/><path fill="#ff3a44" d="m267 275 63 63L77 484c-10 6-21 7-30 2l220-211z"/></svg>
+          <span class="gp-txt"><span class="s">Get it on</span><span class="b">Google Play</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/_Kahfb18HE4" title="Aconomy — the first RWA P2P marketplace" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
     </div>
   </div>
 </section>
@@ -385,17 +452,48 @@
   <div class="wrap about-grid">
     <div class="reveal">
       <span class="kicker on-dark">About Pandora</span>
-      <h2 style="margin-top:18px">Building at the intersection of blockchain and real-world value.</h2>
-      <p class="about-lead">Founded around <strong>2021</strong>, Pandora Finance set out with a stubborn belief: the most valuable things in the world — property, collectibles, precious metals, everyday commerce — still live off-chain, illiquid and hard to reach. So we build the rails to bring them on.</p>
-      <p class="about-note">From that thesis grew a family of products. <strong style="color:#fff">Aconomy</strong> — our flagship real-world asset marketplace and the rebrand of our earliest work — sits alongside Propty, Express Protocol, The DPP Company and UnityMarket. Same studio, same mission, expressed across markets.</p>
+      <h2 style="margin-top:18px">An AI-native product company for real-world commerce.</h2>
+      <p class="about-lead">Pandora Finance is the brand of <strong>Aconomy Labs Inc.</strong>, a Canadian technology company founded around <strong>2021</strong>. We're a product company and venture studio: we build AI-native software for real-world commerce, and we own the products we ship. Applied AI and agents do the work; on-chain infrastructure keeps it verifiable.</p>
+      <p class="about-note">That approach runs across several domains. <strong style="color:#fff">Aconomy</strong> — our flagship, an AI-assisted marketplace for real-world assets — sits alongside Propty, Express Protocol, The DPP Company and UnityMarket. One studio, one team, a portfolio of products we build and own.</p>
     </div>
     <div class="about-panel reveal">
       <ul class="tl">
-        <li><span class="yr">2021</span><span class="ev"><strong>Pandora Finance is founded</strong><span>A studio to connect blockchain with real-world value.</span></span></li>
-        <li><span class="yr">2022</span><span class="ev"><strong>UnityMarket &amp; early NFT bets</strong><span>First experiments in onchain ownership and collectibles.</span></span></li>
-        <li><span class="yr">2023</span><span class="ev"><strong>Aconomy takes shape</strong><span>Pi-NFTs, asset validators and a testnet for tokenizing RWAs.</span></span></li>
-        <li><span class="yr">Now</span><span class="ev"><strong>An expanding product family</strong><span>Aconomy, Propty and Express Protocol pushing onchain into daily life.</span></span></li>
+        <li><span class="yr">2021</span><span class="ev"><strong>Aconomy Labs Inc. is founded</strong><span>A technology studio building software for real-world commerce.</span></span></li>
+        <li><span class="yr">2022</span><span class="ev"><strong>First products take shape</strong><span>Early work in digital ownership and marketplaces, incl. UnityMarket.</span></span></li>
+        <li><span class="yr">2023</span><span class="ev"><strong>Aconomy comes together</strong><span>An AI-assisted marketplace for real-world assets, on verifiable infrastructure.</span></span></li>
+        <li><span class="yr">Now</span><span class="ev"><strong>A growing product portfolio</strong><span>Aconomy live as a mobile app; Propty, Express Protocol and DPP extending the studio.</span></span></li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INCUBATED IN CANADA ===================== -->
+<section id="backed" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Incubated in Canada</span>
+        <h2 style="margin-top:18px">Backed by Canadian startup incubators.</h2>
+      </div>
+      <p class="muted">Aconomy Labs Inc. was incubated in Canada by IRCC-designated Startup Visa organizations.</p>
+    </div>
+
+    <div class="backed-grid">
+      <a class="backer reveal" href="https://tbdc.com" target="_blank" rel="noopener">
+        <span class="bmark">TBDC</span>
+        <div class="bbody">
+          <span class="bname">Toronto Business Development Centre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="brole">Toronto startup incubator; IRCC-designated Startup Visa organization.</p>
+        </div>
+      </a>
+
+      <a class="backer reveal" href="https://thebhive.ca" target="_blank" rel="noopener">
+        <span class="bmark">BHive</span>
+        <div class="bbody">
+          <span class="bname">BHive — Brampton <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="brole">Brampton's startup incubator, launched with TBDC; Startup Visa endorsement organization.</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -405,8 +503,8 @@
   <div class="wrap">
     <div class="reveal">
       <span class="kicker">Get in touch</span>
-      <h2 style="margin-top:18px">Building something real?<br>Let's talk.</h2>
-      <p class="lead" style="margin-top:20px">Whether you're an asset owner, a developer building on our SDK, a partner, or press — reach the Pandora team directly. We read everything.</p>
+      <h2 style="margin-top:18px">Want to follow<br>what we're building?</h2>
+      <p class="lead" style="margin-top:20px">Using one of our products, exploring our SDK, or just curious about the studio? Reach the Pandora team directly. We read everything.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="mailto:hello@pandora.finance">Email the team
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
@@ -423,7 +521,7 @@
       <div class="contact-row">
         <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <div><div class="k">Headquarters</div>
-          <address class="addr-ph"><b>Pandora Finance</b>111 Peter Street, 9th Floor, Suite 902<br>Toronto, ON&nbsp;&nbsp;M5V 2H1</address>
+          <address class="addr-ph"><b>Aconomy Labs Inc.</b>111 Peter Street, 9th Floor, Suite 902<br>Toronto, ON&nbsp;&nbsp;M5V 2H1</address>
         </div>
       </div>
       <div class="contact-row">
@@ -441,7 +539,7 @@
         <span class="kicker">Built in the open</span>
         <h2 style="margin-top:18px">Our work lives on GitHub.</h2>
       </div>
-      <p class="muted">From smart contracts to developer SDKs, much of what the studio ships is open source — audited, forkable and public. Read the code behind the products.</p>
+      <p class="muted">From applied-AI systems to on-chain infrastructure and developer SDKs, much of what we build is open source — audited, forkable and public. Read the code behind our products.</p>
     </div>
 
     <div class="oss-grid">
@@ -487,7 +585,7 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <img src="assets/logos/Pandora_White.png" alt="Pandora Finance" />
-        <p>The Web3 product studio building at the intersection of blockchain and real-world value since 2021.</p>
+        <p>Pandora Finance is the brand of Aconomy Labs Inc. — an AI-native product company building software for real-world commerce since 2021.</p>
         <div class="socials">
           <a href="https://x.com/aconomyfdn" target="_blank" rel="noopener" aria-label="X (Twitter)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
@@ -519,7 +617,7 @@
       <div class="foot-col">
         <h4>Registered office</h4>
         <address class="foot-addr">
-          <b>Pandora Finance</b>
+          <b>Aconomy Labs Inc. (Pandora Finance)</b>
           111 Peter Street, 9th Floor,<br>Suite 902, Toronto, ON&nbsp; M5V 2H1<br>
           <a href="mailto:hello@pandora.finance" style="margin-top:10px;display:inline-block">hello@pandora.finance</a>
         </address>
@@ -527,8 +625,8 @@
     </div>
 
     <div class="foot-bar">
-      <span>© 2021–2026 Pandora Finance. All rights reserved.</span>
-      <span class="made">Built for the real world <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span>
+      <span>© 2021–2026 Aconomy Labs Inc. (Pandora Finance). All rights reserved.</span>
+      <span class="made">AI-native, built for the real world <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span>
     </div>
   </div>
 </footer>
