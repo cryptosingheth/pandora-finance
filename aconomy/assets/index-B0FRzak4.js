@@ -3,11 +3,11 @@
     <nav class="navbar">
       <div class="navbar-content">
         <div class="logo">
-          <img src="/logo.svg" alt="Aconomy" class="logo-img" />
+          <img src="logo.svg" alt="Aconomy" class="logo-img" />
         </div>
         <nav class="nav-links">
           <a href="https://aconomy.io" class="nav-link" target="_blank" rel="noopener noreferrer">
-            <img src="/icons/shopping-bag.svg" alt="" class="nav-icon" />
+            <img src="icons/shopping-bag.svg" alt="" class="nav-icon" />
             Marketplace
           </a>
         </nav>
@@ -21,7 +21,7 @@
       <div class="hero-cta">
         <a href="https://aconomy.io" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
           Explore Marketplace
-          <img src="/icons/chevron-right.svg" alt="" class="btn-icon" />
+          <img src="icons/chevron-right.svg" alt="" class="btn-icon" />
         </a>
       </div>
     </div>
@@ -38,7 +38,7 @@
       <div class="features-grid">
         <div class="feature-card feature-card-from-left">
           <div class="feature-graphic feature-graphic-1">
-            <img src="/card1.png" alt="Universal Asset Ecosystem" />
+            <img src="card1.png" alt="Universal Asset Ecosystem" />
           </div>
           <h3 class="feature-title">A Universal Asset Ecosystem</h3>
           <p class="feature-description">
@@ -48,7 +48,7 @@
         
         <div class="feature-card feature-card-from-right">
           <div class="feature-graphic feature-graphic-2">
-            <img src="/card2.png" alt="Your Treasures, Your Control" />
+            <img src="card2.png" alt="Your Treasures, Your Control" />
           </div>
           <h3 class="feature-title">Your Treasures, Your Control</h3>
           <p class="feature-description">
@@ -58,7 +58,7 @@
         
         <div class="feature-card feature-card-from-left">
           <div class="feature-graphic feature-graphic-3">
-            <img src="/card3.png" alt="Planetary Marketplace 24x7" />
+            <img src="card3.png" alt="Planetary Marketplace 24x7" />
           </div>
           <h3 class="feature-title">Planetary Marketplace 24x7</h3>
           <p class="feature-description">
@@ -68,7 +68,7 @@
         
         <div class="feature-card feature-card-from-right">
           <div class="feature-graphic feature-graphic-4">
-            <img src="/card4.png" alt="Trade with Anyone Anywhere" />
+            <img src="card4.png" alt="Trade with Anyone Anywhere" />
           </div>
           <h3 class="feature-title">Trade with Anyone Anywhere</h3>
           <p class="feature-description">
@@ -237,31 +237,31 @@
         <div class="trade-accordion">
           <div class="trade-card expanded">
             <button type="button" class="trade-card-header" aria-expanded="true">
-              <img src="/icons/bar-chart.svg" alt="" class="trade-card-icon" />
+              <img src="icons/bar-chart.svg" alt="" class="trade-card-icon" />
               <span class="trade-card-title">Buy/Sell</span>
               <span class="trade-card-status trade-card-live"><span class="trade-live-dot"></span>LIVE</span>
               <span class="trade-card-toggle">−</span>
             </button>
             <div class="trade-card-body">
               <p>Imagine having your very own store where you set the rules. With Aconomy, list and sell your valuable assets at your chosen price.</p>
-              <a href="https://aconomy.io/marketplace/buy" class="btn btn-trade" target="_blank" rel="noopener noreferrer">Trade Now <img src="/icons/chevron-right.svg" alt="" class="btn-icon" /></a>
+              <a href="https://aconomy.io/marketplace/buy" class="btn btn-trade" target="_blank" rel="noopener noreferrer">Trade Now <img src="icons/chevron-right.svg" alt="" class="btn-icon" /></a>
             </div>
           </div>
           <div class="trade-card">
             <button type="button" class="trade-card-header" aria-expanded="false">
-              <img src="/icons/tag.svg" alt="" class="trade-card-icon" />
+              <img src="icons/tag.svg" alt="" class="trade-card-icon" />
               <span class="trade-card-title">Auction</span>
               <span class="trade-card-status trade-card-live"><span class="trade-live-dot"></span>LIVE</span>
               <span class="trade-card-toggle">+</span>
             </button>
             <div class="trade-card-body">
               <p>Place bids and win unique assets in real-time auctions. Compete with other buyers in a transparent, on-chain auction experience.</p>
-              <a href="https://aconomy.io/marketplace/auction" class="btn btn-trade" target="_blank" rel="noopener noreferrer">Trade Now <img src="/icons/chevron-right.svg" alt="" class="btn-icon" /></a>
+              <a href="https://aconomy.io/marketplace/auction" class="btn btn-trade" target="_blank" rel="noopener noreferrer">Trade Now <img src="icons/chevron-right.svg" alt="" class="btn-icon" /></a>
             </div>
           </div>
           <div class="trade-card trade-card-coming-soon">
             <button type="button" class="trade-card-header" aria-expanded="false">
-              <img src="/icons/percent.svg" alt="" class="trade-card-icon" />
+              <img src="icons/percent.svg" alt="" class="trade-card-icon" />
               <span class="trade-card-title">Lend & Borrow</span>
               <span class="trade-card-status trade-card-coming-soon-label">Coming Soon</span>
               <span class="trade-card-toggle">+</span>
@@ -272,7 +272,7 @@
           </div>
           <div class="trade-card trade-card-coming-soon">
             <button type="button" class="trade-card-header" aria-expanded="false">
-              <img src="/icons/refresh-cw.svg" alt="" class="trade-card-icon" />
+              <img src="icons/refresh-cw.svg" alt="" class="trade-card-icon" />
               <span class="trade-card-title">Swap</span>
               <span class="trade-card-status trade-card-coming-soon-label">Coming Soon</span>
               <span class="trade-card-toggle">+</span>
@@ -298,28 +298,28 @@
         <div class="validator-tiers">
           <div class="validator-tier">
             <div>
-              <img src="/icons/platinum.svg" alt="" class="validator-tier-icon" />
+              <img src="icons/platinum.svg" alt="" class="validator-tier-icon" />
               <span class="validator-tier-name">Platinum</span>
             </div>
             <span class="validator-tier-slots">SLOTS 80</span>
           </div>
           <div class="validator-tier">
             <div>
-              <img src="/icons/diamond.svg" alt="" class="validator-tier-icon" />
+              <img src="icons/diamond.svg" alt="" class="validator-tier-icon" />
               <span class="validator-tier-name">Diamond</span>
             </div>
             <span class="validator-tier-slots">SLOTS 200</span>
           </div>
           <div class="validator-tier">
             <div>
-              <img src="/icons/gold.svg" alt="" class="validator-tier-icon" />
+              <img src="icons/gold.svg" alt="" class="validator-tier-icon" />
               <span class="validator-tier-name">Gold</span>
             </div>
             <span class="validator-tier-slots">SLOTS 400</span>
           </div>
           <div class="validator-tier">
             <div>
-              <img src="/icons/silver.svg" alt="" class="validator-tier-icon" />
+              <img src="icons/silver.svg" alt="" class="validator-tier-icon" />
               <span class="validator-tier-name">Silver</span>
             </div>
             <span class="validator-tier-slots">SLOTS 800</span>
@@ -330,48 +330,48 @@
       <div class="validator-block validator-benefits">
         <div class="validator-block-grid">
           <div class="validator-graphic validator-graphic-earnings">
-            <img src="/section6-img1.webp" alt="Unlock Exciting Rewards" class="validator-graphic-image" />
+            <img src="section6-img1.webp" alt="Unlock Exciting Rewards" class="validator-graphic-image" />
           </div>
           <div class="validator-benefits-list">
             <p class="validator-subheading">WHAT ARE THE BENEFITS OF BEING A VALIDATOR?</p>
             <h3 class="validator-block-title">Unlock Exciting Rewards and Build Your Reputation</h3>
             <div class="validator-benefit-item">
-              <img src="/icons/award.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/award.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Performance Rewards</strong>
                 <p>Earn points for each asset you validate and redeem them for Aconomy tokens.</p>
               </div>
             </div>
             <div class="validator-benefit-item">
-              <img src="/icons/dollar-sign.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/dollar-sign.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>One-Time Commission</strong>
                 <p>Get immediate income from the first sale of each R-NFT you validate.</p>
               </div>
             </div>
             <div class="validator-benefit-item">
-              <img src="/icons/star.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/star.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Royalties</strong>
                 <p>Continue to earn royalties from subsequent sales of the assets you validate.</p>
               </div>
             </div>
             <div class="validator-benefit-item">
-              <img src="/icons/percent.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/percent.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Earn Staking Income</strong>
                 <p>Unlock reward claims after completing two asset redemptions and start earning regular payouts.</p>
               </div>
             </div>
             <div class="validator-benefit-item">
-              <img src="/icons/trending-up.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/trending-up.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Income Calculator</strong>
                 <p>Curious about your potential earnings? Use our easy calculator to see how much you can make.</p>
               </div>
             </div>
             <div class="validator-benefit-item">
-              <img src="/icons/arrow-right.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/arrow-right.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Join Early and Reap More</strong>
                 <p>Secure top spots and higher staking slots by joining early. The sooner you join, the more you earn!</p>
@@ -387,28 +387,28 @@
             <p class="validator-subheading">WHY BECOME A VALIDATOR?</p>
             <h3 class="validator-block-title">Build a Global Reputation</h3>
             <div class="validator-reason-item">
-              <img src="/icons/globe.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/globe.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Be Recognized Worldwide</strong>
                 <p>Gain global recognition as a trusted validator. Your reputation will boost your professional standing and unlock new opportunities.</p>
               </div>
             </div>
             <div class="validator-reason-item">
-              <img src="/icons/users.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/users.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Connect with Industry Leaders</strong>
                 <p>Join a dynamic community of asset owners, traders, and validators. Expand your network, access rare assets, and become a key player in the global marketplace.</p>
               </div>
             </div>
             <div class="validator-reason-item">
-              <img src="/icons/shield.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/shield.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Become a Trusted Leader</strong>
                 <p>Build a loyal following of users who value your expertise. Your authenticated assets will be in high demand, establishing you as a central figure in the Aconomy ecosystem.</p>
               </div>
             </div>
             <div class="validator-reason-item">
-              <img src="/icons/briefcase.svg" alt="" class="validator-benefit-icon" />
+              <img src="icons/briefcase.svg" alt="" class="validator-benefit-icon" />
               <div>
                 <strong>Work from Anywhere</strong>
                 <p>Enjoy the flexibility to work from anywhere. Aconomy offers a rewarding environment where you can grow your business and achieve financial success from the comfort of your home or any location in the world.</p>
@@ -416,7 +416,7 @@
             </div>
           </div>
           <div class="validator-graphic validator-graphic-globe">
-            <img src="/section6-img2.webp" alt="Build a Global Reputation" class="validator-graphic-image" />
+            <img src="section6-img2.webp" alt="Build a Global Reputation" class="validator-graphic-image" />
           </div>
         </div>
       </div>
@@ -433,7 +433,7 @@
             <div class="why-pi-nft-content">
               <div class="why-pi-nft-content-inner">
                 <h3 class="why-pi-nft-card-title">
-                  <img src="/icons/dollar-sign.svg" alt="" class="why-pi-nft-icon" />
+                  <img src="icons/dollar-sign.svg" alt="" class="why-pi-nft-icon" />
                   Liquidity Bond
                 </h3>
                 <ul class="why-pi-nft-list">
@@ -444,7 +444,7 @@
             </div>
             <div class="why-pi-nft-empty"></div>
             <div class="why-pi-nft-image-wrapper">
-              <img src="/section7-img1.webp" alt="Liquidity Bond" class="why-pi-nft-image" />
+              <img src="section7-img1.webp" alt="Liquidity Bond" class="why-pi-nft-image" />
             </div>
           </div>
         </div>
@@ -455,7 +455,7 @@
             <div class="why-pi-nft-content">
               <div class="why-pi-nft-content-inner">
                 <h3 class="why-pi-nft-card-title">
-                  <img src="/icons/shield.svg" alt="" class="why-pi-nft-icon" />
+                  <img src="icons/shield.svg" alt="" class="why-pi-nft-icon" />
                   Super Secure
                 </h3>
                 <ul class="why-pi-nft-list">
@@ -466,7 +466,7 @@
               </div>
             </div>
             <div class="why-pi-nft-image-wrapper">
-              <img src="/section7-img2.webp" alt="Super Secure" class="why-pi-nft-image" />
+              <img src="section7-img2.webp" alt="Super Secure" class="why-pi-nft-image" />
             </div>
           </div>
         </div>
@@ -476,7 +476,7 @@
             <div class="why-pi-nft-content">
               <div class="why-pi-nft-content-inner">
                 <h3 class="why-pi-nft-card-title">
-                  <img src="/icons/award.svg" alt="" class="why-pi-nft-icon" />
+                  <img src="icons/award.svg" alt="" class="why-pi-nft-icon" />
                   True Ownership
                 </h3>
                 <ul class="why-pi-nft-list">
@@ -487,7 +487,7 @@
             </div>
             <div class="why-pi-nft-empty"></div>
             <div class="why-pi-nft-image-wrapper">
-              <img src="/section7-img3.webp" alt="True Ownership" class="why-pi-nft-image" />
+              <img src="section7-img3.webp" alt="True Ownership" class="why-pi-nft-image" />
             </div>
           </div>
         </div>
@@ -498,7 +498,7 @@
             <div class="why-pi-nft-content">
               <div class="why-pi-nft-content-inner">
                 <h3 class="why-pi-nft-card-title">
-                  <img src="/icons/check-circle.svg" alt="" class="why-pi-nft-icon" />
+                  <img src="icons/check-circle.svg" alt="" class="why-pi-nft-icon" />
                   Easy to Use
                 </h3>
                 <ul class="why-pi-nft-list">
@@ -510,7 +510,7 @@
               </div>
             </div>
             <div class="why-pi-nft-image-wrapper">
-              <img src="/section7-img4.webp" alt="Easy to Use" class="why-pi-nft-image" />
+              <img src="section7-img4.webp" alt="Easy to Use" class="why-pi-nft-image" />
             </div>
           </div>
         </div>
@@ -523,7 +523,7 @@
       <div class="footer-main">
         <div class="footer-brand">
           <div class="footer-logo">
-            <img src="/logo.svg" alt="Aconomy" class="footer-logo-img" />
+            <img src="logo.svg" alt="Aconomy" class="footer-logo-img" />
           </div>
           <h3 class="footer-tagline">Your Gateway to the Asset Economy</h3>
           <p class="footer-description">Stay informed, stay engaged, and transform your assets with Aconomy.</p>
@@ -540,16 +540,16 @@
       <div class="footer-bottom">
         <div class="footer-social">
           <a href="https://x.com/AconomyFdn" class="footer-social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-            <img src="/icons/twitter.svg" alt="Twitter" class="footer-social-icon" />
+            <img src="icons/twitter.svg" alt="Twitter" class="footer-social-icon" />
           </a>
           <a href="https://www.instagram.com/aconomy_rwa/" class="footer-social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <img src="/icons/instagram.svg" alt="Instagram" class="footer-social-icon" />
+            <img src="icons/instagram.svg" alt="Instagram" class="footer-social-icon" />
           </a>
           <a href="https://www.linkedin.com/company/pandorafinance" class="footer-social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-            <img src="/icons/linkedin.svg" alt="LinkedIn" class="footer-social-icon" />
+            <img src="icons/linkedin.svg" alt="LinkedIn" class="footer-social-icon" />
           </a>
           <a href="https://t.me/aconomyfoundation" class="footer-social-link" aria-label="Telegram" target="_blank" rel="noopener noreferrer">
-            <img src="/icons/telegram.svg" alt="Telegram" class="footer-social-icon" />
+            <img src="icons/telegram.svg" alt="Telegram" class="footer-social-icon" />
           </a>
         </div>
         <div class="footer-copyright">
