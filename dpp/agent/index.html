@@ -1,0 +1,235 @@
+<title>DPP Agent — Agentic Product Intelligence</title>
+<style>
+  :root{
+    --bg:#e9efec; --surface:#ffffff; --surface-2:#f3f8f5; --panel:#0e1f18;
+    --ink:#122019; --ink-2:#4c5f56; --ink-3:#88998f;
+    --line:#e0e8e3; --line-2:#eef3f0;
+    --em:#0f9d6b; --em-ink:#0a7a52; --em-bg:#e7f6ef;
+    --blue:#2b74e6; --amber:#a4670a; --amber-bg:#fbf0dd; --red:#c0392b;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  .top{display:flex;align-items:center;gap:14px;padding:12px 18px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1.1rem}
+  .brand .m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#0f9d6b,#3fca92);display:grid;place-items:center;color:#fff;font-weight:800;font-size:.78rem;box-shadow:0 4px 12px rgba(15,157,107,.34)}
+  .agent-badge{display:inline-flex;align-items:center;gap:7px;font-size:.74rem;font-weight:700;color:var(--em-ink);background:var(--em-bg);padding:5px 11px;border-radius:999px}
+  .agent-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--em);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(15,157,107,.5)}70%{box-shadow:0 0 0 7px rgba(15,157,107,0)}100%{box-shadow:0 0 0 0 rgba(15,157,107,0)}}
+  .top .demo{margin-left:auto;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--ink-3);border:1px dashed var(--line);padding:5px 9px;border-radius:8px}
+  .top .reset{border:1px solid var(--line);background:#fff;color:var(--ink-2);font-weight:600;font-size:.82rem;padding:7px 13px;border-radius:9px;cursor:pointer}
+  .top .reset:hover{border-color:var(--ink-3);color:var(--ink)}
+
+  .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);height:calc(100vh - 53px)}
+  @media(max-width:820px){.split{grid-template-columns:1fr;height:auto}}
+
+  .chat{display:flex;flex-direction:column;border-right:1px solid var(--line);min-height:0;background:var(--surface)}
+  .chat-scroll{flex:1;overflow-y:auto;padding:22px 20px;display:flex;flex-direction:column;gap:16px}
+  @media(max-width:820px){.chat-scroll{height:54vh}}
+  .msg{display:flex;gap:11px;max-width:92%}
+  .msg .av{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;font-weight:800;font-size:.78rem}
+  .msg.agent .av{background:var(--em-bg);color:var(--em-ink)}
+  .msg.user{align-self:flex-end;flex-direction:row-reverse}
+  .msg.user .av{background:var(--ink);color:#fff}
+  .bubble{padding:12px 15px;border-radius:14px;font-size:.95rem}
+  .msg.agent .bubble{background:var(--surface-2);border:1px solid var(--line);border-top-left-radius:5px}
+  .msg.user .bubble{background:var(--em);color:#fff;border-top-right-radius:5px}
+  .typing{display:inline-flex;gap:4px;padding:14px 15px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--ink-3);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+
+  .prompts{border-top:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;font-size:.86rem;font-weight:500;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left;transition:.15s}
+  .chip:hover{border-color:var(--em);color:var(--em-ink);background:var(--em-bg)}
+  .fauxin{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--ink-3);font-size:.9rem;background:var(--surface-2)}
+  .fauxin .snd{margin-left:auto;width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:#fff}
+
+  .ws{background:var(--panel);color:#e4efe9;min-height:0;display:flex;flex-direction:column}
+  .ws-head{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700;font-size:.9rem;color:#fff}
+  .ws-head .k{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7fa593}
+  .ws-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+  @media(max-width:820px){.ws-scroll{height:60vh}}
+  .ws-empty{color:#7fa593;font-size:.9rem;text-align:center;margin:auto;max-width:34ch}
+
+  .act{border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);opacity:0;transform:translateY(8px);animation:rise .35s forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .act-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .act-call{font-family:var(--mono);font-size:.8rem;color:#b6d3c6;word-break:break-word}
+  .act-call .fn{color:#68e0aa}
+  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#68e0aa;animation:spin .7s linear infinite;flex:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ok{width:16px;height:16px;border-radius:50%;background:var(--em);color:#fff;display:grid;place-items:center;font-size:11px;flex:none}
+  .act-body{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:5px 10px;border-radius:999px}
+  .p-green{background:rgba(15,157,107,.2);color:#7ff0c0}
+  .p-blue{background:rgba(43,116,230,.2);color:#9dc0ff}
+  .p-amber{background:rgba(164,103,10,.24);color:#f0c78a}
+  .kv{display:flex;justify-content:space-between;font-size:.85rem;color:#b6d3c6;gap:12px}
+  .kv b{color:#fff;font-family:var(--mono);font-weight:700}
+  .score{display:flex;align-items:center;gap:12px}
+  .score .n{font-family:var(--mono);font-size:1.7rem;font-weight:800;color:#7ff0c0}
+
+  /* provenance timeline */
+  .tl{display:flex;flex-direction:column;gap:0;margin:2px 0}
+  .tl .step{display:flex;gap:11px;padding-bottom:13px;position:relative}
+  .tl .step:not(:last-child)::before{content:"";position:absolute;left:6px;top:15px;bottom:-2px;width:2px;background:rgba(255,255,255,.14)}
+  .tl .dot{width:14px;height:14px;border-radius:50%;background:var(--em);flex:none;margin-top:2px;box-shadow:0 0 0 3px rgba(15,157,107,.2)}
+  .tl .t{font-size:.86rem;color:#fff;font-weight:600}
+  .tl .s{font-size:.76rem;color:#89ab9c}
+
+  /* passport card */
+  .pp{border:1px solid rgba(15,157,107,.4);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(15,157,107,.1),rgba(255,255,255,.02))}
+  .pp-top{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .pp-qr{width:44px;height:44px;border-radius:8px;flex:none;background:
+    conic-gradient(#fff 0 0) padding-box,#0e1f18;
+    display:grid;grid-template:repeat(5,1fr)/repeat(5,1fr);gap:2px;padding:5px;background:#fff}
+  .pp-qr i{background:#0e1f18;border-radius:1px}
+  .pp-qr i.o{background:transparent}
+  .pp-top .nm{font-weight:800;color:#fff}.pp-top .id{font-family:var(--mono);font-size:.74rem;color:#89ab9c}
+  .pp-body{padding:13px 15px;display:flex;flex-direction:column;gap:8px}
+  .wrapchips{display:flex;flex-wrap:wrap;gap:7px}
+  .foot{padding:9px 20px;font-size:.72rem;color:#6f9484;border-top:1px solid rgba(255,255,255,.08)}
+  :focus-visible{outline:2px solid var(--em);outline-offset:2px;border-radius:8px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="top">
+  <div class="brand"><span class="m">DPP</span>The DPP Company</div>
+  <span class="agent-badge"><span class="pulse"></span>AI Verification Agent</span>
+  <span class="demo">LIVE DEMO</span>
+  <button class="reset" id="reset">Reset</button>
+</div>
+
+<div class="split">
+  <section class="chat">
+    <div class="chat-scroll" id="chat"></div>
+    <div class="prompts">
+      <div class="chips" id="chips"></div>
+      <div class="fauxin">Ask the DPP agent to verify a product…<span class="snd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </div>
+  </section>
+  <section class="ws">
+    <div class="ws-head"><span class="k">Agent workspace</span> <span id="ws-status">idle</span></div>
+    <div class="ws-scroll" id="ws"><div class="ws-empty" id="ws-empty">The agent's verification steps appear here — authenticity, provenance, sustainability, passport.</div></div>
+    <div class="foot">Illustrative demo · The DPP Company by Aconomy Labs Inc. · actions and data are simulated</div>
+  </section>
+</div>
+
+<script>
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var chat=document.getElementById('chat'), ws=document.getElementById('ws'), chips=document.getElementById('chips');
+  var wsEmpty=document.getElementById('ws-empty'), wsStatus=document.getElementById('ws-status');
+  function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.appendChild(document.createTextNode(txt));return e;}
+  function clr(n){while(n.firstChild)n.removeChild(n.firstChild);}
+  function scrollC(){chat.scrollTop=chat.scrollHeight;}function scrollW(){ws.scrollTop=ws.scrollHeight;}
+
+  var Q=[],busy=false;
+  function q(fn,delay){Q.push({fn:fn,delay:delay==null?600:delay});if(!busy)deq();}
+  function deq(){if(!Q.length){busy=false;wsStatus.textContent='done';return;}busy=true;var b=Q.shift();setTimeout(function(){b.fn();deq();},reduce?0:b.delay);}
+
+  function userMsg(text){var m=el('div','msg user');m.appendChild(el('span','av','You'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function agentMsg(text){var m=el('div','msg agent');m.appendChild(el('span','av','AI'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function typing(){var m=el('div','msg agent');m.appendChild(el('span','av','AI'));var b=el('div','bubble typing');b.appendChild(el('i'));b.appendChild(el('i'));b.appendChild(el('i'));m.appendChild(b);chat.appendChild(m);scrollC();return m;}
+  function say(text,delay){q(function(){var t=typing();q(function(){chat.removeChild(t);agentMsg(text);},reduce?0:520);},delay);}
+
+  function actionCard(fnName,args){
+    if(wsEmpty&&wsEmpty.parentNode)wsEmpty.parentNode.removeChild(wsEmpty);
+    var card=el('div','act'),head=el('div','act-head'),spin=el('span','dotspin'),call=el('code','act-call');
+    call.appendChild(el('span','fn',fnName));call.appendChild(document.createTextNode('('+args+')'));
+    head.appendChild(spin);head.appendChild(call);card.appendChild(head);ws.appendChild(card);scrollW();
+    return {card:card,spin:spin};
+  }
+  function complete(ref,node){var ok=el('span','ok','✓');ref.spin.parentNode.replaceChild(ok,ref.spin);if(node){var b=el('div','act-body');b.appendChild(node);ref.card.appendChild(b);scrollW();}}
+  function act(fnName,args,build,runMs){q(function(){wsStatus.textContent='verifying…';var ref=actionCard(fnName,args);q(function(){complete(ref,build?build():null);},reduce?0:(runMs||760));});}
+
+  // result builders
+  function authenticity(){
+    var w=el('div');
+    var s=el('div','score');var n=el('span','n','98');s.appendChild(n);
+    var p=el('span','pill p-green');p.appendChild(document.createTextNode('Genuine — NFC tag matches on-anchor record'));s.appendChild(p);
+    w.appendChild(s);
+    var r=el('div','kv');r.style.marginTop='8px';r.appendChild(el('span',null,'Authenticity score'));r.appendChild(el('b',null,'98 / 100'));w.appendChild(r);
+    return w;
+  }
+  function provenance(){
+    var w=el('div','tl');
+    [['Manufactured','Florence, Italy · Mar 2023'],['Quality control','Passed · batch #A-2231'],['First retail','Toronto boutique · Jun 2023'],['Ownership','2 verified owners · resale-ready']].forEach(function(st){
+      var step=el('div','step');step.appendChild(el('span','dot'));var m=el('div');m.appendChild(el('div','t',st[0]));m.appendChild(el('div','s',st[1]));step.appendChild(m);w.appendChild(step);
+    });
+    return w;
+  }
+  function sustainability(){
+    var w=el('div');
+    var r1=el('div','kv');r1.appendChild(el('span',null,'Materials'));r1.appendChild(el('b',null,'Full-grain leather · recycled lining'));w.appendChild(r1);
+    var r2=el('div','kv');r2.appendChild(el('span',null,'Carbon footprint'));r2.appendChild(el('b',null,'12.4 kg CO₂e'));w.appendChild(r2);
+    var c=el('div','wrapchips');c.style.marginTop='8px';
+    ['Leather Working Group','REACH compliant','Repairable'].forEach(function(t){var p=el('span','pill p-blue');p.appendChild(document.createTextNode(t));c.appendChild(p);});
+    w.appendChild(c);return w;
+  }
+  function passport(){
+    var w=el('div','pp');
+    var top=el('div','pp-top');
+    var qr=el('div','pp-qr');[1,0,1,1,0, 0,1,1,0,1, 1,1,0,1,1, 0,1,1,1,0, 1,0,1,0,1].forEach(function(v){qr.appendChild(el('i',v?'':'o'));});
+    top.appendChild(qr);var nm=el('div');nm.appendChild(el('div','nm','Aurelia Tote — Nero'));nm.appendChild(el('div','id','DPP-8842 · issued 2026-07'));top.appendChild(nm);
+    w.appendChild(top);
+    var body=el('div','pp-body');
+    var a=el('div','wrapchips');
+    var g=el('span','pill p-green');g.appendChild(document.createTextNode('✓ Authentic'));a.appendChild(g);
+    var b2=el('span','pill p-blue');b2.appendChild(document.createTextNode('Provenance traced'));a.appendChild(b2);
+    var b3=el('span','pill p-blue');b3.appendChild(document.createTextNode('Sustainability verified'));a.appendChild(b3);
+    body.appendChild(a);
+    var kv=el('div','kv');kv.style.marginTop='6px';kv.appendChild(el('span',null,'Record'));kv.appendChild(el('b',null,'Anchored · tamper-proof'));body.appendChild(kv);
+    w.appendChild(body);return w;
+  }
+
+  function setChips(list){clr(chips);list.forEach(function(c){var b=el('button','chip',c.label);b.addEventListener('click',c.run);chips.appendChild(b);});}
+  function verifyFlow(){
+    setChips([]);
+    userMsg("Verify this product — the scan says it's an Aurelia Tote handbag, serial DPP-8842.");
+    say("Scanning now. I'll check authenticity, trace its provenance, verify its materials, and issue the passport.",420);
+    act('authenticate','{ serial:"DPP-8842", nfc_tag:"0x9c…e1" }',authenticity,820);
+    say("Genuine — the NFC tag matches the anchored record. Tracing where it's been.",300);
+    act('trace_provenance','{ product_id:"DPP-8842" }',provenance,820);
+    act('verify_sustainability','{ materials:true, certifications:true }',sustainability,760);
+    say("Materials and certifications check out. Issuing the digital product passport.",260);
+    act('issue_passport','{ standard:"EU DPP / ESPR" }',passport,780);
+    say("Verified genuine and passported. Anyone can scan the QR to see authenticity, provenance, and sustainability — no counterfeits, no guesswork.",320);
+    q(function(){setChips([
+      {label:"How do you know it's authentic?",run:function(){setChips([]);userMsg("How do you know it's authentic?");say("Every genuine unit ships with an NFC tag whose signature is written to a tamper-proof record. I read the tag, check the signature against that record, and compare the item's fingerprint. A counterfeit fails all three — this one passed at 98/100.",420);q(function(){setChips([{label:"Show provenance again",run:function(){act('trace_provenance','{ product_id:"DPP-8842" }',provenance,600);}},{label:"↺ Start over",run:resetAll}]);},200);}},
+      {label:"Is it a counterfeit? (try one)",run:fakeFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+  function fakeFlow(){
+    setChips([]);
+    userMsg("Run it on a suspected counterfeit — serial DPP-8842 but a cloned tag.");
+    say("Checking. Same serial, but let me verify the tag signature and fingerprint.",420);
+    act('authenticate','{ serial:"DPP-8842", nfc_tag:"0x00…forged" }',function(){
+      var w=el('div');var s=el('div','score');var n=el('span','n');n.style.color='#ff9b8a';n.textContent='11';s.appendChild(n);
+      var p=el('span','pill p-amber');p.appendChild(document.createTextNode('Counterfeit — tag signature does not match'));s.appendChild(p);w.appendChild(s);
+      var r=el('div','kv');r.style.marginTop='8px';r.appendChild(el('span',null,'Serial reuse'));var b=el('b');b.style.color='#ff9b8a';b.textContent='Flagged';r.appendChild(b);w.appendChild(r);return w;
+    },820);
+    say("Rejected — the tag is cloned and the serial is already bound to a genuine unit. No passport issued, and the seller is flagged. That's the point: the passport can't be faked.",320);
+    q(function(){setChips([{label:"Verify the genuine one",run:verifyFlow},{label:"↺ Start over",run:resetAll}]);},200);
+  }
+
+  function resetAll(){
+    Q.length=0;busy=false;clr(chat);clr(ws);wsStatus.textContent='idle';
+    var e=el('div','ws-empty');e.id='ws-empty';e.appendChild(document.createTextNode("The agent's verification steps appear here — authenticity, provenance, sustainability, passport."));ws.appendChild(e);wsEmpty=e;
+    agentMsg("Hi — I'm the DPP verification agent. Point me at a physical product and I'll authenticate it, trace its provenance, verify its materials, and issue its Digital Product Passport. Try one:");
+    setChips([
+      {label:"Verify an Aurelia Tote handbag (serial DPP-8842)",run:verifyFlow},
+      {label:"Why does the EU require this?",run:function(){setChips([]);userMsg("Why does the EU require this?");say("The EU's ESPR mandates a Digital Product Passport for more and more product categories — batteries first, then textiles and electronics. Brands must show authenticity, materials, and repairability. I generate and keep that passport current, automatically.",420);q(function(){setChips([{label:"Verify a product →",run:verifyFlow},{label:"↺ Start over",run:resetAll}]);},200);}}
+    ]);
+  }
+  document.getElementById('reset').addEventListener('click',resetAll);
+  resetAll();
+</script>

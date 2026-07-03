@@ -1,0 +1,280 @@
+<title>Propty Agent — Agentic Rental Marketplace</title>
+<style>
+  :root{
+    --bg:#e9edf4; --surface:#ffffff; --surface-2:#f4f7fc; --panel:#0f1b33;
+    --ink:#141d33; --ink-2:#586179; --ink-3:#8b94ab;
+    --line:#e2e7f1; --line-2:#eef1f7;
+    --blue:#006cff; --blue-ink:#0052cc; --blue-bg:#e9f1ff;
+    --green:#12805c; --green-bg:#e5f5ec;
+    --violet:#5b5bd6; --violet-bg:#ecebfb;
+    --amber:#a4670a; --amber-bg:#fbf0dd;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --r:14px; --shadow:0 6px 22px rgba(15,27,51,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  /* top bar */
+  .top{display:flex;align-items:center;gap:14px;padding:12px 18px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1.1rem}
+  .brand .m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#006cff,#3f8bff);display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 4px 12px rgba(0,108,255,.34)}
+  .agent-badge{display:inline-flex;align-items:center;gap:7px;font-size:.74rem;font-weight:700;color:var(--violet);background:var(--violet-bg);padding:5px 11px;border-radius:999px}
+  .agent-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--violet);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(91,91,214,.5)}70%{box-shadow:0 0 0 7px rgba(91,91,214,0)}100%{box-shadow:0 0 0 0 rgba(91,91,214,0)}}
+  .top .demo{margin-left:auto;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--ink-3);border:1px dashed var(--line);padding:5px 9px;border-radius:8px}
+  .top .reset{border:1px solid var(--line);background:#fff;color:var(--ink-2);font-weight:600;font-size:.82rem;padding:7px 13px;border-radius:9px;cursor:pointer}
+  .top .reset:hover{border-color:var(--ink-3);color:var(--ink)}
+
+  /* split */
+  .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);height:calc(100vh - 53px)}
+  @media(max-width:820px){.split{grid-template-columns:1fr;height:auto}}
+
+  /* chat */
+  .chat{display:flex;flex-direction:column;border-right:1px solid var(--line);min-height:0;background:var(--surface)}
+  .chat-scroll{flex:1;overflow-y:auto;padding:22px 20px;display:flex;flex-direction:column;gap:16px}
+  @media(max-width:820px){.chat-scroll{height:56vh}}
+  .msg{display:flex;gap:11px;max-width:92%}
+  .msg .av{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;font-weight:800;font-size:.8rem}
+  .msg.agent .av{background:var(--violet-bg);color:var(--violet)}
+  .msg.user{align-self:flex-end;flex-direction:row-reverse}
+  .msg.user .av{background:var(--ink);color:#fff}
+  .bubble{padding:12px 15px;border-radius:14px;font-size:.95rem}
+  .msg.agent .bubble{background:var(--surface-2);border:1px solid var(--line);border-top-left-radius:5px}
+  .msg.user .bubble{background:var(--blue);color:#fff;border-top-right-radius:5px}
+  .typing{display:inline-flex;gap:4px;padding:14px 15px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--ink-3);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+
+  .prompts{border-top:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;font-size:.86rem;font-weight:500;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left;transition:.15s}
+  .chip:hover{border-color:var(--blue);color:var(--blue-ink);background:var(--blue-bg)}
+  .chip[disabled]{opacity:.4;cursor:default}
+  .fauxin{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--ink-3);font-size:.9rem;background:var(--surface-2)}
+  .fauxin .snd{margin-left:auto;width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:#fff}
+
+  /* workspace */
+  .ws{background:var(--panel);color:#e7ecf6;min-height:0;display:flex;flex-direction:column}
+  .ws-head{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700;font-size:.9rem;color:#fff}
+  .ws-head .k{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f8db0}
+  .ws-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+  @media(max-width:820px){.ws-scroll{height:60vh}}
+  .ws-empty{color:#7f8db0;font-size:.9rem;text-align:center;margin:auto;max-width:34ch}
+
+  .act{border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);opacity:0;transform:translateY(8px);animation:rise .35s forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .act-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .act-call{font-family:var(--mono);font-size:.8rem;color:#b9c6ea;word-break:break-word}
+  .act-call .fn{color:#8ab4ff}
+  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#8ab4ff;animation:spin .7s linear infinite;flex:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ok{width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;flex:none}
+  .act-body{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+
+  .rroom{display:flex;align-items:center;gap:11px;font-size:.86rem}
+  .rroom .th{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#2b3b5f,#1c2942);flex:none}
+  .rroom .price{margin-left:auto;font-family:var(--mono);font-weight:700;color:#fff}
+  .rroom .meta{color:#95a2c4;font-size:.78rem}
+  .rroom.best{border:1px solid rgba(18,128,92,.5);background:rgba(18,128,92,.12);border-radius:9px;padding:9px 11px}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:5px 10px;border-radius:999px}
+  .p-green{background:rgba(18,128,92,.18);color:#7ff0c0}
+  .p-blue{background:rgba(0,108,255,.16);color:#8fbaff}
+  .p-amber{background:rgba(164,103,10,.2);color:#f0c78a}
+  .kv{display:flex;justify-content:space-between;font-size:.85rem;color:#b9c6ea;gap:12px}
+  .kv b{color:#fff;font-family:var(--mono);font-weight:700}
+  .lease{border-top:1px dashed rgba(255,255,255,.12);margin-top:2px;padding-top:9px;display:flex;flex-direction:column;gap:7px}
+  .doc{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:6px 10px;border-radius:8px;color:#cfd8ef}
+  .doc .c{color:#7ff0c0}
+  .wrapchips{display:flex;flex-wrap:wrap;gap:7px}
+
+  .foot{padding:9px 20px;font-size:.72rem;color:#6f7 da0;color:#6f7da0;border-top:1px solid rgba(255,255,255,.08)}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="top">
+  <div class="brand"><span class="m">P</span>Propty</div>
+  <span class="agent-badge"><span class="pulse"></span>AI Leasing Agent</span>
+  <span class="demo">LIVE DEMO</span>
+  <button class="reset" id="reset">Reset</button>
+</div>
+
+<div class="split">
+  <section class="chat">
+    <div class="chat-scroll" id="chat"></div>
+    <div class="prompts">
+      <div class="chips" id="chips"></div>
+      <div class="fauxin">Ask the Propty agent…<span class="snd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </div>
+  </section>
+
+  <section class="ws">
+    <div class="ws-head"><span class="k">Agent workspace</span> <span id="ws-status">idle</span></div>
+    <div class="ws-scroll" id="ws"><div class="ws-empty" id="ws-empty">The agent's actions appear here as it works — searching, screening, drafting, guaranteeing.</div></div>
+    <div class="foot">Illustrative demo · Propty by Aconomy Labs Inc. · actions and data are simulated</div>
+  </section>
+</div>
+
+<script>
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var chat=document.getElementById('chat'), ws=document.getElementById('ws'), chips=document.getElementById('chips');
+  var wsEmpty=document.getElementById('ws-empty'), wsStatus=document.getElementById('ws-status');
+
+  function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.appendChild(document.createTextNode(txt));return e;}
+  function clr(n){while(n.firstChild)n.removeChild(n.firstChild);}
+  function scrollC(){chat.scrollTop=chat.scrollHeight;}
+  function scrollW(){ws.scrollTop=ws.scrollHeight;}
+
+  // ---- queue player ----
+  var Q=[], busy=false;
+  function q(fn,delay){Q.push({fn:fn,delay:delay==null?600:delay});if(!busy)deq();}
+  function deq(){if(!Q.length){busy=false;wsStatus.textContent='done';return;}busy=true;var b=Q.shift();setTimeout(function(){b.fn();deq();},reduce?0:b.delay);}
+
+  // ---- chat ----
+  function userMsg(text){var m=el('div','msg user');m.appendChild(el('span','av','You'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function agentMsg(text){var m=el('div','msg agent');m.appendChild(el('span','av','AI'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function typing(){var m=el('div','msg agent');m.appendChild(el('span','av','AI'));var b=el('div','bubble typing');b.appendChild(el('i'));b.appendChild(el('i'));b.appendChild(el('i'));m.appendChild(b);chat.appendChild(m);scrollC();return m;}
+  function say(text,delay){q(function(){var t=typing();q(function(){chat.removeChild(t);agentMsg(text);},reduce?0:520);},delay);}
+
+  // ---- workspace actions ----
+  function actionCard(fnName,args){
+    if(wsEmpty&&wsEmpty.parentNode)wsEmpty.parentNode.removeChild(wsEmpty);
+    var card=el('div','act');
+    var head=el('div','act-head');
+    var spin=el('span','dotspin');
+    var call=el('code','act-call');
+    call.appendChild(function(){var s=el('span','fn',fnName);return s;}());
+    call.appendChild(document.createTextNode('('+args+')'));
+    head.appendChild(spin);head.appendChild(call);card.appendChild(head);
+    ws.appendChild(card);scrollW();
+    return {card:card,spin:spin};
+  }
+  function complete(ref,resultNode){
+    var ok=el('span','ok','✓');ref.spin.parentNode.replaceChild(ok,ref.spin);
+    if(resultNode){var b=el('div','act-body');b.appendChild(resultNode);ref.card.appendChild(b);scrollW();}
+  }
+  // an "agent action": show running call, then complete with result
+  function act(fnName,args,buildResult,runMs){
+    q(function(){wsStatus.textContent='working…';var ref=actionCard(fnName,args);
+      q(function(){complete(ref,buildResult?buildResult():null);},reduce?0:(runMs||720));
+    });
+  }
+
+  // ---- result builders ----
+  function rooms(list,bestIdx){
+    var wrap=el('div');
+    list.forEach(function(r,i){
+      var row=el('div','rroom'+(i===bestIdx?' best':''));
+      row.appendChild(el('span','th'));
+      var mid=el('div');mid.appendChild(el('div',null,r.name));var meta=el('div','meta',r.meta);mid.appendChild(meta);
+      row.appendChild(mid);
+      row.appendChild(el('span','price','$'+r.price));
+      if(i===bestIdx){var p=el('span','pill p-green');p.appendChild(document.createTextNode('best match'));row.appendChild(p);}
+      wrap.appendChild(row);
+    });
+    return wrap;
+  }
+  function verified(){
+    var w=el('div');
+    var chipsw=el('div','wrapchips');
+    ['Passport','Job offer','Bank statements','Overseas reference'].forEach(function(d){var c=el('span','doc');c.appendChild(el('span','c','✓'));c.appendChild(document.createTextNode(' '+d));chipsw.appendChild(c);});
+    w.appendChild(chipsw);
+    var p=el('div');p.style.marginTop='9px';
+    var a=el('span','pill p-green');a.appendChild(document.createTextNode('Verified — no Canadian credit needed'));
+    var b=el('span','pill p-blue');b.style.marginLeft='7px';b.appendChild(document.createTextNode('No co-signer'));
+    p.appendChild(a);p.appendChild(b);w.appendChild(p);return w;
+  }
+  function lease(){
+    var w=el('div');
+    [['Room','Room 2 · 21 Fern Ave, Toronto'],['Base rent','$780'],['Utilities','$50'],['Propty fee','$20'],['All-in / month','$850']].forEach(function(kv){
+      var r=el('div','kv');r.appendChild(el('span',null,kv[0]));r.appendChild(el('b',null,kv[1]));w.appendChild(r);
+    });
+    var l=el('div','lease');
+    var p1=el('span','pill p-green');p1.appendChild(document.createTextNode('Ontario Standard Lease · RTA-compliant'));
+    var p2=el('span','pill p-blue');p2.appendChild(document.createTextNode('e-signed'));
+    l.appendChild(p1);l.appendChild(p2);w.appendChild(l);return w;
+  }
+  function guarantee(){
+    var w=el('div');
+    var r=el('div','kv');r.appendChild(el('span',null,'Owner payout · by the 5th'));r.appendChild(el('b',null,'$850'));w.appendChild(r);
+    var p=el('div');p.style.marginTop='8px';var g=el('span','pill p-green');g.appendChild(document.createTextNode('Guaranteed — paid even if the tenant is late'));p.appendChild(g);w.appendChild(p);return w;
+  }
+  function credit(){
+    var w=el('div');
+    var r=el('div','kv');r.appendChild(el('span',null,'Reporting to'));r.appendChild(el('b',null,'Equifax · TransUnion'));w.appendChild(r);
+    var p=el('div');p.style.marginTop='8px';var g=el('span','pill p-blue');g.appendChild(document.createTextNode('On-time rent → building Canadian credit'));p.appendChild(g);w.appendChild(p);return w;
+  }
+  function ownerView(){
+    var w=el('div');
+    [['Next payout','Apr 5 · $850'],['Status','Guaranteed'],['Collection','Automated by agent'],['If tenant is late','Propty covers it']].forEach(function(kv){
+      var r=el('div','kv');r.appendChild(el('span',null,kv[0]));r.appendChild(el('b',null,kv[1]));w.appendChild(r);});
+    return w;
+  }
+
+  // ---- scenarios ----
+  var ROOMS=[
+    {name:'Room 2 · 21 Fern Ave',meta:'Roncesvalles · 6-min transit',price:850},
+    {name:'Room A · 88 Gladstone',meta:'Little Portugal · 4-min transit',price:895},
+    {name:'Suite 1 · 12 Argyle',meta:'Trinity-Bellwoods · furnished',price:870}
+  ];
+  function setChips(list){
+    clr(chips);
+    list.forEach(function(c){var b=el('button','chip',c.label);b.addEventListener('click',function(){c.run();});chips.appendChild(b);});
+  }
+  function findFlow(){
+    setChips([]);
+    userMsg("I just landed in Toronto for a new job. No Canadian credit yet — I need a room under $900 near transit.");
+    say("On it. I'll find you a place and handle the whole thing — search, screening, lease, and the rent guarantee.",420);
+    act('search_rooms','{ city:"Toronto", budget:900, near_transit:true }',function(){return rooms(ROOMS,-1);},760);
+    say("Found 4 verified rooms. Since you're new to Canada, I'll verify you without a credit score.",300);
+    act('screen_tenant','{ docs:["passport","job_offer","bank_statements","reference"] }',verified,820);
+    act('match_best','{ optimize:"price + commute + fit" }',function(){return rooms([ROOMS[0]],0);},640);
+    say("Best match: Room 2 on Fern Ave — $850 all-in, 6-min walk to transit. Drafting your lease now.",260);
+    act('draft_lease','{ standard:"Ontario", term:"12mo" }',lease,760);
+    act('setup_rent_guarantee','{ owner:"M. Chen" }',guarantee,700);
+    act('enroll_credit_builder','{ bureaus:["Equifax","TransUnion"] }',credit,640);
+    say("Done — you're approved and can move in Saturday. The owner's rent is guaranteed, and your Canadian credit starts building this month.",320);
+    q(function(){setChips([
+      {label:"What happens if I pay late?",run:lateFlow},
+      {label:"Show the owner's side",run:ownerFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+  function lateFlow(){
+    setChips([]);
+    userMsg("What happens if I pay late one month?");
+    say("You get a 5-day grace period and a heads-up from me. Critically — the owner is still paid on time. Propty covers the gap and I work out a plan with you; your credit is protected during the grace window.",420);
+    act('handle_late_payment','{ grace_days:5, owner_protected:true }',function(){
+      var w=el('div');
+      var r=el('div','kv');r.appendChild(el('span',null,'Owner'));var b=el('b',null,'Paid on time');b.style.color='#7ff0c0';r.appendChild(b);w.appendChild(r);
+      var r2=el('div','kv');r2.appendChild(el('span',null,'You'));r2.appendChild(el('b',null,'5-day grace + plan'));w.appendChild(r2);
+      var p=el('div');p.style.marginTop='8px';var g=el('span','pill p-amber');g.appendChild(document.createTextNode('Propty covering this month'));p.appendChild(g);w.appendChild(p);
+      return w;
+    },760);
+    q(function(){setChips([{label:"Show the owner's side",run:ownerFlow},{label:"↺ Start over",run:resetAll}]);},200);
+  }
+  function ownerFlow(){
+    setChips([]);
+    userMsg("Show me the owner's side.");
+    say("Here's what M. Chen (the owner) sees. I collect rent, guarantee the payout by the 5th, and handle arrears automatically — the owner does nothing.",420);
+    act('owner_dashboard','{ property:"21 Fern Ave", rooms:4 }',ownerView,720);
+    q(function(){setChips([{label:"↺ Start over",run:resetAll}]);},200);
+  }
+
+  function resetAll(){
+    Q.length=0;busy=false;clr(chat);clr(ws);wsStatus.textContent='idle';
+    var e=el('div','ws-empty');e.id='ws-empty';e.appendChild(document.createTextNode("The agent's actions appear here as it works — searching, screening, drafting, guaranteeing."));ws.appendChild(e);wsEmpty=e;
+    agentMsg("Hi — I'm the Propty leasing agent. Tell me what you need and I'll find, screen, and secure it end-to-end. Try one of these:");
+    setChips([
+      {label:"I'm a newcomer to Toronto, no Canadian credit — find me a room under $900",run:findFlow},
+      {label:"How do you protect the landlord?",run:function(){setChips([]);userMsg("How do you protect the landlord?");say("Three ways: I guarantee the rent (paid by the 5th regardless), I screen every tenant even without Canadian credit, and I handle collection + arrears automatically. The owner gets paid and does nothing.",420);q(function(){setChips([{label:"Find me a room →",run:findFlow},{label:"↺ Start over",run:resetAll}]);},200);}}
+    ]);
+  }
+  document.getElementById('reset').addEventListener('click',resetAll);
+  resetAll();
+</script>
