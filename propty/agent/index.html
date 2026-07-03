@@ -1,16 +1,17 @@
 <title>Propty Agent — Agentic Rental Marketplace</title>
 <style>
   :root{
-    --bg:#e9edf4; --surface:#ffffff; --surface-2:#f4f7fc; --panel:#0f1b33;
-    --ink:#141d33; --ink-2:#586179; --ink-3:#8b94ab;
-    --line:#e2e7f1; --line-2:#eef1f7;
+    --bg:#f6f8fc; --surface:#ffffff; --surface-2:#f4f7fc; --panel:#f7f9fc;
+    --ink:#172b4d; --ink-2:#5a6a85; --ink-3:#8b94ab;
+    --line:#e6eaf2; --line-2:#eef1f7;
     --blue:#006cff; --blue-ink:#0052cc; --blue-bg:#e9f1ff;
-    --green:#12805c; --green-bg:#e5f5ec;
+    --green:#12b886; --green-ink:#0c8f66; --green-bg:#e5f7ef;
     --violet:#5b5bd6; --violet-bg:#ecebfb;
     --amber:#a4670a; --amber-bg:#fbf0dd;
+    --red:#e03131;
     --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
-    --r:14px; --shadow:0 6px 22px rgba(15,27,51,.08);
+    --r:14px; --shadow:0 6px 22px rgba(15,27,51,.08); --ws-shadow:0 10px 30px rgba(16,32,64,.08);
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -58,41 +59,41 @@
   .fauxin .snd{margin-left:auto;width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:#fff}
 
   /* workspace */
-  .ws{background:var(--panel);color:#e7ecf6;min-height:0;display:flex;flex-direction:column}
-  .ws-head{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,.08);font-weight:700;font-size:.9rem;color:#fff}
-  .ws-head .k{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7f8db0}
+  .ws{background:var(--panel);color:var(--ink);min-height:0;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+  .ws-head{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--line);font-weight:700;font-size:.9rem;color:var(--ink)}
+  .ws-head .k{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
   .ws-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
   @media(max-width:820px){.ws-scroll{height:60vh}}
-  .ws-empty{color:#7f8db0;font-size:.9rem;text-align:center;margin:auto;max-width:34ch}
+  .ws-empty{color:var(--ink-3);font-size:.9rem;text-align:center;margin:auto;max-width:34ch}
 
-  .act{border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);opacity:0;transform:translateY(8px);animation:rise .35s forwards}
+  .act{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#ffffff;box-shadow:var(--ws-shadow);opacity:0;transform:translateY(8px);animation:rise .35s forwards}
   @keyframes rise{to{opacity:1;transform:none}}
-  .act-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
-  .act-call{font-family:var(--mono);font-size:.8rem;color:#b9c6ea;word-break:break-word}
-  .act-call .fn{color:#8ab4ff}
-  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#8ab4ff;animation:spin .7s linear infinite;flex:none}
+  .act-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line-2)}
+  .act-call{font-family:var(--mono);font-size:.8rem;color:var(--ink-2);word-break:break-word}
+  .act-call .fn{color:var(--blue-ink);font-weight:600}
+  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(0,108,255,.22);border-top-color:var(--blue);animation:spin .7s linear infinite;flex:none}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ok{width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;flex:none}
   .act-body{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
 
   .rroom{display:flex;align-items:center;gap:11px;font-size:.86rem}
-  .rroom .th{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#2b3b5f,#1c2942);flex:none}
-  .rroom .price{margin-left:auto;font-family:var(--mono);font-weight:700;color:#fff}
-  .rroom .meta{color:#95a2c4;font-size:.78rem}
-  .rroom.best{border:1px solid rgba(18,128,92,.5);background:rgba(18,128,92,.12);border-radius:9px;padding:9px 11px}
+  .rroom .th{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#d7e3f7,#c3d4ef);flex:none}
+  .rroom .price{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--ink)}
+  .rroom .meta{color:var(--ink-2);font-size:.78rem}
+  .rroom.best{border:1px solid rgba(18,184,134,.4);background:var(--green-bg);border-radius:9px;padding:9px 11px}
 
   .pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:5px 10px;border-radius:999px}
-  .p-green{background:rgba(18,128,92,.18);color:#7ff0c0}
-  .p-blue{background:rgba(0,108,255,.16);color:#8fbaff}
-  .p-amber{background:rgba(164,103,10,.2);color:#f0c78a}
-  .kv{display:flex;justify-content:space-between;font-size:.85rem;color:#b9c6ea;gap:12px}
-  .kv b{color:#fff;font-family:var(--mono);font-weight:700}
-  .lease{border-top:1px dashed rgba(255,255,255,.12);margin-top:2px;padding-top:9px;display:flex;flex-direction:column;gap:7px}
-  .doc{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:6px 10px;border-radius:8px;color:#cfd8ef}
-  .doc .c{color:#7ff0c0}
+  .p-green{background:var(--green-bg);color:var(--green-ink)}
+  .p-blue{background:var(--blue-bg);color:var(--blue-ink)}
+  .p-amber{background:var(--amber-bg);color:var(--amber)}
+  .kv{display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-2);gap:12px}
+  .kv b{color:var(--ink);font-family:var(--mono);font-weight:700}
+  .lease{border-top:1px dashed var(--line);margin-top:2px;padding-top:9px;display:flex;flex-direction:column;gap:7px}
+  .doc{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;background:var(--surface-2);border:1px solid var(--line);padding:6px 10px;border-radius:8px;color:var(--ink-2)}
+  .doc .c{color:var(--green-ink)}
   .wrapchips{display:flex;flex-wrap:wrap;gap:7px}
 
-  .foot{padding:9px 20px;font-size:.72rem;color:#6f7 da0;color:#6f7da0;border-top:1px solid rgba(255,255,255,.08)}
+  .foot{padding:9px 20px;font-size:.72rem;color:var(--ink-3);border-top:1px solid var(--line)}
   :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -251,7 +252,7 @@
     say("You get a 5-day grace period and a heads-up from me. Critically — the owner is still paid on time. Propty covers the gap and I work out a plan with you; your credit is protected during the grace window.",420);
     act('handle_late_payment','{ grace_days:5, owner_protected:true }',function(){
       var w=el('div');
-      var r=el('div','kv');r.appendChild(el('span',null,'Owner'));var b=el('b',null,'Paid on time');b.style.color='#7ff0c0';r.appendChild(b);w.appendChild(r);
+      var r=el('div','kv');r.appendChild(el('span',null,'Owner'));var b=el('b',null,'Paid on time');b.style.color='var(--green-ink)';r.appendChild(b);w.appendChild(r);
       var r2=el('div','kv');r2.appendChild(el('span',null,'You'));r2.appendChild(el('b',null,'5-day grace + plan'));w.appendChild(r2);
       var p=el('div');p.style.marginTop='8px';var g=el('span','pill p-amber');g.appendChild(document.createTextNode('Propty covering this month'));p.appendChild(g);w.appendChild(p);
       return w;
