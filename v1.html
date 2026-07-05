@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pandora Finance — an AI-native product company building software for real-world commerce</title>
+<meta name="description" content="Pandora Finance (Aconomy Labs Inc., Canada) is an AI-native product company and technology studio that builds and owns a portfolio of applied-AI products for real-world commerce — Aconomy, Propty, Express Protocol, The DPP Company and UnityMarket. Applied AI and agents on top of on-chain infrastructure, since 2021." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="assets/design-system.css" />
+<style>
+/* ============================================================
+   HUB — page-specific styles (tokens come from design-system.css)
+   ============================================================ */
+  :root{
+    --hub-ink:#0b1834;               /* deeper navy for hero contrast */
+    --edge:1px solid var(--gray-200);
+    --mono:'Figtree', ui-monospace, monospace;
+  }
+
+  /* --- shared refinements --- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+  .kicker{font-weight:700;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pan-blue);
+    display:inline-flex;align-items:center;gap:10px}
+  .kicker::before{content:"";width:22px;height:1.5px;background:var(--pan-blue);display:inline-block}
+  .kicker.on-dark{color:#7fb2ff}
+  .kicker.on-dark::before{background:#7fb2ff}
+
+  /* --- NAV --- */
+  .nav-inner{gap:20px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:26px;width:auto}
+  .nav-links{display:flex;align-items:center;gap:34px}
+  .navlink{position:relative}
+  .navlink::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:1.5px;background:var(--navy);transition:right .28s cubic-bezier(.2,.7,.2,1)}
+  .navlink:hover::after{right:0}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-toggle{display:none}
+
+  /* --- HERO --- */
+  .hero{position:relative;overflow:hidden;padding:clamp(70px,11vw,140px) 0 clamp(60px,8vw,110px)}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-2;
+    background:
+      radial-gradient(1100px 620px at 78% -8%, rgba(0,108,255,.16), transparent 60%),
+      radial-gradient(760px 520px at 6% 24%, rgba(0,171,190,.10), transparent 62%),
+      linear-gradient(180deg,#fbfcff 0%,var(--white) 46%)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+    background-image:linear-gradient(var(--gray-200) 1px,transparent 1px),linear-gradient(90deg,var(--gray-200) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(760px 520px at 80% 0%, #000 0%, transparent 72%);
+            mask-image:radial-gradient(760px 520px at 80% 0%, #000 0%, transparent 72%)}
+  .hero-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:clamp(30px,5vw,72px);align-items:center}
+  .hero h1{font-size:clamp(2.6rem,6.4vw,5rem);letter-spacing:-.035em;margin:22px 0 0}
+  .hero h1 .grad{background:linear-gradient(100deg,var(--pan-blue),#00abbe 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{margin-top:26px;font-size:clamp(1.08rem,1.7vw,1.3rem);max-width:52ch}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+  .hero-stats{display:flex;gap:38px;margin-top:48px;flex-wrap:wrap}
+  .stat .n{font-size:clamp(1.7rem,3vw,2.3rem);font-weight:800;letter-spacing:-.03em;line-height:1;
+    background:linear-gradient(120deg,var(--navy),var(--pan-blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{display:block;margin-top:8px;font-size:.82rem;color:var(--slate);letter-spacing:.02em}
+
+  /* hero side: floating product chips */
+  .orbit{position:relative;height:100%;min-height:340px}
+  .chip{position:absolute;background:rgba(255,255,255,.9);border:var(--edge);border-radius:var(--r);
+    box-shadow:var(--shadow);padding:14px 18px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(8px);
+    animation:float 7s ease-in-out infinite}
+  .chip .dot{width:10px;height:10px;border-radius:50%;flex:none}
+  .chip .t{font-weight:700;font-size:.95rem;letter-spacing:-.01em}
+  .chip .s{font-size:.74rem;color:var(--slate)}
+  .chip-1{top:2%;left:4%;animation-delay:0s}
+  .chip-2{top:34%;right:-2%;animation-delay:.9s}
+  .chip-3{bottom:16%;left:-2%;animation-delay:1.8s}
+  .chip-4{bottom:-2%;right:12%;animation-delay:2.6s}
+  .orbit-core{position:absolute;inset:0;margin:auto;width:min(72%,240px);aspect-ratio:1;border-radius:50%;
+    background:conic-gradient(from 210deg,var(--pan-blue),#00abbe,#7949e8,#f1a940,var(--pan-blue));
+    filter:blur(6px);opacity:.9;
+    -webkit-mask:radial-gradient(closest-side,transparent 61%,#000 62%,#000 70%,transparent 71%);
+            mask:radial-gradient(closest-side,transparent 61%,#000 62%,#000 70%,transparent 71%);
+    animation:spin 26s linear infinite}
+  .orbit-logo{position:absolute;inset:0;margin:auto;width:112px;height:112px;border-radius:50%;background:#fff;
+    border:var(--edge);box-shadow:var(--shadow);display:grid;place-items:center}
+  .orbit-logo img{width:64px;height:auto}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* marquee of what they build */
+  .ticker{border-top:var(--edge);border-bottom:var(--edge);background:#fff;overflow:hidden;padding:18px 0}
+  .ticker-row{display:flex;gap:56px;white-space:nowrap;width:max-content;animation:slide 34s linear infinite}
+  .ticker-item{display:inline-flex;align-items:center;gap:12px;color:var(--slate);font-weight:600;letter-spacing:.01em;font-size:.98rem}
+  .ticker-item svg{color:var(--pan-blue)}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* --- SECTION HEADS --- */
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:52px}
+  .sec-head h2{max-width:20ch}
+  .sec-head p{margin:0;max-width:40ch}
+
+  /* --- PRODUCTS --- */
+  #products{background:linear-gradient(180deg,var(--bg),#fff)}
+  .prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+  .pcard{position:relative;display:flex;flex-direction:column;background:#fff;border:var(--edge);
+    border-radius:var(--r-lg);padding:34px 34px 28px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
+  .pcard::before{content:"";position:absolute;left:0;top:0;height:100%;width:4px;background:var(--acc);transform:scaleY(0);transform-origin:top;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .pcard::after{content:"";position:absolute;right:-40%;top:-60%;width:70%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,var(--acc),transparent 68%);opacity:0;transition:opacity .35s;pointer-events:none;filter:blur(8px)}
+  .pcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+  .pcard:hover::before{transform:scaleY(1)}
+  .pcard:hover::after{opacity:.12}
+  .pcard.archived{opacity:.86}
+  .pcard.archived:hover{transform:translateY(-3px)}
+  .pcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px}
+  .pnum{font-family:var(--mono);font-size:.78rem;font-weight:700;letter-spacing:.14em;color:var(--slate);opacity:.7}
+  .pmark{display:flex;align-items:center;gap:12px}
+  .pmark .glyph{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;
+    background:color-mix(in srgb,var(--acc) 14%,#fff);color:var(--acc);border:1px solid color-mix(in srgb,var(--acc) 26%,transparent)}
+  .pmark .glyph svg{width:22px;height:22px}
+  .pname{font-size:1.5rem;font-weight:800;letter-spacing:-.025em;line-height:1.05}
+  .psub{font-size:.78rem;font-weight:600;letter-spacing:.02em;color:var(--acc)}
+  .pcard .desc{color:var(--slate);font-size:1rem;margin:0 0 20px;flex:1}
+  .ptags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .ptag{font-size:.74rem;font-weight:600;padding:5px 11px;border-radius:var(--r-pill);
+    background:color-mix(in srgb,var(--acc) 9%,#fff);color:color-mix(in srgb,var(--acc) 72%,var(--navy));
+    border:1px solid color-mix(in srgb,var(--acc) 18%,transparent)}
+  .pcard .go{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem;color:var(--navy);margin-top:auto}
+  .pcard .go svg{transition:transform .25s}
+  .pcard:hover .go svg{transform:translateX(5px)}
+  .pcard .go .arch{margin-left:auto;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--slate);background:var(--gray-200);padding:4px 10px;border-radius:var(--r-pill)}
+
+  /* --- ABOUT --- */
+  #about{background:var(--hub-ink);color:#fff;position:relative;overflow:hidden}
+  #about::before{content:"";position:absolute;inset:0;opacity:.6;
+    background:radial-gradient(760px 460px at 88% 10%, rgba(0,108,255,.28), transparent 60%),
+              radial-gradient(620px 420px at 0% 96%, rgba(0,171,190,.20), transparent 62%)}
+  #about .wrap{position:relative}
+  #about h2,#about h3{color:#fff}
+  .about-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(36px,6vw,84px);align-items:center}
+  .about-lead{font-size:clamp(1.15rem,1.7vw,1.4rem);color:rgba(255,255,255,.82);line-height:1.6;max-width:46ch}
+  .about-lead strong{color:#fff;font-weight:700}
+  .about-note{margin-top:26px;color:rgba(255,255,255,.62);font-size:1rem;max-width:48ch}
+  .about-panel{border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg);padding:8px;
+    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}
+  .tl{list-style:none;margin:0;padding:0}
+  .tl li{display:grid;grid-template-columns:78px 1fr;gap:18px;padding:20px 22px;position:relative}
+  .tl li+li{border-top:1px solid rgba(255,255,255,.10)}
+  .tl .yr{font-family:var(--mono);font-weight:700;font-size:.9rem;color:#7fb2ff;letter-spacing:.04em}
+  .tl .ev strong{display:block;color:#fff;font-weight:700;font-size:1.02rem;margin-bottom:3px}
+  .tl .ev span{color:rgba(255,255,255,.6);font-size:.92rem}
+
+  /* --- CONTACT --- */
+  #contact .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(34px,6vw,72px);align-items:center}
+  .contact-card{border:var(--edge);border-radius:var(--r-lg);padding:clamp(28px,4vw,44px);
+    background:linear-gradient(160deg,#fff,var(--bg));box-shadow:var(--shadow)}
+  .contact-row{display:flex;align-items:center;gap:16px;padding:16px 0}
+  .contact-row+.contact-row{border-top:var(--edge)}
+  .contact-row .ic{width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:rgba(0,108,255,.1);color:var(--pan-blue)}
+  .contact-row .k{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:700}
+  .contact-row .v{font-weight:700;color:var(--navy);font-size:1.05rem}
+  .contact-row a.v:hover{color:var(--pan-blue)}
+  .addr-ph{font-style:normal;color:var(--slate);font-weight:600;line-height:1.5}
+  .addr-ph b{display:block;color:var(--navy);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;font-weight:800}
+
+  /* --- FOOTER --- */
+  .footer{padding-top:72px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:52px}
+  .foot-brand img{height:30px;width:auto;margin-bottom:20px}
+  .foot-brand p{color:rgba(255,255,255,.6);max-width:34ch;font-size:.96rem}
+  .foot-col h4{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:18px;font-weight:700}
+  .foot-col a{display:block;padding:7px 0;font-size:.98rem}
+  .foot-addr{color:rgba(255,255,255,.7);font-style:normal;line-height:1.6;font-size:.96rem}
+  .foot-addr b{display:block;color:#fff;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .socials{display:flex;gap:12px;margin-top:20px}
+  .socials a{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.8);transition:.2s}
+  .socials a:hover{background:#fff;color:var(--navy);transform:translateY(-3px);border-color:#fff}
+  .foot-bar{border-top:1px solid rgba(255,255,255,.12);padding:26px 0;display:flex;justify-content:space-between;
+    align-items:center;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.9rem}
+  .foot-bar .made{display:inline-flex;align-items:center;gap:8px}
+
+  /* --- RESPONSIVE --- */
+  @media(max-width:960px){
+    .hero-grid,.about-grid,#contact .wrap{grid-template-columns:1fr}
+    .orbit{min-height:300px;order:-1;margin-bottom:8px}
+    .prod-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .sec-head{flex-direction:column;align-items:flex-start}
+  }
+  @media(max-width:640px){
+    .nav-links,.nav-cta .btn-ghost{display:none}
+    .nav-toggle{display:inline-flex}
+    .hero-stats{gap:26px}
+    .foot-grid{grid-template-columns:1fr}
+    .tl li{grid-template-columns:64px 1fr;gap:12px;padding:18px 16px}
+    .pcard{padding:28px 24px 24px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+
+  /* --- BUILT IN THE OPEN (GitHub proof-of-work) --- */
+  #oss{background:linear-gradient(180deg,#fff,var(--bg))}
+  .oss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:8px}
+  .repo{display:flex;gap:16px;align-items:flex-start;background:#fff;border:var(--edge);border-radius:var(--r-lg);
+    padding:24px 24px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+  .repo:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--pan-blue) 30%,transparent)}
+  .repo .gh{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:color-mix(in srgb,var(--pan-blue) 10%,#fff);color:var(--pan-blue);border:1px solid color-mix(in srgb,var(--pan-blue) 20%,transparent)}
+  .repo .gh svg{width:22px;height:22px}
+  .repo .rbody{min-width:0}
+  .repo .rpath{font-family:var(--mono);font-weight:700;font-size:.94rem;letter-spacing:-.01em;color:var(--navy);
+    display:inline-flex;align-items:center;gap:7px;word-break:break-word}
+  .repo .rpath svg{width:14px;height:14px;color:var(--slate);flex:none;transition:transform .25s}
+  .repo:hover .rpath svg{transform:translate(2px,-2px)}
+  .repo .rdesc{color:var(--slate);font-size:.9rem;margin:6px 0 0;line-height:1.5}
+  @media(max-width:960px){.oss-grid{grid-template-columns:1fr}}
+
+  /* --- ACONOMY IS LIVE (shipped-product showcase) --- */
+  #live{background:var(--hub-ink);color:#fff;position:relative;overflow:hidden}
+  #live::before{content:"";position:absolute;inset:0;opacity:.6;
+    background:radial-gradient(720px 460px at 12% 8%, rgba(0,171,190,.24), transparent 60%),
+              radial-gradient(620px 420px at 96% 92%, rgba(0,108,255,.24), transparent 62%)}
+  #live .wrap{position:relative}
+  #live h2,#live h3{color:#fff}
+  .live-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,5vw,72px);align-items:center}
+  .live-lead{font-size:clamp(1.1rem,1.6vw,1.32rem);color:rgba(255,255,255,.82);line-height:1.6;max-width:44ch}
+  .live-note{margin-top:18px;color:rgba(255,255,255,.6);font-size:1rem;max-width:46ch}
+  .live-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;align-items:center}
+  /* Google Play badge — built inline, no external image */
+  .gplay{display:inline-flex;align-items:center;gap:12px;background:#000;color:#fff;border:1px solid rgba(255,255,255,.22);
+    border-radius:12px;padding:10px 20px;transition:transform .2s,border-color .2s,box-shadow .2s}
+  .gplay:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.5);box-shadow:var(--shadow)}
+  .gplay .gp-ic{width:26px;height:26px;flex:none}
+  .gplay .gp-txt{display:flex;flex-direction:column;line-height:1.1;text-align:left}
+  .gplay .gp-txt .s{font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+  .gplay .gp-txt .b{font-size:1.12rem;font-weight:700;letter-spacing:.01em}
+  .video-wrap{position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;
+    border-radius:var(--r-lg);border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow-lg);
+    background:rgba(255,255,255,.04)}
+  .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  @media(max-width:960px){.live-grid{grid-template-columns:1fr}}
+
+  /* --- INCUBATED IN CANADA (backed-by strip) --- */
+  #backed{background:linear-gradient(180deg,var(--bg),#fff)}
+  .backed-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:8px}
+  .backer{display:flex;gap:18px;align-items:flex-start;background:#fff;border:var(--edge);border-radius:var(--r-lg);
+    padding:26px 26px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+  .backer:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--pan-blue) 30%,transparent)}
+  .backer .bmark{flex:none;display:grid;place-items:center;width:60px;height:60px;border-radius:14px;
+    font-family:var(--mono);font-weight:800;font-size:1.02rem;letter-spacing:-.02em;
+    background:color-mix(in srgb,var(--pan-blue) 10%,#fff);color:var(--pan-blue);
+    border:1px solid color-mix(in srgb,var(--pan-blue) 22%,transparent)}
+  .backer .bbody{min-width:0}
+  .backer .bname{font-weight:800;font-size:1.12rem;letter-spacing:-.02em;color:var(--navy);
+    display:inline-flex;align-items:center;gap:7px}
+  .backer .bname svg{width:14px;height:14px;color:var(--slate);flex:none;transition:transform .25s}
+  .backer:hover .bname svg{transform:translate(2px,-2px)}
+  .backer .brole{color:var(--slate);font-size:.92rem;margin:6px 0 0;line-height:1.5}
+  @media(max-width:720px){.backed-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="Pandora Finance home">
+      <img src="assets/logos/Pandora_Dark.svg" alt="Pandora Finance" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="navlink" href="#products">Products</a>
+      <a class="navlink" href="#about">About</a>
+      <a class="navlink" href="#contact">Contact</a>
+      <a class="navlink" href="trust/index.html">Trust</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost hide-mobile" href="#products">Explore studio</a>
+      <a class="btn btn-primary" href="aconomy/index.html">Launch
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+      <a class="btn btn-ghost nav-toggle" href="#products" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="kicker">AI-native product company · Est. 2021</span>
+      <h1>We build <span class="grad">AI-native software for the&nbsp;real world.</span></h1>
+      <p class="lead">Pandora Finance is an AI-native product company — a technology studio that builds and owns a portfolio of products for real-world commerce. Every product pairs applied AI and agents with on-chain infrastructure underneath. Most companies pick AI or on-chain. We build products on both.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#products">See the products we've built
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#about">Our story</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="n">AI-led</span><span class="l">Applied AI &amp; agents</span></div>
+        <div class="stat"><span class="n">On-chain</span><span class="l">Infrastructure layer</span></div>
+        <div class="stat"><span class="n">2021</span><span class="l">Building since</span></div>
+      </div>
+    </div>
+
+    <!-- orbiting product identity -->
+    <div class="orbit reveal" aria-hidden="true">
+      <div class="orbit-core"></div>
+      <div class="orbit-logo"><img src="assets/logos/Pandora_Dark.svg" alt="" /></div>
+      <div class="chip chip-1"><span class="dot" style="background:var(--c-aconomy)"></span><span><span class="t">Aconomy</span><br><span class="s">AI-assisted RWA market</span></span></div>
+      <div class="chip chip-2"><span class="dot" style="background:var(--pan-blue)"></span><span><span class="t">Propty</span><br><span class="s">Agentic rentals</span></span></div>
+      <div class="chip chip-3"><span class="dot" style="background:var(--c-express)"></span><span><span class="t">Express</span><br><span class="s">Agentic commerce SDK</span></span></div>
+      <div class="chip chip-4"><span class="dot" style="background:var(--c-unity)"></span><span><span class="t">UnityMarket</span><br><span class="s">NFT market</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TICKER ===================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-row">
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Applied AI for real-world commerce</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic software</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>AI-assisted real-world assets</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>On-chain infrastructure</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Verifiable systems</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Applied AI for real-world commerce</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Agentic software</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>AI-assisted real-world assets</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>On-chain infrastructure</span>
+    <span class="ticker-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Verifiable systems</span>
+  </div>
+</div>
+
+<!-- ===================== PRODUCTS ===================== -->
+<section id="products" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Our products</span>
+        <h2 style="margin-top:18px">The products we've built and own.</h2>
+      </div>
+      <p class="muted">Each is an AI-native product we design, build and own — applied AI and agents on top of on-chain infrastructure, shipped from inside the Pandora studio.</p>
+    </div>
+
+    <div class="prod-grid">
+
+      <!-- ACONOMY -->
+      <a class="pcard reveal" style="--acc:var(--c-aconomy)" href="aconomy/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>
+            <div><div class="pname">Aconomy</div><div class="psub">AI-assisted marketplace for real-world assets</div></div>
+          </div>
+          <span class="pnum">01</span>
+        </div>
+        <p class="desc">An AI-assisted marketplace for real-world assets. Tokenize, validate and trade luxury watches, real estate, gold and art — with AI guiding discovery and validation, and on-chain infrastructure making ownership verifiable. Live today as a mobile app.</p>
+        <div class="ptags"><span class="ptag">Applied AI</span><span class="ptag">Real-world assets</span><span class="ptag">Live mobile app</span></div>
+        <span class="go">Explore Aconomy <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- PROPTY -->
+      <a class="pcard reveal" style="--acc:#00915e" href="propty/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5M9.5 21v-5h5v5"/><path d="M15.5 12.5h.01"/></svg></span>
+            <div><div class="pname">Propty</div><div class="psub">Agentic rental infrastructure</div></div>
+          </div>
+          <span class="pnum">02</span>
+        </div>
+        <p class="desc">Agentic rental infrastructure that protects both tenants and owners. AI-driven screening and matching pairs the right tenant with the right home, guarantees rent for owners, and turns on-time payments into a credit history newcomers can build from day one.</p>
+        <div class="ptags"><span class="ptag">AI screening &amp; matching</span><span class="ptag">Guaranteed rent</span><span class="ptag">Newcomer credit</span></div>
+        <span class="go">Explore Propty <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- EXPRESS PROTOCOL -->
+      <a class="pcard reveal" style="--acc:var(--c-express)" href="express-protocol/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/></svg></span>
+            <div><div class="pname">Express Protocol</div><div class="psub">SDK for agentic onchain commerce</div></div>
+          </div>
+          <span class="pnum">03</span>
+        </div>
+        <p class="desc">The SDK for agentic onchain commerce. It gives AI agents the primitives to discover, transact and settle on their own — with x402 payments built in — commerce rails for a world where software does the buying.</p>
+        <div class="ptags"><span class="ptag">AI agents</span><span class="ptag">x402 payments</span><span class="ptag">Developer SDK</span></div>
+        <span class="go">Explore Express <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- THE DPP COMPANY -->
+      <a class="pcard reveal" style="--acc:#0f9d6b" href="dpp/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5"/><path d="m8.5 13 2.2 2.2L15 11"/></svg></span>
+            <div><div class="pname">The DPP Company</div><div class="psub">Agentic product intelligence</div></div>
+          </div>
+          <span class="pnum">04</span>
+        </div>
+        <p class="desc">Agentic product intelligence for physical goods. AI verifies authenticity, provenance and sustainability, and consumers scan to check any item — built to align with the EU's Digital Product Passport mandate, with verifiable records underneath.</p>
+        <div class="ptags"><span class="ptag">AI verification</span><span class="ptag">Provenance</span><span class="ptag">EU DPP-aligned</span></div>
+        <span class="go">Explore DPP <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- UNITYMARKET -->
+      <a class="pcard reveal" style="--acc:var(--c-unity)" href="unitymarket/index.html">
+        <div class="pcard-top">
+          <div class="pmark">
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v8l9 5 9-5V8l-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></span>
+            <div><div class="pname">UnityMarket</div><div class="psub">NFT marketplace</div></div>
+          </div>
+          <span class="pnum">05</span>
+        </div>
+        <p class="desc">A creator-first NFT marketplace to mint, discover, buy, sell and auction digital collectibles across curated collections. One of the earliest products we built.</p>
+        <div class="ptags"><span class="ptag">NFTs</span><span class="ptag">Marketplace</span><span class="ptag">Earlier product</span></div>
+        <span class="go">Explore UnityMarket <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ACONOMY IS LIVE ===================== -->
+<section id="live" class="section">
+  <div class="wrap live-grid">
+    <div class="reveal">
+      <span class="kicker on-dark">Aconomy is live</span>
+      <h2 style="margin-top:18px">A real, shipped product you can download today.</h2>
+      <p class="live-lead">Aconomy — our AI-assisted marketplace for real-world assets — is live as a mobile app. Tokenize, validate and trade real-world assets from your phone, on infrastructure that keeps ownership verifiable.</p>
+      <p class="live-note">Watch the brand film, or get the app on Google Play.</p>
+      <div class="live-cta">
+        <a class="gplay" href="https://play.google.com/store/apps/details?id=com.aconomyfoundation.aconomy" target="_blank" rel="noopener" aria-label="Get Aconomy on Google Play">
+          <svg class="gp-ic" viewBox="0 0 512 512" aria-hidden="true"><path fill="#00d3ff" d="M47 24 279 256 47 488c-9-5-15-15-15-27V51c0-12 6-22 15-27z"/><path fill="#00f076" d="m47 24c9-5 20-4 30 2l253 146-63 63L47 24z"/><path fill="#ffce00" d="m267 237 63-63 89 51c20 12 20 40 0 52l-89 51-63-63 32-14z"/><path fill="#ff3a44" d="m267 275 63 63L77 484c-10 6-21 7-30 2l220-211z"/></svg>
+          <span class="gp-txt"><span class="s">Get it on</span><span class="b">Google Play</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/_Kahfb18HE4" title="Aconomy — the first RWA P2P marketplace" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="section">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <span class="kicker on-dark">About Pandora</span>
+      <h2 style="margin-top:18px">An AI-native product company for real-world commerce.</h2>
+      <p class="about-lead">Pandora Finance is the brand of <strong>Aconomy Labs Inc.</strong>, a Canadian technology company founded around <strong>2021</strong>. We're a product company and venture studio: we build AI-native software for real-world commerce, and we own the products we ship. Applied AI and agents do the work; on-chain infrastructure keeps it verifiable.</p>
+      <p class="about-note">That approach runs across several domains. <strong style="color:#fff">Aconomy</strong> — our flagship, an AI-assisted marketplace for real-world assets — sits alongside Propty, Express Protocol, The DPP Company and UnityMarket. One studio, one team, a portfolio of products we build and own.</p>
+    </div>
+    <div class="about-panel reveal">
+      <ul class="tl">
+        <li><span class="yr">2021</span><span class="ev"><strong>Aconomy Labs Inc. is founded</strong><span>A technology studio building software for real-world commerce.</span></span></li>
+        <li><span class="yr">2022</span><span class="ev"><strong>First products take shape</strong><span>Early work in digital ownership and marketplaces, incl. UnityMarket.</span></span></li>
+        <li><span class="yr">2023</span><span class="ev"><strong>Aconomy comes together</strong><span>An AI-assisted marketplace for real-world assets, on verifiable infrastructure.</span></span></li>
+        <li><span class="yr">Now</span><span class="ev"><strong>A growing product portfolio</strong><span>Aconomy live as a mobile app; Propty, Express Protocol and DPP extending the studio.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INCUBATED IN CANADA ===================== -->
+<section id="backed" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Incubated in Canada</span>
+        <h2 style="margin-top:18px">Backed by Canadian startup incubators.</h2>
+      </div>
+      <p class="muted">Aconomy Labs Inc. was incubated in Canada by IRCC-designated Startup Visa organizations.</p>
+    </div>
+
+    <div class="backed-grid">
+      <a class="backer reveal" href="https://tbdc.com" target="_blank" rel="noopener">
+        <span class="bmark">TBDC</span>
+        <div class="bbody">
+          <span class="bname">Toronto Business Development Centre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="brole">Toronto startup incubator; IRCC-designated Startup Visa organization.</p>
+        </div>
+      </a>
+
+      <a class="backer reveal" href="https://thebhive.ca" target="_blank" rel="noopener">
+        <span class="bmark">BHive</span>
+        <div class="bbody">
+          <span class="bname">BHive — Brampton <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="brole">Brampton's startup incubator, launched with TBDC; Startup Visa endorsement organization.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="kicker">Get in touch</span>
+      <h2 style="margin-top:18px">Want to follow<br>what we're building?</h2>
+      <p class="lead" style="margin-top:20px">Using one of our products, exploring our SDK, or just curious about the studio? Reach the Pandora team directly. We read everything.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:hello@pandora.finance">Email the team
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="contact-card reveal">
+      <div class="contact-row">
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span>
+        <div><div class="k">Email</div><a class="v" href="mailto:hello@pandora.finance">hello@pandora.finance</a></div>
+      </div>
+      <div class="contact-row">
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <div><div class="k">Headquarters</div>
+          <address class="addr-ph"><b>Aconomy Labs Inc.</b>111 Peter Street, 9th Floor, Suite 902<br>Toronto, ON&nbsp;&nbsp;M5V 2H1</address>
+        </div>
+      </div>
+      <div class="contact-row">
+        <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m8 9 4 3 4-3"/></svg></span>
+        <div><div class="k">Follow along</div><div class="v">@aconomyfdn · Pandora-Finance</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===================== BUILT IN THE OPEN ===================== -->
+<section id="oss" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Built in the open</span>
+        <h2 style="margin-top:18px">Our work lives on GitHub.</h2>
+      </div>
+      <p class="muted">From applied-AI systems to on-chain infrastructure and developer SDKs, much of what we build is open source — audited, forkable and public. Read the code behind our products.</p>
+    </div>
+
+    <div class="oss-grid">
+      <a class="repo reveal" href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">
+        <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
+        <div class="rbody">
+          <span class="rpath">Pandora-Finance <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">Pandora-Finance · 14 public repositories</p>
+        </div>
+      </a>
+
+      <a class="repo reveal" href="https://github.com/Pandora-Finance/aconomy-contract" target="_blank" rel="noopener">
+        <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
+        <div class="rbody">
+          <span class="rpath">Pandora-Finance/aconomy-contract <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">Aconomy smart contracts — Pi-NFTs, pools, lending</p>
+        </div>
+      </a>
+
+      <a class="repo reveal" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noopener">
+        <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
+        <div class="rbody">
+          <span class="rpath">Pandora-Finance/Express-Protocol-SDK <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">Express Protocol NFT SDK</p>
+        </div>
+      </a>
+
+      <a class="repo reveal" href="https://github.com/Pandora-Finance/audit-report" target="_blank" rel="noopener">
+        <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
+        <div class="rbody">
+          <span class="rpath">Pandora-Finance/audit-report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <p class="rdesc">Third-party smart-contract audit</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logos/Pandora_White.png" alt="Pandora Finance" />
+        <p>Pandora Finance is the brand of Aconomy Labs Inc. — an AI-native product company building software for real-world commerce since 2021.</p>
+        <div class="socials">
+          <a href="https://x.com/aconomyfdn" target="_blank" rel="noopener" aria-label="X (Twitter)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          </a>
+          <a href="https://github.com/Pandora-Finance" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h4>Products</h4>
+        <a href="aconomy/index.html">Aconomy</a>
+        <a href="propty/index.html">Propty</a>
+        <a href="express-protocol/index.html">Express Protocol</a>
+        <a href="dpp/index.html">The DPP Company</a>
+        <a href="unitymarket/index.html">UnityMarket</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="trust/index.html">Trust &amp; audits</a>
+        <a href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://x.com/aconomyfdn" target="_blank" rel="noopener">Twitter / X</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Registered office</h4>
+        <address class="foot-addr">
+          <b>Aconomy Labs Inc. (Pandora Finance)</b>
+          111 Peter Street, 9th Floor,<br>Suite 902, Toronto, ON&nbsp; M5V 2H1<br>
+          <a href="mailto:hello@pandora.finance" style="margin-top:10px;display:inline-block">hello@pandora.finance</a>
+        </address>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <span>© 2021–2026 Aconomy Labs Inc. (Pandora Finance). All rights reserved.</span>
+      <span class="made">AI-native, built for the real world <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Reveal-on-scroll: adds .in to .reveal elements as they enter the viewport */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(el){ el.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function(el, i){ el.style.transitionDelay = (Math.min(i,6)*60) + 'ms'; io.observe(el); });
+})();
+</script>
+</body>
+</html>
