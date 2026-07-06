@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Express Protocol — the open-source SDK to mint, trade, and manage NFTs & real-world assets onchain, now built for the AI-agent era with an optional x402 payments module." />
+  <meta name="description" content="Express Protocol — the open-source SDK for agentic onchain commerce. Mint, trade, and manage NFTs & real-world assets across four standards — ERC-721, ERC-1155, ERC-404, and x402 agent payments — so autonomous agents can pay and settle on their own." />
   <title>Express Protocol — The SDK for agentic onchain commerce</title>
   <link rel="stylesheet" href="../assets/design-system.css" />
   <style>
@@ -42,11 +42,12 @@
     .ep-nav .nlink{color:rgba(255,255,255,.68);font-weight:500;font-size:.92rem;display:inline-flex;align-items:center;gap:7px}
     .ep-nav .nlink:hover{color:#fff}
     .ep-nav .nlink svg{width:15px;height:15px}
-    .copy-pill{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.82rem;color:#e8e3ff;
-      background:rgba(121,73,232,.14);border:1px solid var(--ep-line);padding:8px 12px;border-radius:var(--r-pill);cursor:pointer;transition:.2s}
-    .copy-pill:hover{background:rgba(121,73,232,.24);border-color:rgba(131,62,242,.5)}
-    .copy-pill .dollar{color:var(--c-express-2);opacity:.9}
-    .copy-pill .cicon{width:14px;height:14px;opacity:.7}
+    /* lighter panel + brighter text so the install pill reads clearly on the dark nav */
+    .copy-pill{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.82rem;color:#f2eeff;
+      background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);padding:8px 12px;border-radius:var(--r-pill);cursor:pointer;transition:.2s}
+    .copy-pill:hover{background:rgba(255,255,255,.15);border-color:rgba(201,188,255,.65)}
+    .copy-pill .dollar{color:#c9bcff;opacity:1}
+    .copy-pill .cicon{width:14px;height:14px;opacity:.85}
     .copy-pill.copied{background:rgba(0,171,110,.16);border-color:rgba(0,171,110,.5);color:#c9f7e3}
     @media(max-width:900px){.ep-nav .nlinks{gap:16px}.ep-nav .backhub,.ep-nav .nlink.docs{display:none}}
     @media(max-width:620px){.copy-pill{display:none}}
@@ -70,7 +71,9 @@
       padding:6px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#e9e5ff}
     .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--c-aconomy-mint);box-shadow:0 0 10px var(--c-aconomy-mint)}
     .hero h1{font-size:clamp(2.5rem,5.4vw,4.05rem);letter-spacing:-.03em;line-height:1.02;margin-bottom:20px}
-    .hero h1 .grad{background:linear-gradient(100deg,#a98bff 0%,#d7c6ff 45%,#8f6bff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    /* light, high-contrast gradient on the dark hero: sky -> mint (fallback solid for no-clip browsers) */
+    .hero h1 .grad{color:#a5d0ff;background:linear-gradient(100deg,#7fb2ff 0%,#bfe0ff 42%,#5ff0d0 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 1px 24px rgba(127,178,255,.25)}
+    @supports not ((-webkit-background-clip:text) or (background-clip:text)){.hero h1 .grad{color:#a5d0ff;-webkit-text-fill-color:currentColor}}
     .hero .lead{color:rgba(233,231,246,.82);max-width:44ch;font-size:clamp(1.05rem,1.7vw,1.24rem)}
     .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
     .hero-meta{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;font-size:.84rem;color:rgba(233,231,246,.6)}
@@ -105,7 +108,10 @@
     .sec-head h2{margin:14px 0 14px}
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
     .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+    @media(max-width:1040px){.grid-4{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:900px){.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}}
+    @media(max-width:560px){.grid-4{grid-template-columns:1fr}}
 
     /* token-standard cards */
     .std-card{position:relative;overflow:hidden}
@@ -176,8 +182,11 @@
     .cta h2{color:#fff;margin-bottom:14px}
     .cta p{color:rgba(233,231,246,.8);max-width:52ch;margin:0 auto 28px}
     .cta .cta-btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
-    .cta .install{margin-top:26px;font-family:var(--mono);font-size:.82rem;color:rgba(233,231,246,.55)}
-    .cta .install b{color:#c9bcff}
+    /* install line as a readable bordered chip, not dim text lost on the dark panel */
+    .cta .install{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-family:var(--mono);font-size:.84rem;color:#f2eeff;
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);padding:9px 16px;border-radius:var(--r-pill)}
+    .cta .install .p{color:#c9bcff}
+    .cta .install b{color:#fff;font-weight:600}
     @media(max-width:600px){.cta{padding:48px 24px}}
 
     /* ---------- FOOTER extras ---------- */
@@ -209,6 +218,45 @@
     .repo:hover .rpath svg{transform:translate(2px,-2px)}
     .repo .rdesc{color:var(--slate);font-size:.88rem;margin:6px 0 0;line-height:1.5}
 
+    /* ---------- ECOSYSTEM STRIP (Built on Express Protocol) ---------- */
+    .eco{background:#fff;border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
+    .eco .eco-head{text-align:center;max-width:56ch;margin:0 auto}
+    .eco .eco-head .eyebrow{color:var(--c-express)}
+    .eco .eco-head h2{margin:12px 0 10px}
+    .eco .eco-head p{color:var(--slate);margin:0}
+    .eco-marks{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 16px;margin-top:36px}
+    .eco-mark{font-weight:700;font-size:1.02rem;letter-spacing:-.01em;color:var(--navy);
+      padding:11px 18px;border:1px solid var(--gray-200);border-radius:var(--r-pill);background:var(--bg);
+      transition:.22s;display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+    .eco-mark:hover{border-color:var(--c-express);color:var(--c-express);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .eco-mark .edot{width:7px;height:7px;border-radius:50%;background:var(--c-express);opacity:.55;flex:none}
+    .eco-mark:hover .edot{opacity:1}
+
+    /* ---------- FAQ ---------- */
+    .faqs{display:grid;gap:12px;margin-top:40px;max-width:60ch}
+    details.faq{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+    details.faq[open]{border-color:var(--c-express)}
+    details.faq summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:600;color:var(--navy);font-size:1.02rem;
+      display:flex;align-items:center;justify-content:space-between;gap:14px}
+    details.faq summary::-webkit-details-marker{display:none}
+    details.faq summary .fq-ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+      border:1.5px solid var(--gray-300);color:var(--slate);transition:.2s;font-size:1rem;line-height:1}
+    details.faq[open] summary .fq-ic{background:var(--c-express);border-color:var(--c-express);color:#fff;transform:rotate(45deg)}
+    details.faq .fq-body{padding:0 20px 18px;color:var(--slate);font-size:.95rem;line-height:1.62;margin:0}
+    details.faq .fq-body code{font-family:var(--mono);font-size:.86em;color:var(--c-express);background:rgba(121,73,232,.09);border:1px solid var(--ep-line);padding:1px 6px;border-radius:5px}
+
+    /* ---------- BOOK-A-DEMO CTA (light) ---------- */
+    .book{background:var(--bg)}
+    .book-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;
+      background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:36px 40px}
+    .book-inner .bk-copy{max-width:52ch}
+    .book-inner h3{font-size:1.5rem;margin-bottom:8px}
+    .book-inner p{color:var(--slate);margin:0;font-size:.98rem}
+    .book-inner .bk-btns{display:flex;flex-wrap:wrap;gap:12px}
+    .btn-glow{background:linear-gradient(135deg,var(--c-express),var(--c-express-2));color:#fff;box-shadow:0 8px 24px rgba(121,73,232,.35)}
+    .btn-glow:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(121,73,232,.5)}
+    @media(max-width:640px){.book-inner{padding:28px 24px}}
+
     /* reveal easing already in DS; add stagger helper */
     .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
     @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
@@ -228,6 +276,7 @@
       </a>
       <div class="nlinks">
         <a class="nlink docs" href="docs/">Docs</a>
+        <a class="nlink docs" href="playground/">Playground</a>
         <a class="nlink" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
           GitHub
@@ -253,22 +302,25 @@
         <h1 class="reveal d1">The SDK for <span class="grad">agentic onchain commerce</span></h1>
         <p class="lead reveal d2">
           One open-source SDK to mint, trade, and manage NFTs and real-world assets onchain —
-          without touching Solidity. Now built for the AI-agent era, with an optional
-          <b style="color:#d7c6ff">x402</b> module so autonomous agents can pay and settle on their own.
+          without touching Solidity. Built for the AI-agent era, with
+          <b style="color:#d7c6ff">x402</b> as a first-class standard so autonomous agents pay and settle on their own.
         </p>
         <div class="hero-cta reveal d3">
           <a class="btn btn-express" href="docs/">Read the docs
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
+          <a class="btn btn-wire" href="playground/">Open the playground
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
           <a class="btn btn-wire" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
-            Star on GitHub
+            GitHub
           </a>
         </div>
         <div class="hero-meta reveal d3">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> ERC-721 · 1155 · 404</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> ERC-721 · 1155 · 404 · x402</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Mint · trade · auction</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> IPFS storage built in</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Agents pay &amp; settle</span>
         </div>
       </div>
 
@@ -303,11 +355,11 @@
   <section class="section">
     <div class="container">
       <div class="sec-head reveal">
-        <p class="eyebrow">Token standards</p>
-        <h2>Three standards, one interface</h2>
-        <p class="lead">Deploy and manage any token type through the same typed SDK. Express abstracts the contract calls so you ship features, not ABIs.</p>
+        <p class="eyebrow">Token &amp; payment standards</p>
+        <h2>Four standards, one interface</h2>
+        <p class="lead">Deploy and manage any token type — and settle agent payments — through the same typed SDK. Express abstracts the contract calls so you ship features, not ABIs.</p>
       </div>
-      <div class="grid-3" style="margin-top:44px">
+      <div class="grid-4" style="margin-top:44px">
         <div class="card std-card reveal">
           <span class="rail"></span>
           <div class="std-tag">ERC&#8209;<b>721</b></div>
@@ -325,6 +377,12 @@
           <div class="std-tag">ERC&#8209;<b>404</b></div>
           <div class="kv"><span class="badge badge-purple">Fractional</span></div>
           <p>The experimental hybrid: an NFT and its ERC-20 fraction move together. Transfer the token, the fungible units follow — native fractional ownership and liquidity.</p>
+        </div>
+        <div class="card std-card reveal d3">
+          <span class="rail"></span>
+          <div class="std-tag"><b>x402</b></div>
+          <div class="kv"><span class="badge badge-purple">Agent payments</span></div>
+          <p>A first-class payment standard for autonomous agents — settle agent-to-agent purchases over HTTP 402 in USDC. Quote, authorize, and clear on their own, no human checkout.</p>
         </div>
       </div>
     </div>
@@ -390,20 +448,26 @@
         <p class="eyebrow reveal d1" style="color:#c9bcff;margin-top:14px">x402 · payments for AI agents</p>
         <h2 class="reveal d1">Let agents pay for and settle assets on their own</h2>
         <p class="lead reveal d2">
-          Express Protocol now ships an optional <b>x402</b> module built on Coinbase's HTTP&nbsp;402 stablecoin
-          standard. Point an agent at a listing and it can price, authorize, and settle the purchase
-          autonomously — paying in USDC over the wire, no human checkout, no API keys to babysit.
+          Express Protocol treats <b>x402</b> as a first-class standard — built on Coinbase's HTTP&nbsp;402 stablecoin
+          rail and sitting right alongside ERC-721, ERC-1155, and ERC-404. Point an agent at a listing and it can
+          price, authorize, and settle the purchase autonomously — paying in USDC over the wire, no human checkout,
+          no API keys to babysit.
         </p>
         <ol class="flow reveal d2">
           <li><span class="n">1</span><div><b>Agent requests an asset</b> <span>— hits a protected endpoint and gets back an HTTP 402 with the price.</span></div></li>
-          <li><span class="n">2</span><div><b>x402 signs a USDC payment</b> <span>— the module attaches a stablecoin payment header, no seat at a checkout page.</span></div></li>
+          <li><span class="n">2</span><div><b>x402 signs a USDC payment</b> <span>— the SDK attaches a stablecoin payment header, no seat at a checkout page.</span></div></li>
           <li><span class="n">3</span><div><b>Protocol settles &amp; transfers</b> <span>— funds clear on Base or Arbitrum and the NFT/RWA lands in the agent's wallet.</span></div></li>
         </ol>
         <div class="x402-chips reveal d3">
           <span class="chip"><b>USDC</b> stablecoin</span>
           <span class="chip">Base &amp; Arbitrum</span>
           <span class="chip">HTTP <b>402</b> native</span>
-          <span class="chip">opt-in module</span>
+          <span class="chip">agent-to-agent</span>
+        </div>
+        <div class="hero-cta reveal d3" style="margin-top:26px">
+          <a class="btn btn-express" href="playground/">Open the playground
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
       </div>
 
@@ -514,7 +578,7 @@
       <div class="cta reveal">
         <p class="eyebrow" style="color:#c9bcff">Start building</p>
         <h2>From <code style="font-family:var(--mono);font-size:.85em;color:#d7c6ff">npm install</code> to onchain in minutes</h2>
-        <p>Install the package, plug in a signer, and mint your first asset. The docs cover every function across ERC-721, ERC-1155, ERC-404, and the x402 agent module.</p>
+        <p>Install the package, plug in a signer, and mint your first asset. The docs cover every function across all four standards — ERC-721, ERC-1155, ERC-404, and x402 agent payments.</p>
         <div class="cta-btns">
           <a class="btn btn-onlight" href="docs/">Read the docs
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -524,7 +588,7 @@
             View on GitHub
           </a>
         </div>
-        <div class="install">$ <b>npm i pandora-express</b></div>
+        <div class="install"><span class="p">$</span> <b>npm i pandora-express</b></div>
       </div>
     </div>
   </section>
@@ -562,6 +626,82 @@
     </div>
   </section>
 
+  <!-- ============ ECOSYSTEM STRIP ============ -->
+  <section class="section eco">
+    <div class="container">
+      <div class="eco-head reveal">
+        <p class="eyebrow">Built on Express Protocol</p>
+        <h2>Powering onchain products across the ecosystem</h2>
+        <p>Real platforms that shipped on the Express Protocol SDK — marketplaces, games, and asset apps, all trading against the same shared orderbook.</p>
+      </div>
+      <div class="eco-marks reveal d1">
+        <span class="eco-mark"><span class="edot"></span>LivWell</span>
+        <span class="eco-mark"><span class="edot"></span>Forward Protocol</span>
+        <span class="eco-mark"><span class="edot"></span>Metastarter</span>
+        <span class="eco-mark"><span class="edot"></span>Soccer Hub</span>
+        <span class="eco-mark"><span class="edot"></span>Cloutlanders</span>
+        <span class="eco-mark"><span class="edot"></span>Metawood</span>
+        <span class="eco-mark"><span class="edot"></span>Cryptopirates</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ + BOOK A DEMO ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions, answered</h2>
+        <p class="lead">The essentials on Express Protocol, x402 agent payments, and shipping on the SDK.</p>
+      </div>
+      <div class="faqs reveal d1">
+        <details class="faq">
+          <summary>What is x402?<span class="fq-ic">+</span></summary>
+          <p class="fq-body">x402 is a payment standard for autonomous agents, built on the HTTP <code>402 Payment Required</code> status code. When an agent requests a paid resource, the server answers <code>402</code> with a price and terms; the agent signs a stablecoin (USDC) payment, re-sends it as a payment header, and receives a <code>200 OK</code> with the asset. In Express Protocol, x402 is a first-class standard alongside ERC-721, ERC-1155, and ERC-404 — so agents can quote, pay, and settle onchain without a human at a checkout.</p>
+        </details>
+        <details class="faq">
+          <summary>Do I need to write Solidity to use Express Protocol?<span class="fq-ic">+</span></summary>
+          <p class="fq-body">No. Express wraps a suite of audited smart contracts behind a fully typed TypeScript SDK. You plug in a viem/web3 signer and call methods like <code>mint()</code>, <code>sellNFT()</code>, and <code>buy()</code> — the SDK handles the ABIs, encoding, and onchain calls for you.</p>
+        </details>
+        <details class="faq">
+          <summary>Which token standards are supported?<span class="fq-ic">+</span></summary>
+          <p class="fq-body">Four: <code>ERC-721</code> (unique NFTs), <code>ERC-1155</code> (multi-token editions), <code>ERC-404</code> (fractional NFT/ERC-20 hybrids), and <code>x402</code> (agent-to-agent payments). All four are reached through the same interface, so the API surface stays consistent as you move between them.</p>
+        </details>
+        <details class="faq">
+          <summary>Which chains does it run on?<span class="fq-ic">+</span></summary>
+          <p class="fq-body">Express is rebuilt for today's onchain stack and targets low-fee L2s — Base, Arbitrum, and Optimism — with first-class viem support and ERC-4337 account abstraction for gasless, agent-friendly flows. x402 settlements clear in USDC on Base or Arbitrum.</p>
+        </details>
+        <details class="faq">
+          <summary>Is Express Protocol open source?<span class="fq-ic">+</span></summary>
+          <p class="fq-body">Yes — end to end and MIT-licensed. The SDK ships as <code>pandora-express</code> on npm (live since Feb 2022), and the SDK, its docs, and the smart contracts underneath are all public on GitHub. Inspect every line, open an issue, or send a PR.</p>
+        </details>
+        <details class="faq">
+          <summary>Can I try the agent payment flow without writing code?<span class="fq-ic">+</span></summary>
+          <p class="fq-body">Yes. The <a href="playground/">x402 settlement playground</a> is an interactive simulation of a buyer-agent and seller-agent negotiating and settling a purchase over HTTP 402 — discovery, quote, payment, and asset transfer, visualized as live message and HTTP frames.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOK A DEMO ============ -->
+  <section class="section book" style="padding-top:0">
+    <div class="container">
+      <div class="book-inner reveal">
+        <div class="bk-copy">
+          <p class="eyebrow" style="color:var(--c-express)">Talk to us</p>
+          <h3>See Express Protocol on your stack</h3>
+          <p>Walk through the SDK, the x402 agent flow, and how to ship a marketplace or agent-commerce app on top of it — with the team that built it.</p>
+        </div>
+        <div class="bk-btns">
+          <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+          <a class="btn btn-onlight" href="playground/">Open the playground
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
     <div class="container">
@@ -575,14 +715,15 @@
           <a href="docs/">Documentation</a>
           <a href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">GitHub</a>
           <a href="https://www.npmjs.com/package/pandora-express" target="_blank" rel="noreferrer">npm package</a>
-          <a href="#x402">x402 module</a>
+          <a href="#x402">x402 standard</a>
+          <a href="playground/">x402 playground</a>
         </div>
         <div class="fcol">
           <h5>Standards</h5>
           <a href="docs/">ERC-721</a>
           <a href="docs/">ERC-1155</a>
           <a href="docs/">ERC-404</a>
-          <a href="docs/">Royalties</a>
+          <a href="#x402">x402</a>
         </div>
         <div class="fcol">
           <h5>Ecosystem</h5>

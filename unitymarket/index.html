@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UnityMarket — the next-gen NFT marketplace from Pandora. Mint, buy, sell and auction NFTs across curated collections, with creator royalties and multi-chain support." />
-  <title>UnityMarket — The next-gen NFT marketplace</title>
+  <meta name="description" content="UnityMarket — the NFT marketplace with an AI curator. An agent scans live collections, scores rarity, screens out wash-trading, and assembles a fair-value shortlist for you. Built on Express Protocol." />
+  <title>UnityMarket — The NFT marketplace with an AI curator</title>
   <link rel="stylesheet" href="../assets/design-system.css" />
   <style>
     /* ============================================================
@@ -244,6 +244,44 @@
     .repo:hover .rpath svg{transform:translate(2px,-2px)}
     .repo .rdesc{color:var(--slate);font-size:.92rem;margin:5px 0 0;line-height:1.5}
 
+    /* ---------- AI CURATOR (light, product-led) ---------- */
+    .curator-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center;margin-top:44px}
+    @media(max-width:940px){.curator-grid{grid-template-columns:1fr;gap:40px}}
+    .cur-steps{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}
+    .cur-steps li{display:flex;gap:13px;align-items:flex-start}
+    .cur-steps .sd{flex-shrink:0;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-family:'Figtree';font-weight:800;font-size:.9rem;
+      color:var(--um-gold-deep);background:rgba(241,169,64,.12);border:1px solid var(--um-line)}
+    .cur-steps b{color:var(--navy);font-weight:700}
+    .cur-steps span{color:var(--slate);font-size:.94rem}
+    /* mini agent-workspace preview panel */
+    .cur-panel{background:linear-gradient(180deg,#12152a 0%,#0e1120 100%);border:1px solid var(--um-line);border-radius:18px;
+      padding:20px;box-shadow:0 30px 70px rgba(3,4,12,.5);position:relative;overflow:hidden}
+    .cur-panel .ph{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,236,217,.55)}
+    .cur-panel .ph .pd{width:7px;height:7px;border-radius:50%;background:var(--um-gold);box-shadow:0 0 10px var(--um-gold)}
+    .cur-line{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:8px;font-family:'Figtree'}
+    .cur-line .mk{width:17px;height:17px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11px;font-weight:900}
+    .cur-line .mk.ok{background:var(--um-gold);color:#231704}
+    .cur-line .mk.no{background:#d64216;color:#fff}
+    .cur-line .fn{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.82rem;color:#ffdca0}
+    .cur-line .tag{margin-left:auto;font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:999px}
+    .cur-line .tag.g{background:rgba(0,255,194,.14);color:#7ff0d0}
+    .cur-line .tag.r{background:rgba(214,66,22,.18);color:#ff9d7a}
+
+    /* ---------- FAQ ---------- */
+    .faqwrap{max-width:820px;margin:36px auto 0;display:grid;gap:12px}
+    .faq{border:1px solid var(--gray-200);border-radius:var(--r);background:#fff;overflow:hidden;transition:.2s}
+    .faq[open]{border-color:var(--um-gold);box-shadow:var(--shadow)}
+    .faq summary{list-style:none;cursor:pointer;padding:18px 22px;font-weight:600;color:var(--navy);font-size:1.02rem;
+      display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";font-size:1.4rem;font-weight:400;color:var(--um-gold-deep);line-height:1;flex:none;transition:transform .2s}
+    .faq[open] summary::after{transform:rotate(45deg)}
+    .faq p{margin:0;padding:0 22px 20px;color:var(--slate);font-size:.96rem;line-height:1.6}
+
+    /* ---------- BOOK A DEMO ---------- */
+    .btn-glow{background:linear-gradient(135deg,var(--um-gold) 0%,var(--um-gold-2) 100%);color:#231704;font-weight:600;box-shadow:0 8px 26px rgba(241,169,64,.38)}
+    .btn-glow:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(241,169,64,.52)}
+
     /* reveal stagger helper (base .reveal easing already in DS) */
     .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
     @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
@@ -263,10 +301,10 @@
         Pandora
       </a>
       <div class="nlinks">
-        <a class="nlink drops" href="#drops">Drops</a>
-        <a class="nlink collections" href="#collections">Collections</a>
+        <a class="nlink drops" href="#curator">The curator</a>
+        <a class="nlink collections" href="#drops">Drops</a>
         <a class="nlink" href="#creators">For creators</a>
-        <a class="btn btn-unity" href="#drops" style="padding:10px 20px;font-size:.92rem">Explore the marketplace</a>
+        <a class="btn btn-unity" href="agent/" style="padding:10px 20px;font-size:.92rem">Launch the curator agent</a>
       </div>
     </div>
   </nav>
@@ -276,34 +314,35 @@
     <div class="container hero-grid">
       <div>
         <div class="hero-badges reveal">
-          <span class="pill"><span class="dot"></span> Live on-chain marketplace</span>
-          <span class="pill">Part of Pandora</span>
+          <span class="pill"><span class="dot"></span> AI curator agent</span>
+          <span class="pill">Built on Express Protocol</span>
           <span class="pill">Multi-chain</span>
         </div>
-        <p class="eyebrow reveal">UnityMarket · NFT marketplace</p>
-        <h1 class="reveal d1">The next-gen <span class="grad">NFT marketplace</span></h1>
+        <p class="eyebrow reveal">UnityMarket · the curated NFT marketplace</p>
+        <h1 class="reveal d1">The NFT marketplace with an <span class="grad">AI curator</span></h1>
         <p class="lead reveal d2">
-          Mint, buy, sell and auction NFTs across curated collections — one gallery-grade
-          marketplace from the Pandora family, with creator royalties baked in and support for
-          every major chain.
+          Tell the curator a theme and a budget. It scans live collections, scores rarity,
+          screens out wash-trading, and assembles a fair-value shortlist — then bids, buys or
+          lists on your behalf. Mint, trade and auction still live here too, with creator
+          royalties baked in across every major chain.
         </p>
         <div class="hero-cta reveal d3">
-          <a class="btn btn-unity" href="#drops">Explore the marketplace
+          <a class="btn btn-unity" href="agent/">Launch the curator agent
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn-wire" href="#creators">Start creating</a>
+          <a class="btn btn-wire" href="#drops">Browse the gallery</a>
         </div>
         <div class="hero-stats reveal d3">
-          <div class="st"><b>48K+</b><span>NFTs minted</span></div>
-          <div class="st"><b>2.6K</b><span>Creators</span></div>
-          <div class="st"><b>120+</b><span>Collections</span></div>
+          <div class="st"><b>Live</b><span>Collection scans</span></div>
+          <div class="st"><b>Rarity</b><span>+ provenance scored</span></div>
+          <div class="st"><b>Wash-trade</b><span>screening built in</span></div>
           <div class="st"><b>5</b><span>Chains</span></div>
         </div>
       </div>
 
       <!-- HERO NFT GALLERY -->
       <div class="gallery reveal d2" aria-hidden="false">
-        <span class="float-badge live"><span class="ld"></span> Live auction</span>
+        <span class="float-badge live"><span class="ld"></span> Curator's picks</span>
         <div class="gallery-grid">
           <div class="col">
             <div class="nft tall">
@@ -342,13 +381,49 @@
     </div>
   </header>
 
+  <!-- ============ THE AI CURATOR ============ -->
+  <section class="section" id="curator">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">The AI curator</p>
+        <h2>A curator that works for you</h2>
+        <p class="lead">Most marketplaces hand you an infinite grid and wish you luck. UnityMarket gives you an agent. Describe what you want — a theme, a budget, a vibe — and it does the research, screens for fakes, and comes back with a shortlist you can actually trust.</p>
+      </div>
+      <div class="curator-grid">
+        <div class="reveal">
+          <ul class="cur-steps">
+            <li><span class="sd">1</span><div><b>Scans live collections.</b> <span>Indexes what's actually trading right now against your theme and budget — no stale listings.</span></div></li>
+            <li><span class="sd">2</span><div><b>Scores rarity &amp; checks provenance.</b> <span>Ranks pieces on trait rarity, then traces mint history and holder patterns for wash-trade flags.</span></div></li>
+            <li><span class="sd">3</span><div><b>Compares against the real floor.</b> <span>Strips out manufactured volume so you pay a fair price, not an inflated one.</span></div></li>
+            <li><span class="sd">4</span><div><b>Assembles a shortlist &amp; acts.</b> <span>Hands you a curated set, then bids, buys or lists on your behalf — settling through Express Protocol.</span></div></li>
+          </ul>
+          <div class="hero-cta reveal d2" style="margin-top:30px">
+            <a class="btn btn-unity" href="agent/">Launch the curator agent
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+        <!-- mini workspace preview (static illustration of the live demo) -->
+        <div class="cur-panel reveal d1" aria-hidden="true">
+          <div class="ph"><span class="pd"></span> Agent workspace</div>
+          <div class="cur-line"><span class="mk ok">✓</span><span class="fn">scan_collections()</span><span class="tag g">37 live</span></div>
+          <div class="cur-line"><span class="mk ok">✓</span><span class="fn">score_rarity()</span><span class="tag g">Top 2–7%</span></div>
+          <div class="cur-line"><span class="mk ok">✓</span><span class="fn">check_provenance()</span><span class="tag g">Clean</span></div>
+          <div class="cur-line"><span class="mk ok">✓</span><span class="fn">compare_floor()</span><span class="tag g">Fair value</span></div>
+          <div class="cur-line"><span class="mk no">✕</span><span class="fn">wash_trade_scan()</span><span class="tag r">Excluded</span></div>
+          <div class="cur-line" style="margin-bottom:0"><span class="mk ok">✓</span><span class="fn">assemble_shortlist()</span><span class="tag g">3 picks</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ WHAT YOU CAN DO ============ -->
-  <section class="section" id="features">
+  <section class="section" id="features" style="background:var(--bg)">
     <div class="container">
       <div class="sec-head reveal">
         <p class="eyebrow">What you can do</p>
         <h2>Everything an NFT marketplace should be</h2>
-        <p class="lead">From a first mint to a headline auction, UnityMarket covers the full lifecycle of onchain collectibles — for collectors and creators alike.</p>
+        <p class="lead">The curator does the heavy lifting, but the full marketplace is here too — from a first mint to a headline auction, UnityMarket covers the whole lifecycle of onchain collectibles for collectors and creators alike.</p>
       </div>
       <div class="grid-3" style="margin-top:44px">
         <div class="card feat reveal">
@@ -394,7 +469,7 @@
           <h2>Fresh from the gallery</h2>
           <p class="lead">A rotating selection of the newest collections and one-of-one drops going live on UnityMarket right now.</p>
         </div>
-        <a class="seeall" href="#collections">Browse all collections
+        <a class="seeall" href="agent/">Let the curator pick for you
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
@@ -485,7 +560,7 @@
           <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div><b>Own your assets.</b> <span>Media pinned to decentralized storage; the NFT lives on-chain, always yours.</span></div></li>
         </ul>
         <div class="hero-cta reveal d3">
-          <a class="btn btn-unity" href="#top">Start creating
+          <a class="btn btn-unity" href="agent/">Let the curator price my work
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
@@ -531,35 +606,74 @@
   <section class="section" style="padding-top:0">
     <div class="container">
       <div class="cta reveal">
-        <p class="eyebrow">Enter the gallery</p>
-        <h2>Start collecting &amp; creating on UnityMarket</h2>
-        <p>Connect your wallet to browse curated drops, bid in live auctions, and mint your first NFT — with royalties that keep earning long after the sale.</p>
+        <p class="eyebrow">Put a curator to work</p>
+        <h2>Let the agent build your next collection</h2>
+        <p>Give the curator a theme and a budget and watch it scan, score, screen out wash-trading, and assemble a fair-value shortlist — then bid, buy or list on your behalf. Or book a walkthrough with the team.</p>
         <div class="cta-btns">
-          <a class="btn btn-unity" href="#drops">Explore the marketplace
+          <a class="btn btn-unity" href="agent/">Launch the curator agent
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn-onlight" href="../index.html">Back to Pandora</a>
+          <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ BUILT IN THE OPEN ============ -->
-  <section class="section oss" id="oss">
+  <!-- ============ BUILT ON EXPRESS PROTOCOL ============ -->
+  <section class="section oss" id="protocol">
     <div class="container">
       <div class="sec-head reveal">
-        <p class="eyebrow">Built in the open</p>
-        <h2>From a team that ships open source</h2>
-        <p class="lead">UnityMarket is part of the Pandora family, built by a team with a long track record of open-source work. Explore the code and repositories behind the ecosystem.</p>
+        <p class="eyebrow">Built on Express Protocol</p>
+        <h2>The curator you see, the rails you trust</h2>
+        <p class="lead">UnityMarket is a marketplace front-end for Express Protocol — the audited on-chain contracts that settle every mint, bid, sale and royalty. The agent decides what to buy; the protocol makes sure the trade is real, atomic and enforced.</p>
       </div>
-      <div class="oss-strip reveal d1">
+      <div class="oss-strip reveal d1" style="display:grid;gap:16px;max-width:none">
+        <a class="repo" href="../express-protocol/index.html">
+          <span class="gh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4.5v11L12 22 3 17.5v-11z"/><path d="M12 22V12M3 6.5L12 12l9-5.5"/></svg></span>
+          <div>
+            <span class="rpath">Express Protocol <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+            <p class="rdesc">The SDK and on-chain contracts powering UnityMarket — listings, bids, escrow and royalties.</p>
+          </div>
+        </a>
         <a class="repo" href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">
           <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
           <div>
             <span class="rpath">Pandora-Finance <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-            <p class="rdesc">Built by the Pandora Finance team</p>
+            <p class="rdesc">Built in the open by the Pandora Finance team.</p>
           </div>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section chains" id="faq">
+    <div class="container">
+      <div class="sec-head reveal" style="margin:0 auto;text-align:center">
+        <p class="eyebrow" style="color:var(--um-gold-deep)">Questions</p>
+        <h2>How the curator works</h2>
+        <p class="lead" style="margin:14px auto 0">The short version of what the agent does, what it won't do, and what's under the hood.</p>
+      </div>
+      <div class="faqwrap reveal d1">
+        <details class="faq">
+          <summary>What does the AI curator actually do?</summary>
+          <p>You give it a theme and a budget in plain language. It scans live collections, scores each piece on trait rarity, checks provenance and trade history for wash-trading, compares prices against the real floor, and assembles a shortlist of fair-value pieces — then places bids, buys, or lists on your behalf. You can watch every step stream in the live demo.</p>
+        </details>
+        <details class="faq">
+          <summary>How does it detect wash-trading?</summary>
+          <p>It reconstructs a collection's trade graph and looks for the tells: a handful of wallets driving most of the volume, circular self-trades where the same NFT loops between related addresses, brand-new anonymous deployer wallets, and floors that only hold up on those internal trades. When enough line up, it treats the volume as manufactured, strips it out to find the real floor, and excludes the collection rather than buying in.</p>
+        </details>
+        <details class="faq">
+          <summary>Does the agent move funds on its own?</summary>
+          <p>Only within the limits you set, and every trade settles through Express Protocol's audited on-chain contracts — the same escrow, bidding and royalty logic the whole marketplace uses. The demo here is fully simulated; nothing is bought, sold or listed for real.</p>
+        </details>
+        <details class="faq">
+          <summary>What is UnityMarket's relationship to Express Protocol?</summary>
+          <p>UnityMarket is a marketplace front-end built on <a href="../express-protocol/index.html">Express Protocol</a>. The curator agent and the gallery are the experience layer; Express Protocol is the settlement layer that makes mints, bids, sales and creator royalties real and enforceable on-chain.</p>
+        </details>
+      </div>
+      <div class="reveal d2" style="text-align:center;margin-top:34px">
+        <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
       </div>
     </div>
   </section>
@@ -573,18 +687,18 @@
           <p class="fabout">A next-gen NFT marketplace from the Pandora family — mint, buy, sell and auction NFTs across curated collections, with creator royalties and multi-chain support.</p>
         </div>
         <div class="fcol">
-          <h5>Marketplace</h5>
-          <a href="#drops">Featured drops</a>
-          <a href="#collections">Collections</a>
-          <a href="#drops">Live auctions</a>
-          <a href="#features">How it works</a>
+          <h5>Curator</h5>
+          <a href="agent/">Launch the curator agent</a>
+          <a href="#curator">How the curator works</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
         </div>
         <div class="fcol">
-          <h5>Create</h5>
+          <h5>Marketplace</h5>
+          <a href="#drops">Featured drops</a>
+          <a href="#features">What you can do</a>
           <a href="#creators">For creators</a>
-          <a href="#creators">Mint an NFT</a>
-          <a href="#creators">Royalties</a>
-          <a href="#collections">Launch a collection</a>
+          <a href="#protocol">Built on Express Protocol</a>
         </div>
         <div class="fcol">
           <h5>Ecosystem</h5>

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="x402 settlement playground — watch a buyer-agent and seller-agent discover, quote, pay over HTTP 402, and settle an onchain asset transfer autonomously, on the Express Protocol SDK." />
+  <title>x402 Playground — Express Protocol</title>
+  <link rel="stylesheet" href="../../assets/design-system.css" />
+  <style>
+    /* ============================================================
+       x402 SETTLEMENT PLAYGROUND — light theme, Express purple accent
+       Tokens from ../../assets/design-system.css. createElement only.
+       ============================================================ */
+    :root{
+      --mono:'JetBrains Mono','SFMono-Regular',ui-monospace,'Menlo','Consolas',monospace;
+      --pg:#7949e8;               /* Express purple accent */
+      --pg-2:#833ef2;
+      --pg-soft:rgba(121,73,232,.08);
+      --pg-line:rgba(121,73,232,.20);
+      --buy:#006cff;              /* buyer-agent tone */
+      --buy-soft:rgba(0,108,255,.08);
+      --sell:#00915e;             /* seller-agent tone */
+      --sell-soft:rgba(0,145,94,.09);
+      --warn:#c2410c;
+      --warn-soft:rgba(194,65,12,.09);
+      --ink:#0b1220;
+      --panel:#fff;
+    }
+    body{background:var(--bg)}
+    ::selection{background:rgba(131,62,242,.24);color:#fff}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--pg-2);outline-offset:3px;border-radius:10px}
+
+    /* ---------- NAV ---------- */
+    .pg-nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.86);backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--gray-200)}
+    .pg-nav .nav-inner{display:flex;align-items:center;gap:18px;height:64px}
+    .pg-nav .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .pg-nav .brand img{height:24px;width:auto;display:block}
+    .pg-nav .back{font-size:.82rem;color:var(--slate);display:inline-flex;align-items:center;gap:6px;padding-right:15px;border-right:1px solid var(--gray-200)}
+    .pg-nav .back:hover{color:var(--navy)}
+    .pg-nav .n-right{margin-left:auto;display:flex;align-items:center;gap:20px}
+    .pg-nav .nlink{color:var(--slate);font-weight:500;font-size:.9rem}
+    .pg-nav .nlink:hover{color:var(--navy)}
+    .pg-nav .tag{font-family:var(--mono);font-size:.72rem;color:var(--pg);background:var(--pg-soft);border:1px solid var(--pg-line);padding:4px 10px;border-radius:var(--r-pill)}
+    @media(max-width:720px){.pg-nav .nlink.docs,.pg-nav .tag{display:none}}
+
+    /* ---------- HEADER ---------- */
+    .pg-head{padding:52px 0 8px}
+    .pg-head .eyebrow{color:var(--pg)}
+    .pg-head h1{font-size:clamp(1.9rem,3.8vw,2.7rem);letter-spacing:-.025em;margin:12px 0 12px}
+    .pg-head h1 b{color:var(--pg)}
+    .pg-head p{color:var(--slate);max-width:64ch;font-size:clamp(1.02rem,1.5vw,1.15rem);margin:0}
+
+    /* ---------- CONTROLS ---------- */
+    .controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:26px}
+    .btn-run{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:.98rem;padding:13px 22px;border:0;border-radius:var(--r-pill);cursor:pointer;
+      background:linear-gradient(135deg,var(--pg),var(--pg-2));color:#fff;box-shadow:0 8px 22px rgba(121,73,232,.32);transition:.2s}
+    .btn-run:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 32px rgba(121,73,232,.46)}
+    .btn-run:disabled{opacity:.55;cursor:not-allowed}
+    .btn-run svg{width:17px;height:17px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{font-size:.82rem;font-weight:600;color:var(--navy);background:var(--panel);border:1px solid var(--gray-200);padding:9px 14px;border-radius:var(--r-pill);cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:7px}
+    .chip:hover:not(:disabled){border-color:var(--pg);color:var(--pg);transform:translateY(-1px)}
+    .chip:disabled{opacity:.5;cursor:not-allowed}
+    .chip .cdot{width:7px;height:7px;border-radius:50%;background:var(--pg);opacity:.55;flex:none}
+    .chip.warn:hover:not(:disabled){border-color:var(--warn);color:var(--warn)}
+    .chip.warn .cdot{background:var(--warn)}
+    .chip.active{border-color:var(--pg);color:var(--pg);box-shadow:0 0 0 3px var(--pg-soft)}
+    .chip.warn.active{border-color:var(--warn);color:var(--warn);box-shadow:0 0 0 3px var(--warn-soft)}
+    .reset{background:transparent;border:1px solid var(--gray-200);color:var(--slate);font-weight:600;font-size:.82rem;padding:9px 14px;border-radius:var(--r-pill);cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:7px}
+    .reset:hover{border-color:var(--navy);color:var(--navy)}
+    .reset svg{width:14px;height:14px}
+    .scenario-note{font-size:.85rem;color:var(--slate);margin-top:12px;min-height:1.2em}
+    .scenario-note b{color:var(--navy)}
+
+    /* ---------- STAGE ---------- */
+    .stage{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:20px;margin-top:34px;align-items:start}
+    @media(max-width:980px){.stage{grid-template-columns:1fr}}
+
+    /* agent panels */
+    .agent{background:var(--panel);border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:22px;position:relative;overflow:hidden;transition:box-shadow .3s,border-color .3s}
+    .agent.thinking{border-color:var(--pg);box-shadow:0 0 0 3px var(--pg-soft)}
+    .agent .rail{position:absolute;left:0;top:0;bottom:0;width:4px}
+    .agent.buyer .rail{background:linear-gradient(var(--buy),#4d9bff)}
+    .agent.seller .rail{background:linear-gradient(var(--sell),#2bb27f)}
+    .agent .a-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .agent .avatar{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;color:#fff}
+    .agent.buyer .avatar{background:linear-gradient(135deg,var(--buy),#4d9bff)}
+    .agent.seller .avatar{background:linear-gradient(135deg,var(--sell),#2bb27f)}
+    .agent .avatar svg{width:23px;height:23px}
+    .agent .a-id{min-width:0}
+    .agent .a-name{font-family:var(--mono);font-weight:700;font-size:1rem;color:var(--navy);letter-spacing:-.01em}
+    .agent .a-sub{font-size:.78rem;color:var(--slate)}
+    .agent .wallet{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.78rem;
+      background:var(--bg);border:1px solid var(--gray-200);border-radius:10px;padding:9px 12px;margin-bottom:14px}
+    .agent .wallet .addr{color:var(--slate)}
+    .agent .wallet .bal{font-weight:700;color:var(--navy)}
+    .agent .wallet .bal.up{color:var(--sell)}
+    .agent .wallet .bal.down{color:var(--buy)}
+    .agent .status{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;padding:6px 12px;border-radius:var(--r-pill);
+      background:var(--bg);color:var(--slate);border:1px solid var(--gray-200)}
+    .agent .status .sdot{width:8px;height:8px;border-radius:50%;background:var(--gray-300);flex:none}
+    .agent.buyer .status.on .sdot{background:var(--buy);box-shadow:0 0 8px var(--buy)}
+    .agent.seller .status.on .sdot{background:var(--sell);box-shadow:0 0 8px var(--sell)}
+    .agent .status.on{color:var(--navy)}
+    .agent .status.ok{color:var(--sell);border-color:rgba(0,145,94,.3);background:var(--sell-soft)}
+    .agent .status.ok .sdot{background:var(--sell);box-shadow:0 0 8px var(--sell)}
+    .agent .status.err{color:var(--warn);border-color:rgba(194,65,12,.3);background:var(--warn-soft)}
+    .agent .status.err .sdot{background:var(--warn)}
+    .agent .holds{margin-top:16px;border-top:1px dashed var(--gray-200);padding-top:14px}
+    .agent .holds .hlabel{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-300);margin-bottom:10px}
+    .asset-card{display:flex;align-items:center;gap:11px;background:var(--bg);border:1px solid var(--gray-200);border-radius:12px;padding:10px 12px;transition:.3s;opacity:0;transform:translateY(6px)}
+    .asset-card.show{opacity:1;transform:none}
+    .asset-card.moved{border-color:var(--pg-line);background:var(--pg-soft)}
+    .asset-card .thumb{width:38px;height:38px;border-radius:9px;flex:none;display:grid;place-items:center;color:#fff;
+      background:linear-gradient(135deg,var(--pg),var(--pg-2))}
+    .asset-card .thumb svg{width:20px;height:20px}
+    .asset-card .a-meta{min-width:0}
+    .asset-card .a-t{font-weight:700;font-size:.86rem;color:var(--navy)}
+    .asset-card .a-d{font-family:var(--mono);font-size:.72rem;color:var(--slate)}
+    .asset-empty{font-size:.82rem;color:var(--gray-300);font-style:italic}
+
+    /* ---------- EVENT LOG (center) ---------- */
+    .log-wrap{background:#0c1428;border:1px solid rgba(255,255,255,.08);border-radius:var(--r-lg);overflow:hidden;
+      box-shadow:0 30px 70px rgba(3,6,16,.35);display:flex;flex-direction:column;min-height:520px}
+    .log-top{display:flex;align-items:center;gap:9px;padding:13px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.07);flex:none}
+    .log-top .dots{display:flex;gap:7px}
+    .log-top .dots i{width:11px;height:11px;border-radius:50%;display:block}
+    .log-top .dots i:nth-child(1){background:#ff5f57}.log-top .dots i:nth-child(2){background:#febc2e}.log-top .dots i:nth-child(3){background:#28c840}
+    .log-top .ltitle{margin-left:8px;font-family:var(--mono);font-size:.78rem;color:rgba(255,255,255,.5)}
+    .log-top .lstate{margin-left:auto;font-family:var(--mono);font-size:.7rem;color:#c9bcff;background:rgba(121,73,232,.18);padding:3px 10px;border-radius:6px;border:1px solid rgba(121,73,232,.3)}
+    .log{flex:1;overflow-y:auto;padding:18px 18px 22px;font-family:var(--mono);font-size:.8rem;line-height:1.55;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+    .log::-webkit-scrollbar{width:8px}.log::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:8px}
+
+    /* log entries */
+    .ev{opacity:0;transform:translateY(8px);animation:evin .32s ease forwards;margin-bottom:13px}
+    @keyframes evin{to{opacity:1;transform:none}}
+    @media(prefers-reduced-motion:reduce){.ev{animation:none;opacity:1;transform:none}}
+    .ev .ev-head{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+    .ev .who{font-weight:700;font-size:.73rem;letter-spacing:.02em}
+    .ev.buyer .who{color:#6fb0ff}
+    .ev.seller .who{color:#4fd6a0}
+    .ev.sys .who{color:#b9a6ff}
+    .ev .arrow{color:rgba(255,255,255,.3);font-size:.72rem}
+    .ev .ev-msg{color:rgba(255,255,255,.82)}
+    .ev .ev-msg .em{color:#fff;font-weight:600}
+
+    /* tool-call block */
+    .tool{margin:3px 0 0;padding:8px 11px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-left:2px solid var(--pg-2)}
+    .tool .t-name{color:#e6d3ff}
+    .tool .t-fn{color:#82aaff}
+    .tool .t-arg{color:#9be0a8}
+    .tool .t-key{color:#c792ea}
+    .tool .t-num{color:#f6b17a}
+    .tool .t-punc{color:#7f8db3}
+    .tool .t-ret{display:block;margin-top:4px;color:rgba(255,255,255,.5)}
+    .tool .t-ret .ok{color:#4fd6a0}
+
+    /* HTTP frame */
+    .http{margin:4px 0 0;border-radius:9px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+    .http .h-line{display:flex;align-items:center;gap:8px;padding:6px 11px;font-size:.75rem}
+    .http .h-req{background:rgba(0,108,255,.12);color:#9cc6ff}
+    .http .h-402{background:rgba(194,65,12,.16);color:#ffb38a}
+    .http .h-200{background:rgba(0,145,94,.16);color:#7ff0c0}
+    .http .h-code{font-weight:700}
+    .http .h-body{padding:7px 11px;background:rgba(255,255,255,.03);color:rgba(255,255,255,.62);font-size:.73rem;line-height:1.5;border-top:1px solid rgba(255,255,255,.06)}
+    .http .h-body .hk{color:#c792ea}
+    .http .h-body .hv{color:#9be0a8}
+
+    /* settled banner */
+    .settle{margin-top:6px;padding:12px 14px;border-radius:11px;display:flex;align-items:center;gap:11px;
+      background:linear-gradient(135deg,rgba(0,145,94,.18),rgba(121,73,232,.14));border:1px solid rgba(0,145,94,.34)}
+    .settle.err{background:linear-gradient(135deg,rgba(194,65,12,.18),rgba(120,40,10,.12));border-color:rgba(194,65,12,.4)}
+    .settle .s-ic{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--sell);color:#fff}
+    .settle.err .s-ic{background:var(--warn)}
+    .settle .s-ic svg{width:15px;height:15px}
+    .settle .s-txt{font-size:.82rem;color:#fff;font-weight:600}
+    .settle .s-txt span{display:block;font-weight:400;color:rgba(255,255,255,.66);font-size:.75rem;margin-top:1px}
+
+    .log-empty{height:100%;min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;color:rgba(255,255,255,.4);padding:20px}
+    .log-empty svg{width:42px;height:42px;color:rgba(201,188,255,.5)}
+    .log-empty p{font-family:var(--font);font-size:.92rem;max-width:34ch;margin:0;line-height:1.5}
+    .log-empty .le-hint{font-family:var(--mono);font-size:.76rem;color:rgba(201,188,255,.6)}
+
+    .typing{display:inline-flex;gap:3px;align-items:center;vertical-align:middle}
+    .typing i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);animation:tp 1s infinite}
+    .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+    @keyframes tp{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+    /* ---------- LEGEND / FOOT ---------- */
+    .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:26px;font-size:.82rem;color:var(--slate)}
+    .legend .lg{display:inline-flex;align-items:center;gap:8px}
+    .legend .sw{width:12px;height:12px;border-radius:4px;flex:none}
+    .legend .sw.buy{background:var(--buy)}.legend .sw.sell{background:var(--sell)}.legend .sw.pg{background:var(--pg)}.legend .sw.warn{background:var(--warn)}
+
+    .explain{margin-top:44px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    @media(max-width:900px){.explain{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.explain{grid-template-columns:1fr}}
+    .xcard{background:var(--panel);border:1px solid var(--gray-200);border-radius:var(--r);padding:20px}
+    .xcard .xn{font-family:var(--mono);font-weight:700;color:var(--pg);font-size:.82rem;margin-bottom:8px}
+    .xcard h4{font-size:1rem;margin-bottom:6px}
+    .xcard p{color:var(--slate);font-size:.86rem;margin:0;line-height:1.5}
+
+    .pg-foot{border-top:1px solid var(--gray-200);margin-top:56px;padding:30px 0 48px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+    .pg-foot .fnote{font-size:.84rem;color:var(--slate)}
+    .pg-foot .fnote code{font-family:var(--mono);color:var(--pg)}
+    .pg-foot a.back2{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--slate);font-weight:500}
+    .pg-foot a.back2:hover{color:var(--navy)}
+    .pg-foot a.back2 svg{width:15px;height:15px}
+    .disc{font-size:.76rem;color:var(--gray-300);margin-top:16px;max-width:70ch}
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="pg-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html" aria-label="Express Protocol">
+        <img src="../../assets/logos/ExpressProtocol_Dark.png" alt="Express Protocol" />
+      </a>
+      <a class="back" href="../index.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Express Protocol
+      </a>
+      <div class="n-right">
+        <span class="tag">x402 · live sim</span>
+        <a class="nlink docs" href="../docs/">Docs</a>
+        <a class="nlink docs" href="../index.html#x402">About x402</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HEADER ============ -->
+  <header class="pg-head">
+    <div class="container">
+      <p class="eyebrow">x402 settlement playground</p>
+      <h1>Watch two agents settle a purchase <b>on their own</b></h1>
+      <p>A live simulation of the x402 flow on Express Protocol. A <b style="color:var(--buy)">buyer-agent</b> discovers a listing, a
+        <b style="color:var(--sell)">seller-agent</b> quotes it, and payment clears over HTTP 402 in USDC — then the asset transfers onchain.
+        No human at the checkout. Press run, or pick a scenario.</p>
+
+      <div class="controls">
+        <button class="btn-run" id="runBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg>
+          Run a settlement
+        </button>
+        <div class="chips" id="chips"></div>
+        <button class="reset" id="resetBtn" title="Clear the log">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+      </div>
+      <div class="scenario-note" id="note"></div>
+    </div>
+  </header>
+
+  <!-- ============ STAGE ============ -->
+  <div class="container">
+    <div class="stage">
+
+      <!-- BUYER -->
+      <div class="agent buyer" id="buyerPanel">
+        <span class="rail"></span>
+        <div class="a-top">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 8V4M8 4h8M9 14h.01M15 14h.01M9 18h6"/></svg>
+          </div>
+          <div class="a-id">
+            <div class="a-name">buyer-agent</div>
+            <div class="a-sub">autonomous · needs an asset</div>
+          </div>
+        </div>
+        <div class="wallet">
+          <span class="addr">0xB0b…a11ce</span>
+          <span class="bal" id="buyerBal">120.00 USDC</span>
+        </div>
+        <div class="status" id="buyerStatus"><span class="sdot"></span> idle</div>
+        <div class="holds">
+          <div class="hlabel">Wallet · assets</div>
+          <div id="buyerAssets"><span class="asset-empty">No assets yet.</span></div>
+        </div>
+      </div>
+
+      <!-- EVENT LOG -->
+      <div class="log-wrap">
+        <div class="log-top">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <span class="ltitle">x402-settlement.log</span>
+          <span class="lstate" id="logState">ready</span>
+        </div>
+        <div class="log" id="log"></div>
+      </div>
+
+      <!-- SELLER -->
+      <div class="agent seller" id="sellerPanel">
+        <span class="rail"></span>
+        <div class="a-top">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5M4 9v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9M4 9h16M9 13h6"/></svg>
+          </div>
+          <div class="a-id">
+            <div class="a-name">seller-agent</div>
+            <div class="a-sub">autonomous · lists onchain assets</div>
+          </div>
+        </div>
+        <div class="wallet">
+          <span class="addr">0x5e11e…c0de</span>
+          <span class="bal" id="sellerBal">0.00 USDC</span>
+        </div>
+        <div class="status" id="sellerStatus"><span class="sdot"></span> idle</div>
+        <div class="holds">
+          <div class="hlabel">Listed · for sale</div>
+          <div id="sellerAssets"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- legend -->
+    <div class="legend">
+      <span class="lg"><span class="sw buy"></span> buyer-agent</span>
+      <span class="lg"><span class="sw sell"></span> seller-agent</span>
+      <span class="lg"><span class="sw pg"></span> x402 payment</span>
+      <span class="lg"><span class="sw warn"></span> rejection</span>
+    </div>
+
+    <!-- how it works -->
+    <div class="explain">
+      <div class="xcard">
+        <div class="xn">01 · discover</div>
+        <h4>Find the listing</h4>
+        <p>The buyer-agent calls <code>discover_listing()</code> and reads the asset, chain, and endpoint from the seller.</p>
+      </div>
+      <div class="xcard">
+        <div class="xn">02 · quote</div>
+        <h4>Price &amp; terms</h4>
+        <p>The seller-agent answers <code>quote()</code> with a price in USDC and settlement terms — no negotiation UI needed.</p>
+      </div>
+      <div class="xcard">
+        <div class="xn">03 · x402 pay</div>
+        <h4>HTTP 402 → 200</h4>
+        <p>The endpoint returns <code>402 Payment Required</code>; the buyer signs a USDC payment header and re-sends for <code>200 OK</code>.</p>
+      </div>
+      <div class="xcard">
+        <div class="xn">04 · settle</div>
+        <h4>Transfer the asset</h4>
+        <p><code>transfer_asset()</code> fills the ERC-721 to the buyer's wallet. Both agents mark the trade settled autonomously.</p>
+      </div>
+    </div>
+
+    <p class="disc">Illustrative simulation only — no real wallets, funds, or onchain transactions. Balances, addresses, and token IDs are fictional and reset on each run. Built to show the shape of an x402 agent-to-agent settlement on the Express Protocol SDK.</p>
+
+    <!-- foot -->
+    <div class="pg-foot">
+      <div class="fnote">Ship it for real: <code>npm i pandora-express</code> · x402 is a first-class Express Protocol standard.</div>
+      <a class="back2" href="../index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to Express Protocol
+      </a>
+    </div>
+  </div>
+
+  <!-- ============ SCRIPT (createElement / textContent only) ============ -->
+  <script>
+  (function(){
+    "use strict";
+    var SVGNS = "http://www.w3.org/2000/svg";
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+    // ---- tiny DOM helpers (createElement / textContent only) ----
+    function el(tag, cls, txt){
+      var n = document.createElement(tag);
+      if(cls) n.className = cls;
+      if(txt != null) n.textContent = txt;
+      return n;
+    }
+    function svg(paths, w, cls){
+      var s = document.createElementNS(SVGNS,"svg");
+      s.setAttribute("viewBox","0 0 24 24"); s.setAttribute("fill","none");
+      s.setAttribute("stroke","currentColor"); s.setAttribute("stroke-width", w||"2.2");
+      s.setAttribute("stroke-linecap","round"); s.setAttribute("stroke-linejoin","round");
+      if(cls) s.setAttribute("class",cls);
+      paths.forEach(function(d){ var p=document.createElementNS(SVGNS,"path"); p.setAttribute("d",d); s.appendChild(p); });
+      return s;
+    }
+    // append a span with class+text to a parent, return it
+    function span(parent, cls, txt){ var n = el("span", cls, txt); parent.appendChild(n); return n; }
+
+    // ---- element refs ----
+    var log = document.getElementById("log");
+    var logState = document.getElementById("logState");
+    var note = document.getElementById("note");
+    var runBtn = document.getElementById("runBtn");
+    var resetBtn = document.getElementById("resetBtn");
+    var chipsWrap = document.getElementById("chips");
+
+    var buyerPanel = document.getElementById("buyerPanel");
+    var sellerPanel = document.getElementById("sellerPanel");
+    var buyerStatus = document.getElementById("buyerStatus");
+    var sellerStatus = document.getElementById("sellerStatus");
+    var buyerBal = document.getElementById("buyerBal");
+    var sellerBal = document.getElementById("sellerBal");
+    var buyerAssets = document.getElementById("buyerAssets");
+    var sellerAssets = document.getElementById("sellerAssets");
+
+    // ---- scenarios ----
+    var SCENARIOS = {
+      asset: {
+        label: "Agent purchases an asset",
+        note: "The buyer-agent wants a specific onchain collectible. Standard happy-path settlement.",
+        assetTitle: "Genesis Pass #0413",
+        assetDesc: "ERC-721 · Base",
+        tokenId: "0413",
+        price: "25.00",
+        buyerStart: 120.00,
+        endpoint: "/assets/genesis/0413",
+        pay: "25.00"
+      },
+      api: {
+        label: "Agent buys an API license",
+        note: "The buyer-agent needs a metered data-API license, tokenized as an ERC-721 access pass.",
+        assetTitle: "Data-API License",
+        assetDesc: "ERC-721 · Base · 30d",
+        tokenId: "0007",
+        price: "8.00",
+        buyerStart: 120.00,
+        endpoint: "/license/data-api",
+        pay: "8.00"
+      },
+      fail: {
+        label: "Payment below quote",
+        note: "The buyer-agent underpays the quote. The seller-agent rejects the settlement politely.",
+        assetTitle: "Genesis Pass #0512",
+        assetDesc: "ERC-721 · Base",
+        tokenId: "0512",
+        price: "25.00",
+        buyerStart: 120.00,
+        endpoint: "/assets/genesis/0512",
+        pay: "18.00",
+        fail: true
+      }
+    };
+    var CHIP_ORDER = ["asset", "api", "fail"];
+
+    // ---- state ----
+    var running = false;
+    var timers = [];
+    var currentKey = "asset";
+
+    function clearTimers(){ timers.forEach(function(t){ clearTimeout(t); }); timers = []; }
+    function wait(ms){ return new Promise(function(res){ timers.push(setTimeout(res, reduce ? Math.min(ms,120) : ms)); }); }
+
+    // ---- panel state helpers ----
+    function setStatus(node, cls, txt){
+      node.className = "status " + cls;
+      var dot = el("span","sdot");
+      node.textContent = "";
+      node.appendChild(dot);
+      node.appendChild(document.createTextNode(" " + txt));
+    }
+    function think(panel, on){ panel.classList.toggle("thinking", !!on); }
+
+    function makeAssetCard(sc){
+      var card = el("div","asset-card");
+      var thumb = el("div","thumb");
+      thumb.appendChild(svg(["M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 22l-5.5-2.5 1-6.3L3 8.9 9 8z"], "1.9"));
+      card.appendChild(thumb);
+      var meta = el("div","a-meta");
+      meta.appendChild(el("div","a-t", sc.assetTitle));
+      meta.appendChild(el("div","a-d", sc.assetDesc + " · #" + sc.tokenId));
+      card.appendChild(meta);
+      return card;
+    }
+
+    // ---- log builders ----
+    function scrollLog(){ log.scrollTop = log.scrollHeight; }
+
+    function addEvent(sideCls, who, arrow, buildMsg){
+      var ev = el("div","ev " + sideCls);
+      var head = el("div","ev-head");
+      head.appendChild(el("span","who", who));
+      if(arrow){ head.appendChild(el("span","arrow", arrow)); }
+      ev.appendChild(head);
+      var msg = el("div","ev-msg");
+      if(buildMsg) buildMsg(msg);
+      ev.appendChild(msg);
+      log.appendChild(ev);
+      scrollLog();
+      return ev;
+    }
+
+    // message with an emphasized token: parts = array of {t, em?}
+    function msgParts(container, parts){
+      parts.forEach(function(p){
+        if(p.em){ span(container, "em", p.t); }
+        else { container.appendChild(document.createTextNode(p.t)); }
+      });
+    }
+
+    // tool-call block appended under an event
+    function addTool(afterEv, fnName, args, ret){
+      var tool = el("div","tool");
+      // buyer-agent → tool_name.fn({ key: val, ... })
+      span(tool, "t-name", "tool");
+      tool.appendChild(document.createTextNode(" "));
+      span(tool, "t-fn", fnName);
+      span(tool, "t-punc", "(");
+      if(args && args.length){
+        span(tool, "t-punc", "{ ");
+        args.forEach(function(a, i){
+          span(tool, "t-key", a.k);
+          span(tool, "t-punc", ": ");
+          span(tool, a.num ? "t-num" : "t-arg", a.num ? a.v : ('"' + a.v + '"'));
+          if(i < args.length - 1) span(tool, "t-punc", ", ");
+        });
+        span(tool, "t-punc", " }");
+      }
+      span(tool, "t-punc", ")");
+      if(ret){
+        var r = el("span","t-ret");
+        r.appendChild(document.createTextNode("→ "));
+        span(r, "ok", ret);
+        tool.appendChild(r);
+      }
+      afterEv.appendChild(tool);
+      scrollLog();
+    }
+
+    // compact HTTP frame: kind = 'req' | '402' | '200'
+    function addHttp(afterEv, kind, method, path, code, codeTxt, headers){
+      var http = el("div","http");
+      var lineCls = kind === "req" ? "h-req" : (kind === "402" ? "h-402" : "h-200");
+      var line = el("div","h-line " + lineCls);
+      if(method){
+        span(line, "h-code", method);
+        line.appendChild(document.createTextNode(" " + path));
+      } else {
+        span(line, "h-code", code + " ");
+        line.appendChild(document.createTextNode(codeTxt));
+      }
+      http.appendChild(line);
+      if(headers && headers.length){
+        var body = el("div","h-body");
+        headers.forEach(function(h, i){
+          span(body, "hk", h.k + ": ");
+          span(body, "hv", h.v);
+          if(i < headers.length - 1) body.appendChild(el("br"));
+        });
+        http.appendChild(body);
+      }
+      afterEv.appendChild(http);
+      scrollLog();
+    }
+
+    // settled / rejected banner
+    function addSettle(isErr, title, sub){
+      var s = el("div","settle" + (isErr ? " err" : ""));
+      var ic = el("div","s-ic");
+      if(isErr){ ic.appendChild(svg(["M18 6L6 18M6 6l12 12"], "2.6")); }
+      else { ic.appendChild(svg(["M20 6L9 17l-5-5"], "2.8")); }
+      s.appendChild(ic);
+      var txt = el("div","s-txt", title);
+      txt.appendChild(el("span", null, sub));
+      s.appendChild(txt);
+      log.appendChild(s);
+      scrollLog();
+    }
+
+    // typing indicator row, returns node to remove later
+    function addTyping(sideCls, who){
+      var ev = el("div","ev " + sideCls);
+      var head = el("div","ev-head");
+      head.appendChild(el("span","who", who));
+      ev.appendChild(head);
+      var t = el("span","typing");
+      t.appendChild(el("i")); t.appendChild(el("i")); t.appendChild(el("i"));
+      var msg = el("div","ev-msg"); msg.appendChild(t);
+      ev.appendChild(msg);
+      log.appendChild(ev); scrollLog();
+      return ev;
+    }
+    async function beat(sideCls, who, ms){
+      var t = addTyping(sideCls, who);
+      await wait(ms || 620);
+      if(t.parentNode) t.parentNode.removeChild(t);
+    }
+
+    // ---- reset the stage ----
+    function resetStage(){
+      clearTimers();
+      running = false;
+      log.textContent = "";
+      logState.textContent = "ready";
+      note.textContent = "";
+      think(buyerPanel,false); think(sellerPanel,false);
+      setStatus(buyerStatus,"","idle");
+      setStatus(sellerStatus,"","idle");
+      buyerBal.className = "bal"; sellerBal.className = "bal";
+      buyerBal.textContent = "120.00 USDC";
+      sellerBal.textContent = "0.00 USDC";
+      buyerAssets.textContent = "";
+      buyerAssets.appendChild(el("span","asset-empty","No assets yet."));
+      sellerAssets.textContent = "";
+      setButtons(false);
+      showEmpty();
+    }
+
+    function showEmpty(){
+      var e = el("div","log-empty");
+      e.appendChild(svg(["M8 3H5a2 2 0 0 0-2 2v3","M21 8V5a2 2 0 0 0-2-2h-3","M3 16v3a2 2 0 0 0 2 2h3","M16 21h3a2 2 0 0 0 2-2v-3","M9 9h6v6H9z"], "1.7"));
+      e.appendChild(el("p", null, "The event log is empty. Run a settlement to watch the buyer-agent and seller-agent negotiate and clear an x402 payment."));
+      e.appendChild(el("div","le-hint","→ press “Run a settlement”"));
+      log.appendChild(e);
+    }
+
+    function setButtons(dis){
+      runBtn.disabled = dis;
+      resetBtn.disabled = false;
+      var cs = chipsWrap.querySelectorAll(".chip");
+      cs.forEach(function(c){ c.disabled = dis; });
+    }
+
+    // ---- the run sequence ----
+    async function run(key){
+      if(running) return;
+      var sc = SCENARIOS[key];
+      currentKey = key;
+      running = true;
+      clearTimers();
+      log.textContent = "";
+      note.textContent = "";
+      msgParts(note, [{t:"Scenario: "},{t:sc.label, em:true},{t:" — " + sc.note}]);
+      // reset panels to fresh start for this scenario
+      setStatus(buyerStatus,"","idle");
+      setStatus(sellerStatus,"","idle");
+      buyerBal.className = "bal"; sellerBal.className = "bal";
+      buyerBal.textContent = sc.buyerStart.toFixed(2) + " USDC";
+      sellerBal.textContent = "0.00 USDC";
+      buyerAssets.textContent = "";
+      buyerAssets.appendChild(el("span","asset-empty","No assets yet."));
+      // seller lists the asset
+      sellerAssets.textContent = "";
+      var listCard = makeAssetCard(sc);
+      sellerAssets.appendChild(listCard);
+      timers.push(setTimeout(function(){ listCard.classList.add("show"); }, 40));
+      setButtons(true);
+      logState.textContent = "running";
+
+      // highlight active chip
+      markChip(key);
+
+      // --- 0 · session opens ---
+      addEvent("sys", "session", null, function(m){
+        msgParts(m, [{t:"x402 channel open · "},{t:"buyer-agent", em:true},{t:" ⇄ "},{t:"seller-agent", em:true}]);
+      });
+      await wait(700);
+
+      // --- 1 · discover ---
+      think(buyerPanel,true);
+      setStatus(buyerStatus,"on","discovering");
+      await beat("buyer","buyer-agent", 560);
+      var e1 = addEvent("buyer","buyer-agent","→ seller", function(m){
+        msgParts(m, [{t:"Looking for "},{t:sc.assetTitle, em:true},{t:". What are your terms?"}]);
+      });
+      addTool(e1, "discover_listing", [{k:"endpoint", v:sc.endpoint}], "listing found");
+      await wait(950);
+      think(buyerPanel,false);
+
+      // --- 2 · quote ---
+      think(sellerPanel,true);
+      setStatus(sellerStatus,"on","quoting");
+      await beat("seller","seller-agent", 620);
+      var e2 = addEvent("seller","seller-agent","→ buyer", function(m){
+        msgParts(m, [{t:"That asset is available for "},{t:sc.price + " USDC", em:true},{t:", settled onchain via x402."}]);
+      });
+      addTool(e2, "quote", [{k:"asset", v:sc.assetTitle},{k:"price", v:sc.price},{k:"terms", v:"x402/USDC"}], "quote #" + sc.tokenId + " signed");
+      await wait(980);
+      think(sellerPanel,false);
+
+      // --- 3 · x402 request → 402 ---
+      think(buyerPanel,true);
+      setStatus(buyerStatus,"on","paying");
+      await beat("buyer","buyer-agent", 520);
+      var e3 = addEvent("buyer","buyer-agent","→ endpoint", function(m){
+        msgParts(m, [{t:"Requesting the asset at "},{t:sc.endpoint, em:true},{t:"."}]);
+      });
+      addTool(e3, "x402_pay.request", [{k:"path", v:sc.endpoint}], null);
+      await wait(760);
+      var e402 = addEvent("seller","endpoint","→ buyer", function(m){
+        msgParts(m, [{t:"Payment required before I can release it."}]);
+      });
+      addHttp(e402, "402", null, null, "402", "Payment Required", [
+        {k:"accept-payment", v:"x402"},
+        {k:"price", v:sc.price + " USDC"},
+        {k:"pay-to", v:"0x5e11e…c0de"}
+      ]);
+      await wait(1050);
+
+      // --- 4 · sign + resend with payment header ---
+      await beat("buyer","buyer-agent", 560);
+      var underpay = !!sc.fail;
+      var e4 = addEvent("buyer","buyer-agent","→ endpoint", function(m){
+        if(underpay){
+          msgParts(m, [{t:"Signing a payment of "},{t:sc.pay + " USDC", em:true},{t:" and re-sending."}]);
+        } else {
+          msgParts(m, [{t:"Signing the "},{t:sc.pay + " USDC", em:true},{t:" payment and re-sending with the header."}]);
+        }
+      });
+      addTool(e4, "x402_pay.sign", [{k:"amount", v:sc.pay},{k:"asset", v:"USDC"},{k:"chainId", v:"8453", num:true}], "X-PAYMENT header attached");
+      addHttp(e4, "req", "GET", sc.endpoint + "  ·  X-PAYMENT ✓", null, null, [
+        {k:"x-payment", v:"usdc:" + sc.pay + ":0xB0b…a11ce"},
+        {k:"x-payment-chain", v:"base / 8453"}
+      ]);
+      await wait(1080);
+
+      if(underpay){
+        // ---- FAILURE branch: seller rejects politely ----
+        think(buyerPanel,false);
+        think(sellerPanel,true);
+        setStatus(sellerStatus,"on","verifying");
+        await beat("seller","seller-agent", 640);
+        var eErrHead = addEvent("seller","endpoint","→ buyer", function(m){
+          msgParts(m, [{t:"Payment is below the quoted price — settlement declined."}]);
+        });
+        addHttp(eErrHead, "402", null, null, "402", "Payment Required · underpaid", [
+          {k:"received", v:sc.pay + " USDC"},
+          {k:"required", v:sc.price + " USDC"},
+          {k:"shortfall", v:(parseFloat(sc.price)-parseFloat(sc.pay)).toFixed(2) + " USDC"}
+        ]);
+        await wait(880);
+        var eErr = addEvent("seller","seller-agent","→ buyer", function(m){
+          msgParts(m, [{t:"Thanks for the offer — but "},{t:sc.pay + " USDC", em:true},{t:" doesn't meet my "},{t:sc.price + " USDC", em:true},{t:" quote, so I can't release "},{t:sc.assetTitle, em:true},{t:". No funds were moved. Send the full amount and I'll settle right away."}]);
+        });
+        addTool(eErr, "settle", [{k:"status", v:"rejected"},{k:"reason", v:"amount_below_quote"}], "reverted · no transfer");
+        await wait(760);
+        think(sellerPanel,false);
+        setStatus(buyerStatus,"err","payment rejected");
+        setStatus(sellerStatus,"err","declined · unfilled");
+        // balances unchanged (revert)
+        buyerBal.className = "bal";
+        buyerBal.textContent = sc.buyerStart.toFixed(2) + " USDC";
+        addSettle(true, "Settlement rejected — politely.", "Underpaid by " + (parseFloat(sc.price)-parseFloat(sc.pay)).toFixed(2) + " USDC · payment reverted · asset stays with the seller.");
+        logState.textContent = "rejected";
+      } else {
+        // ---- SUCCESS branch ----
+        think(buyerPanel,false);
+        think(sellerPanel,true);
+        setStatus(sellerStatus,"on","verifying");
+        await beat("seller","endpoint", 560);
+        var e200 = addEvent("seller","endpoint","→ buyer", function(m){
+          msgParts(m, [{t:"Payment verified. Releasing the asset."}]);
+        });
+        addHttp(e200, "200", null, null, "200", "OK · payment settled", [
+          {k:"settled", v:sc.pay + " USDC"},
+          {k:"tx", v:"0x" + "f4c3" + sc.tokenId + "…a9e2"}
+        ]);
+        await wait(900);
+
+        // transfer asset
+        setStatus(sellerStatus,"on","transferring");
+        await beat("seller","seller-agent", 560);
+        var e5 = addEvent("seller","seller-agent","→ buyer", function(m){
+          msgParts(m, [{t:"Transferring "},{t:sc.assetTitle, em:true},{t:" to your wallet."}]);
+        });
+        addTool(e5, "transfer_asset", [{k:"tokenId", v:sc.tokenId},{k:"to", v:"0xB0b…a11ce"},{k:"standard", v:"ERC-721"}], "filled · onchain");
+        await wait(760);
+
+        // move balances + asset card across
+        sellerBal.className = "bal up";
+        sellerBal.textContent = sc.pay + " USDC";
+        buyerBal.className = "bal down";
+        buyerBal.textContent = (sc.buyerStart - parseFloat(sc.pay)).toFixed(2) + " USDC";
+        // seller list -> mark moved & fade out; buyer gains the asset
+        listCard.classList.add("moved");
+        await wait(360);
+        sellerAssets.textContent = "";
+        sellerAssets.appendChild(el("span","asset-empty","Sold — no active listings."));
+        buyerAssets.textContent = "";
+        var owned = makeAssetCard(sc);
+        owned.classList.add("moved");
+        buyerAssets.appendChild(owned);
+        timers.push(setTimeout(function(){ owned.classList.add("show"); }, 30));
+
+        think(sellerPanel,false);
+        setStatus(buyerStatus,"ok","settled ✓");
+        setStatus(sellerStatus,"ok","settled ✓");
+        await wait(240);
+        addSettle(false, "Settled autonomously.", sc.assetTitle + " → buyer-agent · " + sc.pay + " USDC → seller-agent · no human in the loop.");
+        logState.textContent = "settled";
+      }
+
+      setButtons(false);
+      running = false;
+    }
+
+    function markChip(key){
+      chipsWrap.querySelectorAll(".chip").forEach(function(c){
+        c.classList.toggle("active", c.getAttribute("data-key") === key);
+      });
+    }
+
+    // ---- build scenario chips ----
+    CHIP_ORDER.forEach(function(key){
+      var sc = SCENARIOS[key];
+      var chip = el("button", "chip" + (sc.fail ? " warn" : ""));
+      chip.setAttribute("data-key", key);
+      chip.appendChild(el("span","cdot"));
+      chip.appendChild(document.createTextNode(sc.label));
+      chip.addEventListener("click", function(){ if(!running) run(key); });
+      chipsWrap.appendChild(chip);
+    });
+
+    // ---- wire buttons ----
+    runBtn.addEventListener("click", function(){ if(!running) run(currentKey); });
+    resetBtn.addEventListener("click", function(){ resetStage(); });
+
+    // ---- init ----
+    resetStage();
+  })();
+  </script>
+</body>
+</html>

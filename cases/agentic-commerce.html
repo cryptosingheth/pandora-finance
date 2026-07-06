@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic commerce: when software becomes the buyer — Pandora Finance</title>
+<meta name="description" content="A case study on agent-to-agent commerce: market projections to 2030, the fragmenting agent-payment standards (x402, AP2, ACP, Visa/Mastercard agent pay), the settlement-infrastructure gap, and how Express Protocol positions x402 as a first-class rail in one SDK interface.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/design-system.css">
+<link rel="stylesheet" href="cases.css">
+<style>
+  /* agentic-commerce — purple accent (matches Express Protocol) */
+  :root{
+    --accent:#7949e8;
+    --accent-2:#a06bff;
+    --accent-soft:rgba(121,73,232,.09);
+    --accent-line:rgba(121,73,232,.24);
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== SLIM NAV ===================== -->
+<header class="cs-nav">
+  <div class="cs-wrap cs-wide cs-nav-inner">
+    <a class="cs-back" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Pandora Finance
+    </a>
+    <span class="cs-tag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Case study
+    </span>
+  </div>
+</header>
+
+<!-- ===================== HERO / TITLE ===================== -->
+<section class="cs-hero">
+  <div class="cs-wrap">
+    <span class="cs-eyebrow">Agentic commerce · payment infrastructure</span>
+    <h1>Agentic commerce: when <span class="g">software becomes the buyer</span>.</h1>
+    <p class="cs-thesis">The shopper is starting to be a program. AI agents are already comparing, deciding, and — increasingly — paying, and the forecasts put hundreds of billions of dollars of purchasing behind them by 2030. But the rails they pay over are fragmenting into competing standards with no common interface. Whoever makes those standards settle through one clean surface wins the plumbing of agent commerce.</p>
+    <div class="cs-meta">
+      <span><i class="dot"></i> Market to 2030</span>
+      <span><i class="dot"></i> Payment standards</span>
+      <span><i class="dot"></i> Settlement gap</span>
+    </div>
+  </div>
+  <!-- agents motif -->
+  <div class="cs-hero-motif" aria-hidden="true">
+    <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="70" r="26" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="49" y="60" width="22" height="16" rx="4" fill="none" stroke="var(--accent)" stroke-width="2.2"/>
+      <circle cx="55" cy="68" r="2" fill="var(--accent)"/><circle cx="65" cy="68" r="2" fill="var(--accent)"/>
+      <line x1="60" y1="55" x2="60" y2="60" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/><circle cx="60" cy="53" r="2" fill="var(--accent)"/>
+      <circle cx="160" cy="70" r="26" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="149" y="60" width="22" height="16" rx="4" fill="none" stroke="var(--accent)" stroke-width="2.2"/>
+      <circle cx="155" cy="68" r="2" fill="var(--accent)"/><circle cx="165" cy="68" r="2" fill="var(--accent)"/>
+      <line x1="160" y1="55" x2="160" y2="60" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/><circle cx="160" cy="53" r="2" fill="var(--accent)"/>
+      <path d="M88 70h44" stroke="var(--accent)" stroke-width="2.4" stroke-dasharray="5 5" stroke-linecap="round"/>
+      <path d="M126 64l8 6-8 6" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="80" y="128" width="60" height="42" rx="10" fill="var(--accent-soft)" stroke="var(--accent-line)" stroke-width="2"/>
+      <path d="M80 142h60" stroke="var(--accent-line)" stroke-width="2"/>
+      <text x="110" y="158" font-family="Figtree, sans-serif" font-size="15" font-weight="800" fill="var(--accent)" text-anchor="middle">402</text>
+      <path d="M60 96v20a10 10 0 0 0 10 10h14" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M160 96v20a10 10 0 0 1-10 10h-14" stroke="var(--gray-300)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===================== THE PROBLEM ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap">
+    <span class="kicker">The problem</span>
+    <h2>Agents can decide to buy. They can't cleanly pay.</h2>
+    <div class="cs-body">
+      <p>The web's checkout was built for a human with a browser, a card, and two hands. An autonomous agent has none of those. When an agent hits a paywall or a purchase, it has no native, standard way to authorize and settle a payment on its own — the entire flow assumes a person clicking a button and typing a card number into a form.</p>
+      <p>The industry's response, in barely a year, has been a burst of competing standards: Coinbase's <b>x402</b>, Google's <b>Agent Payments Protocol (AP2)</b>, OpenAI and Stripe's <b>Agentic Commerce Protocol (ACP)</b>, plus <b>Visa Intelligent Commerce</b> and <b>Mastercard Agent Pay</b> from the card networks — Visa and Mastercard launched theirs one day apart, on 29 and 30 April 2025.<a class="cite" href="#s6">6</a> That's the good news and the problem at once. As one landscape analysis puts it plainly, <b>"the market remains fragmented without interoperability standards,"</b> and merchants "may need to implement multiple protocols" to reach the agents that want to buy.<a class="cite" href="#s14">14</a></p>
+      <p>Venture analysis of the stack is blunt about the root cause: there is <b>"no agreed-upon standard for how a human assigns a role and scope to an agent,"</b> and authorization, fraud prevention, and liability allocation remain unsolved.<a class="cite" href="#s13">13</a> Deciding to buy is close to solved. Paying — cleanly, across rails, at machine speed and machine cost — is not.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE MARKET ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The market</span>
+    <h2>The buyer is becoming software — at scale.</h2>
+    <p class="cs-lead">Three numbers frame it: how much purchasing will run through agents by 2030, how fast AI-driven shopping traffic is already growing, and the machine-native settlement volume proving it's real today.</p>
+
+    <div class="cs-stats">
+      <div class="stat-card reveal">
+        <div class="fig">$190–385B<a class="cite" href="#s7">7</a></div>
+        <div class="lbl">US agentic-commerce spend by 2030</div>
+        <div class="desc">Morgan Stanley's projected range — roughly 10–20% of US online retail. Bain brackets $300–500B; ICSC &amp; McKinsey go to $1 trillion.<a class="cite" href="#s8">8</a><a class="cite" href="#s9">9</a></div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">+693%<a class="cite" href="#s10">10</a></div>
+        <div class="lbl">Growth in gen-AI retail traffic, YoY</div>
+        <div class="desc">Traffic to US retail sites from generative-AI sources during the holiday 2025 season — against a record $257.8B online.</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">~2 sec<a class="cite" href="#s2">2</a></div>
+        <div class="lbl">x402 settlement, at sub-cent fees</div>
+        <div class="desc">Hundreds of millions of transactions since May 2025, settling in ~2 seconds with fees "as low as a fraction of a cent."</div>
+      </div>
+    </div>
+    <p class="stat-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      The agents themselves are a market too: the global AI-agents software market is forecast to reach USD 50.31 billion by 2030 at a 45.8% CAGR.<a class="cite" href="#s12">12</a> Every one of them is a potential buyer that needs a way to pay.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== THE LANDSCAPE ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The landscape</span>
+    <h2>Four answers to one question, shipped in a single year.</h2>
+    <p class="cs-lead">Every major AI lab and payment network now has an agent-payment play. They overlap, they compete, and — tellingly — they've already started leaning on each other. Here's who built what.</p>
+
+    <div class="cs-land">
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          <div><span class="who">Coinbase · May 2025</span><h3>x402 — stablecoin settlement rail</h3></div>
+        </div>
+        <p>Reuses the dormant HTTP <b>402 Payment Required</b> status code to embed USDC stablecoin payments directly into a web request — so an agent hitting a paywall attaches a signed payment header and continues, no account, no checkout page.<a class="cite" href="#s1">1</a></p>
+        <p>It is the only agent-payment standard with live, high-volume settlement, and it's now governed by the x402 Foundation under the Linux Foundation.<a class="cite" href="#s2">2</a></p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <div><span class="who">Google · Sept 2025</span><h3>AP2 — the authorization layer</h3></div>
+        </div>
+        <p>The Agent Payments Protocol represents each purchase as cryptographically signed <b>Mandates</b> (Intent, Cart, Delegated Authority), solving who authorized what. Announced with <b>60+ partners</b> including Mastercard, Amex, PayPal, and Coinbase.<a class="cite" href="#s3">3</a></p>
+        <p>Tellingly, it's payment-agnostic and supports stablecoins <b>via an x402 extension</b> — the standards are already trying to compose, not just compete.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></span>
+          <div><span class="who">OpenAI + Stripe · Sept 2025</span><h3>ACP — the consumer checkout</h3></div>
+        </div>
+        <p>The Agentic Commerce Protocol powers <b>Instant Checkout in ChatGPT</b>, using a Shared Payment Token so the agent pays without exposing the buyer's card credentials. Live with Etsy, expanding toward a million-plus Shopify merchants.<a class="cite" href="#s4">4</a></p>
+        <p>It's the demand-side proof: agents are already buyers inside the world's most-used AI product.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>
+          <div><span class="who">Visa &amp; Mastercard · Apr 2025</span><h3>Card-network agent pay</h3></div>
+        </div>
+        <p><b>Visa Intelligent Commerce</b> (partners: OpenAI, Anthropic, Microsoft, Stripe) and <b>Mastercard Agent Pay</b> (partners: Microsoft, IBM, Braintree) bind tokenized card credentials to a specific agent, merchant scope, and consent policy.<a class="cite" href="#s6">6</a></p>
+        <p>They keep settlement on existing card rails — competing head-on with the stablecoin approach for the same agent checkouts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE GAP ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <div class="cs-gap reveal">
+      <div class="cs-gap-inner">
+        <span class="kicker">The gap</span>
+        <h2>Five standards. No common interface. A settlement layer up for grabs.</h2>
+        <p>The forecasts assume agents can pay smoothly. The reality is a fragmented field where each rail speaks its own dialect, and a builder wanting to accept agent payments faces a choice between betting on one standard or integrating all of them.</p>
+        <ul class="cs-gaplist">
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>Fragmentation is the default.</b> Card-network tokens, signed mandates, shared payment tokens, and stablecoin headers don't interoperate out of the box — "merchants may need to implement multiple protocols."<a class="cite" href="#s14">14</a></span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>Settlement is contested.</b> Value moves over purpose-built chains still in testnet and established networks alike — with stablecoins well-suited to machine-to-machine payments but no single accepted rail.<a class="cite" href="#s13">13</a></span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>The builder carries the cost.</b> Anyone shipping agent-ready commerce today re-implements payments per standard, per chain — instead of writing to one interface that abstracts the rail underneath.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW WE APPROACH IT ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">How we approach it</span>
+    <h2>One SDK interface, with x402 as a first-class rail.</h2>
+    <div class="cs-approach reveal">
+      <div class="cs-approach-top">
+        <span class="cs-approach-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="m9 15 2 2 4-4"/></svg></span>
+        <div>
+          <span class="prod">Express Protocol · a Pandora Finance product</span>
+          <h3>The SDK for agentic onchain commerce.</h3>
+        </div>
+      </div>
+      <div class="cs-approach-body">
+        <p>Express Protocol is our open-source SDK for agentic onchain commerce. Its design principle is <b>four standards, one interface</b>: mint, trade, and manage NFTs and real-world assets across ERC-721, ERC-1155, and ERC-404 — and settle agent payments through an <b>x402 module built on Coinbase's HTTP 402 stablecoin standard</b> — all from a single, consistent developer surface.</p>
+        <p>That directly addresses the gap above. Instead of asking a builder to re-implement payments for every emerging protocol, Express treats <b>x402 as a first-class settlement rail</b> inside the same interface used to handle assets: an agent hits a resource, x402 attaches a signed USDC payment, and it settles onchain — no checkout page, no card form, no seat at a human's browser. As the payment landscape keeps fragmenting, the value is in the abstraction: write to the interface, not the rail.</p>
+        <ul class="cs-points">
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>x402-native</b> — agents pay and settle in USDC on their own, per request.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Four standards, one API</b> — ERC-721, ERC-1155, ERC-404 and x402 behind a single interface.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Open-source</b> — <code>pandora-express</code> has been live on npm since February 2022.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Rail-agnostic by design</b> — the interface abstracts the settlement layer as standards evolve.</span></li>
+        </ul>
+        <a class="cs-prodlink" href="../express-protocol/index.html">Explore Express Protocol
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOURCES ===================== -->
+<section class="cs-sources" id="sources">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">Sources</span>
+    <ol>
+      <li id="s1">
+        <span class="s-title">Introducing x402: a new standard for internet-native payments.</span> <span class="s-pub">Coinbase, May 2025.</span> x402 reuses the HTTP "402 Payment Required" status code to embed stablecoin (USDC) payments into web requests, letting apps and AI agents pay per-request with no accounts.
+        <a class="s-url" href="https://www.coinbase.com/developer-platform/discover/launches/x402" target="_blank" rel="noopener">https://www.coinbase.com/developer-platform/discover/launches/x402</a>
+      </li>
+      <li id="s2">
+        <span class="s-title">What is Coinbase's x402 protocol?</span> <span class="s-pub">The Block.</span> Since its inception in May 2025 the protocol has processed "hundreds of millions" of transactions; settlement averages ~2 seconds; blockchain-agnostic (Base, Solana, Ethereum) with fees "as low as a fraction of a cent."
+        <a class="s-url" href="https://www.theblock.co/learn/391983/what-is-coinbases-x402-protocol" target="_blank" rel="noopener">https://www.theblock.co/learn/391983/what-is-coinbases-x402-protocol</a>
+      </li>
+      <li id="s3">
+        <span class="s-title">Announcing Agent Payments Protocol (AP2).</span> <span class="s-pub">Google Cloud, 17 September 2025.</span> AP2 launched with "more than 60 organizations"; represents purchases as signed Mandates; extends A2A and builds on the Model Context Protocol; supports stablecoins via the A2A x402 extension.
+        <a class="s-url" href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-agents-to-payments-ap2-protocol" target="_blank" rel="noopener">https://cloud.google.com/blog/products/ai-machine-learning/announcing-agents-to-payments-ap2-protocol</a>
+      </li>
+      <li id="s4">
+        <span class="s-title">Stripe powers Instant Checkout in ChatGPT and releases the Agentic Commerce Protocol codeveloped with OpenAI.</span> <span class="s-pub">Stripe Newsroom, 29 September 2025.</span> ACP is an open standard codeveloped by Stripe and OpenAI; introduces the Shared Payment Token so agents pay without exposing card credentials; live with Etsy, expanding to 1M+ Shopify merchants.
+        <a class="s-url" href="https://stripe.com/newsroom/news/stripe-openai-instant-checkout" target="_blank" rel="noopener">https://stripe.com/newsroom/news/stripe-openai-instant-checkout</a>
+      </li>
+      <li id="s6">
+        <span class="s-title">Visa, Mastercard offer support for AI agents.</span> <span class="s-pub">Digital Commerce 360, 6 May 2025.</span> Visa Intelligent Commerce launched 30 April 2025 (partners: OpenAI, Microsoft, Anthropic, Stripe, Samsung); Mastercard Agent Pay launched 29 April 2025 (partners: Microsoft, IBM, Braintree).
+        <a class="s-url" href="https://www.digitalcommerce360.com/2025/05/06/visa-mastercard-ai-agentic-commerce/" target="_blank" rel="noopener">https://www.digitalcommerce360.com/2025/05/06/visa-mastercard-ai-agentic-commerce/</a>
+      </li>
+      <li id="s7">
+        <span class="s-title">Agentic Commerce: Market Impact Could Reach $385 Billion by 2030.</span> <span class="s-pub">Morgan Stanley Research, December 2025.</span> Agentic shoppers could reach $190 billion to $385 billion in US e-commerce spending by 2030 (~10–20% of online retail); ~23% of Americans made a purchase using AI in the past month.
+        <a class="s-url" href="https://www.morganstanley.com/insights/articles/agentic-commerce-market-impact-outlook" target="_blank" rel="noopener">https://www.morganstanley.com/insights/articles/agentic-commerce-market-impact-outlook</a>
+      </li>
+      <li id="s8">
+        <span class="s-title">2030 Forecast: How Agentic AI Will Reshape US Retail.</span> <span class="s-pub">Bain &amp; Company, 17 December 2025.</span> US agentic commerce could reach $300–500 billion by 2030 (~15–25% of e-commerce); AI and agents influenced $3 billion of US Black Friday sales.
+        <a class="s-url" href="https://www.bain.com/insights/2030-forecast-how-agentic-ai-will-reshape-us-retail-snap-chart/" target="_blank" rel="noopener">https://www.bain.com/insights/2030-forecast-how-agentic-ai-will-reshape-us-retail-snap-chart/</a>
+      </li>
+      <li id="s9">
+        <span class="s-title">US agentic commerce revenue forecast to reach $1 trillion by 2030.</span> <span class="s-pub">Retail Dive, reporting on ICSC &amp; McKinsey &amp; Company.</span> Forecast US agentic commerce revenue of $1 trillion by 2030; 68% of consumers used at least one AI tool for shopping in the past three months.
+        <a class="s-url" href="https://www.retaildive.com/news/agentic-commerce-us-one-trillion-2030/818936/" target="_blank" rel="noopener">https://www.retaildive.com/news/agentic-commerce-us-one-trillion-2030/818936/</a>
+      </li>
+      <li id="s10">
+        <span class="s-title">Holiday Shopping Season Drove a Record $257.8 Billion Online.</span> <span class="s-pub">Adobe, January 2026.</span> $257.8 billion spent online Nov 1–Dec 31 2025 (up 6.8% YoY); traffic to retail sites from generative-AI sources increased 693.4% YoY (Adobe notes the user base remains modest).
+        <a class="s-url" href="https://news.adobe.com/news/2026/01/adobe-holiday-shopping-season" target="_blank" rel="noopener">https://news.adobe.com/news/2026/01/adobe-holiday-shopping-season</a>
+      </li>
+      <li id="s12">
+        <span class="s-title">AI Agents Market Size to Hit $50.31 Billion by 2030.</span> <span class="s-pub">Grand View Research (via PR Newswire).</span> Global AI agents market projected at $50.31 billion by 2030, CAGR 45.8% (2025–2030).
+        <a class="s-url" href="https://www.prnewswire.com/news-releases/ai-agents-market-size-to-hit-50-31-billion-by-2030-at-cagr-45-8---grand-view-research-inc-302447060.html" target="_blank" rel="noopener">https://www.prnewswire.com/news-releases/ai-agents-market-size-to-hit-50-31-billion-by-2030-at-cagr-45-8---grand-view-research-inc-302447060.html</a>
+      </li>
+      <li id="s13">
+        <span class="s-title">How Will My Agent Pay for Things?</span> <span class="s-pub">a16z (Andreessen Horowitz) Fintech, 29 May 2025.</span> Current infrastructure "lacks standards for agent authorization, fraud prevention, and liability allocation"; "there is currently no agreed-upon standard for how a human assigns a role and scope to an agent"; stablecoins "could be well-suited for these machine-to-machine transactions."
+        <a class="s-url" href="https://a16z.com/newsletter/agent-payments-stack/" target="_blank" rel="noopener">https://a16z.com/newsletter/agent-payments-stack/</a>
+      </li>
+      <li id="s14">
+        <span class="s-title">The agentic payments landscape.</span> <span class="s-pub">Chainstack.</span> "The market remains fragmented without interoperability standards"; x402 is "the only protocol with meaningful volume" at ~500K weekly transactions; "without defined interoperability standards, merchants may need to implement multiple protocols."
+        <a class="s-url" href="https://chainstack.com/the-agentic-payments-landscape/" target="_blank" rel="noopener">https://chainstack.com/the-agentic-payments-landscape/</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== CTA (book a demo) ===================== -->
+<section class="cs-cta">
+  <div class="cs-cta-inner">
+    <h2>Let your agents pay and settle on their own.</h2>
+    <p>See how Express Protocol ships x402 as a first-class rail — four standards behind one SDK interface, so autonomous agents transact onchain without a checkout page.</p>
+    <div class="btns">
+      <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-outline-w" href="../express-protocol/index.html">See Express Protocol</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="cs-foot">
+  <div class="cs-wrap cs-wide cs-foot-inner">
+    <a class="fbrand" href="../index.html">
+      <span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="m9 15 2 2 4-4"/></svg></span>
+      Pandora Finance
+    </a>
+    <nav class="fnav">
+      <a href="../index.html">Pandora hub</a>
+      <a href="../express-protocol/index.html">Express Protocol</a>
+      <a href="dpp-canada.html">Digital Product Passports</a>
+      <a href="rental-data-privacy.html">Rental privacy</a>
+      <a href="ai-governance-e23.html">OSFI E-23</a>
+    </nav>
+    <p class="fdisc">Case study for discussion. Market figures are drawn from the cited third-party sources and reflect those publishers' estimates and forecasts, not Pandora Finance data. Third-party standards and companies are named for context only; no affiliation or endorsement is implied. &copy; <span id="yr"></span> Aconomy Labs Inc. · Pandora Finance.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+      els.forEach(function(e){e.classList.add('in');});
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} });
+      },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+      els.forEach(function(e){io.observe(e);});
+    }
+    var y=document.getElementById('yr'); if(y) y.textContent=new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>

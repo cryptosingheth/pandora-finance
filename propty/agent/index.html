@@ -1,3 +1,5 @@
+<!doctype html>
+<meta charset="utf-8">
 <title>Propty Agent — Agentic Rental Marketplace</title>
 <style>
   :root{
@@ -5,7 +7,8 @@
     --ink:#172b4d; --ink-2:#5a6a85; --ink-3:#8b94ab;
     --line:#e6eaf2; --line-2:#eef1f7;
     --blue:#006cff; --blue-ink:#0052cc; --blue-bg:#e9f1ff;
-    --green:#12b886; --green-ink:#0c8f66; --green-bg:#e5f7ef;
+    --green:#0a7057; --green-ink:#005843; --green-bg:#e7f1ee;
+    --teal:#005843; --teal-ink:#00382b; --teal-bg:#e7f1ee;
     --violet:#5b5bd6; --violet-bg:#ecebfb;
     --amber:#a4670a; --amber-bg:#fbf0dd;
     --red:#e03131;
@@ -21,10 +24,10 @@
   /* top bar */
   .top{display:flex;align-items:center;gap:14px;padding:12px 18px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1.1rem}
-  .brand .m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#006cff,#3f8bff);display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 4px 12px rgba(0,108,255,.34)}
-  .agent-badge{display:inline-flex;align-items:center;gap:7px;font-size:.74rem;font-weight:700;color:var(--violet);background:var(--violet-bg);padding:5px 11px;border-radius:999px}
-  .agent-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--violet);animation:pulse 1.8s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(91,91,214,.5)}70%{box-shadow:0 0 0 7px rgba(91,91,214,0)}100%{box-shadow:0 0 0 0 rgba(91,91,214,0)}}
+  .brand .m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#005843,#0a7057);display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 4px 12px rgba(0,88,67,.34)}
+  .agent-badge{display:inline-flex;align-items:center;gap:7px;font-size:.74rem;font-weight:700;color:var(--teal);background:var(--teal-bg);padding:5px 11px;border-radius:999px}
+  .agent-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,88,67,.5)}70%{box-shadow:0 0 0 7px rgba(0,88,67,0)}100%{box-shadow:0 0 0 0 rgba(0,88,67,0)}}
   .top .demo{margin-left:auto;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--ink-3);border:1px dashed var(--line);padding:5px 9px;border-radius:8px}
   .top .reset{border:1px solid var(--line);background:#fff;color:var(--ink-2);font-weight:600;font-size:.82rem;padding:7px 13px;border-radius:9px;cursor:pointer}
   .top .reset:hover{border-color:var(--ink-3);color:var(--ink)}
@@ -53,7 +56,7 @@
   .prompts{border-top:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
   .chips{display:flex;flex-wrap:wrap;gap:8px}
   .chip{border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;font-size:.86rem;font-weight:500;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left;transition:.15s}
-  .chip:hover{border-color:var(--blue);color:var(--blue-ink);background:var(--blue-bg)}
+  .chip:hover{border-color:var(--teal);color:var(--teal-ink);background:var(--teal-bg)}
   .chip[disabled]{opacity:.4;cursor:default}
   .fauxin{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--ink-3);font-size:.9rem;background:var(--surface-2)}
   .fauxin .snd{margin-left:auto;width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:#fff}
@@ -70,8 +73,8 @@
   @keyframes rise{to{opacity:1;transform:none}}
   .act-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line-2)}
   .act-call{font-family:var(--mono);font-size:.8rem;color:var(--ink-2);word-break:break-word}
-  .act-call .fn{color:var(--blue-ink);font-weight:600}
-  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(0,108,255,.22);border-top-color:var(--blue);animation:spin .7s linear infinite;flex:none}
+  .act-call .fn{color:var(--teal-ink);font-weight:600}
+  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(0,88,67,.22);border-top-color:var(--teal);animation:spin .7s linear infinite;flex:none}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ok{width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;flex:none}
   .act-body{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
@@ -93,8 +96,29 @@
   .doc .c{color:var(--green-ink)}
   .wrapchips{display:flex;flex-wrap:wrap;gap:7px}
 
+  /* calendar viewing slot */
+  .cal{display:flex;flex-direction:column;gap:8px}
+  .cal .slot{display:flex;align-items:center;gap:10px;font-size:.85rem;border:1px solid var(--line);border-radius:9px;padding:9px 11px;color:var(--ink-2)}
+  .cal .slot.pick{border-color:rgba(0,88,67,.4);background:var(--teal-bg);color:var(--teal-ink);font-weight:600}
+  .cal .slot .cwhen{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--ink)}
+  .cal .slot .cdot{width:9px;height:9px;border-radius:50%;background:var(--teal);flex:none}
+
+  /* zero-knowledge proof card */
+  .zk-proof{display:flex;flex-direction:column;gap:11px}
+  .zk-row{display:flex;align-items:center;gap:9px;font-size:.85rem;color:var(--ink-2)}
+  .zk-row .zk-ic{width:24px;height:24px;border-radius:7px;background:var(--teal-bg);color:var(--teal);display:grid;place-items:center;flex:none}
+  .zk-row .zk-ic svg{width:13px;height:13px}
+  .zk-row b{color:var(--ink);font-weight:600}
+  .zk-row .yn{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--green-ink)}
+  .zk-banner{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;color:var(--teal-ink);
+    background:var(--teal-bg);border:1px solid rgba(0,88,67,.2);border-radius:9px;padding:9px 11px;margin-top:2px}
+  .zk-banner .lk{width:16px;height:16px;flex:none}
+  .hashrow{font-family:var(--mono);font-size:.78rem;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:8px;padding:8px 11px;word-break:break-all}
+  .hashrow b{color:var(--teal-ink)}
+
   .foot{padding:9px 20px;font-size:.72rem;color:var(--ink-3);border-top:1px solid var(--line)}
-  :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:8px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -127,6 +151,16 @@
   var wsEmpty=document.getElementById('ws-empty'), wsStatus=document.getElementById('ws-status');
 
   function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.appendChild(document.createTextNode(txt));return e;}
+  var SVGNS='http://www.w3.org/2000/svg';
+  function makeSvgEl(){return document.createElementNS(SVGNS,'svg');}
+  function svgPath(d){var p=document.createElementNS(SVGNS,'path');p.setAttribute('d',d);return p;}
+  // quick single-path check/tick svg for inline icons
+  function makeSvg(d){
+    var s=makeSvgEl();
+    s.setAttribute('viewBox','0 0 24 24');s.setAttribute('fill','none');s.setAttribute('stroke','currentColor');
+    s.setAttribute('stroke-width','3');s.setAttribute('stroke-linecap','round');s.setAttribute('stroke-linejoin','round');
+    s.appendChild(svgPath(d));return s;
+  }
   function clr(n){while(n.firstChild)n.removeChild(n.firstChild);}
   function scrollC(){chat.scrollTop=chat.scrollHeight;}
   function scrollW(){ws.scrollTop=ws.scrollHeight;}
@@ -174,7 +208,7 @@
       row.appendChild(el('span','th'));
       var mid=el('div');mid.appendChild(el('div',null,r.name));var meta=el('div','meta',r.meta);mid.appendChild(meta);
       row.appendChild(mid);
-      row.appendChild(el('span','price','$'+r.price));
+      row.appendChild(el('span','price',r.tag));
       if(i===bestIdx){var p=el('span','pill p-green');p.appendChild(document.createTextNode('best match'));row.appendChild(p);}
       wrap.appendChild(row);
     });
@@ -187,22 +221,90 @@
     w.appendChild(chipsw);
     var p=el('div');p.style.marginTop='9px';
     var a=el('span','pill p-green');a.appendChild(document.createTextNode('Verified — no Canadian credit needed'));
-    var b=el('span','pill p-blue');b.style.marginLeft='7px';b.appendChild(document.createTextNode('No co-signer'));
+    var b=el('span','pill p-blue');b.style.marginLeft='7px';b.appendChild(document.createTextNode('Held privately by the agent'));
     p.appendChild(a);p.appendChild(b);w.appendChild(p);return w;
   }
   function lease(){
     var w=el('div');
-    [['Room','Room 2 · 21 Fern Ave, Toronto'],['Base rent','$780'],['Utilities','$50'],['Propty fee','$20'],['All-in / month','$850']].forEach(function(kv){
+    [['Room','Room 2 · 21 Fern Ave, Toronto'],['Term','12 months'],['Template','Ontario Standard (govt)'],['Prefilled from','Verified tenant details']].forEach(function(kv){
       var r=el('div','kv');r.appendChild(el('span',null,kv[0]));r.appendChild(el('b',null,kv[1]));w.appendChild(r);
     });
     var l=el('div','lease');
     var p1=el('span','pill p-green');p1.appendChild(document.createTextNode('Ontario Standard Lease · RTA-compliant'));
-    var p2=el('span','pill p-blue');p2.appendChild(document.createTextNode('e-signed'));
+    var p2=el('span','pill p-blue');p2.appendChild(document.createTextNode('e-signed by both parties'));
     l.appendChild(p1);l.appendChild(p2);w.appendChild(l);return w;
+  }
+  // calendar viewing slots
+  function calendar(){
+    var w=el('div','cal');
+    var slots=[['Sat','10:00 AM',true],['Sun','2:30 PM',false],['Mon','6:00 PM',false]];
+    slots.forEach(function(s){
+      var row=el('div','slot'+(s[2]?' pick':''));
+      if(s[2])row.appendChild(el('span','cdot'));
+      var lab=el('span',null,s[2]?'Confirmed with host':'Also offered');
+      row.appendChild(lab);
+      var when=el('span','cwhen',s[0]+' · '+s[1]);row.appendChild(when);
+      w.appendChild(row);
+    });
+    return w;
+  }
+  // zero-knowledge eligibility proof (documents never shared)
+  function zkProof(){
+    var w=el('div','zk-proof');
+    var checks=[
+      ['income','Income ≥ 2.5× rent','yes'],
+      ['id','Identity valid','yes'],
+      ['standing','No adverse records','yes']
+    ];
+    checks.forEach(function(c){
+      var r=el('div','zk-row');
+      var ic=el('span','zk-ic');
+      var svg=makeSvg('M20 6 9 17l-5-5');ic.appendChild(svg);
+      r.appendChild(ic);
+      r.appendChild(el('b',null,c[1]));
+      r.appendChild(el('span','yn',c[2]));
+      w.appendChild(r);
+    });
+    var banner=el('div','zk-banner');
+    var lock=makeSvgEl();
+    lock.setAttribute('class','lk');lock.setAttribute('viewBox','0 0 24 24');
+    lock.setAttribute('fill','none');lock.setAttribute('stroke','currentColor');lock.setAttribute('stroke-width','2');
+    var p1=svgPath('M5 11h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1z');
+    var p2=svgPath('M8 11V7a4 4 0 0 1 8 0v4');
+    lock.appendChild(p1);lock.appendChild(p2);
+    banner.appendChild(lock);
+    banner.appendChild(document.createTextNode('Proof generated — documents never shared'));
+    w.appendChild(banner);
+    return w;
+  }
+  // host verifies the proof (sees only yes/no)
+  function proofVerified(){
+    var w=el('div');
+    [['Proof','Eligibility · zero-knowledge'],['Result','Valid ✓'],['Host sees','Yes / no only'],['Raw documents','Never disclosed']].forEach(function(kv){
+      var r=el('div','kv');r.appendChild(el('span',null,kv[0]));var b=el('b',null,kv[1]);
+      if(kv[0]==='Result')b.style.color='var(--green-ink)';r.appendChild(b);w.appendChild(r);
+    });
+    var p=el('div');p.style.marginTop='8px';
+    var g=el('span','pill p-green');g.appendChild(document.createTextNode('Host approved — no PII exposed'));p.appendChild(g);w.appendChild(p);
+    return w;
+  }
+  // anchor signed-lease hash for tamper-proof history
+  function anchored(){
+    var w=el('div');
+    var r=el('div','hashrow');
+    r.appendChild(document.createTextNode('lease #P-2041 · sha256 '));
+    var b=el('b',null,'9f2a…4c7e');r.appendChild(b);
+    w.appendChild(r);
+    var p=el('div');p.style.marginTop='9px';
+    var g=el('span','pill p-green');g.appendChild(document.createTextNode('Anchored — tamper-proof'));
+    var b2=el('span','pill p-blue');b2.style.marginLeft='7px';b2.appendChild(document.createTextNode('Property history'));
+    p.appendChild(g);p.appendChild(b2);w.appendChild(p);
+    return w;
   }
   function guarantee(){
     var w=el('div');
-    var r=el('div','kv');r.appendChild(el('span',null,'Owner payout · by the 5th'));r.appendChild(el('b',null,'$850'));w.appendChild(r);
+    var r=el('div','kv');r.appendChild(el('span',null,'Owner payout'));r.appendChild(el('b',null,'By the 5th'));w.appendChild(r);
+    var r2=el('div','kv');r2.appendChild(el('span',null,'Processor'));r2.appendChild(el('b',null,'Licensed'));w.appendChild(r2);
     var p=el('div');p.style.marginTop='8px';var g=el('span','pill p-green');g.appendChild(document.createTextNode('Guaranteed — paid even if the tenant is late'));p.appendChild(g);w.appendChild(p);return w;
   }
   function credit(){
@@ -212,16 +314,16 @@
   }
   function ownerView(){
     var w=el('div');
-    [['Next payout','Apr 5 · $850'],['Status','Guaranteed'],['Collection','Automated by agent'],['If tenant is late','Propty covers it']].forEach(function(kv){
+    [['Next payout','By Apr 5'],['Status','Guaranteed'],['Tenant','Verified by proof'],['Collection','Automated by agent'],['If tenant is late','Propty covers it']].forEach(function(kv){
       var r=el('div','kv');r.appendChild(el('span',null,kv[0]));r.appendChild(el('b',null,kv[1]));w.appendChild(r);});
     return w;
   }
 
   // ---- scenarios ----
   var ROOMS=[
-    {name:'Room 2 · 21 Fern Ave',meta:'Roncesvalles · 6-min transit',price:850},
-    {name:'Room A · 88 Gladstone',meta:'Little Portugal · 4-min transit',price:895},
-    {name:'Suite 1 · 12 Argyle',meta:'Trinity-Bellwoods · furnished',price:870}
+    {name:'Room 2 · 21 Fern Ave',meta:'Roncesvalles · 6-min transit',tag:'in budget'},
+    {name:'Room A · 88 Gladstone',meta:'Little Portugal · 4-min transit',tag:'in budget'},
+    {name:'Suite 1 · 12 Argyle',meta:'Trinity-Bellwoods · furnished',tag:'in budget'}
   ];
   function setChips(list){
     clr(chips);
@@ -229,22 +331,39 @@
   }
   function findFlow(){
     setChips([]);
-    userMsg("I just landed in Toronto for a new job. No Canadian credit yet — I need a room under $900 near transit.");
-    say("On it. I'll find you a place and handle the whole thing — search, screening, lease, and the rent guarantee.",420);
-    act('search_rooms','{ city:"Toronto", budget:900, near_transit:true }',function(){return rooms(ROOMS,-1);},760);
-    say("Found 4 verified rooms. Since you're new to Canada, I'll verify you without a credit score.",300);
+    userMsg("I just landed in Toronto for a new job. No Canadian credit yet — I need a room near transit within budget.");
+    say("On it. I'll run the whole thing — search, book a viewing, verify you privately, draft the lease, and set up the rent guarantee.",420);
+    act('search_rooms','{ city:"Toronto", near_transit:true }',function(){return rooms(ROOMS,-1);},760);
+    say("Found 4 verified rooms in budget. Let's get you in to see the best fit — I'll book a viewing slot with the host.",300);
+    act('schedule_viewing','{ listing:"21 Fern Ave", via:"calendar" }',calendar,760);
+    say("Viewing confirmed for Saturday 10:00 AM. Since you're new to Canada, I'll verify you without a credit score — and without sending your documents to the host.",320);
     act('screen_tenant','{ docs:["passport","job_offer","bank_statements","reference"] }',verified,820);
-    act('match_best','{ optimize:"price + commute + fit" }',function(){return rooms([ROOMS[0]],0);},640);
-    say("Best match: Room 2 on Fern Ave — $850 all-in, 6-min walk to transit. Drafting your lease now.",260);
+    say("Your documents stay with me. Instead of sharing them, I generate a zero-knowledge proof the host can check.",280);
+    act('generate_zk_proof','{ income:">= 2.5x rent", identity:"valid" }',zkProof,860);
+    say("Now the host verifies that proof — they see only a yes/no, never your salary, balance or ID.",280);
+    act('verify_proof','{ actor:"host", result:"valid" }',proofVerified,760);
+    act('match_best','{ optimize:"commute + fit" }',function(){return rooms([ROOMS[0]],0);},600);
+    say("Approved. Best match: Room 2 on Fern Ave, 6-min walk to transit. Drafting your lease now.",240);
     act('draft_lease','{ standard:"Ontario", term:"12mo" }',lease,760);
+    act('anchor_lease_hash','{ lease:"#P-2041" }',anchored,720);
+    say("Lease e-signed and anchored — its hash is on record for a tamper-proof property history.",260);
     act('setup_rent_guarantee','{ owner:"M. Chen" }',guarantee,700);
     act('enroll_credit_builder','{ bureaus:["Equifax","TransUnion"] }',credit,640);
-    say("Done — you're approved and can move in Saturday. The owner's rent is guaranteed, and your Canadian credit starts building this month.",320);
+    say("Done — you're approved and can move in Saturday. The owner's rent is guaranteed, your documents were never shared, and your Canadian credit starts building this month.",320);
     q(function(){setChips([
       {label:"What happens if I pay late?",run:lateFlow},
+      {label:"How does the private proof work?",run:privacyFlow},
       {label:"Show the owner's side",run:ownerFlow},
       {label:"↺ Start over",run:resetAll}
     ]);},200);
+  }
+  function privacyFlow(){
+    setChips([]);
+    userMsg("How does the private proof work?");
+    say("You upload your documents to me, not the host. I check them against the host's criteria and produce a zero-knowledge proof — a yes/no that income clears the bar and identity is valid. The host verifies the proof; the underlying documents never leave. (The proof system is in active development.)",460);
+    act('generate_zk_proof','{ income:">= 2.5x rent", identity:"valid", discloses:"nothing" }',zkProof,820);
+    act('verify_proof','{ actor:"host", sees:"yes/no only" }',proofVerified,720);
+    q(function(){setChips([{label:"Show the owner's side",run:ownerFlow},{label:"↺ Start over",run:resetAll}]);},200);
   }
   function lateFlow(){
     setChips([]);
@@ -272,8 +391,8 @@
     var e=el('div','ws-empty');e.id='ws-empty';e.appendChild(document.createTextNode("The agent's actions appear here as it works — searching, screening, drafting, guaranteeing."));ws.appendChild(e);wsEmpty=e;
     agentMsg("Hi — I'm the Propty leasing agent. Tell me what you need and I'll find, screen, and secure it end-to-end. Try one of these:");
     setChips([
-      {label:"I'm a newcomer to Toronto, no Canadian credit — find me a room under $900",run:findFlow},
-      {label:"How do you protect the landlord?",run:function(){setChips([]);userMsg("How do you protect the landlord?");say("Three ways: I guarantee the rent (paid by the 5th regardless), I screen every tenant even without Canadian credit, and I handle collection + arrears automatically. The owner gets paid and does nothing.",420);q(function(){setChips([{label:"Find me a room →",run:findFlow},{label:"↺ Start over",run:resetAll}]);},200);}}
+      {label:"I'm a newcomer to Toronto, no Canadian credit — find me a room near transit",run:findFlow},
+      {label:"How do you protect the landlord?",run:function(){setChips([]);userMsg("How do you protect the landlord?");say("Four ways: I verify every tenant by a zero-knowledge proof (the host sees a yes/no, never the raw documents), I guarantee the rent (paid by the 5th regardless), I handle collection + arrears automatically, and I anchor the signed lease's hash for a tamper-proof record. The owner gets paid and does nothing.",460);q(function(){setChips([{label:"Find me a room →",run:findFlow},{label:"↺ Start over",run:resetAll}]);},200);}}
     ]);
   }
   document.getElementById('reset').addEventListener('click',resetAll);

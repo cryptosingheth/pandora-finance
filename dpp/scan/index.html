@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Scan a product — The DPP Company</title>
+<meta name="description" content="Point a phone at a product and watch its Digital Product Passport verify and unfold — authenticity, provenance, materials and certifications — in a live, illustrative demo from The DPP Company." />
+<style>
+  /* ============================================================
+     THE DPP COMPANY — mobile scan demo
+     Light theme, shared visual language with dpp/agent/.
+     Phone-shaped frame centered on desktop, full-bleed on mobile.
+     All DOM built via createElement/textContent — no innerHTML.
+     ============================================================ */
+  :root{
+    --bg:#f6f8fc; --surface:#ffffff; --surface-2:#f3f8f5; --panel:#f7f9fc;
+    --ink:#172b4d; --ink-2:#5a6a85; --ink-3:#88998f;
+    --line:#e6eaf2; --line-2:#eef3f0;
+    --em:#0f9d6b; --em-ink:#0a7a52; --em-bg:#e7f6ef; --em-bright:#12c17f;
+    --blue:#2b74e6; --blue-ink:#1b5ec2; --blue-bg:#e8f0fd;
+    --amber:#a4670a; --amber-ink:#8a5608; --amber-bg:#fbf0dd;
+    --red:#e03131; --red-ink:#c92a2a; --red-bg:#fdeaea;
+    --gold:#b98a2e; --gold-bg:#f7efdd;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --r:16px; --r-sm:11px; --pill:999px;
+    --shadow:0 10px 30px rgba(16,32,64,.10);
+    --shadow-lg:0 30px 70px rgba(16,32,64,.20);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:
+      radial-gradient(900px 520px at 82% -8%, rgba(18,193,127,.14), transparent 60%),
+      radial-gradient(680px 480px at 0% 8%, rgba(15,157,107,.08), transparent 62%),
+      var(--bg);
+    color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;
+    min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+    padding:26px 16px calc(26px + env(safe-area-inset-bottom));gap:16px}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  /* ---- page framing (desktop) ---- */
+  .pagehead{width:100%;max-width:390px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1.02rem;color:var(--ink)}
+  .brand .m{width:27px;height:27px;border-radius:8px;background:linear-gradient(135deg,#0f9d6b,#3fca92);
+    display:grid;place-items:center;color:#fff;font-weight:800;font-size:.72rem;box-shadow:0 4px 12px rgba(15,157,107,.34)}
+  .backlink{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--ink-2)}
+  .backlink:hover{color:var(--ink)}
+  .backlink svg{width:14px;height:14px;transition:transform .2s}
+  .backlink:hover svg{transform:translateX(-2px)}
+  a{color:inherit;text-decoration:none;transition:.18s}
+
+  /* ---- phone frame ---- */
+  .phone{position:relative;width:100%;max-width:390px;height:min(96dvh,820px);
+    background:#0c1424;border-radius:44px;padding:12px;
+    box-shadow:var(--shadow-lg), 0 0 0 2px rgba(255,255,255,.04) inset;flex:none}
+  .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:120px;height:26px;
+    background:#0c1424;border-radius:0 0 16px 16px;z-index:6}
+  .notch::after{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);
+    width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.14)}
+  .screen{position:relative;width:100%;height:100%;background:var(--bg);border-radius:33px;overflow:hidden;
+    display:flex;flex-direction:column}
+
+  /* ---- status/app bar ---- */
+  .statusbar{display:flex;align-items:center;justify-content:space-between;padding:11px 22px 5px;
+    font-size:.72rem;font-weight:700;color:var(--ink);flex:none}
+  .statusbar .dots{display:inline-flex;gap:5px;align-items:center}
+  .statusbar .dots i{width:5px;height:5px;border-radius:50%;background:var(--ink-3)}
+  .appbar{display:flex;align-items:center;gap:9px;padding:6px 18px 12px;flex:none;border-bottom:1px solid var(--line)}
+  .appbar .m{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,#0f9d6b,#3fca92);
+    display:grid;place-items:center;color:#fff;font-weight:800;font-size:.62rem}
+  .appbar .name{font-weight:800;font-size:.92rem;letter-spacing:-.01em}
+  .appbar .badge{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:.64rem;font-weight:700;
+    color:var(--em-ink);background:var(--em-bg);padding:4px 9px;border-radius:var(--pill)}
+  .appbar .badge .pulse{width:6px;height:6px;border-radius:50%;background:var(--em);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(15,157,107,.5)}70%{box-shadow:0 0 0 6px rgba(15,157,107,0)}100%{box-shadow:0 0 0 0 rgba(15,157,107,0)}}
+
+  /* ---- scroll viewport ---- */
+  .view{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:16px 16px 20px}
+  .view::-webkit-scrollbar{width:0}
+
+  .stage{opacity:0;transform:translateY(10px);animation:rise .4s forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* ---- intro / product picker ---- */
+  .lead-k{font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--em-ink)}
+  .lead-h{font-size:1.28rem;font-weight:800;letter-spacing:-.02em;margin:6px 0 4px;line-height:1.15}
+  .lead-p{font-size:.9rem;color:var(--ink-2);margin:0 0 14px}
+  .pick{display:flex;flex-direction:column;gap:12px}
+  .pcard{display:flex;gap:13px;align-items:center;text-align:left;width:100%;cursor:pointer;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px;font-family:inherit;
+    transition:.16s}
+  .pcard:hover{border-color:var(--em);box-shadow:var(--shadow);transform:translateY(-2px)}
+  .pcard .thumb{width:56px;height:56px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:var(--surface-2);border:1px solid var(--line-2)}
+  .pcard.fake .thumb{background:var(--gold-bg);border-color:#eaddc0}
+  .pcard .thumb svg{width:34px;height:34px}
+  .pcard .pt{font-weight:800;font-size:.98rem;color:var(--ink);letter-spacing:-.01em}
+  .pcard .ps{font-size:.78rem;color:var(--ink-2);margin-top:1px}
+  .pcard .go{margin-left:auto;width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:var(--em-bg);color:var(--em-ink)}
+  .pcard.fake .go{background:var(--amber-bg);color:var(--amber-ink)}
+  .pcard .go svg{width:14px;height:14px}
+  .hint{margin-top:14px;font-size:.74rem;color:var(--ink-3);text-align:center}
+
+  /* ---- scanner ---- */
+  .scanner{display:flex;flex-direction:column;height:100%}
+  .scan-top{font-size:.82rem;font-weight:700;color:var(--ink-2);text-align:center;margin-bottom:12px}
+  .viewport{position:relative;flex:none;border-radius:20px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(160deg,#0e1a30,#0a1424);box-shadow:var(--shadow);aspect-ratio:1/1.12}
+  /* faux camera product */
+  .prodshot{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden}
+  .prodshot::before{content:"";position:absolute;width:150%;height:150%;
+    background:radial-gradient(circle at 50% 40%, rgba(255,255,255,.10), transparent 55%)}
+  .prodshot svg{width:66%;height:66%;filter:drop-shadow(0 18px 30px rgba(0,0,0,.4))}
+  /* scan reticle */
+  .reticle{position:absolute;inset:13% 13% 13% 13%;border-radius:14px;z-index:3;pointer-events:none}
+  .reticle span{position:absolute;width:26px;height:26px;border:3px solid rgba(255,255,255,.92)}
+  .reticle .tl{top:0;left:0;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+  .reticle .tr{top:0;right:0;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
+  .reticle .bl{bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 8px}
+  .reticle .br{bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 8px 0}
+  /* moving scan line */
+  .scanline{position:absolute;left:8%;right:8%;height:3px;top:10%;z-index:4;border-radius:3px;
+    background:linear-gradient(90deg,transparent,var(--em-bright),transparent);
+    box-shadow:0 0 16px 3px rgba(18,193,127,.6);animation:sweep 2.1s cubic-bezier(.5,0,.5,1) infinite}
+  .scanglow{position:absolute;left:8%;right:8%;top:10%;height:52px;transform:translateY(-52px);z-index:3;
+    background:linear-gradient(180deg,rgba(18,193,127,.28),transparent);animation:sweepGlow 2.1s cubic-bezier(.5,0,.5,1) infinite}
+  @keyframes sweep{0%{top:12%}50%{top:86%}100%{top:12%}}
+  @keyframes sweepGlow{0%{top:12%}50%{top:86%}100%{top:12%}}
+  /* little QR badge that lights up */
+  .qtag{position:absolute;right:11px;bottom:11px;width:52px;height:52px;border-radius:11px;z-index:5;padding:6px;
+    background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+    display:grid;grid-template:repeat(5,1fr)/repeat(5,1fr);gap:2px}
+  .qtag i{background:#172b4d;border-radius:1px}
+  .qtag i.o{background:transparent}
+  .scan-status{margin-top:16px;text-align:center;font-size:.86rem;font-weight:700;color:var(--em-ink);
+    display:inline-flex;gap:8px;align-items:center;justify-content:center}
+  .scan-status .dot{width:8px;height:8px;border-radius:50%;background:var(--em);animation:pulse 1.4s infinite}
+  .scan-sub{margin-top:5px;text-align:center;font-size:.74rem;color:var(--ink-3)}
+  .scan-cta{margin-top:auto;padding-top:16px}
+
+  /* ---- generic button ---- */
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;cursor:pointer;font-family:inherit;
+    font-weight:700;font-size:.94rem;padding:14px 18px;border-radius:13px;border:0;transition:.16s}
+  .btn-primary{background:var(--em);color:#fff;box-shadow:0 8px 20px rgba(15,157,107,.28)}
+  .btn-primary:hover{background:var(--em-ink);transform:translateY(-1px)}
+  .btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--ink-3)}
+  .btn svg{width:17px;height:17px}
+
+  /* ---- verification stream ---- */
+  .vhead{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+  .vhead .vthumb{width:44px;height:44px;border-radius:11px;flex:none;display:grid;place-items:center;
+    background:var(--surface-2);border:1px solid var(--line-2)}
+  .vhead .vthumb.fake{background:var(--gold-bg);border-color:#eaddc0}
+  .vhead .vthumb svg{width:28px;height:28px}
+  .vhead .vt{font-weight:800;font-size:1rem;letter-spacing:-.01em}
+  .vhead .vs{font-size:.75rem;color:var(--ink-2)}
+  .vprog{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+    margin:2px 0 12px;display:flex;align-items:center;gap:8px}
+  .vprog .bar{flex:1;height:4px;border-radius:3px;background:var(--line);overflow:hidden}
+  .vprog .bar b{display:block;height:100%;width:0;background:var(--em);border-radius:3px;transition:width .5s ease}
+
+  .vstep{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px;
+    overflow:hidden;opacity:0;transform:translateY(8px);animation:rise .35s forwards;box-shadow:var(--shadow)}
+  .vstep-head{display:flex;align-items:center;gap:11px;padding:12px 14px}
+  .vstep-ic{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;
+    background:var(--em-bg);color:var(--em-ink)}
+  .vstep-ic svg{width:17px;height:17px}
+  .vstep .vlabel{font-weight:700;font-size:.9rem;color:var(--ink)}
+  .vstep .vcall{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin-top:1px}
+  .spin{margin-left:auto;width:16px;height:16px;border-radius:50%;flex:none;
+    border:2px solid rgba(15,157,107,.22);border-top-color:var(--em);animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .tick{margin-left:auto;width:19px;height:19px;border-radius:50%;flex:none;background:var(--em);color:#fff;
+    display:grid;place-items:center;font-size:12px}
+  .tick.bad{background:var(--red)}
+  .vstep-body{padding:0 14px 13px;display:flex;flex-direction:column;gap:9px}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:700;padding:5px 10px;border-radius:var(--pill)}
+  .p-green{background:var(--em-bg);color:var(--em-ink)}
+  .p-blue{background:var(--blue-bg);color:var(--blue-ink)}
+  .p-amber{background:var(--amber-bg);color:var(--amber-ink)}
+  .p-red{background:var(--red-bg);color:var(--red-ink)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .kv{display:flex;justify-content:space-between;gap:12px;font-size:.84rem;color:var(--ink-2)}
+  .kv b{color:var(--ink);font-family:var(--mono);font-weight:700;text-align:right}
+  .score{display:flex;align-items:center;gap:12px}
+  .score .n{font-family:var(--mono);font-size:1.7rem;font-weight:800;color:var(--em-ink);line-height:1}
+  .score .n.bad{color:var(--red-ink)}
+
+  /* provenance timeline */
+  .tl{display:flex;flex-direction:column}
+  .tl .st{display:flex;gap:11px;padding-bottom:13px;position:relative}
+  .tl .st:last-child{padding-bottom:0}
+  .tl .st:not(:last-child)::before{content:"";position:absolute;left:6px;top:15px;bottom:0;width:2px;background:var(--line)}
+  .tl .d{width:14px;height:14px;border-radius:50%;background:var(--em);flex:none;margin-top:2px;box-shadow:0 0 0 3px rgba(15,157,107,.18)}
+  .tl .tt{font-size:.85rem;color:var(--ink);font-weight:700}
+  .tl .ts{font-size:.76rem;color:var(--ink-2)}
+
+  /* ---- final passport ---- */
+  .pp{border:1px solid rgba(15,157,107,.4);border-radius:var(--r);overflow:hidden;
+    background:linear-gradient(180deg,var(--em-bg),#fff);box-shadow:var(--shadow-lg);
+    opacity:0;transform:translateY(10px) scale(.98);animation:ppin .5s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes ppin{to{opacity:1;transform:none}}
+  .pp.bad{border-color:rgba(224,49,49,.4);background:linear-gradient(180deg,var(--red-bg),#fff)}
+  .pp-top{display:flex;align-items:center;gap:12px;padding:15px;color:#fff;
+    background:linear-gradient(120deg,#07281c,#0a7a52)}
+  .pp.bad .pp-top{background:linear-gradient(120deg,#3d0d0d,#c92a2a)}
+  .pp-top .ppqr{width:46px;height:46px;border-radius:9px;flex:none;padding:5px;background:#fff;border:1px solid rgba(255,255,255,.4);
+    display:grid;grid-template:repeat(5,1fr)/repeat(5,1fr);gap:2px}
+  .pp-top .ppqr i{background:#07281c;border-radius:1px}
+  .pp-top .ppqr i.o{background:transparent}
+  .pp-top .ppn{font-weight:800;font-size:1rem;letter-spacing:-.01em}
+  .pp-top .ppid{font-family:var(--mono);font-size:.72rem;opacity:.82;margin-top:2px}
+  .pp-verif{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:.66rem;font-weight:800;
+    padding:5px 9px;border-radius:var(--pill);background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32)}
+  .pp-verif svg{width:12px;height:12px}
+  .pp-sec{padding:13px 15px;border-top:1px solid rgba(15,157,107,.16)}
+  .pp.bad .pp-sec{border-top-color:rgba(224,49,49,.16)}
+  .pp-sec:first-of-type{border-top:0}
+  .pp-sec .lab{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+  .pp-sec .rows{display:flex;flex-direction:column;gap:7px}
+  .pp-foot{padding:11px 15px;font-size:.7rem;color:var(--ink-3);border-top:1px solid var(--line);
+    display:flex;align-items:center;gap:7px;background:#fff}
+  .pp-foot svg{width:13px;height:13px;color:var(--em);flex:none}
+  .pp.bad .pp-foot svg{color:var(--red)}
+
+  .banner{border-radius:13px;padding:13px 15px;font-size:.86rem;font-weight:600;display:flex;gap:11px;align-items:flex-start;margin-bottom:12px}
+  .banner.ok{background:var(--em-bg);color:var(--em-ink)}
+  .banner.bad{background:var(--red-bg);color:var(--red-ink)}
+  .banner .bic{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff}
+  .banner.ok .bic{background:var(--em)}
+  .banner.bad .bic{background:var(--red)}
+  .banner .bic svg{width:14px;height:14px}
+
+  .again{display:flex;gap:10px;margin-top:14px}
+  .again .btn{width:auto;flex:1}
+
+  .demo-tag{text-align:center;font-size:.68rem;color:var(--ink-3);margin-top:10px}
+  .caption{width:100%;max-width:390px;text-align:center;font-size:.76rem;color:var(--ink-3);line-height:1.5}
+  .caption a{color:var(--em-ink);font-weight:600}
+
+  :focus-visible{outline:2px solid var(--em);outline-offset:2px;border-radius:9px}
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+  /* full-bleed on small screens */
+  @media(max-width:440px){
+    body{padding:0;gap:0;background:var(--bg)}
+    .pagehead,.caption{display:none}
+    .phone{max-width:none;width:100%;height:100dvh;border-radius:0;padding:0;box-shadow:none}
+    .notch{display:none}
+    .screen{border-radius:0}
+    .statusbar{padding-top:calc(11px + env(safe-area-inset-top))}
+  }
+</style>
+</head>
+<body>
+
+<div class="pagehead">
+  <a class="brand" href="../index.html">
+    <span class="m">DPP</span>The DPP Company
+  </a>
+  <a class="backlink" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+    Back
+  </a>
+</div>
+
+<div class="phone">
+  <div class="notch" aria-hidden="true"></div>
+  <div class="screen">
+    <div class="statusbar">
+      <span>9:41</span>
+      <span class="dots" aria-hidden="true"><i></i><i></i><i></i><span style="font-weight:700;margin-left:4px">5G</span></span>
+    </div>
+    <div class="appbar">
+      <span class="m">DPP</span>
+      <span class="name">Scan &amp; Verify</span>
+      <span class="badge"><span class="pulse"></span>AI agent</span>
+    </div>
+    <div class="view" id="view" aria-live="polite"></div>
+  </div>
+</div>
+
+<p class="caption">Illustrative demo · products and records are simulated · <a href="../index.html">The DPP Company</a></p>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var view = document.getElementById('view');
+
+  /* ---------- tiny DOM helpers (createElement/textContent only) ---------- */
+  function el(tag, cls, txt){
+    var e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(txt != null) e.appendChild(document.createTextNode(txt));
+    return e;
+  }
+  function svg(paths, vb){
+    var s = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s.setAttribute('viewBox', vb || '0 0 24 24');
+    s.setAttribute('fill','none'); s.setAttribute('stroke','currentColor');
+    s.setAttribute('stroke-width','2'); s.setAttribute('stroke-linecap','round'); s.setAttribute('stroke-linejoin','round');
+    paths.forEach(function(d){
+      var p = document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d', d); s.appendChild(p);
+    });
+    return s;
+  }
+  function clr(n){ while(n.firstChild) n.removeChild(n.firstChild); }
+  function qr(container){ // 5x5 pseudo-QR
+    [1,0,1,1,0, 0,1,1,0,1, 1,1,0,1,1, 0,1,1,1,0, 1,0,1,0,1].forEach(function(v){
+      container.appendChild(el('i', v ? '' : 'o'));
+    });
+  }
+
+  /* product art (inline SVG built via DOM) */
+  function sneakerArt(){
+    return svg([
+      'M2 16.5c0-1 .4-1.6 1.3-2L8 12.6l2.7-3.4c.4-.5 1-.7 1.6-.5l1.5.5c.5.2.8.7.7 1.2l-.3 1.6 4.9 2c1.4.6 2.6 1 3.4 1.9.5.6.6 1.3.6 2.1H2z',
+      'M2 16.5h20M6 13.8l.6 2M9.2 12.4l.7 2M13 10.2l.5 2',
+      'M2 19.2h20a1 1 0 0 0 1-1v-1.7H1v1.7a1 1 0 0 0 1 1z'
+    ], '0 0 24 24');
+  }
+  function bagArt(){
+    return svg([
+      'M6 9V7a4 4 0 0 1 8 0v2',
+      'M4.6 9h10.8a1.5 1.5 0 0 1 1.5 1.35l.9 8.5A1.5 1.5 0 0 1 16.3 21H3.7a1.5 1.5 0 0 1-1.5-1.65l.9-8.5A1.5 1.5 0 0 1 4.6 9z',
+      'M8 12v1.5a2 2 0 0 0 4 0V12'
+    ], '0 0 20 24');
+  }
+
+  /* ---------- simple timed queue ---------- */
+  var timers = [];
+  function after(ms, fn){ var id = setTimeout(fn, reduce ? Math.min(ms,10) : ms); timers.push(id); return id; }
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+  /* ---------- product catalogue ---------- */
+  var PRODUCTS = {
+    genuine: {
+      key:'genuine', authentic:true, art:sneakerArt, thumbTweak:'',
+      name:'Aeronaut Runner', line:'Maison Volait · UK 9 · No. 0117 / 750',
+      serial:'DPP-SNK-0117', tag:'nfc 0x7c…a04f', ppid:'DPP-SNK-0117',
+      score:'97',
+      provenance:[
+        ['Crafted','Montebelluna, Italy · Feb 2026'],
+        ['Quality control','Passed · batch #R-1180'],
+        ['First retail','Milan flagship · Apr 2026'],
+        ['Ownership','1 verified owner · resale-ready']
+      ],
+      materials:'Italian full-grain leather · recycled knit upper',
+      recycled:'41% recycled content',
+      carbon:'9.8 kg CO₂e',
+      certs:['Leather Working Group','GRS','OEKO-TEX']
+    },
+    fake: {
+      key:'fake', authentic:false, art:bagArt, thumbTweak:'fake',
+      name:'Aurelia Tote — Nero', line:'listing claims No. 0042 · online marketplace',
+      serial:'DPP-BAG-0042', tag:'nfc 0x00…forged', ppid:'—',
+      score:'12',
+      provenance:[
+        ['Tag read','Signature invalid · not issuer-signed'],
+        ['Serial check','DPP-BAG-0042 already bound to a genuine unit'],
+        ['Provenance','No verifiable chain of custody found']
+      ]
+    }
+  };
+
+  /* ============================================================
+     SCREEN 1 — product picker
+     ============================================================ */
+  function screenPick(){
+    clearTimers();
+    var wrap = el('div','stage');
+    wrap.appendChild(el('div','lead-k','Digital Product Passport'));
+    wrap.appendChild(el('div','lead-h','Scan a product to verify it'));
+    wrap.appendChild(el('p','lead-p','Pick an item to scan. The DPP agent will authenticate it, trace its provenance, check its materials, and open its passport — just like a shopper would at the shelf or on resale.'));
+
+    var pick = el('div','pick');
+    pick.appendChild(productCard(PRODUCTS.genuine, 'Genuine luxury sneaker', 'Tap to scan the real thing'));
+    pick.appendChild(productCard(PRODUCTS.fake, 'Suspected counterfeit', 'A cloned tag on a marketplace find'));
+    wrap.appendChild(pick);
+
+    wrap.appendChild(el('div','hint','Two samples — see a pass and a fail.'));
+    mount(wrap);
+  }
+
+  function productCard(prod, title, sub){
+    var b = el('button', 'pcard' + (prod.thumbTweak ? ' '+prod.thumbTweak : ''));
+    b.type = 'button';
+    var thumb = el('span','thumb'); thumb.appendChild(prod.art());
+    thumb.querySelector('svg').style.color = prod.authentic ? 'var(--ink-2)' : 'var(--gold)';
+    b.appendChild(thumb);
+    var mid = el('span'); mid.style.display='block';
+    mid.appendChild(el('span','pt', title));
+    mid.appendChild(el('span','ps', sub));
+    // force block layout for the two inner spans
+    mid.firstChild.style.display='block'; mid.lastChild.style.display='block';
+    b.appendChild(mid);
+    var go = el('span','go'); go.appendChild(svg(['M5 12h14','M13 6l6 6-6 6'])); b.appendChild(go);
+    b.addEventListener('click', function(){ screenScan(prod); });
+    return b;
+  }
+
+  /* ============================================================
+     SCREEN 2 — scanner (animated scan line over product)
+     ============================================================ */
+  function screenScan(prod){
+    clearTimers();
+    var wrap = el('div','stage scanner');
+    wrap.appendChild(el('div','scan-top','Hold steady — reading the tag'));
+
+    var vp = el('div','viewport');
+    var shot = el('div','prodshot'); var art = prod.art();
+    art.style.color = prod.authentic ? '#eef3f8' : '#f0e2c2';
+    shot.appendChild(art); vp.appendChild(shot);
+
+    var ret = el('div','reticle');
+    ['tl','tr','bl','br'].forEach(function(c){ ret.appendChild(el('span',c)); });
+    vp.appendChild(ret);
+    vp.appendChild(el('div','scanglow'));
+    vp.appendChild(el('div','scanline'));
+    var q = el('div','qtag'); qr(q); vp.appendChild(q);
+    wrap.appendChild(vp);
+
+    var status = el('div','scan-status');
+    var dot = el('span','dot'); status.appendChild(dot);
+    var stxt = el('span', null, 'Detecting product tag…'); status.appendChild(stxt);
+    wrap.appendChild(status);
+    var sub = el('div','scan-sub','QR + NFC · signature check'); wrap.appendChild(sub);
+
+    var ctaBox = el('div','scan-cta');
+    wrap.appendChild(ctaBox);
+    mount(wrap);
+
+    // scripted scan progression
+    after(1100, function(){ stxt.textContent = 'Tag found — reading signature…'; });
+    after(2300, function(){ stxt.textContent = 'Handing off to the verification agent…'; });
+    after(3300, function(){
+      var b = el('button','btn btn-primary');
+      b.type='button';
+      b.appendChild(document.createTextNode('Verify with the DPP agent'));
+      b.appendChild(svg(['M5 12h14','M13 6l6 6-6 6']));
+      b.addEventListener('click', function(){ screenVerify(prod); });
+      ctaBox.appendChild(b);
+      status.querySelector('.dot').style.animation='none';
+      stxt.textContent = 'Tag captured';
+      status.style.color = 'var(--em-ink)';
+    });
+    // auto-advance if the user just watches
+    after(5200, function(){
+      if(ctaBox.firstChild && view.contains(ctaBox)){ screenVerify(prod); }
+    });
+  }
+
+  /* ============================================================
+     SCREEN 3 — streaming verification
+     ============================================================ */
+  function screenVerify(prod){
+    clearTimers();
+    var wrap = el('div','stage');
+
+    var head = el('div','vhead');
+    var vt = el('span','vthumb' + (prod.authentic ? '' : ' fake'));
+    var a = prod.art(); a.style.color = prod.authentic ? 'var(--ink-2)' : 'var(--gold)'; vt.appendChild(a);
+    head.appendChild(vt);
+    var htxt = el('div');
+    htxt.appendChild(el('div','vt', prod.name));
+    htxt.appendChild(el('div','vs', prod.line));
+    head.appendChild(htxt);
+    wrap.appendChild(head);
+
+    var prog = el('div','vprog');
+    var plabel = el('span', null, 'Verifying'); prog.appendChild(plabel);
+    var bar = el('span','bar'); var barb = el('b'); bar.appendChild(barb); prog.appendChild(bar);
+    wrap.appendChild(prog);
+
+    var stream = el('div'); wrap.appendChild(stream);
+    mount(wrap);
+
+    if(prod.authentic) runGenuine(prod, stream, barb, plabel);
+    else runFake(prod, stream, barb, plabel);
+  }
+
+  /* one verification step card; returns the tick node to flip on complete */
+  function stepCard(stream, label, call, iconPaths){
+    var card = el('div','vstep');
+    var h = el('div','vstep-head');
+    var ic = el('span','vstep-ic'); ic.appendChild(svg(iconPaths)); h.appendChild(ic);
+    var t = el('div');
+    t.appendChild(el('div','vlabel', label));
+    t.appendChild(el('div','vcall', call));
+    h.appendChild(t);
+    var spin = el('span','spin'); h.appendChild(spin);
+    card.appendChild(h);
+    stream.appendChild(card);
+    scrollDown();
+    return { card:card, head:h, spin:spin };
+  }
+  function completeStep(ref, bodyNode, bad){
+    var tick = el('span', 'tick' + (bad ? ' bad' : ''), bad ? '✕' : '✓');
+    if(ref.spin.parentNode) ref.spin.parentNode.replaceChild(tick, ref.spin);
+    if(bodyNode){ var body = el('div','vstep-body'); body.appendChild(bodyNode); ref.card.appendChild(body); }
+    scrollDown();
+  }
+  function setProg(barb, pct){ barb.style.width = pct + '%'; }
+
+  /* ---- GENUINE flow ---- */
+  function runGenuine(prod, stream, barb, plabel){
+    var ICON = {
+      auth:['M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z','m9 12 2 2 4-4'],
+      trace:['M3 7h13l3 3v7H3z'],
+      mat:['M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2.5 1.5 5 .5 8','M2 21c0-3 1.85-5.36 5.08-6'],
+      fake:['M12 3 4 7v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V7z','M15 9.5 10.5 14 9 12.5']
+    };
+    // 1 authenticate
+    after(300, function(){
+      var r = stepCard(stream,'Authenticating','authenticate({ serial:"'+prod.serial+'" })', ICON.auth);
+      setProg(barb, 12);
+      after(1000, function(){
+        completeStep(r, authBody(prod, false));
+        setProg(barb, 34);
+        // 2 provenance
+        after(500, function(){
+          var r2 = stepCard(stream,'Tracing provenance','trace_provenance({ id:"'+prod.serial+'" })', ICON.trace);
+          setProg(barb, 46);
+          after(1100, function(){
+            completeStep(r2, provBody(prod));
+            setProg(barb, 66);
+            // 3 materials & certs
+            after(500, function(){
+              var r3 = stepCard(stream,'Reading materials & certifications','verify_materials({ certs:true })', ICON.mat);
+              setProg(barb, 78);
+              after(1100, function(){
+                completeStep(r3, matBody(prod));
+                setProg(barb, 90);
+                // 4 counterfeit check
+                after(500, function(){
+                  var r4 = stepCard(stream,'Counterfeit check','cross_check({ registry:true, clones:true })', ICON.fake);
+                  after(950, function(){
+                    completeStep(r4, counterfeitBody(true));
+                    setProg(barb, 100);
+                    plabel.textContent = 'Verified';
+                    after(500, function(){ renderPassport(prod, stream); });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+
+  /* ---- FAKE flow ---- */
+  function runFake(prod, stream, barb, plabel){
+    var ICON = {
+      auth:['M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z','m9 12 2 2 4-4'],
+      trace:['M3 7h13l3 3v7H3z'],
+      fake:['M12 3 4 7v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V7z']
+    };
+    after(300, function(){
+      var r = stepCard(stream,'Authenticating','authenticate({ serial:"'+prod.serial+'" })', ICON.auth);
+      setProg(barb, 20);
+      after(1150, function(){
+        completeStep(r, authBody(prod, true), true);
+        setProg(barb, 55);
+        after(500, function(){
+          var r2 = stepCard(stream,'Cross-checking the registry','cross_check({ serial_reuse:true })', ICON.trace);
+          setProg(barb, 72);
+          after(1050, function(){
+            completeStep(r2, provBody(prod), true);
+            setProg(barb, 90);
+            after(500, function(){
+              var r3 = stepCard(stream,'Counterfeit check','clone_scan({ tag:"forged" })', ICON.fake);
+              after(950, function(){
+                completeStep(r3, counterfeitBody(false), true);
+                setProg(barb, 100);
+                plabel.textContent = 'Rejected';
+                plabel.style.color = 'var(--red-ink)';
+                var barParent = barb.parentNode; if(barParent) barb.style.background = 'var(--red)';
+                after(500, function(){ renderReject(prod, stream); });
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+
+  /* ---------- result body builders ---------- */
+  function authBody(prod, bad){
+    var w = el('div');
+    var s = el('div','score');
+    var n = el('span', 'n' + (bad ? ' bad':''), prod.score); s.appendChild(n);
+    var p = el('span','pill ' + (bad ? 'p-red' : 'p-green'));
+    p.appendChild(document.createTextNode(bad ? 'Counterfeit — tag signature invalid' : 'Genuine — tag matches issuer record'));
+    s.appendChild(p);
+    w.appendChild(s);
+    var kv = el('div','kv'); kv.style.marginTop='9px';
+    kv.appendChild(el('span', null, 'Authenticity score'));
+    kv.appendChild(el('b', null, prod.score + ' / 100'));
+    w.appendChild(kv);
+    return w;
+  }
+  function provBody(prod){
+    var w = el('div','tl');
+    prod.provenance.forEach(function(st){
+      var row = el('div','st'); row.appendChild(el('span','d'));
+      var m = el('div'); m.appendChild(el('div','tt', st[0])); m.appendChild(el('div','ts', st[1]));
+      row.appendChild(m); w.appendChild(row);
+    });
+    return w;
+  }
+  function matBody(prod){
+    var w = el('div');
+    var r1 = el('div','kv'); r1.appendChild(el('span', null,'Materials')); r1.appendChild(el('b', null, prod.materials)); w.appendChild(r1);
+    var r2 = el('div','kv'); r2.style.marginTop='6px'; r2.appendChild(el('span', null,'Recycled')); r2.appendChild(el('b', null, prod.recycled)); w.appendChild(r2);
+    var r3 = el('div','kv'); r3.style.marginTop='6px'; r3.appendChild(el('span', null,'Carbon')); r3.appendChild(el('b', null, prod.carbon)); w.appendChild(r3);
+    var c = el('div','chips'); c.style.marginTop='9px';
+    prod.certs.forEach(function(t){ var p = el('span','pill p-blue'); p.appendChild(document.createTextNode(t)); c.appendChild(p); });
+    w.appendChild(c);
+    return w;
+  }
+  function counterfeitBody(pass){
+    var w = el('div');
+    var p = el('span','pill ' + (pass ? 'p-green' : 'p-red'));
+    p.appendChild(document.createTextNode(pass ? 'No clones found — serial is unique & unbound' : 'Clone detected — serial already in use'));
+    w.appendChild(p);
+    return w;
+  }
+
+  /* ---------- final passport (genuine) ---------- */
+  function renderPassport(prod, stream){
+    var banner = el('div','banner ok');
+    var bic = el('span','bic'); bic.appendChild(svg(['m5 12 4 4 10-10'])); banner.appendChild(bic);
+    banner.appendChild(el('span', null, 'Verified genuine. Passport issued and anchored — anyone can scan to confirm authenticity, provenance and sustainability.'));
+    stream.appendChild(banner);
+    scrollDown();
+
+    var pp = el('div','pp');
+    var top = el('div','pp-top');
+    var q = el('div','ppqr'); qr(q); top.appendChild(q);
+    var nm = el('div');
+    nm.appendChild(el('div','ppn', prod.name));
+    nm.appendChild(el('div','ppid', prod.ppid + ' · issued 2026-07'));
+    top.appendChild(nm);
+    var vf = el('span','pp-verif'); vf.appendChild(svg(['m5 12 4 4 10-10']));
+    vf.appendChild(document.createTextNode('Verified')); top.appendChild(vf);
+    pp.appendChild(top);
+
+    // identity + authenticity
+    var s1 = el('div','pp-sec'); s1.appendChild(el('div','lab','Identity & authenticity'));
+    var rows1 = el('div','rows');
+    rows1.appendChild(kvRow('Product', prod.line));
+    rows1.appendChild(pillRow('Authenticity', 'p-green', '✓ Genuine · ' + prod.score + '/100'));
+    s1.appendChild(rows1); pp.appendChild(s1);
+
+    // provenance
+    var s2 = el('div','pp-sec'); s2.appendChild(el('div','lab','Provenance'));
+    s2.appendChild(provBody(prod)); pp.appendChild(s2);
+
+    // sustainability
+    var s3 = el('div','pp-sec'); s3.appendChild(el('div','lab','Sustainability'));
+    var rows3 = el('div','rows');
+    rows3.appendChild(kvRow('Materials', prod.materials));
+    rows3.appendChild(kvRow('Recycled', prod.recycled));
+    rows3.appendChild(kvRow('Carbon', prod.carbon));
+    var chips = el('div','chips'); chips.style.marginTop='4px';
+    prod.certs.forEach(function(t){ var p=el('span','pill p-blue'); p.appendChild(document.createTextNode(t)); chips.appendChild(p); });
+    rows3.appendChild(chips);
+    s3.appendChild(rows3); pp.appendChild(s3);
+
+    var foot = el('div','pp-foot');
+    foot.appendChild(svg(['M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z','m9 12 2 2 4-4']));
+    foot.appendChild(document.createTextNode('EU-DPP aligned · anchored on-chain · tamper-proof'));
+    pp.appendChild(foot);
+
+    stream.appendChild(pp);
+    stream.appendChild(againRow(prod));
+    stream.appendChild(el('div','demo-tag','Illustrative demo · simulated record'));
+    scrollDown();
+  }
+
+  /* ---------- rejection (fake) ---------- */
+  function renderReject(prod, stream){
+    var banner = el('div','banner bad');
+    var bic = el('span','bic'); bic.appendChild(svg(['M6 6l12 12','M18 6 6 18'])); banner.appendChild(bic);
+    banner.appendChild(el('span', null, 'Counterfeit detected. No passport issued — the tag is cloned and the serial is already bound to a genuine unit. The seller is flagged.'));
+    stream.appendChild(banner);
+
+    var pp = el('div','pp bad');
+    var top = el('div','pp-top');
+    var q = el('div','ppqr'); qr(q); top.appendChild(q);
+    var nm = el('div');
+    nm.appendChild(el('div','ppn', prod.name));
+    nm.appendChild(el('div','ppid','No passport · verification failed'));
+    top.appendChild(nm);
+    var vf = el('span','pp-verif'); vf.appendChild(svg(['M6 6l12 12','M18 6 6 18']));
+    vf.appendChild(document.createTextNode('Rejected')); top.appendChild(vf);
+    pp.appendChild(top);
+
+    var s1 = el('div','pp-sec'); s1.appendChild(el('div','lab','Why it failed'));
+    var rows = el('div','rows');
+    rows.appendChild(pillRow('Tag signature', 'p-red', '✕ Invalid — not issuer-signed'));
+    rows.appendChild(pillRow('Serial', 'p-red', '✕ Reused — bound elsewhere'));
+    rows.appendChild(pillRow('Provenance', 'p-amber', 'No chain of custody'));
+    s1.appendChild(rows); pp.appendChild(s1);
+
+    var foot = el('div','pp-foot');
+    foot.appendChild(svg(['M12 3 4 7v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V7z']));
+    foot.appendChild(document.createTextNode('The passport can’t be faked — that’s the point.'));
+    pp.appendChild(foot);
+
+    stream.appendChild(pp);
+    stream.appendChild(againRow(prod));
+    stream.appendChild(el('div','demo-tag','Illustrative demo · simulated record'));
+    scrollDown();
+  }
+
+  function kvRow(k, v){
+    var r = el('div','kv'); r.appendChild(el('span', null, k)); r.appendChild(el('b', null, v)); return r;
+  }
+  function pillRow(k, pillCls, txt){
+    var r = el('div','kv'); r.style.alignItems='center';
+    r.appendChild(el('span', null, k));
+    var p = el('span','pill ' + pillCls); p.appendChild(document.createTextNode(txt));
+    r.appendChild(p); return r;
+  }
+
+  function againRow(prod){
+    var row = el('div','again');
+    var other = prod.authentic ? PRODUCTS.fake : PRODUCTS.genuine;
+    var b1 = el('button','btn btn-primary'); b1.type='button';
+    b1.appendChild(document.createTextNode(prod.authentic ? 'Try the counterfeit' : 'Try the genuine one'));
+    b1.addEventListener('click', function(){ screenScan(other); });
+    var b2 = el('button','btn btn-ghost'); b2.type='button';
+    b2.appendChild(document.createTextNode('Scan again'));
+    b2.addEventListener('click', screenPick);
+    row.appendChild(b1); row.appendChild(b2);
+    return row;
+  }
+
+  /* ---------- mount + scroll ---------- */
+  function mount(node){ clr(view); view.appendChild(node); view.scrollTop = 0; }
+  function scrollDown(){ requestAnimationFrame(function(){ view.scrollTop = view.scrollHeight; }); }
+
+  screenPick();
+})();
+</script>
+</body>
+</html>

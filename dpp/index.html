@@ -41,6 +41,9 @@
 .btn-outline:hover{border-color:var(--dpp);color:var(--dpp-deep)}
 .btn-light{background:#fff;color:var(--dpp-deep)}
 .btn-light:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.btn-glow{background:linear-gradient(120deg,var(--dpp-bright),var(--dpp-deep));color:#fff;
+  box-shadow:0 10px 26px rgba(18,193,127,.34)}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(18,193,127,.46)}
 
 /* ---------- NAV ---------- */
 .nav-inner{gap:20px}
@@ -185,32 +188,58 @@
 #builtfor{background:linear-gradient(180deg,#fff,var(--bg))}
 .bf-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
 .bf-card{border:var(--edge);border-radius:var(--r-lg);padding:clamp(28px,3.4vw,40px);background:#fff;position:relative;overflow:hidden}
-.bf-card.brand{background:linear-gradient(165deg,#fff,var(--leaf))}
-.bf-card.consumer{background:linear-gradient(165deg,var(--dpp-ink),#0b3d2b);color:#fff}
+.bf-card.for-brands{background:linear-gradient(165deg,#fff,var(--leaf))}
+.bf-card.for-buyers{background:linear-gradient(165deg,var(--dpp-ink),#0b3d2b);color:#fff}
 .bf-eyebrow{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:.74rem;letter-spacing:.14em;
   text-transform:uppercase;margin-bottom:14px}
-.bf-card.brand .bf-eyebrow{color:var(--dpp-deep)}
-.bf-card.consumer .bf-eyebrow{color:#7ff0c0}
+.bf-card.for-brands .bf-eyebrow{color:var(--dpp-deep)}
+.bf-card.for-buyers .bf-eyebrow{color:#7ff0c0}
 .bf-card .bf-ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center}
-.bf-card.brand .bf-ic{background:var(--dpp);color:#fff}
-.bf-card.consumer .bf-ic{background:rgba(255,255,255,.14);color:#fff}
+.bf-card.for-brands .bf-ic{background:var(--dpp);color:#fff}
+.bf-card.for-buyers .bf-ic{background:rgba(255,255,255,.14);color:#fff}
 .bf-card h3{font-size:1.5rem;letter-spacing:-.02em;margin:14px 0 6px}
-.bf-card.consumer h3{color:#fff}
+.bf-card.for-buyers h3{color:#fff}
 .bf-card .bf-sub{font-size:.95rem;margin-bottom:22px}
-.bf-card.brand .bf-sub{color:var(--slate)}
-.bf-card.consumer .bf-sub{color:rgba(255,255,255,.72)}
+.bf-card.for-brands .bf-sub{color:var(--slate)}
+.bf-card.for-buyers .bf-sub{color:rgba(255,255,255,.72)}
 .bf-list{list-style:none;margin:0;padding:0}
 .bf-list li{display:flex;gap:12px;padding:11px 0;font-size:.98rem;line-height:1.5}
 .bf-list li+li{border-top:var(--edge)}
-.bf-card.consumer .bf-list li+li{border-top:1px solid rgba(255,255,255,.12)}
+.bf-card.for-buyers .bf-list li+li{border-top:1px solid rgba(255,255,255,.12)}
 .bf-list .ck{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px}
-.bf-card.brand .ck{background:var(--leaf);color:var(--dpp-deep)}
-.bf-card.consumer .ck{background:rgba(18,193,127,.24);color:#c8ffe6}
+.bf-card.for-brands .ck{background:var(--leaf);color:var(--dpp-deep)}
+.bf-card.for-buyers .ck{background:rgba(18,193,127,.24);color:#c8ffe6}
 .bf-list .ck svg{width:13px;height:13px}
 .bf-list b{font-weight:700}
-.bf-card.brand .bf-list b{color:var(--navy)}
-.bf-card.consumer .bf-list b{color:#fff}
-.bf-card.consumer .bf-list li{color:rgba(255,255,255,.82)}
+.bf-card.for-brands .bf-list b{color:var(--navy)}
+.bf-card.for-buyers .bf-list b{color:#fff}
+.bf-card.for-buyers .bf-list li{color:rgba(255,255,255,.82)}
+
+/* ---------- WHY AN AGENT (vs dashboard) ---------- */
+#whyagent{background:var(--white)}
+.wa-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,3vw,40px);align-items:stretch}
+.wa-col{border:var(--edge);border-radius:var(--r-lg);padding:clamp(26px,3vw,38px);position:relative;overflow:hidden}
+.wa-col.them{background:#fff}
+.wa-col.us{background:linear-gradient(165deg,var(--dpp-ink),#0b3d2b);color:#fff;border-color:transparent}
+.wa-tag{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;margin-bottom:14px}
+.wa-col.them .wa-tag{color:var(--slate)}
+.wa-col.us .wa-tag{color:#7ff0c0}
+.wa-col h3{font-size:1.32rem;letter-spacing:-.02em;margin-bottom:6px}
+.wa-col.us h3{color:#fff}
+.wa-col .wa-sub{font-size:.94rem;margin-bottom:20px}
+.wa-col.them .wa-sub{color:var(--slate)}
+.wa-col.us .wa-sub{color:rgba(255,255,255,.72)}
+.wa-list{list-style:none;margin:0;padding:0}
+.wa-list li{display:flex;gap:12px;padding:12px 0;font-size:.96rem;line-height:1.5}
+.wa-list li+li{border-top:var(--edge)}
+.wa-col.us .wa-list li+li{border-top:1px solid rgba(255,255,255,.12)}
+.wa-col.us .wa-list li{color:rgba(255,255,255,.84)}
+.wa-mark{width:20px;height:20px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px}
+.wa-mark svg{width:12px;height:12px}
+.wa-col.them .wa-mark{background:var(--gray-200);color:var(--slate)}
+.wa-col.us .wa-mark{background:rgba(18,193,127,.24);color:#c8ffe6}
+.wa-kicker-line{max-width:52ch}
 
 /* ---------- CTA BAND ---------- */
 .cta{position:relative;overflow:hidden;background:linear-gradient(130deg,var(--dpp-deep),var(--dpp-ink));color:#fff}
@@ -226,6 +255,37 @@
 .cta h2{color:#fff;font-size:clamp(2rem,4vw,3rem)}
 .cta p{color:rgba(255,255,255,.82);font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:52ch;margin:18px auto 0}
 .cta-cta{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:34px}
+
+/* ---------- TRY IT (dual demo launcher) ---------- */
+#try{background:linear-gradient(180deg,#fff,var(--bg))}
+.try-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.try-card{display:flex;gap:18px;align-items:flex-start;background:#fff;border:var(--edge);border-radius:var(--r-lg);
+  padding:clamp(24px,2.6vw,32px);transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+.try-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--dpp) 30%,transparent)}
+.try-card .ti{width:50px;height:50px;border-radius:14px;flex:none;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(150deg,var(--dpp-bright),var(--dpp-deep));box-shadow:0 8px 20px rgba(15,157,107,.28)}
+.try-card .ti svg{width:25px;height:25px}
+.try-card h3{font-size:1.16rem;letter-spacing:-.015em;display:inline-flex;align-items:center;gap:8px}
+.try-card h3 svg{width:15px;height:15px;color:var(--dpp);flex:none;transition:transform .25s}
+.try-card:hover h3 svg{transform:translate(3px,-3px)}
+.try-card p{color:var(--slate);font-size:.94rem;margin:7px 0 0;line-height:1.55}
+.try-card .tmeta{margin-top:12px;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--dpp);opacity:.75}
+
+/* ---------- FAQ ---------- */
+#faq{background:var(--white)}
+.faq-wrap{max-width:820px}
+.faq{border:1px solid var(--gray-200);border-radius:var(--r);margin-bottom:12px;background:#fff;overflow:hidden;
+  transition:border-color .2s,box-shadow .2s}
+.faq[open]{border-color:color-mix(in srgb,var(--dpp) 34%,transparent);box-shadow:var(--shadow)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 24px;font-weight:700;font-size:1.04rem;color:var(--navy);
+  display:flex;align-items:center;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .qmark{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:var(--leaf);color:var(--dpp-deep);transition:transform .25s}
+.faq summary .qmark svg{width:14px;height:14px}
+.faq[open] summary .qmark{transform:rotate(45deg)}
+.faq p{color:var(--slate);margin:0;padding:0 24px 22px;font-size:.98rem;line-height:1.6;max-width:70ch}
 
 /* ---------- FOOTER ---------- */
 .footer{padding-top:70px}
@@ -260,7 +320,7 @@
   .hero-grid,.whynow .wrap{grid-template-columns:1fr}
   .pp-stage{order:-1;min-height:0;margin-bottom:6px}
   .steps,.feat-grid{grid-template-columns:1fr 1fr}
-  .bf-grid{grid-template-columns:1fr}
+  .bf-grid,.wa-grid{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
   .sec-head{flex-direction:column;align-items:flex-start}
 }
@@ -290,16 +350,17 @@
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a class="navlink" href="#how">What the agent does</a>
-      <a class="navlink" href="#features">Capabilities</a>
+      <a class="navlink" href="#whyagent">Why an agent</a>
       <a class="navlink" href="#builtfor">For brands &amp; buyers</a>
+      <a class="navlink" href="#faq">FAQ</a>
       <a class="navlink backhub" href="../index.html" aria-label="Back to Pandora studio">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
         Pandora
       </a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-outline hide-mobile" href="../index.html">All products</a>
-      <a class="btn btn-dpp" href="#demo">Launch the DPP agent
+      <a class="btn btn-outline hide-mobile" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-dpp" href="#try">Launch the DPP agent
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
       <a class="btn btn-outline nav-toggle" href="#how" aria-label="Menu">
@@ -311,12 +372,13 @@
 
 <main>
 <!-- ===================== HERO ===================== -->
+<!-- SCREENS-GIF-SLOT -->
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="reveal">
       <span class="kicker">Agentic product intelligence</span>
       <h1>An AI agent that verifies and <span class="grad">passports physical products.</span></h1>
-      <p class="lead">The DPP Company is an autonomous verification agent for physical goods. It authenticates a product, traces its provenance and supply chain, reads its materials and certifications, flags counterfeits, then issues and keeps its Digital Product Passport current — all from a single scan.</p>
+      <p class="lead">Every other passport tool hands you a dashboard and leaves the work to your team. The DPP Company is an <b>autonomous verification agent</b> instead: point it at a product and it authenticates the item, traces its provenance and supply chain, reads its materials and certifications, flags counterfeits, then issues and keeps its EU-DPP-aligned Digital Product Passport current — from a single scan, with every finding checkable and anchored on-chain.</p>
       <div class="hero-cta">
         <a class="btn btn-dpp" id="agent-demo-link" target="_blank" rel="noopener" href="agent/">Launch the DPP agent
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -435,6 +497,45 @@
   </div>
 </section>
 
+<!-- ===================== WHY AN AGENT (vs dashboard) ===================== -->
+<section id="whyagent" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Why an agent, not another dashboard</span>
+        <h2>Most passport tools give you software. We give you the work done.</h2>
+      </div>
+      <p class="muted wa-kicker-line">The hard part of a Digital Product Passport was never hosting it — it's collecting, standardising and verifying product data across a messy, multi-tier supply chain. Platforms hand that job back to you. Our agent does it.</p>
+    </div>
+
+    <div class="wa-grid">
+      <!-- THEM -->
+      <div class="wa-col them reveal">
+        <div class="wa-tag">A passport platform</div>
+        <h3>A dashboard you have to run.</h3>
+        <p class="wa-sub">You buy the software, then staff it — chasing suppliers, importing spreadsheets, mapping fields and clearing compliance gaps by hand, catalogue after catalogue.</p>
+        <ul class="wa-list">
+          <li><span class="wa-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span><span>Integrations to configure and data to reconcile before a single passport ships.</span></li>
+          <li><span class="wa-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span><span>Authenticity and provenance are fields you populate — not checks the tool performs.</span></li>
+          <li><span class="wa-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span><span>Keeping every record current as products move or resell becomes ongoing manual work.</span></li>
+        </ul>
+      </div>
+
+      <!-- US -->
+      <div class="wa-col us reveal">
+        <div class="wa-tag">The DPP agent</div>
+        <h3>An agent that does the work.</h3>
+        <p class="wa-sub">Point it at a product or a catalogue. It authenticates, traces, reads the certs and issues the passport itself — and shows its working so every finding is checkable.</p>
+        <ul class="wa-list">
+          <li><span class="wa-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Autonomous, not administrative</b> — it authenticates and traces provenance, it doesn't just store what you type in.</span></li>
+          <li><span class="wa-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Compliance as an outcome</b> — EU-DPP / ESPR-aligned passports fall out of the run, not a separate project.</span></li>
+          <li><span class="wa-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Verifiable by design</b> — every finding is anchored on-chain and open to inspection, not locked inside one vendor's dashboard.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== FEATURES ===================== -->
 <section id="features" class="section" style="background:var(--white)">
   <div class="wrap">
@@ -512,7 +613,7 @@
 
     <div class="bf-grid">
       <!-- BRANDS -->
-      <div class="bf-card brand reveal">
+      <div class="bf-card for-brands reveal">
         <span class="bf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-6h6v6"/></svg></span>
         <div class="bf-eyebrow">For brands</div>
         <h3>Compliance and trust, handled by the agent.</h3>
@@ -526,7 +627,7 @@
       </div>
 
       <!-- CONSUMERS -->
-      <div class="bf-card consumer reveal">
+      <div class="bf-card for-buyers reveal">
         <span class="bf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span>
         <div class="bf-eyebrow">For consumers</div>
         <h3>Ask the agent — get the whole story.</h3>
@@ -542,22 +643,96 @@
   </div>
 </section>
 
+<!-- ===================== TRY IT (dual demo launcher) ===================== -->
+<section id="try" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Try it</span>
+        <h2>See the agent work — two ways.</h2>
+      </div>
+      <p class="muted">Talk to the verification agent, or scan a product the way a shopper would. Both are live, illustrative demos — no sign-up.</p>
+    </div>
+    <figure class="reveal" style="margin:0 0 clamp(28px,4vw,44px);border-radius:20px;overflow:hidden;border:1px solid var(--gray-200);box-shadow:0 24px 60px rgba(16,32,64,.12)">
+      <img src="media/screens.gif" alt="The DPP scan experience on a phone — pick a product, watch the agent authenticate, trace provenance and read certifications, then open its Digital Product Passport" loading="lazy" decoding="async" style="width:100%;display:block" />
+    </figure>
+    <div class="try-grid">
+      <a class="try-card reveal" href="agent/" target="_blank" rel="noopener">
+        <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span>
+        <div>
+          <h3>Launch the DPP agent
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </h3>
+          <p>Chat with the verification agent and watch it authenticate, trace provenance, check materials and issue a passport, step by step.</p>
+          <div class="tmeta">Agent workspace · desktop</div>
+        </div>
+      </a>
+      <a class="try-card reveal" href="scan/">
+        <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M4 12h16"/></svg></span>
+        <div>
+          <h3>Scan a product
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </h3>
+          <p>The shopper's view: point a phone at a product tag and watch its Digital Product Passport verify and unfold on screen.</p>
+          <div class="tmeta">Mobile scan · phone demo</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== CTA BAND ===================== -->
 <section id="demo" class="cta section">
   <div class="wrap">
     <div class="reveal">
       <span class="kicker on-dark" style="justify-content:center">See the agent work</span>
       <h2 style="margin-top:16px">Put an AI agent on every product you make.</h2>
-      <p>Launch the DPP agent on a live product and watch it authenticate, trace, verify and issue the passport — EU-ready, tamper-proof, all from a single scan.</p>
+      <p>Book a walkthrough, or launch the agent yourself on a live product and watch it authenticate, trace, verify and issue the passport — EU-DPP aligned, tamper-proof, all from a single scan.</p>
       <div class="cta-cta">
+        <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
         <a class="btn btn-light" target="_blank" rel="noopener" href="agent/">Launch the DPP agent
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)" href="../index.html">Back to Pandora</a>
+        <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)" href="scan/">Scan a product</a>
       </div>
     </div>
   </div>
 </section>
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Questions</span>
+        <h2>What people ask about the agent.</h2>
+      </div>
+      <p class="muted">Straight answers on how the DPP agent works, where it fits, and what it means for compliance.</p>
+    </div>
+    <div class="faq-wrap reveal">
+      <details class="faq">
+        <summary>How is this different from a QR code?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>A QR code is just a link — it points to whatever page someone chose to put behind it, and it can be copied onto a fake as easily as a real one. The QR or NFC tag here is only the doorway. Behind it is a passport the agent actually verified: it authenticated the item against its issuer signature, traced its provenance, read its materials and certifications, and anchored every finding on-chain. So the scan doesn't just open a marketing page — it opens proof, and a cloned tag on a counterfeit fails the checks instead of quietly resolving.</p>
+      </details>
+      <details class="faq">
+        <summary>Are you EU-DPP / ESPR ready?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>Yes — the passports the agent issues are EU-DPP aligned, built around the ESPR model as it rolls out from 2027 (batteries first, then textiles, electronics and more). The agent captures the data carrier, provenance, materials and certifications the regulation expects and anchors them in a tamper-proof record, so compliance falls out of a normal verification run rather than becoming a separate project. As the CEN/CENELEC standards and the EU registry finalise, the agent tracks them so your passports stay aligned.</p>
+      </details>
+      <details class="faq">
+        <summary>How is an agent different from a passport platform or dashboard?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>A platform gives your team software and leaves the work to you — importing spreadsheets, chasing suppliers, mapping fields and clearing compliance gaps by hand, catalogue after catalogue. The agent does that work. You point it at a product or a catalogue and it authenticates, traces provenance, reads certifications and issues the passport itself, showing its working so every finding is checkable. Less a tool you operate, more a teammate that produces the finished, verifiable passport.</p>
+      </details>
+      <details class="faq">
+        <summary>Do I need to understand blockchain to use it?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>No. The agent handles anchoring in the background — you work with products and passports, not wallets or gas. On-chain records are simply how the agent makes its findings tamper-proof and independently verifiable: a shopper, a reseller or an auditor can confirm a passport without trusting any single company's database. You get that guarantee without touching the plumbing.</p>
+      </details>
+      <details class="faq">
+        <summary>What kinds of products does it work with?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>It's built for physical goods where authenticity, provenance and sustainability matter — apparel and footwear, leather goods and accessories, and other categories heading into ESPR scope. The demos use luxury products because counterfeits and resale make the value obvious, but the same agentic workflow applies to any item that carries a QR or NFC tag. Canadian brands preparing for EU-market requirements are a natural fit, and we're happy to walk through your specific catalogue.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== BUILT IN THE OPEN ===================== -->
 <section id="oss" class="section">
   <div class="wrap">
@@ -596,16 +771,17 @@
       <div class="foot-col">
         <h4>Agent</h4>
         <a href="#how">What the agent does</a>
-        <a href="#features">Capabilities</a>
+        <a href="#whyagent">Why an agent</a>
         <a href="#builtfor">For brands &amp; buyers</a>
-        <a href="#demo">See the agent work</a>
+        <a href="#faq">FAQ</a>
       </div>
 
       <div class="foot-col">
-        <h4>Company</h4>
+        <h4>Try it</h4>
+        <a href="agent/" target="_blank" rel="noopener">Launch the DPP agent</a>
+        <a href="scan/">Scan a product</a>
+        <a href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
         <a href="../index.html">Pandora studio</a>
-        <a href="mailto:hello@pandora.finance">Contact</a>
-        <span class="static">Anchored on-chain · Arianee · IPFS</span>
       </div>
     </div>
 

@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vanna Protocol — Risk &amp; margin infrastructure built to keep you out of liquidation</title>
+<meta name="description" content="Vanna Protocol is composable risk and margin infrastructure for DeFi. Liquidity providers earn yield from lending pools; traders open isolated margin accounts and deploy borrowed capital across markets under one continuous health check. Risk is isolated per account and — with trading agents via Vanna MCPs (coming) — managed and hedged autonomously, not amputated." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="../assets/design-system.css" />
+<style>
+/* ============================================================
+   VANNA PROTOCOL — risk & margin infrastructure
+   Composable credit / margin layer: lending pools + isolated
+   margin accounts + a risk engine, with an agentic management
+   layer (Vanna MCPs) coming. Page-specific styles.
+   Tokens (navy, slate, gray, radius, shadow, font) come from
+   design-system.css. Product accent = deep violet / indigo.
+   ============================================================ */
+:root{
+  --vanna:#6c5ce7;         /* deep violet — the Vanna accent */
+  --vanna-deep:#4b3fca;    /* pressed / darker violet */
+  --vanna-bright:#8f7bff;  /* lively accent for gradients */
+  --vanna-ink:#120f2e;     /* deep indigo-black for dark sections */
+  --lilac:#ece9ff;         /* pale violet wash */
+  --edge:1px solid var(--gray-200);
+  --mono:'Figtree', ui-monospace, monospace;
+}
+
+/* ---------- shared refinements ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+.kicker{font-weight:700;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--vanna);
+  display:inline-flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:22px;height:1.5px;background:var(--vanna);display:inline-block}
+.kicker.on-dark{color:#b7a9ff}
+.kicker.on-dark::before{background:#b7a9ff}
+
+/* violet button variants (extend design-system .btn) */
+.btn-vanna{background:var(--vanna);color:#fff}
+.btn-vanna:hover{background:var(--vanna-deep);transform:translateY(-2px);box-shadow:0 12px 26px rgba(108,92,231,.30)}
+.btn-outline{background:transparent;border:1.5px solid var(--gray-200);color:var(--navy)}
+.btn-outline:hover{border-color:var(--vanna);color:var(--vanna-deep)}
+.btn-light{background:#fff;color:var(--vanna-deep)}
+.btn-light:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+/* the exact book-a-demo snippet uses .btn-glow — scope a violet glow to this page */
+.btn-glow{background:var(--vanna);color:#fff;box-shadow:0 10px 26px rgba(108,92,231,.28)}
+.btn-glow:hover{background:var(--vanna-deep);transform:translateY(-2px);box-shadow:0 16px 34px rgba(108,92,231,.34)}
+
+/* ---------- NAV ---------- */
+.nav-inner{gap:20px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.brand .mark{width:36px;height:36px;border-radius:11px;flex:none;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(150deg,var(--vanna-bright),var(--vanna-deep));box-shadow:0 6px 16px rgba(108,92,231,.34)}
+.brand .mark svg{width:20px;height:20px}
+.brand .wm{font-size:1.18rem;line-height:1}
+.brand .wm small{display:block;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--slate)}
+.nav-links{display:flex;align-items:center;gap:32px}
+.navlink{position:relative}
+.navlink::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:1.5px;background:var(--vanna);transition:right .28s cubic-bezier(.2,.7,.2,1)}
+.navlink:hover::after{right:0}
+.nav-cta{display:flex;align-items:center;gap:12px}
+.nav-toggle{display:none}
+.backhub{display:inline-flex;align-items:center;gap:7px;color:var(--slate);font-weight:600;font-size:.9rem}
+.backhub:hover{color:var(--navy)}
+.backhub svg{transition:transform .25s}
+.backhub:hover svg{transform:translateX(-3px)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;overflow:hidden;padding:clamp(66px,10vw,128px) 0 clamp(58px,8vw,104px)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;
+  background:
+    radial-gradient(1100px 620px at 82% -10%, rgba(143,123,255,.20), transparent 60%),
+    radial-gradient(720px 520px at 2% 30%, rgba(108,92,231,.10), transparent 62%),
+    linear-gradient(180deg,#f8f7ff 0%,var(--white) 48%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;
+  background-image:linear-gradient(var(--gray-200) 1px,transparent 1px),linear-gradient(90deg,var(--gray-200) 1px,transparent 1px);
+  background-size:60px 60px;
+  -webkit-mask-image:radial-gradient(760px 520px at 82% 4%, #000 0%, transparent 72%);
+          mask-image:radial-gradient(760px 520px at 82% 4%, #000 0%, transparent 72%)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .92fr;gap:clamp(30px,5vw,72px);align-items:center}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:-.035em;margin:22px 0 0}
+.hero h1 .grad{background:linear-gradient(100deg,var(--vanna-deep),var(--vanna-bright) 94%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{margin-top:24px;font-size:clamp(1.06rem,1.7vw,1.28rem);max-width:54ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.hero-trust{display:flex;align-items:center;gap:22px;margin-top:40px;flex-wrap:wrap;color:var(--slate);font-size:.86rem;font-weight:600}
+.hero-trust .ti{display:inline-flex;align-items:center;gap:8px}
+.hero-trust .ti svg{color:var(--vanna);flex:none}
+.hero-trust .sep{width:1px;height:20px;background:var(--gray-200)}
+
+/* --- margin-account card visual --- */
+.mc-stage{position:relative;min-height:380px;display:grid;place-items:center}
+.mc-glow{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;filter:blur(46px);opacity:.5;
+  background:radial-gradient(circle,var(--vanna-bright),transparent 66%);z-index:-1}
+.acct{width:min(100%,368px);background:#fff;border:var(--edge);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-lg);overflow:hidden;animation:mcfloat 7s ease-in-out infinite}
+.acct-head{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:linear-gradient(120deg,var(--vanna-ink),var(--vanna-deep));color:#fff}
+.acct-head .ab{display:flex;align-items:center;gap:10px}
+.acct-head .ab .g{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.16);display:grid;place-items:center}
+.acct-head .ab .g svg{width:16px;height:16px}
+.acct-head .at{font-weight:800;font-size:.98rem;line-height:1.1;letter-spacing:-.01em}
+.acct-head .as{font-size:.68rem;opacity:.72;letter-spacing:.04em}
+.acct-tag{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:800;letter-spacing:.03em;
+  padding:6px 10px;border-radius:var(--r-pill);background:rgba(143,123,255,.22);color:#dcd4ff;
+  border:1px solid rgba(143,123,255,.5)}
+.acct-tag svg{width:13px;height:13px}
+.acct-body{padding:20px}
+.acct-rows{border-top:var(--edge)}
+.acct-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:var(--edge)}
+.acct-row .k{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:700}
+.acct-row .v{font-size:.9rem;font-weight:800;color:var(--navy);text-align:right}
+.acct-chiprow{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.acct-chip{font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:var(--r-pill);
+  background:var(--lilac);color:var(--vanna-deep)}
+/* health-factor meter */
+.hf{margin-top:16px;padding-top:16px;border-top:var(--edge)}
+.hf-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.hf-lab{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:700}
+.hf-val{font-family:var(--mono);font-weight:800;font-size:1.15rem;color:var(--vanna-deep);letter-spacing:-.01em}
+.hf-bar{position:relative;height:8px;border-radius:var(--r-pill);margin-top:9px;overflow:hidden;
+  background:linear-gradient(90deg,#f0a5b8 0%,#f2d08a 34%,#9be0b0 62%,#8f7bff 100%)}
+.hf-marker{position:absolute;top:-3px;bottom:-3px;width:3px;border-radius:2px;background:var(--navy);left:78%;
+  box-shadow:0 0 0 3px rgba(255,255,255,.85)}
+.hf-scale{display:flex;justify-content:space-between;margin-top:6px;font-family:var(--mono);font-size:.62rem;color:var(--slate)}
+.acct-foot{display:flex;align-items:center;gap:11px;padding:14px 20px;border-top:var(--edge);background:#fbfaff}
+.acct-foot .ic{width:34px;height:34px;border-radius:9px;flex:none;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(150deg,var(--vanna-bright),var(--vanna-deep))}
+.acct-foot .ic svg{width:18px;height:18px}
+.acct-foot .ft{font-weight:800;font-size:.82rem;letter-spacing:-.01em}
+.acct-foot .fs{font-size:.68rem;color:var(--slate)}
+/* floating agent tag */
+.agent-tag{position:absolute;right:-6px;bottom:20px;background:#fff;border:var(--edge);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:10px 14px;display:flex;align-items:center;gap:10px;
+  animation:mcfloat 6s ease-in-out .8s infinite}
+.agent-tag .ic{width:34px;height:34px;border-radius:9px;flex:none;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(150deg,var(--vanna-bright),var(--vanna-deep))}
+.agent-tag .ic svg{width:18px;height:18px}
+.agent-tag .st{font-weight:800;font-size:.82rem;letter-spacing:-.01em}
+.agent-tag .ss{font-size:.68rem;color:var(--slate)}
+.agent-tag .soon{font-size:.56rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--vanna-deep);
+  background:var(--lilac);border-radius:var(--r-pill);padding:2px 7px;margin-left:2px}
+@keyframes mcfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+
+/* ---------- THESIS STRIP (dark) ---------- */
+.thesis{background:linear-gradient(150deg,var(--vanna-ink),#1c1740);color:#fff;position:relative;overflow:hidden}
+.thesis::before{content:"";position:absolute;inset:0;opacity:.55;
+  background:radial-gradient(680px 420px at 90% -10%, rgba(143,123,255,.32), transparent 60%),
+            radial-gradient(560px 400px at 0% 110%, rgba(108,92,231,.24), transparent 62%)}
+.thesis .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(32px,5vw,72px);align-items:center}
+.thesis h2{color:#fff;max-width:18ch}
+.thesis .th-lead{font-size:clamp(1.08rem,1.6vw,1.32rem);color:rgba(255,255,255,.86);line-height:1.6;max-width:48ch;margin-top:18px}
+.thesis .th-note{margin-top:20px;color:rgba(255,255,255,.62);max-width:50ch;font-size:.98rem}
+.th-badge{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border-radius:var(--r-pill);
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:.82rem}
+.th-badge .dot{width:8px;height:8px;border-radius:50%;background:#b7a9ff;box-shadow:0 0 0 4px rgba(183,169,255,.25)}
+.th-panel{border:1px solid rgba(255,255,255,.16);border-radius:var(--r-lg);padding:8px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02))}
+.th-list{list-style:none;margin:0;padding:0}
+.th-list li{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:16px 18px;align-items:start}
+.th-list li+li{border-top:1px solid rgba(255,255,255,.1)}
+.th-list .ti{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#dcd4ff;
+  background:rgba(143,123,255,.16);border:1px solid rgba(143,123,255,.3)}
+.th-list .ti svg{width:22px;height:22px}
+.th-list .tx strong{display:block;color:#fff;font-weight:700;font-size:1rem;margin-bottom:2px}
+.th-list .tx span{color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.5}
+
+/* ---------- SECTION HEADS ---------- */
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:52px}
+.sec-head h2{max-width:20ch;margin-top:16px}
+.sec-head p{margin:0;max-width:40ch}
+
+/* ---------- HOW IT WORKS ---------- */
+#how{background:linear-gradient(180deg,var(--bg),#fff)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:step}
+.step{position:relative;background:#fff;border:var(--edge);border-radius:var(--r-lg);padding:32px 26px 28px;
+  overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
+.step:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+.step::before{counter-increment:step;content:"0" counter(step);position:absolute;top:20px;right:22px;
+  font-family:var(--mono);font-weight:800;font-size:1.05rem;color:var(--vanna);opacity:.34;letter-spacing:.04em}
+.step .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;margin-bottom:20px;
+  background:var(--lilac);color:var(--vanna-deep);border:1px solid rgba(108,92,231,.2)}
+.step .ic svg{width:25px;height:25px}
+.step h3{font-size:1.16rem;letter-spacing:-.02em}
+.step p{color:var(--slate);margin:10px 0 0;font-size:.94rem;line-height:1.55}
+.step-flow{display:flex;align-items:center;gap:9px;margin-top:16px;color:var(--vanna-deep);font-weight:700;font-size:.8rem}
+.step-flow svg{width:15px;height:15px}
+
+/* ---------- RISK ENGINE (feature grid) ---------- */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feat{position:relative;background:#fff;border:var(--edge);border-radius:var(--r-lg);padding:28px 26px;
+  transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+.feat:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--vanna) 30%,transparent)}
+.feat .fi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px;
+  background:color-mix(in srgb,var(--vanna) 12%,#fff);color:var(--vanna-deep);border:1px solid color-mix(in srgb,var(--vanna) 22%,transparent)}
+.feat .fi svg{width:22px;height:22px}
+.feat h3{font-size:1.08rem;letter-spacing:-.015em}
+.feat p{color:var(--slate);font-size:.92rem;margin:8px 0 0;line-height:1.55}
+.feat .ftag{position:absolute;top:24px;right:24px;font-family:var(--mono);font-size:.64rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--vanna);opacity:.7}
+
+/* ---------- AGENTS ON VANNA (dark two-panel) ---------- */
+#agents{background:linear-gradient(165deg,var(--vanna-ink),#1a1538);color:#fff;position:relative;overflow:hidden}
+#agents::before{content:"";position:absolute;inset:0;opacity:.5;
+  background:radial-gradient(640px 440px at 88% -10%, rgba(143,123,255,.3), transparent 60%),
+            radial-gradient(560px 420px at 4% 116%, rgba(108,92,231,.24), transparent 62%)}
+#agents .wrap{position:relative}
+#agents .sec-head h2{color:#fff}
+#agents .sec-head p{color:rgba(255,255,255,.66)}
+.ag-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:stretch}
+.ag-card{border:1px solid rgba(255,255,255,.16);border-radius:var(--r-lg);
+  padding:clamp(28px,3.4vw,40px);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}
+.ag-eyebrow{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:.74rem;letter-spacing:.14em;
+  text-transform:uppercase;margin-bottom:14px;color:#b7a9ff}
+.ag-card h3{font-size:1.5rem;letter-spacing:-.02em;margin:6px 0 8px;color:#fff}
+.ag-card .ag-sub{font-size:.98rem;color:rgba(255,255,255,.72);margin-bottom:22px;line-height:1.6}
+.ag-list{list-style:none;margin:0;padding:0}
+.ag-list li{display:flex;gap:12px;padding:12px 0;font-size:.98rem;line-height:1.5;color:rgba(255,255,255,.82)}
+.ag-list li+li{border-top:1px solid rgba(255,255,255,.12)}
+.ag-list .ck{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px;
+  background:rgba(143,123,255,.24);color:#dcd4ff}
+.ag-list .ck svg{width:13px;height:13px}
+.ag-list b{font-weight:700;color:#fff}
+.ag-soon{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:.82rem;font-weight:700;color:#b7a9ff;
+  padding:8px 14px;border-radius:var(--r-pill);background:rgba(143,123,255,.12);border:1px solid rgba(143,123,255,.3)}
+.ag-soon .dot{width:7px;height:7px;border-radius:50%;background:#b7a9ff}
+/* right visual: mcp loop */
+.ag-loop{display:flex;flex-direction:column;justify-content:center;gap:14px}
+.loop-node{display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.14);border-radius:var(--r);
+  padding:18px 20px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015))}
+.loop-node .ln-ic{width:46px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;color:#dcd4ff;
+  background:rgba(143,123,255,.18);border:1px solid rgba(143,123,255,.32)}
+.loop-node .ln-ic svg{width:23px;height:23px}
+.loop-node .ln-t{font-weight:800;font-size:1rem;color:#fff;letter-spacing:-.01em}
+.loop-node .ln-s{font-size:.86rem;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.45}
+.loop-arrow{display:grid;place-items:center;color:rgba(183,169,255,.6)}
+.loop-arrow svg{width:20px;height:20px}
+
+/* ---------- TRUST & VERIFICATION ---------- */
+#trust{background:linear-gradient(180deg,#fff,var(--bg))}
+.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.doc{position:relative;display:flex;flex-direction:column;gap:16px;border:var(--edge);border-radius:var(--r-lg);
+  padding:clamp(26px,3vw,34px);background:#fff;box-shadow:var(--shadow);
+  transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+.doc:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--vanna) 30%,transparent)}
+.doc .doc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.doc .doc-ic{width:50px;height:50px;border-radius:13px;flex:none;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--vanna) 12%,#fff);color:var(--vanna-deep);border:1px solid color-mix(in srgb,var(--vanna) 22%,transparent)}
+.doc .doc-ic svg{width:24px;height:24px}
+.doc .doc-kind{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--vanna);opacity:.85}
+.doc h3{font-size:1.24rem;letter-spacing:-.02em;margin:2px 0 0}
+.doc p{color:var(--slate);font-size:.95rem;margin:0;line-height:1.55}
+.doc .dl{margin-top:auto;display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:.94rem;color:var(--vanna-deep)}
+.doc .dl svg{width:17px;height:17px;transition:transform .25s}
+.doc:hover .dl svg{transform:translateY(2px)}
+.trust-note{margin-top:26px;color:var(--slate);font-size:.9rem;max-width:70ch}
+
+/* ---------- FAQ ---------- */
+#faq{background:var(--white)}
+.faq-wrap{max-width:820px;margin:0 auto}
+.faq{border:var(--edge);border-radius:var(--r);background:#fff;margin-bottom:14px;overflow:hidden;transition:border-color .2s}
+.faq[open]{border-color:color-mix(in srgb,var(--vanna) 34%,transparent);box-shadow:var(--shadow)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-weight:700;font-size:1.06rem;letter-spacing:-.01em;color:var(--navy)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .chev{width:22px;height:22px;flex:none;color:var(--vanna);transition:transform .25s}
+.faq[open] summary .chev{transform:rotate(180deg)}
+.faq p{padding:0 24px 22px;margin:0;color:var(--slate);font-size:.98rem;line-height:1.65;max-width:66ch}
+
+/* ---------- CTA BAND ---------- */
+.cta{position:relative;overflow:hidden;background:linear-gradient(130deg,var(--vanna-deep),var(--vanna-ink));color:#fff}
+.cta::before{content:"";position:absolute;inset:0;opacity:.6;
+  background:radial-gradient(620px 420px at 12% -20%, rgba(143,123,255,.4), transparent 60%),
+            radial-gradient(560px 420px at 100% 120%, rgba(255,255,255,.08), transparent 60%)}
+.cta::after{content:"";position:absolute;inset:0;opacity:.3;
+  background-image:linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(600px 300px at 80% 100%, #000, transparent 72%);
+          mask-image:radial-gradient(600px 300px at 80% 100%, #000, transparent 72%)}
+.cta .wrap{position:relative;text-align:center;max-width:820px}
+.cta h2{color:#fff;font-size:clamp(2rem,4vw,3rem)}
+.cta p{color:rgba(255,255,255,.82);font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:54ch;margin:18px auto 0}
+.cta-cta{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:34px}
+
+/* ---------- FOOTER ---------- */
+.footer{padding-top:70px}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:48px}
+.foot-brand .brand{color:#fff;margin-bottom:18px}
+.foot-brand .brand .wm small{color:rgba(255,255,255,.55)}
+.foot-brand p{color:rgba(255,255,255,.6);max-width:40ch;font-size:.96rem}
+.foot-col h4{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px;font-weight:700}
+.foot-col a{display:block;padding:7px 0;font-size:.98rem}
+.foot-col span.static{display:block;padding:7px 0;font-size:.98rem;color:rgba(255,255,255,.7)}
+.foot-bar{border-top:1px solid rgba(255,255,255,.12);padding:24px 0;display:flex;justify-content:space-between;
+  align-items:center;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.9rem}
+.foot-bar .made{display:inline-flex;align-items:center;gap:8px}
+.foot-bar .made svg{color:#b7a9ff}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:1040px){
+  .steps{grid-template-columns:1fr 1fr}
+  .feat-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:960px){
+  .hero-grid,.thesis .wrap,.ag-grid{grid-template-columns:1fr}
+  .mc-stage{order:-1;min-height:0;margin-bottom:6px}
+  .doc-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .sec-head{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:640px){
+  .nav-links,.nav-cta .btn-outline{display:none}
+  .nav-toggle{display:inline-flex}
+  .steps,.feat-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .th-list li{grid-template-columns:40px 1fr;gap:12px;padding:14px 14px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="Vanna Protocol home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5 12 20 20 5"/></svg>
+      </span>
+      <span class="wm">Vanna<small>Protocol</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="navlink" href="#how">How it works</a>
+      <a class="navlink" href="#engine">Risk engine</a>
+      <a class="navlink" href="#agents">Agents</a>
+      <a class="navlink" href="#trust">Trust</a>
+      <a class="navlink backhub" href="../index.html" aria-label="Back to Pandora Finance">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Pandora Finance
+      </a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-outline hide-mobile" href="../index.html">All products</a>
+      <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-outline nav-toggle" href="#how" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="kicker">Risk &amp; margin infrastructure</span>
+      <h1>Risk infrastructure <span class="grad">built to keep you out of liquidation.</span></h1>
+      <p class="lead">Vanna is composable margin infrastructure for DeFi. Traders open isolated margin accounts to hold under-collateralized positions; liquidity providers supply the pools those positions borrow from. Every account runs under one continuous health check — so risk is isolated, monitored and managed, not amputated.</p>
+      <div class="hero-cta">
+        <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+        <a class="btn btn-outline" href="#how">How it works</a>
+      </div>
+      <div class="hero-trust">
+        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Isolated per-account risk</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V9m5 8V5m5 12v-6m5 6V8"/></svg>Liquidity to markets</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span class="ti"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="10" r="1.4"/><circle cx="15" cy="10" r="1.4"/><path d="M8 15h8"/></svg>Agent-managed (coming)</span>
+      </div>
+    </div>
+
+    <!-- margin-account card visual -->
+    <div class="mc-stage reveal" aria-hidden="true">
+      <div class="mc-glow"></div>
+      <div class="acct">
+        <div class="acct-head">
+          <div class="ab">
+            <span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5 12 20 20 5"/></svg></span>
+            <div><div class="at">Margin Account</div><div class="as">Isolated smart contract · 0x9c…4Ae2</div></div>
+          </div>
+          <span class="acct-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V6z"/></svg>Isolated</span>
+        </div>
+        <div class="acct-body">
+          <div class="acct-rows">
+            <div class="acct-row"><span class="k">Collateral</span><span class="v">USDC · XLM</span></div>
+            <div class="acct-row"><span class="k">Borrowed</span><span class="v">Deployed to markets</span></div>
+            <div class="acct-row"><span class="k">Positions</span>
+              <span class="acct-chiprow"><span class="acct-chip">Spot</span><span class="acct-chip">LP pool</span><span class="acct-chip">Yield</span></span>
+            </div>
+          </div>
+          <div class="hf">
+            <div class="hf-top"><span class="hf-lab">Health factor</span><span class="hf-val">1.94×</span></div>
+            <div class="hf-bar"><span class="hf-marker"></span></div>
+            <div class="hf-scale"><span>1.0×</span><span>safe →</span></div>
+          </div>
+        </div>
+        <div class="acct-foot">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+          <div><div class="ft">Health checked continuously</div><div class="fs">Risk engine · one unified check</div></div>
+        </div>
+      </div>
+      <div class="agent-tag">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="10" r="1.4"/><circle cx="15" cy="10" r="1.4"/><path d="M8 15h8"/></svg></span>
+        <div><div class="st">Agent managing<span class="soon">soon</span></div><div class="ss">Monitor · hedge · de-risk</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THESIS STRIP (dark) ===================== -->
+<section class="thesis section">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="th-badge"><span class="dot"></span> The Vanna thesis</span>
+      <h2 style="margin-top:18px">Liquidation is a failure mode, not a feature.</h2>
+      <p class="th-lead">Most margin systems protect lenders by force-closing a borrower the moment a position dips — the user is amputated to save the pool. Vanna treats that as the last resort it's built to avoid.</p>
+      <p class="th-note">Risk is isolated to each account and watched continuously. The direction of the protocol is a management layer — trading agents via Vanna MCPs (coming) — that hedges and de-risks a position long before it ever approaches the floor, so capital stays working instead of being wiped.</p>
+    </div>
+    <div class="th-panel reveal">
+      <ul class="th-list">
+        <li>
+          <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V6z"/></svg></span>
+          <span class="tx"><strong>Managed, not amputated</strong><span>Risk is actively steered — the goal is to keep positions alive, not close them out.</span></span>
+        </li>
+        <li>
+          <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><rect x="14" y="14" width="7" height="7" rx="1.4"/></svg></span>
+          <span class="tx"><strong>Isolated by design</strong><span>Every account is its own contract, so the blast radius of any single position stays bounded to that account.</span></span>
+        </li>
+        <li>
+          <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V9m5 8V5m5 12v-6m5 6V8"/></svg></span>
+          <span class="tx"><strong>Liquidity to markets</strong><span>Lending pools supply the credit that under-collateralized positions draw on — a composable margin layer.</span></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW IT WORKS ===================== -->
+<section id="how" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">How it works</span>
+        <h2>Two sides, one credit layer.</h2>
+      </div>
+      <p class="muted">Liquidity providers supply the pools; traders borrow against isolated collateral and deploy it across markets. Interest flows back to the suppliers — both sides stay economically connected.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg></span>
+        <h3>Supply liquidity</h3>
+        <p>Liquidity providers deposit into a lending pool and receive vTokens. Traders borrow from the pool and pay interest — which accrues back to suppliers passively, with no positions to manage.</p>
+        <div class="step-flow">Earn yield <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      </div>
+      <div class="step reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span>
+        <h3>Open a margin account</h3>
+        <p>A trader opens a margin account — their own isolated smart contract — and deposits collateral into it. The account borrows against that collateral to take under-collateralized, leveraged exposure.</p>
+        <div class="step-flow">Deposit &amp; borrow <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      </div>
+      <div class="step reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 7l3 3m7-3-3 3m-4 4-3 3m10 0-3-3"/></svg></span>
+        <h3>Deploy across markets</h3>
+        <p>Borrowed capital stays inside the account and is deployed composably — spot swaps, liquidity pools and yield strategies — all held under a single unified position, not scattered across wallets.</p>
+        <div class="step-flow">Compose positions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      </div>
+      <div class="step reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+        <h3>Stay under one health check</h3>
+        <p>The risk engine evaluates the account's health before every borrow, withdrawal or settlement, pricing all collateral and debt together. Repay to close, and the interest paid returns to the pool.</p>
+        <div class="step-flow">Monitor &amp; settle <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RISK ENGINE ===================== -->
+<section id="engine" class="section" style="background:var(--white)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">The risk engine</span>
+        <h2>What keeps you out of liquidation.</h2>
+      </div>
+      <p class="muted">Vanna's architecture is built so risk can be contained and steered per account rather than dumped on the whole system. These are the primitives that make that possible.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <span class="ftag">01</span>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V6z"/><path d="M9 12h6"/></svg></span>
+        <h3>The gatekeeper</h3>
+        <p>The risk engine is the protocol's gatekeeper — it's called before every borrow, withdrawal or settlement, computes the account's health, and approves the action only if the account stays sound.</p>
+      </div>
+      <div class="feat reveal">
+        <span class="ftag">02</span>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><rect x="14" y="14" width="7" height="7" rx="1.4"/></svg></span>
+        <h3>Isolated accounts</h3>
+        <p>Every margin account is a separately deployed contract with its own collateral, borrow list and positions. No two accounts share state, so a single account's trouble can't propagate to anyone else.</p>
+      </div>
+      <div class="feat reveal">
+        <span class="ftag">03</span>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V9m5 8V5m5 12v-6m5 6V8"/></svg></span>
+        <h3>Isolated lending pools</h3>
+        <p>Liquidity sits in separate per-asset pools, each accruing interest through its own rate model. Pool isolation keeps one market's stress from becoming cross-asset contagion.</p>
+      </div>
+      <div class="feat reveal">
+        <span class="ftag">04</span>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+        <h3>Continuous health</h3>
+        <p>Position health — collateral value against debt value — is monitored continuously and priced from a live oracle, so the account's true state is always known, not sampled after the fact.</p>
+      </div>
+      <div class="feat reveal">
+        <span class="ftag">05</span>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><path d="M14 10l3-2M10 14l-3 2"/></svg></span>
+        <h3>Composable by construction</h3>
+        <p>Accounts deploy into external DeFi through a controlled execute path, and the engine tracks those external positions — so composed strategies stay inside one health check instead of escaping it.</p>
+      </div>
+      <div class="feat reveal">
+        <span class="ftag">06</span>
+        <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a2 2 0 0 1 2-2h2M16 3h2a2 2 0 0 1 2 2v2M20 17v2a2 2 0 0 1-2 2h-2M8 21H6a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <h3>Upgradeable address book</h3>
+        <p>Contracts resolve each other through an on-chain registry at runtime, so risk logic can evolve — including the agentic layer below — without forcing users to migrate accounts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AGENTS ON VANNA (dark) ===================== -->
+<section id="agents" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker on-dark">Agents on Vanna</span>
+        <h2>Trading agents that manage risk for you.</h2>
+      </div>
+      <p>The management layer of the thesis: autonomous agents that watch a position and act on it — via Vanna MCPs, coming.</p>
+    </div>
+
+    <div class="ag-grid">
+      <div class="ag-card reveal">
+        <div class="ag-eyebrow">Vanna MCPs · coming</div>
+        <h3>Under-collateralized risk, managed autonomously.</h3>
+        <p class="ag-sub">Vanna MCPs will expose margin accounts to trading agents as tools they can reason over and act on. Instead of a keeper waiting to close a failing position, an agent works to keep it healthy.</p>
+        <ul class="ag-list">
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Monitor</b> — track health, exposure and market conditions across the account in real time.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Hedge</b> — open offsetting positions to neutralize risk as conditions move against the account.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>De-risk</b> — rebalance or trim exposure before health approaches the floor — not after.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span><b>Manage, don't amputate</b> — the objective is a surviving, steered position, not a forced close-out.</span></li>
+        </ul>
+        <span class="ag-soon"><span class="dot"></span> Vanna MCPs — in development</span>
+      </div>
+
+      <div class="ag-loop reveal" aria-hidden="true">
+        <div class="loop-node">
+          <span class="ln-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="10" r="1.5"/><circle cx="15" cy="10" r="1.5"/><path d="M8 15h8"/></svg></span>
+          <div><div class="ln-t">Trading agent</div><div class="ln-s">Reasons over the account via Vanna MCPs</div></div>
+        </div>
+        <div class="loop-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m0 0-5-5m5 5 5-5"/></svg></div>
+        <div class="loop-node">
+          <span class="ln-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+          <div><div class="ln-t">Reads health &amp; exposure</div><div class="ln-s">Live risk-engine state for the margin account</div></div>
+        </div>
+        <div class="loop-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m0 0-5-5m5 5 5-5"/></svg></div>
+        <div class="loop-node">
+          <span class="ln-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 4 7m0 0 4-4M4 7l4 4M4 17h16m0 0-4-4m4 4-4 4"/></svg></span>
+          <div><div class="ln-t">Hedges &amp; de-risks</div><div class="ln-s">Acts to keep the position alive and healthy</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRUST & VERIFICATION ===================== -->
+<section id="trust" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Trust &amp; verification</span>
+        <h2>Independently reviewed.</h2>
+      </div>
+      <p class="muted">Risk infrastructure only earns trust if it's examined from the outside. Vanna's economics and its V1 contracts have both been put under independent review.</p>
+    </div>
+
+    <div class="doc-grid">
+      <a class="doc reveal" href="reports/Vanna_Protocol_Economic_Risk_Assessment.pdf" target="_blank" rel="noopener">
+        <div class="doc-top">
+          <span class="doc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V9m5 8V5m5 12v-6m5 6V8"/><path d="M3 21h18"/></svg></span>
+          <span class="doc-kind">Economic analysis</span>
+        </div>
+        <h3>Economic risk assessment</h3>
+        <p>An independent analysis of the protocol's economic design and risk parameters — the incentives, collateral and solvency assumptions behind the margin system.</p>
+        <span class="dl">Download PDF
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>
+        </span>
+      </a>
+
+      <a class="doc reveal" href="reports/Vanna_Protocol_V1_Soroban_Audit_Report.pdf" target="_blank" rel="noopener">
+        <div class="doc-top">
+          <span class="doc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <span class="doc-kind">Security audit</span>
+        </div>
+        <h3>V1 security audit — Soroban</h3>
+        <p>An independent security audit of the V1 smart contracts, deployed on Soroban. Covers the account, pool and risk-engine contracts that hold and check user funds.</p>
+        <span class="dl">Download PDF
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>
+        </span>
+      </a>
+    </div>
+    <p class="trust-note">Both documents are published in full. Read the reports directly for methodology and findings, and the technical documentation for how each contract behaves on-chain.</p>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal" style="justify-content:flex-start">
+      <div>
+        <span class="kicker">FAQ</span>
+        <h2>Questions, answered.</h2>
+      </div>
+    </div>
+    <div class="faq-wrap">
+      <details class="faq reveal">
+        <summary>What is Vanna?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>Vanna is composable risk and margin infrastructure for DeFi. Liquidity providers supply lending pools and earn yield from borrower interest; traders open isolated margin accounts, borrow against collateral, and deploy that capital across markets under one unified health check. It's a credit and margin layer other applications can build on — not a standalone app.</p>
+      </details>
+      <details class="faq reveal">
+        <summary>How does Vanna keep you out of liquidation?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>The foundation is isolation and continuous monitoring: each account is its own contract, and the risk engine checks its health before every action, so risk is contained and always visible rather than shared across the system. On top of that, Vanna's direction is a management layer — trading agents (via Vanna MCPs, coming) that hedge and de-risk a position before it ever nears the floor. The aim is to steer risk instead of force-closing users; managed, not amputated.</p>
+      </details>
+      <details class="faq reveal">
+        <summary>What are Vanna MCPs?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>Vanna MCPs are an interface that will expose margin accounts to trading agents as tools they can read and act on — monitoring health and exposure, then hedging or de-risking autonomously to keep under-collateralized positions healthy. They're in development and not yet live.</p>
+      </details>
+      <details class="faq reveal">
+        <summary>Is it live?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>The V1 protocol — lending pools, isolated margin accounts and the risk engine — is built and deployed on Soroban, and has been through an independent security audit and an independent economic risk assessment (both linked above). The agentic management layer, Vanna MCPs, is still coming. For the current mechanics in detail, read the documentation.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA BAND ===================== -->
+<section id="demo" class="cta section">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="kicker on-dark" style="justify-content:center">See it in action</span>
+      <h2 style="margin-top:16px">Build on margin infrastructure that keeps positions alive.</h2>
+      <p>Walk through how Vanna isolates risk, supplies liquidity to markets, and — with agents via Vanna MCPs — manages under-collateralized positions instead of liquidating them.</p>
+      <div class="cta-cta">
+        <a class="btn btn-light" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+        <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)" href="https://vannafinance.mintlify.app/home" target="_blank" rel="noopener">Read the docs
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand">
+          <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5 12 20 20 5"/></svg></span>
+          <span class="wm">Vanna<small>Protocol</small></span>
+        </span>
+        <p>Composable risk and margin infrastructure for DeFi — isolated margin accounts, lending pools that supply liquidity to markets, and an agentic management layer that manages risk instead of amputating it. A Pandora Finance product.</p>
+      </div>
+
+      <div class="foot-col">
+        <h4>Protocol</h4>
+        <a href="#how">How it works</a>
+        <a href="#engine">Risk engine</a>
+        <a href="#agents">Agents on Vanna</a>
+        <a href="#trust">Trust &amp; verification</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <a href="https://vannafinance.mintlify.app/home" target="_blank" rel="noopener">Documentation</a>
+        <a href="reports/Vanna_Protocol_Economic_Risk_Assessment.pdf" target="_blank" rel="noopener">Economic risk assessment</a>
+        <a href="reports/Vanna_Protocol_V1_Soroban_Audit_Report.pdf" target="_blank" rel="noopener">V1 security audit</a>
+        <a href="../index.html">Pandora Finance</a>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <span>© 2021–2026 Pandora Finance. Vanna Protocol. All rights reserved.</span>
+      <span class="made">Risk managed, not amputated
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5 12 20 20 5"/></svg>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Reveal-on-scroll: adds .in to .reveal elements as they enter the viewport */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(el){ el.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function(el, i){ el.style.transitionDelay = (Math.min(i,6)*60) + 'ms'; io.observe(el); });
+})();
+</script>
+</body>
+</html>

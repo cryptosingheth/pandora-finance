@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auri — Gold, programmable. A gold-backed neobank for you and your AI agent.</title>
+<meta name="description" content="Auri is a programmable-gold neobank. Own real, audited gold; borrow, send and spend it — and automate it all, by you or your AI agent via MCP, CLI or API. Self-custody. 1:1 backed. Coming soon in Canada.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23EBC97C'/%3E%3Cstop offset='1' stop-color='%23C99A4E'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23g)'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fff' stroke-opacity='.6' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+  /* ============================================================
+     AURI — programmable-gold neobank (self-contained landing)
+     Own brand feel (Wise/Mercury minimalism); coheres with the
+     Pandora site via shared minimalism + system font.
+     Tokens converted from auri-site.tsx.
+     ============================================================ */
+  :root{
+    --ink:#0F1115;          /* primary text */
+    --bg:#F7F8FB;           /* page background */
+    --surf:#FFFFFF;         /* surfaces */
+    --mute:#5B636E;         /* secondary text */
+    --faint:#9AA1AC;        /* tertiary text */
+    --line:rgba(15,17,21,.07);
+    --teal:#10B981;         /* action / accent */
+    --teal-strong:#0E9F6E;
+    --teal-soft:rgba(16,185,129,.10);
+    --gold:linear-gradient(135deg,#EBC97C,#C99A4E);
+    --dark:linear-gradient(158deg,#11182B,#0A0D16);
+    --grad:linear-gradient(120deg,#10B981,#3B82F6 55%,#8B5CF6);
+    --font:system-ui,-apple-system,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,monospace;
+    --shadow:0 8px 30px -16px rgba(20,30,60,.16);
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font);background:var(--bg);color:var(--ink);
+    line-height:1.6;text-rendering:optimizeLegibility;position:relative;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img,svg{max-width:100%;display:block}
+
+  /* ambient background blobs (behind everything) */
+  .bgfx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .bgfx span{position:absolute;border-radius:50%;filter:blur(24px)}
+  .bgfx .b1{top:-12%;left:-8%;width:min(480px,60vw);aspect-ratio:1;background:radial-gradient(circle,rgba(16,185,129,.10),transparent 70%)}
+  .bgfx .b2{top:32%;right:-12%;width:min(520px,64vw);aspect-ratio:1;background:radial-gradient(circle,rgba(59,130,246,.10),transparent 70%)}
+  .bgfx .b3{bottom:-14%;left:28%;width:min(500px,62vw);aspect-ratio:1;background:radial-gradient(circle,rgba(124,92,245,.09),transparent 70%)}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;position:relative;z-index:1}
+
+  /* frosted card */
+  .glass{
+    background:rgba(255,255,255,.7);
+    -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);
+    border:1px solid var(--line);box-shadow:var(--shadow);
+  }
+
+  /* ---------- nav ---------- */
+  .navwrap{position:sticky;top:12px;z-index:40;padding-top:12px}
+  .nav{border-radius:16px;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-size:21px;font-weight:700;letter-spacing:-.6px;color:var(--ink)}
+  .coin{width:27px;height:27px;flex:0 0 auto}
+  .nav-right{display:flex;align-items:center;gap:8px}
+  .navlink{color:var(--ink);font-weight:600;font-size:14.5px;padding:8px 10px;border-radius:11px;white-space:nowrap}
+  .navlink:hover{background:rgba(15,17,21,.05)}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font);
+    font-weight:600;font-size:14.5px;height:50px;padding:0 22px;border-radius:13px;border:0;cursor:pointer;
+    transition:transform .12s ease, box-shadow .15s ease;white-space:nowrap}
+  .btn:active{transform:scale(.97)}
+  .btn-lg{height:54px;font-size:16px}
+  .btn-sm{height:40px;font-size:14px;padding:0 16px}
+  .btn-dark{background:var(--ink);color:#fff;box-shadow:0 10px 24px -12px rgba(15,17,21,.5)}
+  .btn-dark:hover{box-shadow:0 14px 30px -12px rgba(15,17,21,.55)}
+  .btn-glass{background:rgba(255,255,255,.7);color:var(--ink);border:1px solid var(--line);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+  .btn-glass:hover{border-color:rgba(15,17,21,.16)}
+  .btn-white{background:#fff;color:var(--ink)}
+  .btn-white:hover{box-shadow:0 12px 26px -14px rgba(20,30,60,.4)}
+  .btn-ghost-d{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.28)}
+  .btn-ghost-d:hover{background:rgba(255,255,255,.14)}
+  /* Book-a-demo glow (adapts site's btn-glow name; teal on light) */
+  .btn-glow{background:var(--teal);color:#06130E;box-shadow:0 10px 26px -10px rgba(16,185,129,.55)}
+  .btn-glow:hover{transform:translateY(-1px);box-shadow:0 16px 34px -12px rgba(16,185,129,.6)}
+
+  /* ---------- status / eyebrow pills ---------- */
+  .pill{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:600}
+  .pill-teal{color:var(--teal);background:rgba(255,255,255,.7);border:1px solid var(--line)}
+  .pill-soon{color:#7a5b12;background:linear-gradient(135deg,rgba(235,201,124,.34),rgba(201,154,78,.28));border:1px solid rgba(201,154,78,.4);font-weight:700;letter-spacing:.2px}
+  .pill-soon .dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#EBC97C,#C99A4E)}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+  /* ---------- hero ---------- */
+  .hero{padding:56px 0 40px}
+  .heroGrid{display:grid;gap:36px;grid-template-columns:1fr;align-items:center}
+  .hero h1{font-size:clamp(46px,8vw,80px);line-height:.98;letter-spacing:-2.5px;font-weight:700;color:var(--ink)}
+  .hero .lead{font-size:clamp(16px,2.4vw,19px);color:var(--mute);line-height:1.5;margin-top:20px;max-width:440px}
+  .hero-cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+
+  /* hero card */
+  .hcard-wrap{position:relative;max-width:380px;margin-inline:auto;width:100%}
+  .hcard-glow{position:absolute;inset:-24px;background:radial-gradient(circle,rgba(59,130,246,.16),transparent 70%);filter:blur(24px);z-index:0}
+  .hcard{border-radius:24px;padding:22px;position:relative;z-index:1;background:rgba(255,255,255,.82)}
+  .hcard .row1{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .hcard .asset{font-size:13px;color:var(--mute);display:flex;align-items:center;gap:6px}
+  .gdot{width:8px;height:8px;border-radius:4px;background:linear-gradient(135deg,#EBC97C,#C99A4E)}
+  .hcard .cur{border-radius:9px;padding:4px 9px;font-size:12px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.6);border:1px solid var(--line)}
+  .hcard .big{font-size:40px;font-weight:700;color:var(--ink);letter-spacing:-1.5px}
+  .hcard .sub{display:flex;gap:8px;align-items:center;margin-top:6px;font-size:12.5px}
+  .chg{display:inline-flex;align-items:center;gap:3px;color:var(--teal-strong);font-weight:600;background:var(--teal-soft);padding:3px 8px;border-radius:8px}
+  .hcard .actions{display:flex;gap:9px;margin-top:14px}
+  .hcard .act{flex:1;border-radius:13px;padding:11px 0;text-align:center;background:rgba(255,255,255,.6);border:1px solid var(--line)}
+  .hcard .act .lbl{font-size:11.5px;font-weight:600;color:var(--ink);margin-top:3px}
+  .spark{width:100%;height:52px;display:block;margin:12px 0}
+
+  /* ---------- feature tiles ---------- */
+  .section{padding:20px 0 50px}
+  .tiles{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+  .tile{border-radius:18px;padding:22px;height:100%}
+  .tile .ic{color:var(--teal);margin-bottom:14px}
+  .tile h3{font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.3px;line-height:1.2}
+  .tile p{font-size:13.5px;color:var(--mute);margin-top:5px}
+  .tile .note{font-size:12px;color:var(--faint);margin-top:8px;font-weight:600}
+
+  /* ---------- dark automate block ---------- */
+  .darkblock{border-radius:28px;overflow:hidden;position:relative;background:var(--dark);
+    padding:clamp(30px,5vw,56px);box-shadow:0 40px 90px -40px rgba(10,15,30,.55);color:#ECEEF5}
+  .darkblock .glowA{position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(60,224,166,.32),transparent 70%);filter:blur(30px)}
+  .darkblock .glowB{position:absolute;left:-60px;bottom:-90px;width:260px;height:260px;border-radius:50%;
+    background:radial-gradient(circle,rgba(154,107,245,.32),transparent 70%);filter:blur(40px)}
+  .devGrid{display:grid;gap:28px;grid-template-columns:1fr;position:relative}
+  .pill-d{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:600;
+    color:#9FE7C8;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)}
+  .darkblock h2{font-size:clamp(28px,4.4vw,42px);letter-spacing:-1.2px;font-weight:700;line-height:1.05;margin-top:16px}
+  .agent-grad{background:linear-gradient(120deg,#5BE8B6,#7BA8FF,#B79BFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .darkblock .dlead{font-size:clamp(15px,2.2vw,17px);color:#9AA1B3;line-height:1.55;margin-top:16px;max-width:440px}
+  .dfeats{display:grid;gap:14px;margin-top:22px}
+  .dfeat{display:flex;gap:12px;align-items:center}
+  .dfeat .ic{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;color:#3CE0A6}
+  .dfeat span{font-size:14.5px;font-weight:600}
+
+  /* terminal */
+  .term{border-radius:16px;overflow:hidden;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);
+    font-family:var(--mono);font-size:12.5px}
+  .term .bar{display:flex;gap:7px;align-items:center;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .tdot{width:10px;height:10px;border-radius:5px}
+  .term .title{margin-left:6px;color:rgba(255,255,255,.4);font-size:11.5px}
+  .term .body{padding:14px 16px;line-height:1.85;color:#C9D2DE;white-space:pre-wrap;word-break:break-word}
+  .tp{color:#3CE0A6}.tf{color:#7DD3B0}.tok{color:rgba(255,255,255,.45)}.tc{color:rgba(255,255,255,.35)}
+  .tm{color:#9FB8AC}.tfn{color:#E6C778}
+
+  /* ---------- trust strip ---------- */
+  .trust{border-radius:22px;padding:clamp(24px,4vw,36px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
+  .trust h2{font-size:clamp(22px,3.4vw,30px);font-weight:700;letter-spacing:-.6px;color:var(--ink);line-height:1.1}
+  .trust p{font-size:14.5px;color:var(--mute);margin-top:8px;max-width:440px;line-height:1.5}
+  .chips{display:flex;gap:10px;flex-wrap:wrap}
+  .chip{display:inline-flex;align-items:center;gap:7px;border-radius:12px;padding:10px 14px;font-size:13.5px;font-weight:600;
+    color:var(--ink);background:rgba(255,255,255,.6);border:1px solid var(--line)}
+  .chip .ic{color:var(--teal)}
+
+  /* ---------- FAQ ---------- */
+  .faqwrap{max-width:760px}
+  .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;display:inline-block}
+  .faqwrap h2{font-size:clamp(26px,4vw,36px);letter-spacing:-1px;font-weight:700;color:var(--ink);margin:14px 0 22px}
+  .faq-list{display:flex;flex-direction:column;gap:10px}
+  details.faq{border-radius:14px;overflow:hidden;background:rgba(255,255,255,.7);border:1px solid var(--line)}
+  details.faq summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-size:15px;font-weight:600;color:var(--ink)}
+  details.faq summary::-webkit-details-marker{display:none}
+  details.faq summary .chev{flex:0 0 auto;color:var(--mute);transition:transform .25s}
+  details.faq[open] summary .chev{transform:rotate(180deg)}
+  details.faq .ans{padding:0 18px 16px;font-size:14px;color:var(--mute);line-height:1.55}
+
+  /* ---------- closing CTA (dark) ---------- */
+  .cta{border-radius:30px;padding:clamp(40px,6vw,72px) 28px;text-align:center;position:relative;overflow:hidden;
+    background:var(--dark);box-shadow:0 40px 90px -40px rgba(10,15,30,.55);color:#ECEEF5}
+  .cta .glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(77,138,240,.3),transparent 55%)}
+  .cta .inner{position:relative}
+  .cta h2{font-size:clamp(30px,5.2vw,52px);letter-spacing:-1.6px;font-weight:700;line-height:1.03}
+  .cta .lead-d{color:#9AA1B3;font-size:clamp(15px,2vw,17px);margin-top:16px;max-width:480px;margin-inline:auto;line-height:1.55}
+  .cta .row{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+
+  /* ---------- footer ---------- */
+  .foot{padding:10px 0 50px}
+  .foot .inner{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;align-items:flex-start}
+  .foot .about{max-width:340px}
+  .foot .about p{font-size:12px;color:var(--faint);line-height:1.6;margin-top:10px}
+  .foot .cols{display:flex;gap:36px;flex-wrap:wrap}
+  .foot .col h4{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:10px}
+  .foot .col span, .foot .col a{display:block;font-size:13px;color:var(--mute);margin-bottom:8px}
+  .foot .col a:hover{color:var(--ink)}
+
+  /* reveal-on-scroll */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (min-width:720px){
+    .tiles{grid-template-columns:repeat(4,1fr)}
+    .devGrid{grid-template-columns:1.05fr .95fr;align-items:center}
+  }
+  @media (min-width:980px){
+    .heroGrid{grid-template-columns:1.05fr .95fr}
+    .hero{padding:60px 0 40px}
+  }
+  @media (max-width:520px){
+    .navlink.hide-s{display:none}
+    .nav{padding:10px 14px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="bgfx" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+
+<!-- ===================== NAV ===================== -->
+<div class="navwrap">
+  <div class="wrap">
+    <div class="nav glass">
+      <a class="brand" href="index.html" aria-label="Auri home">
+        <svg class="coin" viewBox="0 0 32 32" aria-hidden="true">
+          <defs>
+            <linearGradient id="coinG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#EBC97C"/><stop offset="1" stop-color="#C99A4E"/>
+            </linearGradient>
+          </defs>
+          <circle cx="16" cy="16" r="14" fill="url(#coinG)"/>
+          <circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6"/>
+          <path d="M16 11.5v9M12.4 14h7.2" stroke="#fff" stroke-opacity=".8" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        auri
+      </a>
+      <div class="nav-right">
+        <a class="navlink hide-s" href="../index.html">&larr; Pandora Finance</a>
+        <a class="btn btn-glow btn-sm" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="heroGrid">
+      <div>
+        <span class="pill pill-soon" style="margin-bottom:18px">
+          <span class="dot"></span> Coming soon &middot; Canada
+        </span>
+        <h1>Gold, <span class="grad-text">programmable.</span></h1>
+        <p class="lead">Own real gold. Borrow, send and spend it — and automate it all. By you, or your AI agent.</p>
+        <div class="hero-cta">
+          <a class="btn btn-glow btn-lg" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+          <a class="btn btn-glass btn-lg" href="#automate">See it work</a>
+        </div>
+      </div>
+
+      <!-- hero preview card -->
+      <div class="reveal">
+        <div class="hcard-wrap">
+          <div class="hcard-glow" aria-hidden="true"></div>
+          <div class="hcard glass">
+            <div class="row1">
+              <span class="asset"><span class="gdot"></span> Gold &middot; XAUT</span>
+              <span class="cur">CAD &#9662;</span>
+            </div>
+            <div class="big">$2,552.48</div>
+            <div class="sub">
+              <span class="chg">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>
+                1.2%
+              </span>
+              <span style="color:var(--faint)">0.412 oz &middot; 12.82 g</span>
+            </div>
+            <svg class="spark" viewBox="0 0 320 52" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="sp" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10B981" stop-opacity=".22"/><stop offset="100%" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0 40 L27 34 L53 37 L80 30 L107 33 L133 27 L160 30 L187 22 L213 25 L240 17 L267 20 L293 12 L320 15 L320 52 L0 52 Z" fill="url(#sp)"/>
+              <path d="M0 40 L27 34 L53 37 L80 30 L107 33 L133 27 L160 30 L187 22 L213 25 L240 17 L267 20 L293 12 L320 15" fill="none" stroke="#10B981" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+            <div class="actions">
+              <div class="act">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2" stroke-linecap="round" style="margin:0 auto"><path d="M12 5v14M5 12h14"/></svg>
+                <div class="lbl">Buy</div>
+              </div>
+              <div class="act">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
+                <div class="lbl">Borrow</div>
+              </div>
+              <div class="act">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                <div class="lbl">Send</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FEATURE TILES ===================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="tiles">
+      <div class="reveal">
+        <div class="tile glass">
+          <svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18M7 6h1v4M16.71 13.88l.7.71-2.82 2.82"/></svg>
+          <h3>Buy</h3>
+          <p>Real, audited gold in seconds — straight from CAD.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="tile glass">
+          <svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
+          <h3>Borrow</h3>
+          <p>Unlock cash against your gold — keep the gold.</p>
+          <div class="note">Up to ~77% LTV &middot; ~3.75% APR</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="tile glass">
+          <svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7ZM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7Z"/></svg>
+          <h3>Send &amp; gift</h3>
+          <p>Global, instant. Recipients claim by a link.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="tile glass">
+          <svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          <h3>Spend</h3>
+          <p>A gold-backed card — we convert just enough at checkout.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AUTOMATE (DARK, agentic signature) ===================== -->
+<section class="section" id="automate">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="darkblock">
+        <span class="glowA" aria-hidden="true"></span>
+        <span class="glowB" aria-hidden="true"></span>
+        <div class="devGrid">
+          <div>
+            <span class="pill-d">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+              Built for agents
+            </span>
+            <h2>Gold your <span class="agent-grad">agent</span> can own.</h2>
+            <p class="dlead">Your AI agent can own, trade and manage gold via MCP, CLI or API — so buying, accumulating and borrowing run on autopilot. By you, or on your behalf.</p>
+            <div class="dfeats">
+              <div class="dfeat">
+                <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span>
+                <span>Connect via MCP</span>
+              </div>
+              <div class="dfeat">
+                <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 17 6-6-6-6M12 19h8"/></svg></span>
+                <span>Automate recurring buys from the CLI</span>
+              </div>
+              <div class="dfeat">
+                <span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></svg></span>
+                <span>Strategy-ready for pros, via API</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="term">
+            <div class="bar">
+              <span class="tdot" style="background:#FF5F57"></span>
+              <span class="tdot" style="background:#FEBC2E"></span>
+              <span class="tdot" style="background:#28C840"></span>
+              <span class="title">auri — cli</span>
+            </div>
+            <div class="body"><span class="tp">$</span> auri buy <span class="tf">--cad</span> 200 <span class="tf">--every</span> week
+<span class="tok">&#10003; recurring buy set &middot; CA$200 &rarr; gold weekly</span>
+
+<span class="tc"># or let an agent do it, via MCP</span>
+<span class="tm">agent &#9656; </span><span class="tfn">auri.buy_gold</span>({ cad: 200 })</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRUST STRIP ===================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="trust glass">
+        <div>
+          <h2>Real gold. Audited. Yours.</h2>
+          <p>Each unit is one ounce of allocated bullion, held 1:1 and independently attested — in your own self-custody account. Auri never holds your assets.</p>
+        </div>
+        <div class="chips">
+          <span class="chip">
+            <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
+            1:1 backed
+          </span>
+          <span class="chip">
+            <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z"/></svg>
+            Self-custody
+          </span>
+          <span class="chip">
+            <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            Independently audited
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="section" id="faq">
+  <div class="wrap faqwrap">
+    <div class="reveal">
+      <span class="eyebrow">Good to know</span>
+      <h2>Questions, answered.</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq">
+        <summary>Is Auri gold real gold?
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="ans">Yes. Each unit equals one troy ounce of allocated bullion, held as a 1:1-backed gold token and independently audited.</p>
+      </details>
+      <details class="faq">
+        <summary>Do I actually own it?
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="ans">Always. You hold it in your own self-custody account — Auri never holds your assets.</p>
+      </details>
+      <details class="faq">
+        <summary>Can I borrow without selling?
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="ans">Yes — unlock cash against your gold up to ~77% LTV at ~3.75% APR, and keep the gold. KYC is required to buy with CAD, via regulated on/off-ramp partners.</p>
+      </details>
+      <details class="faq">
+        <summary>Can an AI agent use Auri?
+          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="ans">Yes — connect over MCP, or script it from the CLI/API. Agents can own, accumulate and borrow gold on your behalf, within scoped, revocable limits you set.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CLOSING CTA (DARK) ===================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="cta">
+        <span class="glow" aria-hidden="true"></span>
+        <div class="inner">
+          <h2>Put your gold<br>to work.</h2>
+          <p class="lead-d">Auri is coming soon. Want a walkthrough of programmable, agent-owned gold? Book a demo with the team.</p>
+          <div class="row">
+            <a class="btn btn-glow btn-lg" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+            <a class="btn btn-ghost-d btn-lg" href="../index.html">Back to Pandora</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="inner">
+      <div class="about">
+        <a class="brand" href="index.html" aria-label="Auri home">
+          <svg class="coin" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" fill="url(#coinG)"/>
+            <circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6"/>
+            <path d="M16 11.5v9M12.4 14h7.2" stroke="#fff" stroke-opacity=".8" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          auri
+        </a>
+        <p>Auri is a financial technology product, not a bank. Gold is held 1:1 and independently audited; you keep self-custody. KYC required; cash on/off-ramps via regulated CAD partners. A Pandora Finance product.</p>
+      </div>
+      <div class="cols">
+        <div class="col">
+          <h4>Product</h4>
+          <span>Buy</span>
+          <span>Borrow</span>
+          <span>Send &amp; gift</span>
+          <span>Spend</span>
+        </div>
+        <div class="col">
+          <h4>Build</h4>
+          <span>Agents (MCP)</span>
+          <span>CLI &amp; API</span>
+          <span>Automate</span>
+        </div>
+        <div class="col">
+          <h4>Pandora</h4>
+          <a href="../index.html">Pandora Finance</a>
+          <a href="../trust/index.html">Trust &amp; audits</a>
+          <a href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var els = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)) {
+    for (var i = 0; i < els.length; i++) els[i].classList.add("in");
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rental applications over-share: fixing tenant privacy with ZK + AI — Pandora Finance</title>
+<meta name="description" content="A Canada-first case study on tenant privacy: applicants hand over SIN, pay stubs, bank statements and full credit reports to strangers; PIPEDA exposure; newcomer credit invisibility; the harm data — and how ZK eligibility proofs plus an AI leasing agent fix it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/design-system.css">
+<link rel="stylesheet" href="cases.css">
+<style>
+  /* rental-data-privacy — Propty green/blue: green accent for the "verified/safe" trust story */
+  :root{
+    --accent:#00915e;
+    --accent-2:#0aa76e;
+    --accent-soft:rgba(0,145,94,.09);
+    --accent-line:rgba(0,145,94,.24);
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== SLIM NAV ===================== -->
+<header class="cs-nav">
+  <div class="cs-wrap cs-wide cs-nav-inner">
+    <a class="cs-back" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Pandora Finance
+    </a>
+    <span class="cs-tag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Case study
+    </span>
+  </div>
+</header>
+
+<!-- ===================== HERO / TITLE ===================== -->
+<section class="cs-hero">
+  <div class="cs-wrap">
+    <span class="cs-eyebrow">Tenant privacy · Canada</span>
+    <h1>Rental applications over-share. <span class="g">ZK + AI can fix it.</span></h1>
+    <p class="cs-thesis">To rent a home in Canada, applicants routinely hand strangers their SIN, pay stubs, bank statements and a full credit report — the exact bundle that fuels the country's most-reported fraud. Newcomers, who arrive with no Canadian credit file, get locked out entirely. The right question is not "how do we collect more?" but "how do we verify without collecting at all?"</p>
+    <div class="cs-meta">
+      <span><i class="dot"></i> Over-collection</span>
+      <span><i class="dot"></i> PIPEDA exposure</span>
+      <span><i class="dot"></i> Newcomer credit gap</span>
+    </div>
+  </div>
+  <!-- shield-lock motif -->
+  <div class="cs-hero-motif" aria-hidden="true">
+    <svg viewBox="0 0 200 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 18 30 46v58c0 46 30 68 70 84 40-16 70-38 70-84V46z" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <path d="M100 30 42 54v50c0 39 25 58 58 72 33-14 58-33 58-72V54z" fill="var(--accent-soft)"/>
+      <rect x="78" y="104" width="44" height="38" rx="7" fill="#fff" stroke="var(--accent)" stroke-width="2.4"/>
+      <path d="M86 104v-8a14 14 0 0 1 28 0v8" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="100" cy="120" r="5" fill="var(--accent)"/>
+      <path d="M100 125v8" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="m84 78 5 5 12-12" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===================== THE PROBLEM ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap">
+    <span class="kicker">The problem</span>
+    <h2>Renting means over-sharing — to a stranger.</h2>
+    <div class="cs-body">
+      <p>A Canadian rental application is one of the most invasive data grabs an ordinary person voluntarily walks into. To be considered for a unit, applicants routinely disclose government ID, a Social Insurance Number, pay stubs, bank statements, and a full credit report — often before they've even seen the home. In documented Canadian rental scams, victims sent exactly this bundle — <b>photo identification, pay stubs, credit scores and a credit report</b> — to a "landlord" for a unit that did not exist.<a class="cite" href="#s8">8</a></p>
+      <p>Canada's own privacy regulators say most of this is unnecessary. The Office of the Privacy Commissioner is explicit that a credit check needs only a name, address, and date of birth, and that landlords <b>"should not collect more information than they need."</b><a class="cite" href="#s1">1</a> Alberta's Information and Privacy Commissioner goes further: a SIN <b>"has no connection to determine suitability of a tenant"</b> and is <b>"not essential for conducting credit checks."</b><a class="cite" href="#s4">4</a> The data being demanded is largely data that isn't required.</p>
+      <p>The consequences aren't hypothetical. Identity fraud is now the single most-frequently-reported fraud in Canada, and rental applications are a prime collection point for the precise information — SIN, ID, banking — that makes it possible. Handing that to a stranger, stored who-knows-how, is the risk hiding inside every application.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE MARKET / HARM DATA ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The market</span>
+    <h2>The harm is measured, and the excluded are many.</h2>
+    <p class="cs-lead">Three numbers define the stakes: the fraud that over-collection feeds, the newcomers shut out for lack of a Canadian credit file, and how many arrive each year.</p>
+
+    <div class="cs-stats">
+      <div class="stat-card reveal">
+        <div class="fig">#1<a class="cite" href="#s7">7</a></div>
+        <div class="lbl">Identity fraud — Canada's most-reported fraud</div>
+        <div class="desc">9,683 reports with a 100% victimization rate in 2024, inside $643.7M in total reported fraud losses — and only 5–10% of fraud is ever reported.</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">~2×<a class="cite" href="#s5">5</a></div>
+        <div class="lbl">Newcomer credit invisibility vs. Canadian-born</div>
+        <div class="desc">Immigrants in Canada under 2 years are credit-invisible at 14.8% vs 7.5% for the Canadian-born, with mortgage access of just 12.3% vs 54.6%.</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">483,395<a class="cite" href="#s12">12</a></div>
+        <div class="lbl">New permanent residents in 2024</div>
+        <div class="desc">Roughly half a million people a year enter Canadian rental markets typically without a Canadian credit file — before temporary residents are counted.</div>
+      </div>
+    </div>
+    <p class="stat-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Over-disclosure also fuels discrimination: a paired-testing audit of 1,300+ tests found newcomers in Toronto face up to 11× as much rental-housing discrimination as non-newcomers.<a class="cite" href="#s6">6</a> The more an applicant must reveal up front, the wider the surface for bias.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== THE LANDSCAPE ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The landscape</span>
+    <h2>The rules already point to data minimization.</h2>
+    <p class="cs-lead">Regulators, the law, and the cryptography all converge on the same principle — verify the claim, don't collect the file. What's missing is a product that actually does it.</p>
+
+    <div class="cs-land">
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <div><span class="who">The regulators</span><h3>OPC &amp; provincial commissioners</h3></div>
+        </div>
+        <p>The federal OPC and provincial commissioners (BC, Alberta, Québec) publish landlord-tenant guidance urging <b>data minimization</b>, that private organizations <b>"not request SIN numbers,"</b> and that applicant data not be <b>"retained indefinitely."</b><a class="cite" href="#s2">2</a></p>
+        <p>The consensus is settled — collect less, keep it briefly, verify only what's needed.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M7 12h10M10 18h4"/></svg></span>
+          <div><span class="who">The law</span><h3>PIPEDA &amp; provincial privacy acts</h3></div>
+        </div>
+        <p>Renting residential accommodation is a "commercial activity" under PIPEDA, so every landlord collecting SIN and bank data is a <b>data controller with consent and purpose-limitation duties</b>; BC, Alberta and Québec apply substantially similar laws.<a class="cite" href="#s3">3</a></p>
+        <p>The exposure sits with whoever holds the data — and today that's a stranger with a spreadsheet.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <div><span class="who">The excluded</span><h3>Credit-invisible newcomers</h3></div>
+        </div>
+        <p>A foreign credit history doesn't carry over to Canada, so newcomers arrive with a <b>"thin file"</b> and can't pass a standard credit check<a class="cite" href="#s10">10</a> — even when they're demonstrably able to pay. Lack of Canadian credit is then used to justify demands like months of rent in advance.</p>
+        <p>The screening system fails the very people the housing market needs.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></span>
+          <div><span class="who">The technology</span><h3>Zero-knowledge selective disclosure</h3></div>
+        </div>
+        <p>Zero-knowledge proofs let a person <b>prove an eligibility predicate — "income ≥ 3× rent," "no prior evictions" — without revealing the underlying pay stub, SIN, or credit file</b>.<a class="cite" href="#s11">11</a> Verification requires only the cryptographic evidence, not the documents.</p>
+        <p>The capability exists. It just hasn't reached the rental application yet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE GAP ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <div class="cs-gap reveal">
+      <div class="cs-gap-inner">
+        <span class="kicker">The gap</span>
+        <h2>Everyone wants less data collected. The application still demands all of it.</h2>
+        <p>Regulators say minimize, the law imposes liability, and the cryptography to verify-without-disclosing is proven. Yet the default rental application still asks for everything — because nothing on the market closes the loop between "prove you qualify" and "don't hand over your identity."</p>
+        <ul class="cs-gaplist">
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>Screening equals collection.</b> To assess a tenant, landlords gather raw documents — creating a honeypot of SIN, ID and banking data every time, held with no standard for security or deletion.</span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>Newcomers have no path.</b> A binary "Canadian credit file or nothing" check excludes hundreds of thousands of able payers a year, with no privacy-preserving alternative to prove reliability.</span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>Both sides still lose.</b> Applicants over-share and landlords <em>still</em> can't reliably tell a real pay stub from a fabricated one — a two-sided failure that better data collection alone won't solve.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW WE APPROACH IT ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">How we approach it</span>
+    <h2>An AI leasing agent that verifies without disclosure.</h2>
+    <div class="cs-approach reveal">
+      <div class="cs-approach-top">
+        <span class="cs-approach-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <div>
+          <span class="prod">Propty · a Pandora Finance product</span>
+          <h3>Prove you qualify — keep your identity.</h3>
+        </div>
+      </div>
+      <div class="cs-approach-body">
+        <p>Propty is agentic rental infrastructure for Ontario: an AI leasing agent that runs a tenancy end to end — screening an applicant, matching a room, drafting the RTA-compliant lease, and standing behind the rent. The privacy shift is in <b>how it screens</b>. Instead of demanding raw documents, the agent is built to accept <b>eligibility proofs</b>: an applicant proves the predicate a landlord actually needs — sufficient income, clean rental history — without surrendering the pay stub, SIN, or full credit report behind it.</p>
+        <p>That directly answers the gap. It aligns with what regulators already ask for — <b>minimize collection, verify only what's needed</b> — and it opens a path for <b>credit-invisible newcomers</b>, who can prove reliability from documents they already hold rather than being rejected for lacking a Canadian file. Because the sensitive file never has to change hands, there's no honeypot to breach. And by reporting on-time rent to Equifax and TransUnion, the agent lets a newcomer <em>build</em> the Canadian credit history the old system demanded up front.</p>
+        <ul class="cs-points">
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Verify, don't collect</b> — prove eligibility predicates without exposing the underlying data.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Built for newcomers</b> — screening that works with no Canadian credit file.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>PIPEDA-aligned</b> — data minimization and consent-based reporting by design.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Builds credit</b> — on-time rent reported to Equifax and TransUnion.</span></li>
+        </ul>
+        <div class="cs-research-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg>
+          <span>The zero-knowledge eligibility layer is an architecture we're actively researching and building toward — privacy-preserving screening applied to the rental application.</span>
+        </div>
+        <a class="cs-prodlink" href="../propty/index.html">Explore Propty
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOURCES ===================== -->
+<section class="cs-sources" id="sources">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">Sources</span>
+    <ol>
+      <li id="s1">
+        <span class="s-title">Privacy in the landlord and tenant relationship.</span> <span class="s-pub">Office of the Privacy Commissioner of Canada.</span> A credit check needs only name, address and date of birth; "landlords should not collect more information than they need for the stated purpose"; a SIN is confidential and need not be provided on request.
+        <a class="s-url" href="https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/privacy-in-the-landlord-and-tenant-relationship/" target="_blank" rel="noopener">https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/privacy-in-the-landlord-and-tenant-relationship/</a>
+      </li>
+      <li id="s2">
+        <span class="s-title">10 privacy tips for the rental housing sector.</span> <span class="s-pub">Office of the Privacy Commissioner of Canada.</span> Recommends organizations "not request SIN numbers," mark any such request as optional, avoid informal (e.g. social-media) background checks, and not retain information indefinitely.
+        <a class="s-url" href="https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/02_05_d_66_tips/" target="_blank" rel="noopener">https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/02_05_d_66_tips/</a>
+      </li>
+      <li id="s3">
+        <span class="s-title">Landlords and tenants (PIPEDA application).</span> <span class="s-pub">Office of the Privacy Commissioner of Canada.</span> Leasing residential accommodation is a "commercial activity" under PIPEDA; BC, Alberta and Québec have substantially similar provincial laws (PIPA; Law 25) with their own landlord-tenant guidance.
+        <a class="s-url" href="https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/" target="_blank" rel="noopener">https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/</a>
+      </li>
+      <li id="s4">
+        <span class="s-title">Guidance for Landlords and Tenants (PIPA).</span> <span class="s-pub">Office of the Information and Privacy Commissioner of Alberta, Dec 2023.</span> A SIN "has no connection to determine suitability of a tenant" and "is not essential for conducting credit checks"; landlords must obtain consent before ordering a credit report.
+        <a class="s-url" href="https://oipc.ab.ca/resource/guidance-for-landlords-and-tenants/" target="_blank" rel="noopener">https://oipc.ab.ca/resource/guidance-for-landlords-and-tenants/</a>
+      </li>
+      <li id="s5">
+        <span class="s-title">Immigrant credit visibility: Access to credit over time in Canada.</span> <span class="s-pub">Statistics Canada (Survey of Financial Security), 2023 (36-28-0001).</span> Immigrants in Canada under 2 years were credit-invisible at 14.8% vs 7.5% for Canadian-born; mortgage access 12.3% vs 54.6%; invisibility falls to 6.1% by 2–4 years.
+        <a class="s-url" href="https://www150.statcan.gc.ca/n1/pub/36-28-0001/2023009/article/00001-eng.htm" target="_blank" rel="noopener">https://www150.statcan.gc.ca/n1/pub/36-28-0001/2023009/article/00001-eng.htm</a>
+      </li>
+      <li id="s6">
+        <span class="s-title">Sorry, it's rented (2022 audit).</span> <span class="s-pub">Canadian Centre for Housing Rights.</span> Based on 1,300+ paired tests in Toronto: newcomers face up to 11× as much rental-housing discrimination as non-newcomers; disclosure of caregiving/accent status sharply increased discriminatory treatment.
+        <a class="s-url" href="https://housingrightscanada.com/reports/sorry-its-rented-2022/" target="_blank" rel="noopener">https://housingrightscanada.com/reports/sorry-its-rented-2022/</a>
+      </li>
+      <li id="s7">
+        <span class="s-title">2024 Annual Statistical Report.</span> <span class="s-pub">Canadian Anti-Fraud Centre (RCMP / Competition Bureau / OPP).</span> 2024: 108,878 fraud reports and $643.7M reported losses; identity fraud was the most-reported type (9,683 reports, 100% victimization rate); CAFC estimates only 5–10% of fraud is reported.
+        <a class="s-url" href="https://antifraudcentre-centreantifraude.ca/index-eng.htm" target="_blank" rel="noopener">https://antifraudcentre-centreantifraude.ca/index-eng.htm</a>
+      </li>
+      <li id="s8">
+        <span class="s-title">Rental scam leaves dozens out of pocket (Kitchener, Ont.).</span> <span class="s-pub">CBC News, Sept 2024.</span> Victims sent "photo identification, pay stubs, credit scores and a credit report" and paid a deposit for a unit that did not exist — illustrating the sensitive-data bundle applicants routinely surrender to strangers.
+        <a class="s-url" href="https://www.cbc.ca/news/canada/kitchener-waterloo/rental-scam-kitchener-1.7327746" target="_blank" rel="noopener">https://www.cbc.ca/news/canada/kitchener-waterloo/rental-scam-kitchener-1.7327746</a>
+      </li>
+      <li id="s10">
+        <span class="s-title">Global Consumer Credit File — financial inclusion for newcomers.</span> <span class="s-pub">Equifax Canada, Oct 2024.</span> Newcomers "often have a thin credit file" because a credit file from the country of origin "may not carry over to Canada"; a thin file is generally two or fewer credit lines.
+        <a class="s-url" href="https://www.equifax.ca/about-equifax/newsroom/" target="_blank" rel="noopener">https://www.equifax.ca/about-equifax/newsroom/</a>
+      </li>
+      <li id="s11">
+        <span class="s-title">Privacy-preserving compliance via zero-knowledge selective disclosure.</span> <span class="s-pub">arXiv (academic preprint).</span> Client-side zk-SNARKs "decouple attribute verification from identity revelation," letting a user prove eligibility predicates (e.g. a threshold) "without revealing underlying identity documents" — verification uses only the cryptographic evidence.
+        <a class="s-url" href="https://arxiv.org/abs/2602.18539" target="_blank" rel="noopener">https://arxiv.org/abs/2602.18539</a>
+      </li>
+      <li id="s12">
+        <span class="s-title">Canada 2024 permanent-resident admissions.</span> <span class="s-pub">Immigration, Refugees and Citizenship Canada (IRCC).</span> Canada admitted 483,395 new permanent residents in 2024 (up from 471,820 in 2023); targets reduced to 395,000 (2025) and 380,000 (2026). Temporary residents add substantially more credit-invisible arrivals.
+        <a class="s-url" href="https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/supplementary-immigration-levels-2025-2027.html" target="_blank" rel="noopener">https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/supplementary-immigration-levels-2025-2027.html</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== CTA (book a demo) ===================== -->
+<section class="cs-cta">
+  <div class="cs-cta-inner">
+    <h2>Screen tenants without the honeypot.</h2>
+    <p>See how the Propty agent verifies eligibility, houses newcomers with no Canadian credit file, and builds their credit — protecting both sides of the lease.</p>
+    <div class="btns">
+      <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-outline-w" href="../propty/index.html">See Propty</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="cs-foot">
+  <div class="cs-wrap cs-wide cs-foot-inner">
+    <a class="fbrand" href="../index.html">
+      <span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      Pandora Finance
+    </a>
+    <nav class="fnav">
+      <a href="../index.html">Pandora hub</a>
+      <a href="../propty/index.html">Propty</a>
+      <a href="dpp-canada.html">Digital Product Passports</a>
+      <a href="agentic-commerce.html">Agentic commerce</a>
+      <a href="ai-governance-e23.html">OSFI E-23</a>
+    </nav>
+    <p class="fdisc">Case study for discussion. Figures are drawn from the cited government, regulatory and third-party sources and reflect those publishers' data, not Pandora Finance data. The zero-knowledge screening layer is described as an architecture in active research; Propty capabilities are described as product design, not reported performance. This page is not legal advice. &copy; <span id="yr"></span> Aconomy Labs Inc. · Pandora Finance.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+      els.forEach(function(e){e.classList.add('in');});
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} });
+      },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+      els.forEach(function(e){io.observe(e);});
+    }
+    var y=document.getElementById('yr'); if(y) y.textContent=new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>

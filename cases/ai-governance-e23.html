@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI governance in Canadian finance: meeting OSFI E-23 — Pandora Finance</title>
+<meta name="description" content="A Canada-first case study on OSFI Guideline E-23 (Model Risk Management, effective May 1, 2027): who it covers, the surge in AI at Canadian financial institutions, the gap between the guideline and the tooling, and the agentic-governance opportunity we're researching.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/design-system.css">
+<link rel="stylesheet" href="cases.css">
+<style>
+  /* ai-governance-e23 — deep slate-blue accent (institutional, distinct from pan-blue product pages) */
+  :root{
+    --accent:#0747a6;
+    --accent-2:#3f7bd6;
+    --accent-soft:rgba(7,71,166,.08);
+    --accent-line:rgba(7,71,166,.22);
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== SLIM NAV ===================== -->
+<header class="cs-nav">
+  <div class="cs-wrap cs-wide cs-nav-inner">
+    <a class="cs-back" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Pandora Finance
+    </a>
+    <span class="cs-tag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Case study
+    </span>
+  </div>
+</header>
+
+<!-- ===================== HERO / TITLE ===================== -->
+<section class="cs-hero">
+  <div class="cs-wrap">
+    <span class="cs-eyebrow">AI governance · Canadian finance</span>
+    <h1>AI governance in Canadian finance: <span class="g">meeting OSFI E-23</span>.</h1>
+    <p class="cs-thesis">On 1 May 2027, every federally regulated Canadian financial institution must run a single, enterprise-wide model-risk regime — a live inventory, a risk rating for every model, lifecycle governance, and durable evidence — covering all models regardless of source, AI included. AI adoption is climbing toward 70% of these institutions by 2026. The guideline is clear; the tooling to meet it is not. That is the opportunity.</p>
+    <div class="cs-meta">
+      <span><i class="dot"></i> Effective May 1, 2027</span>
+      <span><i class="dot"></i> 400+ institutions</span>
+      <span><i class="dot"></i> All models, all sources</span>
+    </div>
+  </div>
+  <!-- governance-grid motif -->
+  <div class="cs-hero-motif" aria-hidden="true">
+    <svg viewBox="0 0 210 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="24" y="24" width="50" height="50" rx="9" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="80" y="24" width="50" height="50" rx="9" fill="var(--accent-soft)" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="136" y="24" width="50" height="50" rx="9" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="24" y="80" width="50" height="50" rx="9" fill="var(--accent-soft)" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="80" y="80" width="50" height="50" rx="9" fill="#fff" stroke="var(--accent)" stroke-width="2.4"/>
+      <rect x="136" y="80" width="50" height="50" rx="9" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="24" y="136" width="50" height="50" rx="9" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="80" y="136" width="50" height="50" rx="9" fill="var(--accent-soft)" stroke="var(--accent-line)" stroke-width="2"/>
+      <rect x="136" y="136" width="50" height="50" rx="9" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <path d="m94 103 6 6 12-12" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="49" cy="49" r="4" fill="var(--accent)" opacity=".5"/>
+      <circle cx="161" cy="161" r="4" fill="var(--accent)" opacity=".5"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===================== THE PROBLEM ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap">
+    <span class="kicker">The problem</span>
+    <h2>A hard deadline meets an exploding model estate.</h2>
+    <div class="cs-body">
+      <p>OSFI's Guideline E-23, Model Risk Management, was finalized on 11 September 2025 with an <b>effective date of 1 May 2027</b>, following an 18-month transition already under way.<a class="cite" href="#s1">1</a><a class="cite" href="#s7">7</a> It requires every in-scope institution to maintain a <b>comprehensive inventory of non-negligible-risk models</b>, assign <b>each model a risk rating</b>, and govern the full lifecycle — design, review, deployment, monitoring, decommission — with evidence at every step.<a class="cite" href="#s1">1</a></p>
+      <p>Crucially, E-23 is <b>technology-neutral and source-neutral</b>. It "covers models or data sourced from external sources like foreign offices or third-party vendors,"<a class="cite" href="#s1">1</a> and OSFI deliberately declined to create a separate AI track — the principles apply "regardless of the technology used."<a class="cite" href="#s7">7</a> A bought vendor model, an internal spreadsheet, and a machine-learning system all fall inside the same regime.</p>
+      <p>That lands at the worst possible moment for scope. AI use at Canadian financial institutions has roughly doubled in recent years and is still climbing steeply — and every new AI use case is another model, or several, that must be inventoried, rated, and governed. The obligation is fixed and dated; the thing being governed is multiplying.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE MARKET ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The market</span>
+    <h2>The scope, the surge, and the tooling spend.</h2>
+    <p class="cs-lead">Three numbers size the problem: how many institutions must comply, how fast their AI use is growing, and how large the governance-tooling market becoming.</p>
+
+    <div class="cs-stats">
+      <div class="stat-card reveal">
+        <div class="fig">400+<a class="cite" href="#s2">2</a></div>
+        <div class="lbl">Federally regulated financial institutions</div>
+        <div class="desc">OSFI oversees more than 400 financial institutions and 1,200 pension plans — banks, life and P&amp;C insurers, and trust and loan companies, all in scope for E-23.</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">→ 70%<a class="cite" href="#s3">3</a></div>
+        <div class="lbl">AI adoption at FRFIs, expected by 2026</div>
+        <div class="desc">Up from ~30% (2019) and ~50% (2023); 75% of responding institutions plan to invest in AI over the next three years.</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">$12.6B<a class="cite" href="#s9">9</a></div>
+        <div class="lbl">AI model-risk-management market by 2030</div>
+        <div class="desc">Projected to grow from USD 5.47B (2023) to USD 12.57B (2030) at a 12.8% CAGR, per Grand View Research.</div>
+      </div>
+    </div>
+    <p class="stat-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Most institutions "rely on third-party providers for AI models and systems,"<a class="cite" href="#s3">3</a> which is exactly the category E-23 pulls into scope and the one existing governance tools handle worst — an inventory problem that grows every quarter.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== THE LANDSCAPE ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The landscape</span>
+    <h2>E-23 is one clock among several — all ticking together.</h2>
+    <p class="cs-lead">Canadian institutions don't face E-23 in isolation. Parallel regimes demand substantially the same artifacts on a similar timeline, and Canadian regulators have been building the AI-governance groundwork for years.</p>
+
+    <div class="cs-land">
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V10M10 21V10M14 21V10M18 21V10M4 10l8-6 8 6"/></svg></span>
+          <div><span class="who">The regulator · Canada</span><h3>OSFI Guideline E-23</h3></div>
+        </div>
+        <p>A principles-based, all-models regime effective <b>1 May 2027</b>: model inventory, quantitative-plus-qualitative risk rating, lifecycle governance, and ongoing monitoring — with senior accountability.<a class="cite" href="#s1">1</a><a class="cite" href="#s8">8</a></p>
+        <p>Big-4 and law-firm briefings confirm the expanded scope now explicitly includes AI and machine-learning models across all FRFIs.<a class="cite" href="#s5">5</a></p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg></span>
+          <div><span class="who">The policy groundwork</span><h3>OSFI–FCAC AI risk work</h3></div>
+        </div>
+        <p>OSFI and the FCAC have jointly studied AI in Canadian finance for years — the 2024 risk report on AI uses and risks at FRFIs, and the Financial Industry Forum on Artificial Intelligence (FIFAI), which convened 170+ ecosystem members and produced Canadian responsible-AI frameworks.<a class="cite" href="#s3">3</a><a class="cite" href="#s4">4</a></p>
+        <p>E-23 is the enforceable edge of a much longer Canadian AI-governance effort.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+          <div><span class="who">The parallel regime · US</span><h3>NAIC Model Bulletin</h3></div>
+        </div>
+        <p>The US National Association of Insurance Commissioners' AI Model Bulletin — <b>adopted in at least 24 states plus DC</b> since December 2023 — requires a written AI program with governance, third-party oversight, consumer notice, and fairness testing.<a class="cite" href="#s10">10</a></p>
+        <p>For insurers operating cross-border, it demands largely the same control core on a comparable clock.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20M2 12h20"/></svg></span>
+          <div><span class="who">The parallel regime · EU</span><h3>EU AI Act (high-risk)</h3></div>
+        </div>
+        <p>Under the EU AI Act, AI for risk assessment and pricing in life and health insurance and for creditworthiness is high-risk, with obligations originally set for <b>2 August 2026</b> (a proposed deferral to late 2027 is pending, not yet law).<a class="cite" href="#s11">11</a></p>
+        <p>A third regime, a third set of dates — same underlying artifacts of governance and evidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE GAP ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <div class="cs-gap reveal">
+      <div class="cs-gap-inner">
+        <span class="kicker">The gap</span>
+        <h2>The guideline is written. The tooling to satisfy it isn't ready.</h2>
+        <p>E-23 tells institutions what evidence they must produce. It does not give them a way to produce it — and the volume of models to track is set to increase sharply, while the work to vet and validate them is, in one advisor's words, "very time and resource intensive."<a class="cite" href="#s6">6</a></p>
+        <ul class="cs-gaplist">
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>The inventory explodes.</b> Each AI use case must be captured and evaluated separately, so "the volume of models that will need to be tracked will significantly increase"<a class="cite" href="#s6">6</a> — and spreadsheets don't scale to a live, rated, audited estate.</span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>Bought AI is the blind spot.</b> Most institutions run third-party AI they can't fully see into<a class="cite" href="#s3">3</a> — exactly what E-23 pulls into scope, and exactly what enterprise governance tools and runtime gateways handle worst.</span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span><b>Evidence is the product, and it's manual.</b> Regulators want a durable, exam-ready trail — inventory, ratings, reviews, monitoring. Assembling that by hand across three overlapping regimes is where firms are least prepared.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW WE APPROACH IT ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">How we approach it</span>
+    <h2>An agentic model-governance layer — a problem we're researching.</h2>
+    <div class="cs-approach reveal">
+      <div class="cs-approach-top">
+        <span class="cs-approach-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <div>
+          <span class="prod">Pandora Finance · active research</span>
+          <h3>Capture once, satisfy many regimes.</h3>
+        </div>
+      </div>
+      <div class="cs-approach-body">
+        <p>This is a problem space we are <b>actively researching</b> rather than a shipped product — and the shape it takes follows directly from the gap. If the burden is a growing model estate, third-party AI that's hard to see, and manual evidence across overlapping regimes, then the answer is an <b>agentic governance layer</b>: software that auto-populates the model inventory from where models already live, so teams stop maintaining spreadsheets; captures governance facts once against a neutral control model and maps them to E-23, NAIC and the EU AI Act as lenses; and treats <b>the regulator-ready evidence pack as the output</b> — not a dashboard.</p>
+        <p>Two principles guide the research. First, <b>govern the AI you bought</b> — start with the vendor and third-party models that E-23 pulls into scope and that other tools cover worst. Second, <b>metadata-first with Canadian data residency</b> — the platform would hold governance metadata, ratings and evidence, never raw data or model weights, keeping sensitive material at the edge. The aim is speed-to-first-evidence: stand up a defensible inventory in days, not quarters, ahead of the 2027 clock.</p>
+        <ul class="cs-points">
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Auto-populated inventory</b> — pull model metadata from source systems, not spreadsheets.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Capture once, map to many</b> — one control set viewed through E-23, NAIC and EU AI Act lenses.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Govern the AI you bought</b> — vendor and third-party models first.</span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Metadata-first, Canadian residency</b> — never raw data or weights; sensitive material stays at the edge.</span></li>
+        </ul>
+        <div class="cs-research-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM12 16v-4M12 8h.01"/></svg>
+          <span>This is early-stage research, not a released Pandora Finance product. It reflects how we would approach the E-23 problem, informed by the regulatory landscape above.</span>
+        </div>
+        <a class="cs-prodlink" href="../index.html">See what Pandora Finance builds
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOURCES ===================== -->
+<section class="cs-sources" id="sources">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">Sources</span>
+    <ol>
+      <li id="s1">
+        <span class="s-title">Guideline E-23 — Model Risk Management (2027).</span> <span class="s-pub">Office of the Superintendent of Financial Institutions (OSFI), Canada.</span> "Effective date: May 1, 2027"; scope covers banks, foreign bank branches, life and P&amp;C insurers, and trust and loan companies; requires an inventory of non-negligible-risk models, a risk rating per model, and lifecycle governance (design, review, deployment, monitoring, decommission); covers models/data from external and third-party sources.
+        <a class="s-url" href="https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/guideline-e-23-model-risk-management-2027" target="_blank" rel="noopener">https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/guideline-e-23-model-risk-management-2027</a>
+      </li>
+      <li id="s2">
+        <span class="s-title">Who does OSFI regulate.</span> <span class="s-pub">OSFI, Canada.</span> "In total, OSFI oversees more than 400 financial institutions and 1,200 pension plans" — including all banks operating in Canada, federal trust and loan companies, life insurers, P&amp;C insurers, fraternal benefit societies, and foreign bank branches.
+        <a class="s-url" href="https://www.osfi-bsif.gc.ca/en/about-osfi/osfi-knowledge-centre/who-does-osfi-regulate" target="_blank" rel="noopener">https://www.osfi-bsif.gc.ca/en/about-osfi/osfi-knowledge-centre/who-does-osfi-regulate</a>
+      </li>
+      <li id="s3">
+        <span class="s-title">OSFI–FCAC Risk Report — AI Uses and Risks at Federally Regulated Financial Institutions.</span> <span class="s-pub">OSFI &amp; Financial Consumer Agency of Canada, 24 September 2024.</span> AI adoption ~30% (2019) → ~50% (2023) → 70% expected by 2026; 75% of responding institutions plan to invest in AI over the next three years; most rely on third-party providers for AI models and systems; top risks include model risk.
+        <a class="s-url" href="https://www.osfi-bsif.gc.ca/en/about-osfi/reports-publications/osfi-fcac-risk-report-ai-uses-risks-federally-regulated-financial-institutions" target="_blank" rel="noopener">https://www.osfi-bsif.gc.ca/en/about-osfi/reports-publications/osfi-fcac-risk-report-ai-uses-risks-federally-regulated-financial-institutions</a>
+      </li>
+      <li id="s4">
+        <span class="s-title">FIFAI II — AI Risks and Opportunities: Adopting an AGILE Framework in Canadian Financial Services.</span> <span class="s-pub">OSFI / FCAC / Global Risk Institute (Financial Industry Forum on Artificial Intelligence).</span> FIFAI 2 (May–November 2025) convened 170+ members of the financial ecosystem and produced the AGILE framework, building on the earlier EDGE responsible-AI principles.
+        <a class="s-url" href="https://www.osfi-bsif.gc.ca/en/about-osfi/reports-publications/fifai-ii-ai-risks-opportunities-adopting-agile-framework-canadian-financial-services" target="_blank" rel="noopener">https://www.osfi-bsif.gc.ca/en/about-osfi/reports-publications/fifai-ii-ai-risks-opportunities-adopting-agile-framework-canadian-financial-services</a>
+      </li>
+      <li id="s5">
+        <span class="s-title">Guideline E-23 is here.</span> <span class="s-pub">Deloitte Canada.</span> Effective 1 May 2027; expands scope beyond deposit-taking institutions to all FRFIs including insurers; applies to all models, not just those requiring formal regulatory approval, and includes AI and machine-learning models.
+        <a class="s-url" href="https://www.deloitte.com/ca/en/Industries/financial-services/perspectives/osfi-expanded-guidelines.html" target="_blank" rel="noopener">https://www.deloitte.com/ca/en/Industries/financial-services/perspectives/osfi-expanded-guidelines.html</a>
+      </li>
+      <li id="s6">
+        <span class="s-title">Are you ready for Guideline E-23?</span> <span class="s-pub">KPMG Canada.</span> "Final guidance was published in September 2025 with an effective date of May 1, 2027"; each AI use case must be captured separately, so "the volume of models that will need to be tracked will significantly increase"; validation activities "can be very time and resource intensive."
+        <a class="s-url" href="https://kpmg.com/ca/en/insights/2025/08/are-you-ready-for-guideline-e23.html" target="_blank" rel="noopener">https://kpmg.com/ca/en/insights/2025/08/are-you-ready-for-guideline-e23.html</a>
+      </li>
+      <li id="s7">
+        <span class="s-title">Backgrounder: Guideline E-23.</span> <span class="s-pub">OSFI, Canada.</span> "Guideline E-23 will come into effect in May 2027, following an 18-month transition period"; it is "a principles-based framework that applies to all types of models, regardless of the technology used."
+        <a class="s-url" href="https://www.osfi-bsif.gc.ca/en/news/backgrounder-guideline-e-23-model-risk-management" target="_blank" rel="noopener">https://www.osfi-bsif.gc.ca/en/news/backgrounder-guideline-e-23-model-risk-management</a>
+      </li>
+      <li id="s8">
+        <span class="s-title">OSFI Releases Final Guideline E-23 for Model Risk Management and AI Use by FRFIs.</span> <span class="s-pub">Blake, Cassels &amp; Graydon LLP.</span> Published 11 September 2025, effective 1 May 2027; requires a model inventory recording all models and their risk rating, a quantitative-and-qualitative risk-rating scale, and model lifecycle governance; covers AI models and externally/third-party-sourced models.
+        <a class="s-url" href="https://www.blakes.com/insights/osfi-releases-final-guideline-e-23-for-model-risk-management-and-ai-use-by-frfis/" target="_blank" rel="noopener">https://www.blakes.com/insights/osfi-releases-final-guideline-e-23-for-model-risk-management-and-ai-use-by-frfis/</a>
+      </li>
+      <li id="s9">
+        <span class="s-title">AI Model Risk Management Market Size, Share Report, 2030.</span> <span class="s-pub">Grand View Research.</span> AI model-risk-management market USD 5.47 billion (2023) → USD 12.57 billion (2030) at a 12.8% CAGR (2024–2030); software &gt;63% of 2023 revenue; North America &gt;39% share.
+        <a class="s-url" href="https://www.grandviewresearch.com/industry-analysis/ai-model-risk-management-market-report" target="_blank" rel="noopener">https://www.grandviewresearch.com/industry-analysis/ai-model-risk-management-market-report</a>
+      </li>
+      <li id="s10">
+        <span class="s-title">Nearly Half of States Have Now Adopted the NAIC Model Bulletin on Insurers' Use of AI.</span> <span class="s-pub">Quarles &amp; Brady LLP.</span> As of March 2025, 24 states had adopted the NAIC Model Bulletin on the Use of AI Systems by insurers with little to no material change; NAIC originally adopted the bulletin in December 2023.
+        <a class="s-url" href="https://www.quarles.com/newsroom/publications/nearly-half-of-states-have-now-adopted-naic-model-bulletin-on-insurers-use-of-ai" target="_blank" rel="noopener">https://www.quarles.com/newsroom/publications/nearly-half-of-states-have-now-adopted-naic-model-bulletin-on-insurers-use-of-ai</a>
+      </li>
+      <li id="s11">
+        <span class="s-title">EU AI Act — Annex III high-risk systems (insurance &amp; credit).</span> <span class="s-pub">EU AI Act reference (artificialintelligenceact.eu).</span> AI for creditworthiness/credit scoring and for risk assessment and pricing in life and health insurance is high-risk under Annex III, with obligations originally applying from 2 August 2026 (a proposed "Digital Omnibus" deferral to late 2027 is pending, not yet law).
+        <a class="s-url" href="https://artificialintelligenceact.eu/annex/3/" target="_blank" rel="noopener">https://artificialintelligenceact.eu/annex/3/</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== CTA (book a demo) ===================== -->
+<section class="cs-cta">
+  <div class="cs-cta-inner">
+    <h2>Rethinking model governance for the 2027 clock.</h2>
+    <p>We're researching how an agentic governance layer could turn E-23 from a compliance scramble into a capture-once, exam-ready workflow. If that's a problem you're facing, let's compare notes.</p>
+    <div class="btns">
+      <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-outline-w" href="../index.html">See Pandora Finance</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="cs-foot">
+  <div class="cs-wrap cs-wide cs-foot-inner">
+    <a class="fbrand" href="../index.html">
+      <span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg></span>
+      Pandora Finance
+    </a>
+    <nav class="fnav">
+      <a href="../index.html">Pandora hub</a>
+      <a href="dpp-canada.html">Digital Product Passports</a>
+      <a href="agentic-commerce.html">Agentic commerce</a>
+      <a href="rental-data-privacy.html">Rental privacy</a>
+    </nav>
+    <p class="fdisc">Case study for discussion. Regulatory and market figures are drawn from the cited OSFI, government, law-firm and third-party sources and reflect those publishers' data, not Pandora Finance data; regulatory dates (including proposed EU deferrals) are current to the cited sources and may change — verify against the primary source before relying on them. The agentic governance layer described is early-stage research, not a released product. This page is not legal or compliance advice. &copy; <span id="yr"></span> Aconomy Labs Inc. · Pandora Finance.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+      els.forEach(function(e){e.classList.add('in');});
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} });
+      },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+      els.forEach(function(e){io.observe(e);});
+    }
+    var y=document.getElementById('yr'); if(y) y.textContent=new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="UnityMarket AI Curator — a live demo of an NFT curator agent that scans collections, scores rarity, checks provenance, flags wash-trading, and assembles a curated shortlist for you." />
+<title>UnityMarket Curator — AI NFT curator agent</title>
+<style>
+  :root{
+    --bg:#f7f6f2; --surface:#ffffff; --surface-2:#fbf6ec; --panel:#faf8f3;
+    --ink:#1a160c; --ink-2:#6a5f49; --ink-3:#948a76;
+    --line:#eae4d6; --line-2:#f0ebdf;
+    --gold:#f1a940; --gold-ink:#a5670a; --gold-deep:#8a5608; --gold-bg:#fbf0dd;
+    --ink-navy:#231704;
+    --green:#12b886; --green-ink:#0c8f66; --green-bg:#e5f7ef;
+    --blue:#0b6bff; --blue-ink:#0052cc; --blue-bg:#e9f1ff;
+    --violet:#7949e8; --violet-ink:#5a2fc0; --violet-bg:#efe9fb;
+    --red:#d64216; --red-ink:#b8360f; --red-bg:#fbeae2;
+    --sans:'Figtree',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --r:14px; --ws-shadow:0 10px 30px rgba(60,42,10,.09);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  a{color:inherit}
+
+  /* top bar */
+  .top{display:flex;align-items:center;gap:14px;padding:12px 18px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:1.1rem;color:var(--ink)}
+  .brand .m{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#f1a940,#ffcf72);display:grid;place-items:center;color:#231704;font-weight:800;font-size:.86rem;box-shadow:0 4px 12px rgba(241,169,64,.42)}
+  .back{font-size:.82rem;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;padding-right:14px;margin-right:2px;border-right:1px solid var(--line);text-decoration:none}
+  .back:hover{color:var(--ink)}
+  .agent-badge{display:inline-flex;align-items:center;gap:7px;font-size:.74rem;font-weight:700;color:var(--gold-ink);background:var(--gold-bg);padding:5px 11px;border-radius:999px}
+  .agent-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(241,169,64,.5)}70%{box-shadow:0 0 0 7px rgba(241,169,64,0)}100%{box-shadow:0 0 0 0 rgba(241,169,64,0)}}
+  .top .demo{margin-left:auto;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--ink-3);border:1px dashed var(--line);padding:5px 9px;border-radius:8px}
+  .top .reset{border:1px solid var(--line);background:#fff;color:var(--ink-2);font-weight:600;font-size:.82rem;padding:7px 13px;border-radius:9px;cursor:pointer;font-family:inherit}
+  .top .reset:hover{border-color:var(--ink-3);color:var(--ink)}
+  @media(max-width:560px){.top .back span{display:none}}
+
+  /* split */
+  .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);height:calc(100vh - 53px)}
+  @media(max-width:820px){.split{grid-template-columns:1fr;height:auto}}
+
+  /* chat */
+  .chat{display:flex;flex-direction:column;border-right:1px solid var(--line);min-height:0;background:var(--surface)}
+  .chat-scroll{flex:1;overflow-y:auto;padding:22px 20px;display:flex;flex-direction:column;gap:16px}
+  @media(max-width:820px){.chat-scroll{height:54vh}}
+  .msg{display:flex;gap:11px;max-width:92%}
+  .msg .av{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;font-weight:800;font-size:.72rem}
+  .msg.agent .av{background:var(--gold-bg);color:var(--gold-ink)}
+  .msg.user{align-self:flex-end;flex-direction:row-reverse}
+  .msg.user .av{background:var(--ink);color:#fff}
+  .bubble{padding:12px 15px;border-radius:14px;font-size:.95rem}
+  .msg.agent .bubble{background:var(--surface-2);border:1px solid var(--line);border-top-left-radius:5px}
+  .msg.user .bubble{background:linear-gradient(135deg,var(--gold),#ffcf72);color:#3a2708;font-weight:500;border-top-right-radius:5px}
+  .typing{display:inline-flex;gap:4px;padding:14px 15px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--ink-3);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+
+  .prompts{border-top:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--ink);font-family:inherit;font-size:.86rem;font-weight:500;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left;transition:.15s}
+  .chip:hover{border-color:var(--gold);color:var(--gold-ink);background:var(--gold-bg)}
+  .chip[disabled]{opacity:.4;cursor:default}
+  .fauxin{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--ink-3);font-size:.9rem;background:var(--surface-2)}
+  .fauxin .snd{margin-left:auto;width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center;color:#fff}
+
+  /* workspace */
+  .ws{background:var(--panel);color:var(--ink);min-height:0;display:flex;flex-direction:column;border-left:1px solid var(--line)}
+  .ws-head{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--line);font-weight:700;font-size:.9rem;color:var(--ink)}
+  .ws-head .k{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .ws-head #ws-status{margin-left:auto;font-size:.74rem;font-weight:600;color:var(--ink-3)}
+  .ws-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+  @media(max-width:820px){.ws-scroll{height:60vh}}
+  .ws-empty{color:var(--ink-3);font-size:.9rem;text-align:center;margin:auto;max-width:38ch}
+
+  .act{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#ffffff;box-shadow:var(--ws-shadow);opacity:0;transform:translateY(8px);animation:rise .35s forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .act-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line-2)}
+  .act-call{font-family:var(--mono);font-size:.8rem;color:var(--ink-2);word-break:break-word}
+  .act-call .fn{color:var(--gold-ink);font-weight:600}
+  .dotspin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(241,169,64,.25);border-top-color:var(--gold);animation:spin .7s linear infinite;flex:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ok{width:16px;height:16px;border-radius:50%;background:var(--gold);color:#231704;display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+  .stop{width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+  .act-body{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:5px 10px;border-radius:999px}
+  .p-gold{background:var(--gold-bg);color:var(--gold-ink)}
+  .p-green{background:var(--green-bg);color:var(--green-ink)}
+  .p-blue{background:var(--blue-bg);color:var(--blue-ink)}
+  .p-violet{background:var(--violet-bg);color:var(--violet-ink)}
+  .p-red{background:var(--red-bg);color:var(--red-ink)}
+  .kv{display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-2);gap:12px}
+  .kv b{color:var(--ink);font-family:var(--mono);font-weight:700}
+  .score{display:flex;align-items:center;gap:12px}
+  .score .n{font-family:var(--mono);font-size:1.7rem;font-weight:800;color:var(--gold-ink)}
+  .wrapchips{display:flex;flex-wrap:wrap;gap:7px}
+  .note{font-size:.8rem;color:var(--ink-2);line-height:1.45}
+
+  /* collection scan rows */
+  .col-row{display:flex;align-items:center;gap:11px;font-size:.86rem}
+  .col-row .th{width:32px;height:32px;border-radius:8px;flex:none;display:grid;place-items:center;font-size:.9rem;color:#fff}
+  .col-row .nm{color:var(--ink);font-weight:600}
+  .col-row .meta{color:var(--ink-2);font-size:.77rem}
+  .col-row .right{margin-left:auto;text-align:right}
+  .col-row .floor{font-family:var(--mono);font-weight:700;color:var(--ink)}
+  .g-a{background:linear-gradient(135deg,#ff8a00,#f1a940 55%,#7a4bff)}
+  .g-b{background:linear-gradient(135deg,#00abbe,#00ffc2 60%,#0b6bff)}
+  .g-c{background:linear-gradient(135deg,#7949e8,#c86bff 55%,#ff6bd0)}
+  .g-d{background:linear-gradient(135deg,#0b1220,#2b3f7a 55%,#f1a940)}
+  .g-e{background:linear-gradient(135deg,#ff5f6d,#ffc371)}
+  .g-f{background:linear-gradient(135deg,#122,#0c8f66 60%,#00ffc2)}
+
+  /* rarity bar */
+  .gradebar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:4px}
+  .gradebar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#d68a1f,#ffcf72)}
+
+  /* provenance timeline */
+  .tl{display:flex;flex-direction:column;gap:0;margin:2px 0}
+  .tl .step{display:flex;gap:11px;padding-bottom:13px;position:relative}
+  .tl .step:not(:last-child)::before{content:"";position:absolute;left:6px;top:15px;bottom:-2px;width:2px;background:var(--line)}
+  .tl .dot{width:14px;height:14px;border-radius:50%;background:var(--gold);flex:none;margin-top:2px;box-shadow:0 0 0 3px rgba(241,169,64,.18)}
+  .tl .dot.bad{background:var(--red);box-shadow:0 0 0 3px rgba(214,66,22,.18)}
+  .tl .t{font-size:.86rem;color:var(--ink);font-weight:600}
+  .tl .s{font-size:.76rem;color:var(--ink-2)}
+
+  /* shortlist piece card */
+  .piece{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--ws-shadow)}
+  .piece .art{height:82px;position:relative}
+  .piece .art .grain{position:absolute;inset:0;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.18) .6px,transparent .6px);background-size:6px 6px}
+  .piece .art .rank{position:absolute;top:9px;left:10px;font-size:.66rem;font-weight:800;letter-spacing:.03em;color:#231704;background:rgba(255,255,255,.92);padding:3px 9px;border-radius:999px}
+  .piece .pbody{padding:12px 14px 13px;display:flex;flex-direction:column;gap:9px}
+  .piece .prow{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .piece .pname{font-weight:800;color:var(--ink);letter-spacing:-.01em}
+  .piece .pcol{font-size:.74rem;color:var(--ink-2)}
+  .piece .pprice{font-family:var(--mono);font-weight:800;color:var(--gold-ink);white-space:nowrap}
+  .piece .pfloor{font-size:.7rem;color:var(--ink-3)}
+
+  /* portfolio summary */
+  .port{border:1px solid rgba(241,169,64,.4);border-radius:14px;overflow:hidden;background:linear-gradient(180deg,var(--gold-bg),#ffffff);box-shadow:var(--ws-shadow)}
+  .port-top{display:flex;align-items:center;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line)}
+  .port-badge{width:46px;height:46px;border-radius:10px;flex:none;background:linear-gradient(135deg,#f1a940,#ffcf72);display:grid;place-items:center;color:#231704;font-weight:900;font-size:.6rem;letter-spacing:.02em;text-align:center;line-height:1.05}
+  .port-top .nm{font-weight:800;color:var(--ink)}
+  .port-top .id{font-family:var(--mono);font-size:.74rem;color:var(--ink-2)}
+  .port-body{padding:13px 15px;display:flex;flex-direction:column;gap:9px}
+  .split2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .cell{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+  .cell b{display:block;font-size:1.1rem;color:var(--ink);font-weight:800;font-family:var(--mono)}
+  .cell span{font-size:.7rem;color:var(--ink-2)}
+  .listing{display:flex;align-items:center;gap:8px;border-top:1px dashed var(--line);margin-top:2px;padding-top:10px;font-size:.83rem;color:var(--ink-2)}
+  .listing .lp{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--gold-ink)}
+
+  .foot{padding:9px 20px;font-size:.72rem;color:var(--ink-3);border-top:1px solid var(--line)}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a class="back" href="../index.html" title="Back to UnityMarket"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>UnityMarket</span></a>
+  <div class="brand"><span class="m">UM</span>UnityMarket</div>
+  <span class="agent-badge"><span class="pulse"></span>AI Curator Agent</span>
+  <span class="demo">LIVE DEMO</span>
+  <button class="reset" id="reset">Reset</button>
+</div>
+
+<div class="split">
+  <section class="chat">
+    <div class="chat-scroll" id="chat"></div>
+    <div class="prompts">
+      <div class="chips" id="chips"></div>
+      <div class="fauxin">Ask the UnityMarket curator to build you a collection…<span class="snd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </div>
+  </section>
+  <section class="ws">
+    <div class="ws-head"><span class="k">Agent workspace</span> <span id="ws-status">idle</span></div>
+    <div class="ws-scroll" id="ws"><div class="ws-empty" id="ws-empty">The curator's actions appear here as it works — scanning live collections, scoring rarity, checking provenance for wash-trade flags, comparing floors, and assembling a curated shortlist.</div></div>
+    <div class="foot">Illustrative demo · UnityMarket · built on Express Protocol · collections, prices and actions are simulated</div>
+  </section>
+</div>
+
+<script>
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var chat=document.getElementById('chat'), ws=document.getElementById('ws'), chips=document.getElementById('chips');
+  var wsEmpty=document.getElementById('ws-empty'), wsStatus=document.getElementById('ws-status');
+
+  function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.appendChild(document.createTextNode(txt));return e;}
+  function clr(n){while(n.firstChild)n.removeChild(n.firstChild);}
+  function scrollC(){chat.scrollTop=chat.scrollHeight;}
+  function scrollW(){ws.scrollTop=ws.scrollHeight;}
+
+  // ---- queue player ----
+  var Q=[],busy=false;
+  function q(fn,delay){Q.push({fn:fn,delay:delay==null?600:delay});if(!busy)deq();}
+  function deq(){if(!Q.length){busy=false;wsStatus.textContent='done';return;}busy=true;var b=Q.shift();setTimeout(function(){b.fn();deq();},reduce?0:b.delay);}
+
+  // ---- chat ----
+  function userMsg(text){var m=el('div','msg user');m.appendChild(el('span','av','You'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function agentMsg(text){var m=el('div','msg agent');m.appendChild(el('span','av','UM'));m.appendChild(el('div','bubble',text));chat.appendChild(m);scrollC();}
+  function typing(){var m=el('div','msg agent');m.appendChild(el('span','av','UM'));var b=el('div','bubble typing');b.appendChild(el('i'));b.appendChild(el('i'));b.appendChild(el('i'));m.appendChild(b);chat.appendChild(m);scrollC();return m;}
+  function say(text,delay){q(function(){var t=typing();q(function(){chat.removeChild(t);agentMsg(text);},reduce?0:520);},delay);}
+
+  // ---- workspace actions ----
+  function actionCard(fnName,args){
+    if(wsEmpty&&wsEmpty.parentNode)wsEmpty.parentNode.removeChild(wsEmpty);
+    var card=el('div','act'),head=el('div','act-head'),spin=el('span','dotspin'),call=el('code','act-call');
+    call.appendChild(el('span','fn',fnName));call.appendChild(document.createTextNode('('+args+')'));
+    head.appendChild(spin);head.appendChild(call);card.appendChild(head);ws.appendChild(card);scrollW();
+    return {card:card,spin:spin};
+  }
+  function complete(ref,node,fail){
+    var mark=fail?el('span','stop','✕'):el('span','ok','✓');
+    ref.spin.parentNode.replaceChild(mark,ref.spin);
+    if(node){var b=el('div','act-body');b.appendChild(node);ref.card.appendChild(b);scrollW();}
+  }
+  // an "agent action": show running call, then complete with result
+  function act(fnName,args,build,runMs,fail){
+    q(function(){wsStatus.textContent='working…';var ref=actionCard(fnName,args);
+      q(function(){complete(ref,build?build():null,fail);},reduce?0:(runMs||760));
+    });
+  }
+
+  // ---- small builders ----
+  function kv(label,val,color){var r=el('div','kv');r.appendChild(el('span',null,label));var b=el('b',null,val);if(color)b.style.color=color;r.appendChild(b);return r;}
+  function pill(cls,text){var p=el('span','pill '+cls);p.appendChild(document.createTextNode(text));return p;}
+  function noteEl(text){return el('div','note',text);}
+
+  // ---- result builders : HAPPY PATH (build a collection) ----
+  var SCAN=[
+    {g:'g-a',ic:'◈',nm:'Chromatic Drift',meta:'Generative · 512 items · 2 mo old',floor:'0.28 Ξ'},
+    {g:'g-b',ic:'◆',nm:'Flowfield Ghosts',meta:'Generative · 300 items · verified',floor:'0.41 Ξ'},
+    {g:'g-c',ic:'▲',nm:'Latent Bloom',meta:'Generative · 888 items · verified',floor:'0.19 Ξ'},
+    {g:'g-e',ic:'✦',nm:'Signal/Noise',meta:'Generative · 256 items · new',floor:'0.33 Ξ'}
+  ];
+  function scanResult(){
+    var w=el('div');
+    w.appendChild(kv('Collections indexed','37 live · generative-art tag'));
+    SCAN.forEach(function(c){
+      var row=el('div','col-row');
+      var th=el('span','th '+c.g);th.appendChild(document.createTextNode(c.ic));row.appendChild(th);
+      var mid=el('div');mid.appendChild(el('div','nm',c.nm));mid.appendChild(el('div','meta',c.meta));row.appendChild(mid);
+      var right=el('div','right');right.appendChild(el('div','floor',c.floor));right.appendChild(el('div','pfloor','floor'));row.appendChild(right);
+      w.appendChild(row);
+    });
+    var p=el('div');p.style.marginTop='4px';p.appendChild(pill('p-gold','All under 0.5 Ξ budget'));w.appendChild(p);
+    return w;
+  }
+  function rarityResult(){
+    var w=el('div');
+    w.appendChild(kv('Trait model','open-rarity v2 · 4 collections',null));
+    [['Latent Bloom #204','96','Top 2%'],['Chromatic Drift #051','93','Top 4%'],['Flowfield Ghosts #118','90','Top 7%']].forEach(function(r){
+      var line=el('div');line.style.marginBottom='6px';
+      var s=el('div','score');var n=el('span','n');n.style.fontSize='1.15rem';n.textContent=r[1];s.appendChild(n);
+      var lab=el('div');lab.appendChild(el('div','nm',r[0]));lab.appendChild(el('div','meta',r[2]+' rarity'));s.appendChild(lab);
+      line.appendChild(s);
+      var bar=el('div','gradebar');var fill=el('i');fill.style.width=r[1]+'%';bar.appendChild(fill);line.appendChild(bar);
+      w.appendChild(line);
+    });
+    return w;
+  }
+  function provResult(){
+    var w=el('div','tl');
+    [['Mint history','On-chain since 2023 · artist wallet verified'],['Trade pattern','Organic · 340 unique holders'],['Wash-trade scan','Clean · no circular self-trades'],['Royalty enforcement','7.5% on-chain · honored on resale']].forEach(function(st){
+      var step=el('div','step');step.appendChild(el('span','dot'));var m=el('div');m.appendChild(el('div','t',st[0]));m.appendChild(el('div','s',st[1]));step.appendChild(m);w.appendChild(step);
+    });
+    return w;
+  }
+  function floorResult(){
+    var w=el('div');
+    [['Latent Bloom #204','0.19 Ξ','floor 0.19 Ξ · at floor'],['Chromatic Drift #051','0.24 Ξ','floor 0.28 Ξ · 14% under'],['Flowfield Ghosts #118','0.37 Ξ','floor 0.41 Ξ · 10% under']].forEach(function(r){
+      var row=el('div','kv');row.appendChild(el('span',null,r[0]));
+      var b=el('b',null,r[1]);b.style.color='var(--gold-ink)';row.appendChild(b);
+      w.appendChild(row);
+      w.appendChild(el('div','pfloor',r[2]));
+    });
+    var p=el('div');p.style.marginTop='6px';p.appendChild(pill('p-green','2 of 3 priced below floor'));w.appendChild(p);
+    return w;
+  }
+  var SHORT=[
+    {g:'g-c',rank:'#1 pick',name:'Latent Bloom #204',col:'Latent Bloom · Top 2%',price:'0.19 Ξ',floor:'at floor · rarity outlier'},
+    {g:'g-a',rank:'#2 pick',name:'Chromatic Drift #051',col:'Chromatic Drift · Top 4%',price:'0.24 Ξ',floor:'14% under floor · fair'},
+    {g:'g-b',rank:'#3 pick',name:'Flowfield Ghosts #118',col:'Flowfield Ghosts · Top 7%',price:'0.37 Ξ',floor:'10% under floor · fair'}
+  ];
+  function shortlistResult(){
+    var w=el('div');w.style.gap='11px';w.style.display='flex';w.style.flexDirection='column';
+    SHORT.forEach(function(p){
+      var card=el('div','piece');
+      var art=el('div','art '+p.g);art.appendChild(el('span','rank',p.rank));art.appendChild(el('span','grain'));card.appendChild(art);
+      var body=el('div','pbody');
+      var row=el('div','prow');
+      var left=el('div');left.appendChild(el('div','pname',p.name));left.appendChild(el('div','pcol',p.col));row.appendChild(left);
+      var right=el('div');right.style.textAlign='right';right.appendChild(el('div','pprice',p.price));right.appendChild(el('div','pfloor',p.floor));row.appendChild(right);
+      body.appendChild(row);card.appendChild(body);
+      w.appendChild(card);
+    });
+    return w;
+  }
+  function bidsResult(){
+    var w=el('div');
+    w.appendChild(kv('Latent Bloom #204','Buy now @ 0.19 Ξ','var(--gold-ink)'));
+    w.appendChild(kv('Chromatic Drift #051','Bid placed @ 0.23 Ξ'));
+    w.appendChild(kv('Flowfield Ghosts #118','Bid placed @ 0.36 Ξ'));
+    var p=el('div');p.style.marginTop='6px';p.appendChild(pill('p-gold','2 bids live · 1 filled'));w.appendChild(p);
+    return w;
+  }
+  function portfolioResult(){
+    var w=el('div','port');
+    var top=el('div','port-top');
+    var badge=el('div','port-badge');badge.appendChild(document.createTextNode('GEN·ART'));top.appendChild(badge);
+    var nm=el('div');nm.appendChild(el('div','nm','Generative Art · curated set'));nm.appendChild(el('div','id','3 pieces · UnityMarket · Express Protocol'));top.appendChild(nm);
+    w.appendChild(top);
+    var body=el('div','port-body');
+    var a=el('div','wrapchips');
+    a.appendChild(pill('p-green','✓ Provenance clean'));
+    a.appendChild(pill('p-violet','Rarity-weighted'));
+    a.appendChild(pill('p-blue','Under 0.5 Ξ each'));
+    body.appendChild(a);
+    var split=el('div','split2');
+    var c1=el('div','cell');c1.appendChild(el('b',null,'0.80 Ξ'));c1.appendChild(el('span',null,'Total outlay'));split.appendChild(c1);
+    var c2=el('div','cell');c2.appendChild(el('b',null,'0.91 Ξ'));c2.appendChild(el('span',null,'Est. floor value'));split.appendChild(c2);
+    body.appendChild(split);
+    var lst=el('div','listing');lst.appendChild(document.createTextNode('Held in your wallet · tracked for resale'));var lp=el('span','lp','+14% vs floor');lst.appendChild(lp);body.appendChild(lst);
+    w.appendChild(body);return w;
+  }
+
+  // ---- chips helper ----
+  function setChips(list){clr(chips);list.forEach(function(c){var b=el('button','chip',c.label);b.addEventListener('click',c.run);chips.appendChild(b);});}
+
+  // ---- HAPPY PATH: build a curated collection ----
+  function buildFlow(){
+    setChips([]);
+    userMsg("Build me a small collection around generative art under 0.5 ETH.");
+    say("On it. I'll scan live generative-art collections, score rarity, check each one's provenance for wash-trading, compare against the floor, then assemble a 3-piece shortlist inside your budget. Streaming my work on the right.",420);
+    act('scan_collections','{ tag:"generative-art", budget:"<0.5 ETH" }',scanResult,900);
+    say("37 live collections match. Four are strong and fully inside budget. Scoring rarity on their standout pieces now.",300);
+    act('score_rarity','{ model:"open-rarity-v2", collections:4 }',rarityResult,860);
+    say("Rarity looks good. Before I trust any of these, I'm checking mint history and trade patterns for wash-trading or faked volume.",300);
+    act('check_provenance','{ mint_history:true, wash_trade_scan:true }',provResult,900);
+    say("All three candidates are clean — organic holders, no circular self-trades, on-chain royalties honored. Comparing my target prices against each collection's floor.",300);
+    act('compare_floor','{ pieces:3, basis:"live_floor" }',floorResult,820);
+    say("Two of the three price below floor, one sits right at it — all fair entries. Assembling the shortlist.",280);
+    act('assemble_shortlist','{ size:3, weight:"rarity+fair_price" }',shortlistResult,880);
+    say("Here's the curated set: three generative-art pieces, each an above-average rarity, each at or below fair value, 0.80 ETH for all three. Placing bids and buying the one at floor now.",320);
+    act('place_bids','{ buy_now:1, bids:2, simulated:true }',bidsResult,860);
+    act('assemble_portfolio','{ pieces:3, track_resale:true }',portfolioResult,900);
+    say("✓ Portfolio assembled. One piece bought at floor, two competitive bids live — 0.80 ETH total against ~0.91 ETH of floor value. I'll keep watching for fills and resale opportunities. Want me to list any of them, or try a stricter budget?",340);
+    q(function(){setChips([
+      {label:"Now curate one that gets rejected",run:washFlow},
+      {label:"List my #1 pick for sale",run:listFlow},
+      {label:"What can you do?",run:infoFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+
+  // ---- REJECTION PATH: wash-trading / suspicious collection ----
+  function washFlow(){
+    setChips([]);
+    userMsg("There's a hyped collection 'Aurora Mint' pumping fast — grab a floor piece for me.");
+    say("Let me look before I buy. I'll scan it, score rarity, then run a provenance and wash-trade check — I won't spend into a collection whose volume looks manufactured.",420);
+    act('scan_collections','{ query:"Aurora Mint", budget:"<0.5 ETH" }',function(){
+      var w=el('div');
+      w.appendChild(kv('Collection','Aurora Mint · 1,000 items'));
+      w.appendChild(kv('Floor','0.44 Ξ'));
+      w.appendChild(kv('24h volume','+820% · spiking',' var(--red-ink)'));
+      var p=el('div');p.style.marginTop='6px';p.appendChild(pill('p-amber','Volume spike — verify before buying'));w.appendChild(p);
+      return w;
+    },840);
+    say("Volume is up 820% in a day. That can be real hype or a wash-trade pump. Scoring rarity, then digging into the trade graph.",300);
+    act('score_rarity','{ model:"open-rarity-v2", collection:"Aurora Mint" }',function(){
+      var w=el('div');
+      var s=el('div','score');var n=el('span','n','61');s.appendChild(n);s.appendChild(pill('p-amber','Thin trait spread'));w.appendChild(s);
+      w.appendChild(noteEl('Rarity is flat — most tokens share the same traits, typical of a low-effort mint.'));
+      return w;
+    },820);
+    say("Rarity is unremarkable. Now the important check — is that volume organic or a loop of the same wallets trading to themselves?",300);
+    act('check_provenance','{ mint_history:true, wash_trade_scan:true }',function(){
+      var w=el('div','tl');
+      [['Mint history','Deployed 6 days ago · anonymous wallet',true],['Trade graph','5 wallets → 92% of all volume',true],['Wash-trade pattern','Circular self-trades detected · A→B→C→A',true],['Royalty enforcement','Disabled — no creator royalties',true]].forEach(function(st){
+        var step=el('div','step');step.appendChild(el('span','dot bad'));var m=el('div');m.appendChild(el('div','t',st[0]));m.appendChild(el('div','s',st[1]));step.appendChild(m);w.appendChild(step);
+      });
+      return w;
+    },900,true);
+    say("Flagged: wash-trade pattern. Five wallets account for 92% of volume and they're trading in a loop to fake demand and inflate the floor. This is a manufactured pump.",320);
+    act('compare_floor','{ basis:"organic_volume_only" }',function(){
+      var w=el('div');
+      w.appendChild(kv('Quoted floor','0.44 Ξ'));
+      w.appendChild(kv('Floor on organic trades only','~0.06 Ξ','var(--red-ink)'));
+      var p=el('div');p.style.marginTop='6px';p.appendChild(pill('p-red','Floor inflated ~7× by wash volume'));w.appendChild(p);
+      return w;
+    },820,true);
+    say("Strip out the fake volume and the real floor is roughly 0.06 ETH — the 0.44 ETH ask is inflated about 7×. Excluding this collection; I will not place a bid.",320);
+    act('place_bids','{ collection:"Aurora Mint" }',function(){
+      var w=el('div');
+      w.appendChild(pill('p-red','Excluded — wash-trade pattern'));
+      var r=el('div','kv');r.style.marginTop='8px';r.appendChild(el('span',null,'Bid placed'));var b=el('b',null,'None');b.style.color='var(--red-ink)';r.appendChild(b);w.appendChild(r);
+      w.appendChild(kv('Collection','Flagged for review'));
+      return w;
+    },800,true);
+    say("Skipped it, and I've flagged the collection. The whole point of a curator is to keep you out of these — buying in would have handed 0.44 ETH to a pump-and-dump. Want me to build a clean collection instead?",340);
+    q(function(){setChips([
+      {label:"Build a clean collection →",run:buildFlow},
+      {label:"How do you detect wash-trading?",run:function(){
+        setChips([]);userMsg("How do you detect wash-trading?");
+        say("I reconstruct the trade graph for a collection and look for tells: a handful of wallets responsible for most of the volume, circular self-trades (A→B→C→A) where the same NFT ping-pongs between related addresses, brand-new anonymous deployer wallets, floor prices that only hold up on those internal trades, and disabled royalties. When enough of those line up, I treat the volume as manufactured and exclude the collection — the quoted floor isn't a real market.",560);
+        q(function(){setChips([{label:"Build a clean collection →",run:buildFlow},{label:"↺ Start over",run:resetAll}]);},200);
+      }},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+
+  // ---- SIDE FLOW: list an item (simulated) ----
+  function listFlow(){
+    setChips([]);
+    userMsg("List my #1 pick, Latent Bloom #204, for sale.");
+    say("Sure. I'll re-check its live floor and recent comparables so we don't underprice it, then create the listing with your royalty attached.",420);
+    act('compare_floor','{ token:"Latent Bloom #204", basis:"live_floor+comps" }',function(){
+      var w=el('div');
+      w.appendChild(kv('Bought at','0.19 Ξ'));
+      w.appendChild(kv('Live floor','0.23 Ξ','var(--gold-ink)'));
+      w.appendChild(kv('Rarity premium','Top 2% · +18% typical'));
+      var p=el('div');p.style.marginTop='6px';p.appendChild(pill('p-green','Suggested list: 0.27 Ξ'));w.appendChild(p);
+      return w;
+    },820);
+    say("Floor's moved up to 0.23 ETH and this is a top-2% piece, so 0.27 ETH is a fair, sell-able ask. Creating the listing.",300);
+    act('list_item','{ token:"Latent Bloom #204", price:"0.27 ETH", royalty:"7.5%", simulated:true }',function(){
+      var w=el('div');
+      var a=el('div','wrapchips');a.appendChild(pill('p-gold','✓ Listed'));a.appendChild(pill('p-blue','0.27 Ξ'));a.appendChild(pill('p-violet','7.5% royalty'));w.appendChild(a);
+      w.appendChild(kv('Marketplace','UnityMarket · Express Protocol'));
+      w.appendChild(kv('Est. profit if filled','+0.08 Ξ','var(--green-ink)'));
+      return w;
+    },860);
+    say("✓ Listed at 0.27 ETH with your 7.5% royalty attached — about +0.08 ETH over what you paid if it fills. I'll notify you on any offers. Anything else?",320);
+    q(function(){setChips([
+      {label:"Build another collection →",run:buildFlow},
+      {label:"What can you do?",run:infoFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+
+  // ---- INFO FLOW: what can you do? ----
+  function infoFlow(){
+    setChips([]);
+    userMsg("What can you do?");
+    say("I'm UnityMarket's curator agent — an AI that shops the marketplace for you. Give me a theme and a budget and I scan live collections, score rarity, and check each one's provenance and trade history for wash-trading before I ever spend. I compare prices against the real floor, assemble a shortlist of fair-value pieces, and place bids or buy — or list what you own at a sensible price. Everything runs on UnityMarket, which is built on Express Protocol, so listings, bids and royalties settle through audited on-chain contracts. The one thing I won't do is buy into a collection whose volume looks faked.",620);
+    q(function(){setChips([
+      {label:"Build me a generative-art collection →",run:buildFlow},
+      {label:"Show a collection you'd reject",run:washFlow},
+      {label:"↺ Start over",run:resetAll}
+    ]);},200);
+  }
+
+  function resetAll(){
+    Q.length=0;busy=false;clr(chat);clr(ws);wsStatus.textContent='idle';
+    var e=el('div','ws-empty');e.id='ws-empty';e.appendChild(document.createTextNode("The curator's actions appear here as it works — scanning live collections, scoring rarity, checking provenance for wash-trade flags, comparing floors, and assembling a curated shortlist."));ws.appendChild(e);wsEmpty=e;
+    agentMsg("Hi — I'm the UnityMarket curator. Tell me a theme and a budget and I'll scan live collections, score rarity, screen out wash-trading, and assemble a curated shortlist of fair-value pieces — then bid, buy, or list on your behalf. Try one:");
+    setChips([
+      {label:"Build me a small collection around generative art under 0.5 ETH",run:buildFlow},
+      {label:"Grab a floor piece from a hyped collection",run:washFlow},
+      {label:"What can you do?",run:infoFlow}
+    ]);
+  }
+  document.getElementById('reset').addEventListener('click',resetAll);
+  resetAll();
+</script>
+</body>
+</html>
