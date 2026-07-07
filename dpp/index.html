@@ -14,14 +14,18 @@
    AI verification agent that authenticates, traces, verifies
    and passports physical products. page-specific styles.
    Tokens (navy, slate, gray, radius, shadow, font) come from
-   design-system.css. Product accent = emerald/green.
+   design-system.css. Product accent = the real DPP violet
+   (#6941C6, primary-600 from the product's own design system).
    ============================================================ */
 :root{
-  --dpp:#0f9d6b;            /* emerald — authenticity / sustainability */
-  --dpp-deep:#0a7a52;      /* pressed / darker emerald */
-  --dpp-bright:#12c17f;    /* lively accent for gradients */
-  --dpp-ink:#07281c;       /* deep green-black for dark sections */
-  --leaf:#d6f5e6;          /* pale mint wash */
+  --dpp:#6941C6;           /* primary-600 — the real DPP brand violet */
+  --dpp-deep:#5a2db8;      /* primary-700 — pressed / darker violet */
+  --dpp-bright:#8b5cf6;    /* accent violet — lively accent for gradients */
+  --dpp-ink:#271454;       /* primary-950 — deep violet-black for dark sections */
+  --dpp-deepest:#1c0f3a;   /* even deeper violet-black to pair in gradients */
+  --leaf:#f4f1ff;          /* primary-50 — pale violet wash */
+  --leaf-200:#ebe5ff;      /* primary-100/200 — slightly deeper wash */
+  --violet-soft:#c4b5fd;   /* accent-300 — soft tint for on-dark accents */
   --edge:1px solid var(--gray-200);
   --mono:'Figtree', ui-monospace, monospace;
 }
@@ -31,31 +35,31 @@
 .kicker{font-weight:700;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dpp);
   display:inline-flex;align-items:center;gap:10px}
 .kicker::before{content:"";width:22px;height:1.5px;background:var(--dpp);display:inline-block}
-.kicker.on-dark{color:#7ff0c0}
-.kicker.on-dark::before{background:#7ff0c0}
+.kicker.on-dark{color:var(--violet-soft)}
+.kicker.on-dark::before{background:var(--violet-soft)}
 
-/* emerald button variants (extend design-system .btn) */
+/* violet button variants (extend design-system .btn) */
 .btn-dpp{background:var(--dpp);color:#fff}
-.btn-dpp:hover{background:var(--dpp-deep);transform:translateY(-2px);box-shadow:0 12px 26px rgba(15,157,107,.28)}
+.btn-dpp:hover{background:var(--dpp-deep);transform:translateY(-2px);box-shadow:0 12px 26px rgba(105,65,198,.30)}
 .btn-outline{background:transparent;border:1.5px solid var(--gray-200);color:var(--navy)}
 .btn-outline:hover{border-color:var(--dpp);color:var(--dpp-deep)}
 .btn-light{background:#fff;color:var(--dpp-deep)}
 .btn-light:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
 .btn-glow{background:linear-gradient(120deg,var(--dpp-bright),var(--dpp-deep));color:#fff;
-  box-shadow:0 10px 26px rgba(18,193,127,.34)}
-.btn-glow:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(18,193,127,.46)}
+  box-shadow:0 10px 26px rgba(139,92,246,.38)}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(139,92,246,.50)}
 
 /* ---------- NAV ---------- */
 .nav-inner{gap:20px}
 .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
-.brand .brand-logo{height:38px;width:auto;display:block}
+.brand .brand-logo{height:34px;width:auto;display:block}
 .brand .mark{width:36px;height:36px;border-radius:11px;flex:none;display:grid;place-items:center;color:#fff;
-  background:linear-gradient(150deg,var(--dpp-bright),var(--dpp-deep));box-shadow:0 6px 16px rgba(15,157,107,.32)}
+  background:linear-gradient(150deg,var(--dpp-bright),var(--dpp-deep));box-shadow:0 6px 16px rgba(105,65,198,.34)}
 .brand .mark svg{width:19px;height:19px}
 .brand .wm{font-size:1.18rem;line-height:1}
 .brand .wm small{display:block;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--slate)}
-.nav-links{display:flex;align-items:center;gap:32px}
-.navlink{position:relative}
+.nav-links{display:flex;align-items:center;gap:28px}
+.navlink{position:relative;white-space:nowrap}
 .navlink::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:1.5px;background:var(--dpp);transition:right .28s cubic-bezier(.2,.7,.2,1)}
 .navlink:hover::after{right:0}
 .nav-cta{display:flex;align-items:center;gap:12px}
@@ -69,9 +73,9 @@
 .hero{position:relative;overflow:hidden;padding:clamp(66px,10vw,128px) 0 clamp(58px,8vw,104px)}
 .hero::before{content:"";position:absolute;inset:0;z-index:-2;
   background:
-    radial-gradient(1100px 620px at 82% -10%, rgba(18,193,127,.18), transparent 60%),
-    radial-gradient(720px 520px at 2% 30%, rgba(15,157,107,.10), transparent 62%),
-    linear-gradient(180deg,#f6fdfa 0%,var(--white) 48%)}
+    radial-gradient(1100px 620px at 82% -10%, rgba(139,92,246,.20), transparent 60%),
+    radial-gradient(720px 520px at 2% 30%, rgba(105,65,198,.10), transparent 62%),
+    linear-gradient(180deg,#faf8ff 0%,var(--white) 48%)}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;
   background-image:linear-gradient(var(--gray-200) 1px,transparent 1px),linear-gradient(90deg,var(--gray-200) 1px,transparent 1px);
   background-size:60px 60px;
@@ -80,6 +84,8 @@
 .hero-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:clamp(30px,5vw,72px);align-items:center}
 .hero h1{font-size:clamp(2.5rem,6vw,4.6rem);letter-spacing:-.035em;margin:22px 0 0}
 .hero h1 .grad{background:linear-gradient(100deg,var(--dpp-deep),var(--dpp-bright) 94%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* hero logo lockup — reads the product clearly above the headline */
+.hero-logo{display:block;height:clamp(46px,5.4vw,60px);width:auto;margin-bottom:4px}
 .hero .lead{margin-top:24px;font-size:clamp(1.06rem,1.7vw,1.28rem);max-width:52ch}
 .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
 .hero-trust{display:flex;align-items:center;gap:22px;margin-top:40px;flex-wrap:wrap;color:var(--slate);font-size:.86rem;font-weight:600}
@@ -89,7 +95,7 @@
 
 /* --- passport card visual --- */
 .pp-stage{position:relative;min-height:380px;display:grid;place-items:center}
-.pp-glow{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;filter:blur(46px);opacity:.5;
+.pp-glow{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;filter:blur(46px);opacity:.45;
   background:radial-gradient(circle,var(--dpp-bright),transparent 66%);z-index:-1}
 .passport{width:min(100%,360px);background:#fff;border:var(--edge);border-radius:var(--r-lg);
   box-shadow:var(--shadow-lg);overflow:hidden;animation:ppfloat 7s ease-in-out infinite}
@@ -101,8 +107,8 @@
 .pp-head .pp-t{font-weight:800;font-size:.98rem;line-height:1.1;letter-spacing:-.01em}
 .pp-head .pp-s{font-size:.68rem;opacity:.72;letter-spacing:.04em}
 .pp-verif{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:800;letter-spacing:.03em;
-  padding:6px 10px;border-radius:var(--r-pill);background:rgba(18,193,127,.22);color:#c8ffe6;
-  border:1px solid rgba(18,193,127,.5)}
+  padding:6px 10px;border-radius:var(--r-pill);background:rgba(139,92,246,.26);color:#ede9fe;
+  border:1px solid rgba(139,92,246,.55)}
 .pp-verif svg{width:13px;height:13px}
 .pp-body{padding:20px}
 .pp-prod{font-size:1.16rem;font-weight:800;letter-spacing:-.02em;line-height:1.15}
@@ -114,7 +120,7 @@
 .pp-chiprow{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
 .pp-chip{font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:var(--r-pill);
   background:var(--leaf);color:var(--dpp-deep)}
-.pp-foot{display:flex;align-items:center;gap:12px;padding:14px 20px;border-top:var(--edge);background:#fbfefc}
+.pp-foot{display:flex;align-items:center;gap:12px;padding:14px 20px;border-top:var(--edge);background:#fcfbff}
 .pp-qr{width:52px;height:52px;border-radius:10px;flex:none;padding:5px;background:#fff;border:var(--edge)}
 .pp-anchor .a1{font-size:.72rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
 .pp-anchor .a1 svg{width:13px;height:13px;color:var(--dpp)}
@@ -131,10 +137,10 @@
 @keyframes ppfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
 
 /* ---------- WHY NOW (regulation strip) ---------- */
-.whynow{background:linear-gradient(150deg,var(--dpp-ink),#0b3d2b);color:#fff;position:relative;overflow:hidden}
-.whynow::before{content:"";position:absolute;inset:0;opacity:.55;
-  background:radial-gradient(680px 420px at 90% -10%, rgba(18,193,127,.3), transparent 60%),
-            radial-gradient(560px 400px at 0% 110%, rgba(15,157,107,.22), transparent 62%)}
+.whynow{background:linear-gradient(150deg,var(--dpp-ink),var(--dpp-deepest));color:#fff;position:relative;overflow:hidden}
+.whynow::before{content:"";position:absolute;inset:0;opacity:.6;
+  background:radial-gradient(680px 420px at 90% -10%, rgba(139,92,246,.32), transparent 60%),
+            radial-gradient(560px 400px at 0% 110%, rgba(105,65,198,.24), transparent 62%)}
 .whynow .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(32px,5vw,72px);align-items:center}
 .whynow h2{color:#fff;max-width:18ch}
 .whynow .eu-lead{font-size:clamp(1.08rem,1.6vw,1.32rem);color:rgba(255,255,255,.86);line-height:1.6;max-width:48ch;margin-top:18px}
@@ -147,7 +153,7 @@
 .eu-list{list-style:none;margin:0;padding:0}
 .eu-list li{display:grid;grid-template-columns:64px 1fr;gap:16px;padding:16px 18px;align-items:start}
 .eu-list li+li{border-top:1px solid rgba(255,255,255,.1)}
-.eu-list .yr{font-family:var(--mono);font-weight:800;font-size:.92rem;color:#7ff0c0}
+.eu-list .yr{font-family:var(--mono);font-weight:800;font-size:.92rem;color:var(--violet-soft)}
 .eu-list .ev strong{display:block;color:#fff;font-weight:700;font-size:1rem;margin-bottom:2px}
 .eu-list .ev span{color:rgba(255,255,255,.6);font-size:.9rem}
 
@@ -165,7 +171,7 @@
 .step::before{counter-increment:step;content:"0" counter(step);position:absolute;top:20px;right:24px;
   font-family:var(--mono);font-weight:800;font-size:1.05rem;color:var(--dpp);opacity:.32;letter-spacing:.04em}
 .step .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:20px;
-  background:var(--leaf);color:var(--dpp-deep);border:1px solid rgba(15,157,107,.2)}
+  background:var(--leaf);color:var(--dpp-deep);border:1px solid rgba(105,65,198,.2)}
 .step .ic svg{width:26px;height:26px}
 .step h3{font-size:1.24rem;letter-spacing:-.02em}
 .step p{color:var(--slate);margin:10px 0 0;font-size:.98rem}
@@ -190,11 +196,11 @@
 .bf-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
 .bf-card{border:var(--edge);border-radius:var(--r-lg);padding:clamp(28px,3.4vw,40px);background:#fff;position:relative;overflow:hidden}
 .bf-card.for-brands{background:linear-gradient(165deg,#fff,var(--leaf))}
-.bf-card.for-buyers{background:linear-gradient(165deg,var(--dpp-ink),#0b3d2b);color:#fff}
+.bf-card.for-buyers{background:linear-gradient(165deg,var(--dpp-ink),var(--dpp-deepest));color:#fff}
 .bf-eyebrow{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:.74rem;letter-spacing:.14em;
   text-transform:uppercase;margin-bottom:14px}
 .bf-card.for-brands .bf-eyebrow{color:var(--dpp-deep)}
-.bf-card.for-buyers .bf-eyebrow{color:#7ff0c0}
+.bf-card.for-buyers .bf-eyebrow{color:var(--violet-soft)}
 .bf-card .bf-ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center}
 .bf-card.for-brands .bf-ic{background:var(--dpp);color:#fff}
 .bf-card.for-buyers .bf-ic{background:rgba(255,255,255,.14);color:#fff}
@@ -209,7 +215,7 @@
 .bf-card.for-buyers .bf-list li+li{border-top:1px solid rgba(255,255,255,.12)}
 .bf-list .ck{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px}
 .bf-card.for-brands .ck{background:var(--leaf);color:var(--dpp-deep)}
-.bf-card.for-buyers .ck{background:rgba(18,193,127,.24);color:#c8ffe6}
+.bf-card.for-buyers .ck{background:rgba(139,92,246,.28);color:#ede9fe}
 .bf-list .ck svg{width:13px;height:13px}
 .bf-list b{font-weight:700}
 .bf-card.for-brands .bf-list b{color:var(--navy)}
@@ -221,11 +227,11 @@
 .wa-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,3vw,40px);align-items:stretch}
 .wa-col{border:var(--edge);border-radius:var(--r-lg);padding:clamp(26px,3vw,38px);position:relative;overflow:hidden}
 .wa-col.them{background:#fff}
-.wa-col.us{background:linear-gradient(165deg,var(--dpp-ink),#0b3d2b);color:#fff;border-color:transparent}
+.wa-col.us{background:linear-gradient(165deg,var(--dpp-ink),var(--dpp-deepest));color:#fff;border-color:transparent}
 .wa-tag{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.72rem;letter-spacing:.14em;
   text-transform:uppercase;margin-bottom:14px}
 .wa-col.them .wa-tag{color:var(--slate)}
-.wa-col.us .wa-tag{color:#7ff0c0}
+.wa-col.us .wa-tag{color:var(--violet-soft)}
 .wa-col h3{font-size:1.32rem;letter-spacing:-.02em;margin-bottom:6px}
 .wa-col.us h3{color:#fff}
 .wa-col .wa-sub{font-size:.94rem;margin-bottom:20px}
@@ -239,13 +245,13 @@
 .wa-mark{width:20px;height:20px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px}
 .wa-mark svg{width:12px;height:12px}
 .wa-col.them .wa-mark{background:var(--gray-200);color:var(--slate)}
-.wa-col.us .wa-mark{background:rgba(18,193,127,.24);color:#c8ffe6}
+.wa-col.us .wa-mark{background:rgba(139,92,246,.28);color:#ede9fe}
 .wa-kicker-line{max-width:52ch}
 
 /* ---------- CTA BAND ---------- */
 .cta{position:relative;overflow:hidden;background:linear-gradient(130deg,var(--dpp-deep),var(--dpp-ink));color:#fff}
 .cta::before{content:"";position:absolute;inset:0;opacity:.6;
-  background:radial-gradient(620px 420px at 12% -20%, rgba(18,193,127,.4), transparent 60%),
+  background:radial-gradient(620px 420px at 12% -20%, rgba(139,92,246,.42), transparent 60%),
             radial-gradient(560px 420px at 100% 120%, rgba(255,255,255,.08), transparent 60%)}
 .cta::after{content:"";position:absolute;inset:0;opacity:.3;
   background-image:linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px);
@@ -264,7 +270,7 @@
   padding:clamp(24px,2.6vw,32px);transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
 .try-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--dpp) 30%,transparent)}
 .try-card .ti{width:50px;height:50px;border-radius:14px;flex:none;display:grid;place-items:center;color:#fff;
-  background:linear-gradient(150deg,var(--dpp-bright),var(--dpp-deep));box-shadow:0 8px 20px rgba(15,157,107,.28)}
+  background:linear-gradient(150deg,var(--dpp-bright),var(--dpp-deep));box-shadow:0 8px 20px rgba(105,65,198,.30)}
 .try-card .ti svg{width:25px;height:25px}
 .try-card h3{font-size:1.16rem;letter-spacing:-.015em;display:inline-flex;align-items:center;gap:8px}
 .try-card h3 svg{width:15px;height:15px;color:var(--dpp);flex:none;transition:transform .25s}
@@ -292,6 +298,7 @@
 .footer{padding-top:70px}
 .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-bottom:48px}
 .foot-brand .brand{color:#fff;margin-bottom:18px}
+.foot-brand .brand .brand-logo{height:40px}
 .foot-brand .brand .wm small{color:rgba(255,255,255,.55)}
 .foot-brand p{color:rgba(255,255,255,.6);max-width:38ch;font-size:.96rem}
 .foot-col h4{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px;font-weight:700}
@@ -300,7 +307,7 @@
 .foot-bar{border-top:1px solid rgba(255,255,255,.12);padding:24px 0;display:flex;justify-content:space-between;
   align-items:center;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.9rem}
 .foot-bar .made{display:inline-flex;align-items:center;gap:8px}
-.foot-bar .made svg{color:#7ff0c0}
+.foot-bar .made svg{color:var(--violet-soft)}
 
 /* ---------- BUILT IN THE OPEN (modest single-link strip) ---------- */
 #oss{background:linear-gradient(180deg,var(--bg),#fff)}
@@ -374,6 +381,7 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="reveal">
+      <img class="hero-logo" src="assets/dpp-logo-dark.svg" alt="The DPP Company" width="213" height="44" />
       <span class="kicker">Agentic product intelligence</span>
       <h1>An AI agent that verifies and <span class="grad">passports physical products.</span></h1>
       <p class="lead">Every other passport tool hands you a dashboard and leaves the work to your team. The DPP Company is an <b>autonomous verification agent</b> instead: point it at a product and it authenticates the item, traces its provenance and supply chain, reads its materials and certifications, flags counterfeits, then issues and keeps its EU-DPP-aligned Digital Product Passport current — from a single scan, with every finding checkable and anchored on-chain.</p>
@@ -420,10 +428,10 @@
         <div class="pp-foot">
           <svg class="pp-qr" viewBox="0 0 100 100" role="img" aria-label="QR code">
             <rect width="100" height="100" fill="#fff"/>
-            <g fill="#07281c">
-              <rect x="8" y="8" width="26" height="26"/><rect x="14" y="14" width="14" height="14" fill="#fff"/><rect x="18" y="18" width="6" height="6" fill="#07281c"/>
-              <rect x="66" y="8" width="26" height="26"/><rect x="72" y="14" width="14" height="14" fill="#fff"/><rect x="76" y="18" width="6" height="6" fill="#07281c"/>
-              <rect x="8" y="66" width="26" height="26"/><rect x="14" y="72" width="14" height="14" fill="#fff"/><rect x="18" y="76" width="6" height="6" fill="#07281c"/>
+            <g fill="#271454">
+              <rect x="8" y="8" width="26" height="26"/><rect x="14" y="14" width="14" height="14" fill="#fff"/><rect x="18" y="18" width="6" height="6" fill="#271454"/>
+              <rect x="66" y="8" width="26" height="26"/><rect x="72" y="14" width="14" height="14" fill="#fff"/><rect x="76" y="18" width="6" height="6" fill="#271454"/>
+              <rect x="8" y="66" width="26" height="26"/><rect x="14" y="72" width="14" height="14" fill="#fff"/><rect x="18" y="76" width="6" height="6" fill="#271454"/>
               <rect x="42" y="10" width="6" height="6"/><rect x="52" y="10" width="6" height="6"/><rect x="42" y="20" width="6" height="6"/><rect x="42" y="42" width="6" height="6"/><rect x="52" y="42" width="6" height="6"/><rect x="62" y="42" width="6" height="6"/><rect x="72" y="42" width="6" height="6"/><rect x="84" y="42" width="6" height="6"/><rect x="42" y="52" width="6" height="6"/><rect x="62" y="52" width="6" height="6"/><rect x="84" y="52" width="6" height="6"/><rect x="42" y="62" width="6" height="6"/><rect x="52" y="62" width="6" height="6"/><rect x="72" y="62" width="6" height="6"/><rect x="52" y="72" width="6" height="6"/><rect x="62" y="72" width="6" height="6"/><rect x="84" y="72" width="6" height="6"/><rect x="52" y="84" width="6" height="6"/><rect x="72" y="84" width="6" height="6"/><rect x="84" y="84" width="6" height="6"/>
             </g>
           </svg>
@@ -646,10 +654,10 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <div>
-        <span class="kicker">Try it</span>
-        <h2>See the passport — two ways.</h2>
+        <span class="kicker">See it work</span>
+        <h2>See the passport in action.</h2>
       </div>
-      <p class="muted">Book a walkthrough of the verification agent, or scan a product the way a shopper would. The scan is a live, illustrative demo — no sign-up.</p>
+      <p class="muted">Book a walkthrough and we'll show you both sides live — the verification agent working a product for a brand, and the shopper's scan-to-verify experience on a phone.</p>
     </div>
     <figure class="reveal" style="margin:0 0 clamp(28px,4vw,44px);border-radius:20px;overflow:hidden;border:1px solid var(--gray-200);box-shadow:0 24px 60px rgba(16,32,64,.12)">
       <img src="media/screens.gif" alt="The DPP Company product experience — the Digital Product Passport welcome screen on a phone, a verified product detail view, a shopper's saved collection, and the brand-side passport builder" loading="lazy" decoding="async" style="width:100%;display:block" />
@@ -665,14 +673,14 @@
           <div class="tmeta">30-minute walkthrough</div>
         </div>
       </a>
-      <a class="try-card reveal" href="scan/">
+      <a class="try-card reveal" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">
         <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M4 12h16"/></svg></span>
         <div>
-          <h3>Scan a product
+          <h3>See the shopper scan
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </h3>
-          <p>The shopper's view: point a phone at a product tag and watch its Digital Product Passport verify and unfold on screen.</p>
-          <div class="tmeta">Mobile scan · phone demo</div>
+          <p>The buyer's view: watch a phone tap a product tag and its Digital Product Passport verify and unfold on screen — demoed with our team.</p>
+          <div class="tmeta">Included in the walkthrough</div>
         </div>
       </a>
     </div>
@@ -690,7 +698,7 @@
         <a class="btn btn-glow" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)" href="scan/">Scan a product</a>
+        <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)" href="#try">See it work</a>
       </div>
     </div>
   </div>
@@ -781,9 +789,8 @@
       </div>
 
       <div class="foot-col">
-        <h4>Try it</h4>
+        <h4>Get started</h4>
         <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
-        <a href="scan/">Scan a product</a>
         <a href="#try">See it work</a>
         <a href="../index.html">Pandora</a>
       </div>

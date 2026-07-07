@@ -66,7 +66,7 @@
       padding:6px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#f6ecd9}
     .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--c-aconomy-mint);box-shadow:0 0 10px var(--c-aconomy-mint)}
     .hero .eyebrow{color:#ffd79a}
-    .hero h1{font-size:clamp(2.6rem,5.6vw,4.15rem);letter-spacing:-.03em;line-height:1.01;margin-bottom:20px;font-weight:700}
+    .hero h1{color:#fff;font-size:clamp(2.6rem,5.6vw,4.15rem);letter-spacing:-.03em;line-height:1.01;margin-bottom:20px;font-weight:700}
     .hero h1 .grad{background:linear-gradient(100deg,#ffcf72 0%,#f1a940 48%,#ffdca0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
     .hero .lead{color:rgba(246,236,217,.82);max-width:46ch;font-size:clamp(1.05rem,1.7vw,1.24rem)}
     .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
@@ -81,10 +81,15 @@
       box-shadow:0 24px 60px rgba(3,4,12,.55);transition:.35s cubic-bezier(.2,.7,.2,1)}
     .nft:hover{transform:translateY(-6px);border-color:var(--um-line);box-shadow:0 32px 72px rgba(3,4,12,.7)}
     .nft .art{aspect-ratio:1/1;position:relative;overflow:hidden}
-    .nft .art::after{content:"";position:absolute;inset:0;background:
+    /* generic generative-art placeholder mark: soft ring + faceted diamond, blended into the tile's own palette */
+    .nft .art::before{content:"";position:absolute;inset:0;z-index:1;background:
+      radial-gradient(circle at 50% 50%,transparent 26%,rgba(255,255,255,.5) 27%,rgba(255,255,255,.5) 28%,transparent 29%),
+      conic-gradient(from 45deg at 50% 50%,transparent 0deg,rgba(255,255,255,.35) 12deg,transparent 24deg,transparent 90deg,rgba(255,255,255,.35) 102deg,transparent 114deg,transparent 180deg,rgba(255,255,255,.35) 192deg,transparent 204deg,transparent 270deg,rgba(255,255,255,.35) 282deg,transparent 294deg);
+      mix-blend-mode:overlay;opacity:.55}
+    .nft .art::after{content:"";position:absolute;inset:0;z-index:2;background:
       radial-gradient(120% 90% at 20% 15%,rgba(255,255,255,.28),transparent 45%),
       radial-gradient(80% 80% at 85% 90%,rgba(0,0,0,.35),transparent 55%);mix-blend-mode:overlay}
-    .nft .grain{position:absolute;inset:0;opacity:.5;background-image:
+    .nft .grain{position:absolute;inset:0;z-index:3;opacity:.5;background-image:
       radial-gradient(rgba(255,255,255,.16) .6px,transparent .6px);background-size:6px 6px}
     .nft .meta{padding:12px 13px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px}
     .nft .meta .t{font-size:.82rem;font-weight:700;color:#fff;letter-spacing:-.01em}
@@ -97,12 +102,12 @@
     .gallery-grid > .col{display:grid;gap:16px;align-content:start}
     .gallery-grid > .col.push{margin-top:34px}
     @media(max-width:940px){.gallery-grid > .col.push{margin-top:0}}
-    /* art gradient palettes */
-    .g1{background:linear-gradient(150deg,#ff8a00,#f1a940 45%,#7a4bff)}
-    .g2{background:linear-gradient(150deg,#00abbe,#00ffc2 60%,#0b6bff)}
-    .g3{background:linear-gradient(150deg,#7949e8,#c86bff 55%,#ff6bd0)}
-    .g4{background:linear-gradient(150deg,#0b1220,#2b3f7a 55%,#f1a940)}
-    .g5{background:linear-gradient(150deg,#ff5f6d,#ffc371)}
+    /* art gradient palettes — layered radial + linear for a generative-art feel, not a flat swatch */
+    .g1{background:radial-gradient(120% 140% at 15% 0%,rgba(255,255,255,.22),transparent 44%),linear-gradient(155deg,#ff8a00,#f1a940 42%,#7a4bff 78%,#4b2ea3)}
+    .g2{background:radial-gradient(120% 140% at 15% 0%,rgba(255,255,255,.22),transparent 44%),linear-gradient(155deg,#00abbe,#00ffc2 55%,#0b6bff 82%,#062e8f)}
+    .g3{background:radial-gradient(120% 140% at 15% 0%,rgba(255,255,255,.22),transparent 44%),linear-gradient(155deg,#7949e8,#c86bff 50%,#ff6bd0 82%,#8a1f6a)}
+    .g4{background:radial-gradient(120% 140% at 85% 100%,rgba(241,169,64,.28),transparent 48%),linear-gradient(155deg,#0b1220,#2b3f7a 55%,#f1a940 100%)}
+    .g5{background:radial-gradient(120% 140% at 15% 0%,rgba(255,255,255,.24),transparent 44%),linear-gradient(155deg,#ff5f6d,#ffc371 70%,#d6431f)}
     .float-badge{position:absolute;z-index:3;display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;
       color:#231704;background:linear-gradient(135deg,var(--um-gold),var(--um-gold-2));padding:7px 12px;border-radius:var(--r-pill);
       box-shadow:0 10px 26px rgba(241,169,64,.45)}
@@ -142,9 +147,14 @@
     .dcard{background:#12152a;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;transition:.3s cubic-bezier(.2,.7,.2,1)}
     .dcard:hover{transform:translateY(-6px);border-color:var(--um-line);box-shadow:0 26px 60px rgba(3,4,12,.6)}
     .dcard .art{aspect-ratio:4/3;position:relative;overflow:hidden}
-    .dcard .art::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 20% 12%,rgba(255,255,255,.24),transparent 46%),radial-gradient(80% 80% at 85% 92%,rgba(0,0,0,.4),transparent 55%);mix-blend-mode:overlay}
-    .dcard .grain{position:absolute;inset:0;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.16) .6px,transparent .6px);background-size:6px 6px}
-    .dcard .tagline{position:absolute;top:12px;left:12px;z-index:2;font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    /* same generic generative-art placeholder mark as the hero gallery, for a consistent framing across the page */
+    .dcard .art::before{content:"";position:absolute;inset:0;z-index:1;background:
+      radial-gradient(circle at 50% 50%,transparent 30%,rgba(255,255,255,.5) 31%,rgba(255,255,255,.5) 32%,transparent 33%),
+      conic-gradient(from 45deg at 50% 50%,transparent 0deg,rgba(255,255,255,.32) 12deg,transparent 24deg,transparent 90deg,rgba(255,255,255,.32) 102deg,transparent 114deg,transparent 180deg,rgba(255,255,255,.32) 192deg,transparent 204deg,transparent 270deg,rgba(255,255,255,.32) 282deg,transparent 294deg);
+      mix-blend-mode:overlay;opacity:.5}
+    .dcard .art::after{content:"";position:absolute;inset:0;z-index:2;background:radial-gradient(120% 90% at 20% 12%,rgba(255,255,255,.24),transparent 46%),radial-gradient(80% 80% at 85% 92%,rgba(0,0,0,.4),transparent 55%);mix-blend-mode:overlay}
+    .dcard .grain{position:absolute;inset:0;z-index:3;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.16) .6px,transparent .6px);background-size:6px 6px}
+    .dcard .tagline{position:absolute;top:12px;left:12px;z-index:4;font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
       color:#231704;background:rgba(255,255,255,.9);padding:4px 9px;border-radius:var(--r-pill)}
     .dcard .body{padding:15px 15px 17px}
     .dcard .cname{font-size:1rem;font-weight:700;color:#fff;letter-spacing:-.01em}

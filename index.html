@@ -208,9 +208,11 @@
     font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;color:var(--slate)}
   .pw-rail-head .net{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--pan-blue);
     background:rgba(0,108,255,.1);border:1px solid rgba(0,108,255,.2);padding:4px 11px;border-radius:var(--r-pill)}
-  .pw-tl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr)}
+  .pw-tl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr)}
   .pw-tl li{padding:22px;position:relative}
   .pw-tl li+li{border-left:1px solid var(--gray-200)}
+  .pw-tl li:nth-child(4){border-left:0}
+  .pw-tl li:nth-child(n+4){border-top:1px solid var(--gray-200)}
   .pw-tl .yr{font-family:var(--mono);font-weight:700;font-size:.82rem;color:var(--pan-blue);letter-spacing:.04em}
   .pw-tl .ev{display:block;color:var(--navy);font-weight:700;font-size:1rem;margin:9px 0 4px}
   .pw-tl .de{color:var(--slate);font-size:.86rem;line-height:1.5}
@@ -580,7 +582,9 @@
      ============================================================ */
   .pcard .pcard-link{position:absolute;inset:0;z-index:1;border-radius:var(--r-lg)}
   .pcard .pmark{flex-direction:column;align-items:flex-start;gap:9px}
-  .pcard .plogo{height:24px;width:auto;max-width:190px;object-fit:contain;object-position:left center;display:block}
+  .pcard .plogo{height:26px;width:auto;max-width:172px;object-fit:contain;object-position:left center;display:block}
+  .pcard .plogo-propty{height:30px}
+  .pcard .plogo-dpp{height:30px}
   .pcard .pname{font-size:1.24rem;font-weight:800;letter-spacing:-.025em;line-height:1.04;color:var(--navy)}
   .pcard .pactions{position:relative;z-index:2;justify-content:space-between;pointer-events:none}
   .pcard .pactions .btn{pointer-events:auto}
@@ -754,7 +758,7 @@
         <a class="pcard-link" href="express-protocol/index.html" aria-label="Express Protocol — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo" src="assets/logos/ExpressProtocol_Dark.svg" alt="Express Protocol" width="180" height="24" />
+            <img class="plogo" src="assets/logos/ExpressProtocol_Dark.svg" alt="Express Protocol" height="26" />
             <div class="psub">Agentic commerce SDK</div>
           </div>
           <span class="pnum">01</span>
@@ -763,7 +767,7 @@
         <p class="desc">The open-source SDK that gives AI agents the primitives to <b>discover, transact and settle on their own</b> — one typed interface over mint, trade and payments, with an x402 module for autonomous settlement.</p>
         <div class="ptags"><span class="ptag">AI agents</span><span class="ptag">x402 payments</span><span class="ptag">Audited</span></div>
         <div class="pactions">
-          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
           <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
@@ -772,7 +776,7 @@
         <a class="pcard-link" href="aconomy/index.html" aria-label="Aconomy — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo" src="assets/logos/Aconomy_Dark.png" alt="Aconomy" width="180" height="24" />
+            <img class="plogo" src="assets/logos/Aconomy_Dark.png" alt="Aconomy" height="26" />
             <div class="psub">RWA marketplace</div>
           </div>
           <span class="pnum">02</span>
@@ -781,7 +785,25 @@
         <p class="desc">An AI-assisted marketplace for <b>real-world assets</b> — tokenize, validate and trade watches, real estate, gold and art, with an AI agent guiding discovery and validation and on-chain records keeping provenance verifiable.</p>
         <div class="ptags"><span class="ptag">Applied AI</span><span class="ptag">Real-world assets</span><span class="ptag">Live app</span></div>
         <div class="pactions">
-          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
+      </div>
+
+      <div class="pcard reveal" style="--acc:var(--c-unity)">
+        <a class="pcard-link" href="unitymarket/index.html" aria-label="UnityMarket — view page"></a>
+        <div class="pcard-top">
+          <div class="pmark">
+            <img class="plogo" src="assets/logos/UnityMarket_Dark.svg" alt="UnityMarket" height="26" />
+            <div class="psub">NFT marketplace</div>
+          </div>
+          <span class="pnum">03</span>
+        </div>
+        <span class="pstatus"><span class="lv"></span>On Express Protocol</span>
+        <p class="desc">A creator-first NFT marketplace to mint, discover, buy, sell and auction digital collectibles — <b>one of the earliest products we built</b>, and a proof point for the Express Protocol rails that now power agentic commerce.</p>
+        <div class="ptags"><span class="ptag">NFTs</span><span class="ptag">Marketplace</span><span class="ptag">On Express</span></div>
+        <div class="pactions">
+          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
           <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
@@ -790,36 +812,49 @@
         <a class="pcard-link" href="propty/index.html" aria-label="Propty — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo" src="assets/logos/propty-horizontal.svg" alt="Propty" height="24" />
+            <img class="plogo plogo-propty" src="assets/logos/propty-horizontal.svg" alt="Propty" height="26" />
             <div class="psub">AI leasing agent · private by ZK</div>
           </div>
-          <span class="pnum">03</span>
+          <span class="pnum">04</span>
         </div>
         <span class="pstatus"><span class="lv"></span>In development</span>
         <p class="desc">The AI leasing agent — <b>private by zero-knowledge</b>. It screens newcomers with no credit file, drafts the lease and guarantees the owner's payout, proving eligibility without over-sharing a tenant's personal data.</p>
         <div class="ptags"><span class="ptag">AI screening</span><span class="ptag">Zero-knowledge</span><span class="ptag">Guaranteed rent</span></div>
         <div class="pactions">
-          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
           <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
-      <div class="pcard reveal" style="--acc:#0f9d6b">
+      <div class="pcard reveal" style="--acc:#6941C6">
         <a class="pcard-link" href="dpp/index.html" aria-label="The DPP Company — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <div class="pname">The DPP Company</div>
+            <img class="plogo plogo-dpp" src="assets/logos/dpp-horizontal.svg" alt="The DPP Company" height="26" />
             <div class="psub">Product passports</div>
           </div>
-          <span class="pnum">04</span>
+          <span class="pnum">05</span>
         </div>
         <span class="pstatus"><span class="lv"></span>In development</span>
         <p class="desc">An <b>AI agent that verifies and passports physical products</b>. From one scan it authenticates an item, traces provenance, reads certifications, flags counterfeits, and issues its Digital Product Passport — anchored on-chain, EU-DPP aligned.</p>
         <div class="ptags"><span class="ptag">AI verification</span><span class="ptag">Provenance</span><span class="ptag">EU DPP-aligned</span></div>
         <div class="pactions">
-          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
           <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
+      </div>
+
+      <div class="pcard pcard-soon reveal" style="--acc:#C99A4E">
+        <div class="pcard-top">
+          <div class="pmark">
+            <div class="pname">Auri</div>
+            <div class="psub">Programmable-gold neobank · Canada</div>
+          </div>
+          <span class="pnum">06</span>
+        </div>
+        <span class="pstatus"><span class="lv"></span>Coming soon</span>
+        <p class="desc">A <b>programmable-gold neobank for Canada</b> — own real, audited gold, then borrow against it, spend it, send it worldwide, or let your AI agent manage it via MCP.</p>
+        <div class="ptags"><span class="ptag">Programmable gold</span><span class="ptag">Neobank</span><span class="ptag">Canada</span></div>
       </div>
 
       <div class="pcard pcard-soon reveal" style="--acc:#6c5ce7">
@@ -828,42 +863,11 @@
             <div class="pname">Vanna Protocol</div>
             <div class="psub">Risk &amp; margin infrastructure</div>
           </div>
-          <span class="pnum">05</span>
+          <span class="pnum">07</span>
         </div>
         <span class="pstatus"><span class="lv"></span>Coming soon</span>
         <p class="desc">Risk-margin infrastructure <b>built to keep you out of liquidation</b> — under-collateralized positions steered by trading agents through Vanna MCPs.</p>
         <div class="ptags"><span class="ptag">Risk engine</span><span class="ptag">Trading agents</span><span class="ptag">MCP</span></div>
-      </div>
-
-      <div class="pcard pcard-soon reveal" style="--acc:#C99A4E">
-        <div class="pcard-top">
-          <div class="pmark">
-            <div class="pname">Auri</div>
-            <div class="psub">Programmable-gold neobank</div>
-          </div>
-          <span class="pnum">06</span>
-        </div>
-        <span class="pstatus"><span class="lv"></span>Coming soon</span>
-        <p class="desc">A programmable-gold neobank. <b>Own real, audited gold</b> — borrow against it, spend it, send it worldwide, or let your AI agent manage it via MCP.</p>
-        <div class="ptags"><span class="ptag">Programmable gold</span><span class="ptag">Neobank</span><span class="ptag">MCP</span></div>
-      </div>
-
-      <div class="pcard reveal" style="--acc:var(--c-unity)">
-        <a class="pcard-link" href="unitymarket/index.html" aria-label="UnityMarket — view page"></a>
-        <div class="pcard-top">
-          <div class="pmark">
-            <img class="plogo" src="assets/logos/UnityMarket_Dark.svg" alt="UnityMarket" width="180" height="24" />
-            <div class="psub">NFT marketplace</div>
-          </div>
-          <span class="pnum">07</span>
-        </div>
-        <span class="pstatus"><span class="lv"></span>On Express Protocol</span>
-        <p class="desc">A creator-first NFT marketplace to mint, discover, buy, sell and auction digital collectibles — <b>one of the earliest products we built</b>, and a proof point for the Express Protocol rails that now power agentic commerce.</p>
-        <div class="ptags"><span class="ptag">NFTs</span><span class="ptag">Marketplace</span><span class="ptag">On Express</span></div>
-        <div class="pactions">
-          <a class="btn btn-glow small" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
       </div>
 
     </div>
@@ -892,14 +896,14 @@
       <div class="pw reveal">
         <span class="pw-tag">Verified</span>
         <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
-        <div class="pw-n" data-count="2" data-suffix="">2</div>
+        <div class="pw-n">2</div>
         <div class="pw-k">Independent audits</div>
         <div class="pw-s">QuillAudits · 0 open findings. Zokyo · 100/100.</div>
       </div>
       <div class="pw reveal">
         <span class="pw-tag">Built</span>
         <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8M8 12h8M8 17h5"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg></span>
-        <div class="pw-n" data-count="7" data-suffix="">7</div>
+        <div class="pw-n">7</div>
         <div class="pw-k">Products</div>
         <div class="pw-s">One team, one foundation — agents plus verifiable rails.</div>
       </div>

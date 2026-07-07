@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Propty — The docs' lease platform, operated by an AI agent, private by zero-knowledge.</title>
+<title>Propty — The complete lease platform, operated by an AI agent, private by zero-knowledge.</title>
 <meta name="description" content="Propty is the complete lease platform — listings, viewings, verification and e-signed leases — operated by an AI agent and made private by zero-knowledge. The agent rents you a home and guarantees the rent; tenant documents are proven, never shared.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,10 +20,10 @@
     --ink-2:#3d4b66;           /* mid text on light */
   }
 
-  /* Brand logo in nav — hi-res SVG wordmark (viewBox 227×119, art is inset) */
+  /* Brand logo in nav — tight-cropped hi-res SVG wordmark (fills its box) */
   .brandmark{display:inline-flex;align-items:center;gap:10px}
-  .brandmark img{height:42px;width:auto;display:block}
-  .nav-cta{display:flex;align-items:center;gap:18px}
+  .nav .brandmark img{height:34px;width:auto;display:block}
+  .nav-cta{display:flex;align-items:center;gap:22px}
   .nav a.navlink:hover{color:var(--teal)}
 
   /* Verified chip */
@@ -92,7 +92,8 @@
   .pc-line{display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--ink-2)}
   .pc-line .tick{width:18px;height:18px;border-radius:50%;background:var(--teal-soft);color:var(--teal);display:grid;place-items:center;flex:0 0 auto}
   .pc-line .tick svg{width:11px;height:11px}
-  .pc-float{position:absolute;right:-14px;top:78px;background:var(--navy);color:#fff;border-radius:14px;padding:11px 14px;box-shadow:var(--shadow-lg);font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:9px}
+  .protect-card{overflow:visible}
+  .pc-float{position:absolute;right:14px;bottom:-16px;background:var(--navy);color:#fff;border-radius:12px;padding:10px 15px;box-shadow:var(--shadow-lg);font-size:.78rem;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;z-index:4}
   .pc-float .up{color:var(--c-aconomy-mint);font-weight:800}
 
   /* ===== Section shared ===== */
@@ -119,23 +120,24 @@
   .prob-list .x{width:22px;height:22px;border-radius:6px;background:#fff0ef;color:#d64545;display:grid;place-items:center;flex:0 0 auto;margin-top:1px}
   .prob-list .x svg{width:12px;height:12px}
 
-  /* ===== Participants (platform) ===== */
-  .party-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
-  .party{position:relative;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:30px;transition:.25s;display:flex;flex-direction:column}
+  /* ===== Participants (platform) — evenly-aligned cards ===== */
+  .party-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;align-items:stretch}
+  .party{position:relative;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:30px;transition:.25s;display:flex;flex-direction:column;height:100%}
   .party:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
-  .party .ptop{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-  .party .pic{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;flex:0 0 auto;background:var(--teal-soft);color:var(--teal)}
-  .party .pic svg{width:24px;height:24px}
-  .party .role{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
-  .party h3{font-size:1.22rem;font-weight:800;margin-top:1px}
-  .party .pdesc{font-size:.92rem;color:var(--slate);margin:6px 0 16px}
-  .party ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
-  .party ul li{display:flex;gap:9px;font-size:.9rem;color:var(--ink-2);line-height:1.5}
-  .party ul li .t{width:17px;height:17px;border-radius:50%;background:var(--teal-soft);color:var(--teal);display:grid;place-items:center;flex:0 0 auto;margin-top:2px}
-  .party ul li .t svg{width:10px;height:10px}
-  .party .pnote{margin-top:16px;padding-top:14px;border-top:1px dashed var(--gray-200);font-size:.82rem;color:var(--slate)}
+  .party .ptop{display:flex;align-items:center;gap:14px;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--gray-200)}
+  .party .pic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto;background:var(--teal-soft);color:var(--teal)}
+  .party .pic svg{width:26px;height:26px}
+  .party .role{display:block;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:3px}
+  .party h3{font-size:1.24rem;font-weight:800;line-height:1.1}
+  .party .pdesc{font-size:.92rem;color:var(--slate);margin:0 0 18px;min-height:2.9em}
+  .party ul{list-style:none;padding:0;margin:0 0 18px;display:flex;flex-direction:column;gap:12px}
+  .party ul li{position:relative;padding-left:28px;font-size:.9rem;color:var(--ink-2);line-height:1.5}
+  .party ul li b{color:var(--navy);font-weight:700}
+  .party ul li .t{position:absolute;left:0;top:2px;width:18px;height:18px;border-radius:50%;background:var(--teal-soft);color:var(--teal);display:grid;place-items:center;flex:0 0 auto}
+  .party ul li .t svg{width:11px;height:11px}
+  .party .pnote{margin-top:auto;padding-top:16px;border-top:1px dashed var(--gray-200);font-size:.82rem;color:var(--slate);line-height:1.5}
   .party .pnote b{color:var(--teal);font-weight:700}
-  .party.host{border-color:var(--teal-line)}
+  .party.host{border-color:var(--teal-line);box-shadow:0 0 0 1px var(--teal-line)}
 
   /* ===== Lease lifecycle timeline ===== */
   .life{margin-top:48px;display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
@@ -197,17 +199,6 @@
   .feat .tag{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:.75rem;font-weight:700;color:var(--teal)}
   .feat .tag svg{width:12px;height:12px}
 
-  /* ===== See it in action (videos) ===== */
-  .vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:44px}
-  .vidcard{background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-lg);padding:14px;transition:.25s}
-  .vidcard:hover{box-shadow:var(--shadow-lg);border-color:transparent}
-  .vidcard video{width:100%;border-radius:var(--r);display:block;background:#04231c;aspect-ratio:16/9;object-fit:cover}
-  .vidcard .vmeta{display:flex;align-items:center;gap:10px;padding:14px 8px 6px}
-  .vidcard .vmeta .vic{width:34px;height:34px;border-radius:10px;background:var(--teal-soft);color:var(--teal);display:grid;place-items:center;flex:0 0 auto}
-  .vidcard .vmeta .vic svg{width:18px;height:18px}
-  .vidcard .vmeta h4{font-size:1rem;font-weight:700;margin:0}
-  .vidcard .vmeta p{font-size:.82rem;color:var(--slate);margin:2px 0 0}
-
   /* ===== Compliance strip ===== */
   .compliance{background:linear-gradient(135deg,#0f2a22,#06463a);border-radius:var(--r-lg);padding:52px 44px;color:#fff;position:relative;overflow:hidden}
   .compliance::before{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;
@@ -263,10 +254,10 @@
   .btn-outline-w:hover{border-color:#fff;background:rgba(255,255,255,.08)}
 
   /* ===== App preview (hero-adjacent product visual) ===== */
-  .screens-slot{margin-top:48px}
+  .screens-slot{margin-top:56px}
   .app-preview{margin:0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--gray-200);
     box-shadow:var(--shadow-lg);background:#fff}
-  .ap-chrome{display:flex;align-items:center;gap:14px;padding:12px 18px;background:linear-gradient(180deg,#fbfdfc,#f4f7f6);border-bottom:1px solid var(--gray-200)}
+  .ap-chrome{display:flex;align-items:center;gap:14px;padding:13px 20px;background:linear-gradient(180deg,#fbfdfc,#f4f7f6);border-bottom:1px solid var(--gray-200)}
   .ap-dots{display:inline-flex;gap:7px}
   .ap-dots i{width:11px;height:11px;border-radius:50%;background:var(--gray-200)}
   .ap-dots i:first-child{background:#ff5f57}.ap-dots i:nth-child(2){background:#febc2e}.ap-dots i:last-child{background:#28c840}
@@ -274,24 +265,46 @@
     background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-pill);padding:6px 14px}
   .ap-url svg{width:13px;height:13px;color:var(--teal)}
   .ap-brand{margin-left:auto;display:inline-flex;align-items:center}
-  .ap-brand img{height:26px;width:auto;display:block}
-  .ap-body{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:26px;background:
+  .ap-brand img{height:30px;width:auto;display:block}
+
+  /* Stage rail — reads as a real product pipeline across the top */
+  .ap-stage{display:flex;align-items:center;gap:0;padding:16px 26px 4px;background:
+    radial-gradient(70% 80% at 85% 0%,rgba(0,88,67,.05),transparent 60%),#fff}
+  .ap-stage .st{display:flex;align-items:center;gap:10px}
+  .ap-stage .st .sd{width:26px;height:26px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;
+    font-size:.74rem;font-weight:800;background:var(--teal);color:#fff}
+  .ap-stage .st.todo .sd{background:var(--teal-soft);color:var(--teal);border:1px solid var(--teal-line)}
+  .ap-stage .st .sl{display:flex;flex-direction:column;line-height:1.15}
+  .ap-stage .st .sl b{font-size:.82rem;font-weight:700;color:var(--navy)}
+  .ap-stage .st .sl span{font-size:.68rem;color:var(--slate)}
+  .ap-stage .sc-line{flex:1;height:2px;margin:0 12px;border-radius:2px;
+    background:repeating-linear-gradient(90deg,var(--teal-line) 0 7px,transparent 7px 14px)}
+
+  .ap-body{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch;padding:20px 26px 26px;background:
     radial-gradient(60% 60% at 85% 0%,rgba(0,88,67,.05),transparent 60%),#fff}
-  .ap-panel{position:relative;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:9px}
+  .ap-panel{position:relative;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px}
   .ap-panel.accent{background:linear-gradient(180deg,var(--teal-tint),#fff);border-color:var(--teal-line)}
-  .ap-tag{align-self:flex-start;font-size:.64rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  .ap-phead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .ap-tag{font-size:.64rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
     color:var(--slate);background:var(--bg);border:1px solid var(--gray-200);padding:4px 9px;border-radius:var(--r-pill)}
   .ap-tag.proof{color:var(--teal);background:var(--teal-soft);border-color:var(--teal-line)}
-  .ap-photo{height:92px;border-radius:10px;background:
-    linear-gradient(135deg,#0a7057,#04352a);position:relative;overflow:hidden}
+  .ap-step-no{font-size:.66rem;font-weight:800;color:var(--gray-300);letter-spacing:.04em}
+  .ap-photo{height:96px;border-radius:10px;background:
+    linear-gradient(135deg,#0a7057,#04352a);position:relative;overflow:hidden;display:grid;place-items:center}
   .ap-photo::after{content:"";position:absolute;inset:0;opacity:.5;
     background-image:linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px);background-size:22px 22px}
-  .ap-panel h5{font-size:.92rem;font-weight:700;color:var(--navy);margin:2px 0 0}
+  .ap-photo .pin{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:700;
+    color:#eafff7;background:rgba(4,53,42,.5);border:1px solid rgba(255,255,255,.24);padding:5px 11px;border-radius:var(--r-pill)}
+  .ap-photo .pin svg{width:12px;height:12px}
+  .ap-panel h5{font-size:.94rem;font-weight:700;color:var(--navy);margin:2px 0 0;letter-spacing:-.01em}
   .ap-sub{font-size:.78rem;color:var(--slate);margin:0}
   .ap-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
-  .ap-chip{font-size:.68rem;font-weight:600;color:var(--ink-2);background:var(--bg);border:1px solid var(--gray-200);padding:3px 8px;border-radius:var(--r-pill)}
-  .ap-cta-row{margin-top:auto}
-  .ap-btn{display:inline-block;width:100%;text-align:center;font-size:.78rem;font-weight:700;color:#fff;background:var(--teal);border-radius:9px;padding:9px 10px}
+  .ap-chip{font-size:.68rem;font-weight:600;color:var(--ink-2);background:var(--bg);border:1px solid var(--gray-200);padding:3px 9px;border-radius:var(--r-pill)}
+  .ap-cta-row{margin-top:auto;padding-top:4px}
+  .ap-btn{display:inline-block;width:100%;text-align:center;font-size:.78rem;font-weight:700;color:#fff;background:var(--teal);border-radius:9px;padding:10px}
+  /* verify panel — matched-height proof block so the row stays balanced */
+  .ap-proofs{display:flex;flex-direction:column;gap:9px;background:#fff;border:1px solid var(--teal-line);
+    border-radius:10px;padding:14px;min-height:96px;justify-content:center}
   .ap-proofline{display:flex;align-items:center;gap:9px;font-size:.8rem;color:var(--navy);font-weight:600}
   .ap-proofline.muted{color:var(--slate);font-weight:500}
   .ap-tick{width:18px;height:18px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;flex:0 0 auto}
@@ -299,21 +312,26 @@
   .ap-lock{width:18px;height:18px;display:grid;place-items:center;color:var(--slate);flex:0 0 auto}
   .ap-lock svg{width:13px;height:13px}
   .ap-proofbadge{margin-top:auto;text-align:center;font-size:.76rem;font-weight:800;color:var(--teal);
-    background:var(--teal-soft);border:1px dashed var(--teal-line);border-radius:9px;padding:8px}
-  .ap-doc{height:92px;border-radius:10px;background:var(--bg);border:1px solid var(--gray-200);padding:14px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+    background:var(--teal-soft);border:1px dashed var(--teal-line);border-radius:9px;padding:9px}
+  .ap-doc{height:96px;border-radius:10px;background:var(--bg);border:1px solid var(--gray-200);padding:14px;display:flex;flex-direction:column;justify-content:center;gap:9px}
+  .ap-doc .dl{display:flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;color:var(--slate);margin-bottom:2px}
+  .ap-doc .dl svg{width:13px;height:13px;color:var(--teal)}
   .ap-doc span{height:7px;border-radius:4px;background:var(--gray-200)}
   .ap-doc span.short{width:55%}
   .ap-signed{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--teal)}
-  @media(max-width:760px){.ap-body{grid-template-columns:1fr;gap:14px}.ap-brand{display:none}}
+  @media(max-width:760px){.ap-stage{flex-wrap:wrap;gap:12px}.ap-stage .sc-line{display:none}.ap-body{grid-template-columns:1fr;gap:14px}.ap-brand{display:none}}
 
-  /* ===== Footer extra ===== */
+  /* ===== Footer (navy — matches site standard) ===== */
   .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start}
   .footer .brandmark img{height:34px;width:auto;filter:none}
-  .footer .fdesc{color:rgba(255,255,255,.65);max-width:38ch;margin-top:16px;font-size:.92rem}
+  .footer .fdesc{color:rgba(255,255,255,.66);max-width:40ch;margin-top:18px;font-size:.92rem;line-height:1.65}
   .fcol h4{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;font-weight:700}
   .fcol a{display:block;padding:6px 0;font-size:.94rem}
-  .foot-bottom{margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);
-    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.5);font-size:.85rem}
+  /* Trust chip on navy — mint on translucent so it is clearly legible */
+  .footer .vchip{background:rgba(0,255,194,.12);border:1px solid rgba(0,255,194,.34);color:#8ff3d9}
+  .footer .vchip svg{color:var(--c-aconomy-mint)}
+  .foot-bottom{margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.85rem}
   .foot-bottom .disc{max-width:70ch}
 
   /* ===== Responsive ===== */
@@ -324,7 +342,6 @@
     .life::before{display:none}
     .proof-flow{grid-template-columns:1fr;gap:12px}
     .proof-arrow{transform:rotate(90deg)}
-    .vid-grid{grid-template-columns:1fr}
     .foot-grid{grid-template-columns:1fr 1fr}
   }
   @media(max-width:640px){
@@ -347,7 +364,7 @@
 <header class="nav">
   <div class="container nav-inner">
     <a href="../index.html" class="brandmark" aria-label="Propty home">
-      <img src="assets/PropTy-Horizontal.svg" alt="Propty" width="80" height="42">
+      <img src="assets/PropTy-Horizontal-tight.svg" alt="Propty" height="34">
     </a>
     <nav class="nav-cta">
       <a href="../index.html" class="navlink">&larr; Pandora hub</a>
@@ -368,7 +385,7 @@
       </span>
       <h1 style="margin-top:20px">The AI agent that<br>rents you a home —<br><span class="g">and guarantees the rent.</span></h1>
       <p class="lead">Propty is the complete lease platform — listings, viewings, verification and e-signed leases — operated end to end by an AI agent. It searches rooms, screens a newcomer with no Canadian credit, drafts the lease, and guarantees the rent to the owner. One agent that protects both sides.</p>
-      <p class="positioning">The docs' lease platform, <b>operated by an AI agent</b>, <b>private by zero-knowledge</b> — a tenant's documents are proven, never shared.</p>
+      <p class="positioning">The complete lease platform, <b>operated by an AI agent</b>, <b>private by zero-knowledge</b> — a tenant's documents are proven, never shared.</p>
       <div class="hero-cta">
         <a href="#platform" class="btn btn-teal">See how the platform works</a>
         <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" class="btn btn-ghost">Book a demo</a>
@@ -417,30 +434,42 @@
       <div class="ap-chrome">
         <span class="ap-dots"><i></i><i></i><i></i></span>
         <span class="ap-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> app.propty.finance</span>
-        <span class="ap-brand"><img src="assets/PropTy-Horizontal.svg" alt="Propty" width="66" height="35"></span>
+        <span class="ap-brand"><img src="assets/PropTy-Horizontal-tight.svg" alt="Propty" height="30"></span>
       </div>
+      <!-- Stage rail: the lease pipeline, one screen -->
+      <div class="ap-stage" aria-hidden="true">
+        <div class="st"><span class="sd">1</span><span class="sl"><b>Browse</b><span>Find a home</span></span></div>
+        <span class="sc-line"></span>
+        <div class="st"><span class="sd">2</span><span class="sl"><b>Verify</b><span>By ZK proof</span></span></div>
+        <span class="sc-line"></span>
+        <div class="st todo"><span class="sd">3</span><span class="sl"><b>E-sign</b><span>Lease on file</span></span></div>
+      </div>
+
       <div class="ap-body">
         <!-- Panel 1: listing -->
         <div class="ap-panel">
-          <span class="ap-tag">Listing</span>
-          <div class="ap-photo"></div>
-          <h5>2BR + den · East York, Toronto</h5>
-          <p class="ap-sub">Long-term · available Aug 1</p>
+          <div class="ap-phead"><span class="ap-tag">Listing</span><span class="ap-step-no">01</span></div>
+          <div class="ap-photo"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> East York, Toronto</span></div>
+          <h5>2BR + den · long term</h5>
+          <p class="ap-sub">$2,150 / mo · available Aug 1</p>
           <div class="ap-row"><span class="ap-chip">Room or whole unit</span><span class="ap-chip">Verified host</span></div>
           <div class="ap-cta-row"><span class="ap-btn">Request a viewing</span></div>
         </div>
         <!-- Panel 2: verify by proof -->
         <div class="ap-panel accent">
-          <span class="ap-tag proof">Verify by proof</span>
-          <div class="ap-proofline"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Income clears the host's threshold</div>
-          <div class="ap-proofline"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Identity valid</div>
-          <div class="ap-proofline muted"><span class="ap-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Documents never shared</div>
-          <div class="ap-proofbadge">ZK eligibility proof · yes</div>
+          <div class="ap-phead"><span class="ap-tag proof">Verify by proof</span><span class="ap-step-no">02</span></div>
+          <div class="ap-proofs">
+            <div class="ap-proofline"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Income clears the threshold</div>
+            <div class="ap-proofline"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Identity valid</div>
+            <div class="ap-proofline muted"><span class="ap-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Documents never shared</div>
+          </div>
+          <p class="ap-sub">Checked against the host's criteria — a yes/no, nothing more.</p>
+          <div class="ap-proofbadge">ZK eligibility proof · verified</div>
         </div>
         <!-- Panel 3: e-sign -->
         <div class="ap-panel">
-          <span class="ap-tag">Lease</span>
-          <div class="ap-doc"><span></span><span></span><span class="short"></span></div>
+          <div class="ap-phead"><span class="ap-tag">Lease</span><span class="ap-step-no">03</span></div>
+          <div class="ap-doc"><span class="dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg> Residential Tenancy Agreement</span><span></span><span></span><span class="short"></span></div>
           <h5>Ontario standard lease</h5>
           <p class="ap-sub">Prefilled &amp; e-signed by both parties</p>
           <div class="ap-signed"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Signed · hash anchored</div>
@@ -731,41 +760,6 @@
         <h3>Resolves arrears without the drama</h3>
         <p>A clear grace window, an agreed plan and documented steps mean a late month is worked out on record — the owner stays covered while the tenant catches up.</p>
         <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Owner stays covered</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== SEE IT IN ACTION (videos) ===================== -->
-<section class="section" id="demo-videos">
-  <div class="container">
-    <div class="sec-head reveal">
-      <span class="eyebrow">See it in action</span>
-      <h2>Watch Propty at work</h2>
-      <p class="lead">A walkthrough of the product, and the story we told when Propty took the stage.</p>
-    </div>
-
-    <div class="vid-grid">
-      <div class="vidcard reveal">
-        <video controls preload="metadata" style="width:100%" poster="">
-          <source src="media/product-demo.mp4" type="video/mp4">
-          Your browser doesn't support embedded video. <a href="media/product-demo.mp4">Download the product demo</a>.
-        </video>
-        <div class="vmeta">
-          <span class="vic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span>
-          <div><h4>Product demo</h4><p>The agent moving from listing to signed lease.</p></div>
-        </div>
-      </div>
-
-      <div class="vidcard reveal">
-        <video controls preload="metadata" style="width:100%" poster="">
-          <source src="media/collision-showcase.mp4" type="video/mp4">
-          Your browser doesn't support embedded video. <a href="media/collision-showcase.mp4">Download the showcase</a>.
-        </video>
-        <div class="vmeta">
-          <span class="vic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"/></svg></span>
-          <div><h4>Collision startup showcase</h4><p>Propty on stage at Collision.</p></div>
-        </div>
       </div>
     </div>
   </div>

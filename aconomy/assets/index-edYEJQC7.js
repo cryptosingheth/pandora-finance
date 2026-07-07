@@ -23,6 +23,14 @@
           Explore Marketplace
           <img src="icons/chevron-right.svg" alt="" class="btn-icon" />
         </a>
+        <a href="https://play.google.com/store/apps/details?id=com.aconomyfoundation.aconomy" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="Get the Aconomy app on Google Play">
+          <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3.5v17l13-8.5-13-8.5z"/></svg>
+          Get it on Google Play
+        </a>
+        <a href="https://www.youtube.com/watch?v=_Kahfb18HE4" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-label="Watch the Aconomy brand film">
+          <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7L8 5z"/></svg>
+          Watch the film
+        </a>
       </div>
     </div>
   </header>
@@ -545,11 +553,8 @@
           <a href="https://www.instagram.com/aconomy_rwa/" class="footer-social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
             <img src="icons/instagram.svg" alt="Instagram" class="footer-social-icon" />
           </a>
-          <a href="https://www.linkedin.com/company/pandorafinance" class="footer-social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/company/aconomyglobal" class="footer-social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
             <img src="icons/linkedin.svg" alt="LinkedIn" class="footer-social-icon" />
-          </a>
-          <a href="https://t.me/aconomyfoundation" class="footer-social-link" aria-label="Telegram" target="_blank" rel="noopener noreferrer">
-            <img src="icons/telegram.svg" alt="Telegram" class="footer-social-icon" />
           </a>
         </div>
         <div class="footer-copyright">
