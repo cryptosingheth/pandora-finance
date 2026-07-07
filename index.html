@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pandora Finance — an AI-native product company</title>
-<meta name="description" content="Pandora Finance (Aconomy Labs Inc., Canada) is an AI-native product company. We build agentic products that autonomously do real work — an RWA marketplace, an AI leasing agent, product passports, risk-margin infrastructure and an agentic-commerce SDK — proven by shipped apps, independent audits, and code built in the open." />
+<title>Pandora Studio — an AI-native product studio</title>
+<meta name="description" content="Pandora Studio (Aconomy Labs Inc., Canada) is an AI-native product studio. We build agentic products that autonomously do real work — an RWA marketplace, an AI leasing agent, product passports, risk-margin infrastructure and an agentic-commerce SDK — proven by shipped apps, independent audits, and code built in the open." />
 <meta name="theme-color" content="#ffffff" />
 <link rel="stylesheet" href="assets/design-system.css" />
 <style>
@@ -579,6 +579,18 @@
   .ev-cap span{color:var(--d-dim);font-size:.78rem}
   @media(max-width:900px){.seen-collage{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:560px){.seen-collage{grid-template-columns:repeat(2,1fr)}}
+
+  /* ============================================================
+     v6 — product cards: real logos, whole-card link, gated CTAs
+     ============================================================ */
+  .pcard .pcard-link{position:absolute;inset:0;z-index:1;border-radius:var(--r-lg)}
+  .pcard .pmark{flex-direction:column;align-items:flex-start;gap:9px}
+  .pcard .plogo{height:24px;width:auto;max-width:190px;object-fit:contain;object-position:left center;display:block}
+  .pcard .pname{font-size:1.24rem;font-weight:800;letter-spacing:-.025em;line-height:1.04;color:var(--navy)}
+  .pcard .pactions{position:relative;z-index:2;justify-content:space-between;pointer-events:none}
+  .pcard .pactions .btn{pointer-events:auto}
+  .pcard .pactions .pgo{color:var(--navy);opacity:.82}
+  .pcard:hover .pactions .pgo{opacity:1}
 </style>
 </head>
 <body>
@@ -586,8 +598,8 @@
 <!-- ============================== NAV ============================== -->
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="index.html" aria-label="Pandora Finance home">
-      <img class="logo" src="assets/logos/Pandora_Dark.png" alt="Pandora Finance" />
+    <a class="brand" href="index.html" aria-label="Pandora Studio home">
+      <img class="logo" src="assets/logos/Pandora_Dark.png" alt="Pandora Studio" />
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a class="navlink" href="#proof">Proof</a>
@@ -611,9 +623,9 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="hero-badge reveal"><span class="pulse"></span>AI-native product company · Aconomy Labs Inc., Canada</span>
+      <span class="hero-badge reveal"><span class="pulse"></span>AI-native product studio · Aconomy Labs Inc., Canada</span>
       <h1 class="reveal">We build agentic products that <span class="grad">do real work.</span></h1>
-      <p class="lead reveal">Pandora Finance is an AI-native product company. We ship <b>agentic software</b> that autonomously gets things done in the real world — validating assets, screening tenants, passporting products, managing risk, settling payments — on <b>verifiable infrastructure</b> that keeps every action provable. This page is our proof of work.</p>
+      <p class="lead reveal">Pandora is an AI-native product studio. We ship <b>agentic software</b> that autonomously gets things done in the real world — validating assets, screening tenants, passporting products, managing risk, settling payments — on <b>verifiable infrastructure</b> that keeps every action provable. This page is our proof of work.</p>
       <div class="hero-cta reveal">
         <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
         <a class="btn btn-wire-d" href="#products">Explore the products</a>
@@ -678,7 +690,7 @@
         <p>Conversational agents that <b>autonomously execute real tasks</b> — planning, calling tools, and finishing the job with a visible, replayable trail of every tool call and decision.</p>
         <ul class="eproof">
           <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span>Orchestrated tool-calling with transparent execution logs</span></li>
-          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span>Product agents live to try — <a href="aconomy/agent/">asset validation</a>, <a href="propty/agent/">leasing</a>, <a href="dpp/agent/">verification</a></span></li>
+          <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span>Agents that do real work — asset validation, tenant screening, product verification</span></li>
           <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span>Grounded in real data and on-chain state, not just prompts</span></li>
         </ul>
       </article>
@@ -723,17 +735,17 @@
         <span class="kicker">The products we've built</span>
         <h2>Seven products we're proud of.</h2>
       </div>
-      <p class="muted">Each pairs an agent that does the work with infrastructure that makes it verifiable. Open any one — several have a live agent you can launch.</p>
+      <p class="muted">Each pairs an AI agent that does the work with infrastructure that makes it verifiable. Open any card to read more — or book a demo to see it live.</p>
     </div>
 
     <div class="prod-grid">
 
-      <!-- 01 EXPRESS PROTOCOL -->
       <div class="pcard reveal" style="--acc:var(--c-express)">
+        <a class="pcard-link" href="express-protocol/index.html" aria-label="Express Protocol — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8z"/></svg></span>
-            <div><div class="pname">Express Protocol</div><div class="psub">Agentic commerce SDK</div></div>
+            <img class="plogo" src="assets/logos/ExpressProtocol_Dark.svg" alt="Express Protocol" width="180" height="24" />
+            <div class="psub">Agentic commerce SDK</div>
           </div>
           <span class="pnum">01</span>
         </div>
@@ -742,17 +754,16 @@
         <div class="ptags"><span class="ptag">AI agents</span><span class="ptag">x402 payments</span><span class="ptag">Audited</span></div>
         <div class="pactions">
           <a class="btn btn-glow small" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="pgo" href="express-protocol/index.html">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="plaunch" href="express-protocol/playground/">Open the playground <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
-      <!-- 02 ACONOMY -->
       <div class="pcard reveal" style="--acc:var(--c-aconomy)">
+        <a class="pcard-link" href="aconomy/index.html" aria-label="Aconomy — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>
-            <div><div class="pname">Aconomy</div><div class="psub">RWA marketplace</div></div>
+            <img class="plogo" src="assets/logos/Aconomy_Dark.png" alt="Aconomy" width="180" height="24" />
+            <div class="psub">RWA marketplace</div>
           </div>
           <span class="pnum">02</span>
         </div>
@@ -761,73 +772,70 @@
         <div class="ptags"><span class="ptag">Applied AI</span><span class="ptag">Real-world assets</span><span class="ptag">Live app</span></div>
         <div class="pactions">
           <a class="btn btn-glow small" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="pgo" href="aconomy/index.html">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="plaunch" href="aconomy/agent/">Launch the agent <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
-      <!-- 03 PROPTY -->
       <div class="pcard reveal" style="--acc:#1a6b5a">
+        <a class="pcard-link" href="propty/index.html" aria-label="Propty — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5M9.5 21v-5h5v5"/></svg></span>
-            <div><div class="pname">Propty</div><div class="psub">AI leasing agent · private by ZK</div></div>
+            <img class="plogo" src="assets/logos/PropTy_Horizontal.png" alt="Propty" width="180" height="24" />
+            <div class="psub">AI leasing agent · private by ZK</div>
           </div>
           <span class="pnum">03</span>
         </div>
-        <span class="pstatus"><span class="lv"></span>Agent · in development</span>
+        <span class="pstatus"><span class="lv"></span>In development</span>
         <p class="desc">The AI leasing agent — <b>private by zero-knowledge</b>. It screens newcomers with no credit file, drafts the lease and guarantees the owner's payout, proving eligibility without over-sharing a tenant's personal data.</p>
         <div class="ptags"><span class="ptag">AI screening</span><span class="ptag">Zero-knowledge</span><span class="ptag">Guaranteed rent</span></div>
         <div class="pactions">
           <a class="btn btn-glow small" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="pgo" href="propty/index.html">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="plaunch" href="propty/agent/">Launch the agent <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
-      <!-- 04 DPP -->
       <div class="pcard reveal" style="--acc:#0f9d6b">
+        <a class="pcard-link" href="dpp/index.html" aria-label="The DPP Company — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5"/><path d="m8.5 13 2.2 2.2L15 11"/></svg></span>
-            <div><div class="pname">The DPP Company</div><div class="psub">Product passports</div></div>
+            <div class="pname">The DPP Company</div>
+            <div class="psub">Product passports</div>
           </div>
           <span class="pnum">04</span>
         </div>
-        <span class="pstatus"><span class="lv"></span>Agent · in development</span>
+        <span class="pstatus"><span class="lv"></span>In development</span>
         <p class="desc">An <b>AI agent that verifies and passports physical products</b>. From one scan it authenticates an item, traces provenance, reads certifications, flags counterfeits, and issues its Digital Product Passport — anchored on-chain, EU-DPP aligned.</p>
         <div class="ptags"><span class="ptag">AI verification</span><span class="ptag">Provenance</span><span class="ptag">EU DPP-aligned</span></div>
         <div class="pactions">
           <a class="btn btn-glow small" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="pgo" href="dpp/index.html">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="plaunch" href="dpp/agent/">Launch the agent <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
-      <!-- 05 VANNA PROTOCOL -->
       <div class="pcard reveal" style="--acc:#6c5ce7">
+        <a class="pcard-link" href="vanna/index.html" aria-label="Vanna Protocol — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 3-4 3 3 4-6"/></svg></span>
-            <div><div class="pname">Vanna Protocol</div><div class="psub">Risk &amp; margin infrastructure</div></div>
+            <div class="pname">Vanna Protocol</div>
+            <div class="psub">Risk &amp; margin infrastructure</div>
           </div>
           <span class="pnum">05</span>
         </div>
-        <span class="pstatus"><span class="lv"></span>Agents · coming</span>
+        <span class="pstatus"><span class="lv"></span>Coming</span>
         <p class="desc">The risk-margin infrastructure <b>built to keep you out of liquidation</b> — under-collateralized positions managed by trading agents via Vanna MCPs (coming).</p>
         <div class="ptags"><span class="ptag">Risk engine</span><span class="ptag">Trading agents</span><span class="ptag">MCP</span></div>
         <div class="pactions">
           <a class="btn btn-glow small" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="pgo" href="vanna/index.html">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
-      <!-- 06 AURI -->
       <div class="pcard reveal" style="--acc:#C99A4E">
+        <a class="pcard-link" href="auri/index.html" aria-label="Auri — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <span class="glyph grad-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9 10.5h4.5a1.5 1.5 0 0 1 0 3H9"/></svg></span>
-            <div><div class="pname">Auri</div><div class="psub">Programmable-gold neobank</div></div>
+            <div class="pname">Auri</div>
+            <div class="psub">Programmable-gold neobank</div>
           </div>
           <span class="pnum">06</span>
         </div>
@@ -836,16 +844,16 @@
         <div class="ptags"><span class="ptag">Programmable gold</span><span class="ptag">Neobank</span><span class="ptag">MCP</span></div>
         <div class="pactions">
           <a class="btn btn-glow small" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="pgo" href="auri/index.html">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
-      <!-- 07 UNITYMARKET -->
       <div class="pcard reveal" style="--acc:var(--c-unity)">
+        <a class="pcard-link" href="unitymarket/index.html" aria-label="UnityMarket — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v8l9 5 9-5V8l-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></span>
-            <div><div class="pname">UnityMarket</div><div class="psub">NFT marketplace</div></div>
+            <img class="plogo" src="assets/logos/UnityMarket_Dark.svg" alt="UnityMarket" width="180" height="24" />
+            <div class="psub">NFT marketplace</div>
           </div>
           <span class="pnum">07</span>
         </div>
@@ -854,8 +862,7 @@
         <div class="ptags"><span class="ptag">NFTs</span><span class="ptag">Marketplace</span><span class="ptag">On Express</span></div>
         <div class="pactions">
           <a class="btn btn-glow small" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="pgo" href="unitymarket/index.html">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="plaunch" href="unitymarket/agent/">Launch the curator agent <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="pgo">View page <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </div>
       </div>
 
@@ -897,17 +904,17 @@
         <div class="pw-s">One team, one foundation — agents plus verifiable rails.</div>
       </div>
       <div class="pw reveal">
-        <span class="pw-tag">Adopted</span>
-        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-        <div class="pw-n">1,000+</div>
-        <div class="pw-k">Testnet users, week one</div>
-        <div class="pw-s">Aconomy's open testnet, Nov 2023.</div>
+        <span class="pw-tag">First</span>
+        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 18.6 6.1 20.8l1.2-6.6L2.5 9l6.6-.9z"/></svg></span>
+        <div class="pw-n">1st</div>
+        <div class="pw-k">ERC-404 marketplace</div>
+        <div class="pw-s">First-ever, shipped Mar 2024 — Ethereum &amp; Polygon.</div>
       </div>
     </div>
 
     <div class="pw-rail reveal">
       <div class="pw-rail-head">
-        <span class="net">● Track record</span> A company that keeps shipping — 2021 to today
+        <span class="net">● Track record</span> A studio that keeps shipping — 2021 to today
       </div>
       <ul class="pw-tl">
         <li>
@@ -923,7 +930,7 @@
         <li>
           <span class="yr">Nov 2023</span>
           <span class="ev">Aconomy open testnet</span>
-          <span class="de">The AI-assisted RWA marketplace opens its testnet — 1,000+ users in week one.</span>
+          <span class="de">The AI-assisted RWA marketplace opens its public testnet.</span>
         </li>
         <li>
           <span class="yr">Mar 2024</span>
@@ -977,7 +984,7 @@
     <div class="part-head reveal">
       <span class="kicker on-navy">Backed &amp; connected</span>
       <h2 style="margin-top:16px">Investors &amp; client ecosystem.</h2>
-      <p>The investors who funded the work, the clients and ecosystem building alongside us, and the Canadian programs that incubated the company — since 2021.</p>
+      <p>The investors who funded the work, the clients and ecosystem building alongside us, and the Canadian programs that incubated the studio — since 2021.</p>
     </div>
 
     <div class="logo-row reveal">
@@ -1194,23 +1201,23 @@
         <h2>Frequently asked.</h2>
       </div>
       <details class="faq">
-        <summary>What does Pandora Finance build?</summary>
-        <p>Pandora Finance (the brand of Aconomy Labs Inc., Canada) is an AI-native product company. We build agentic products that autonomously do real work — a real-world-asset marketplace, an AI leasing agent, digital product passports, risk-margin infrastructure, and an agentic-commerce SDK — on verifiable infrastructure so every action is provable.</p>
+        <summary>What does Pandora Studio build?</summary>
+        <p>Pandora Studio (the brand of Aconomy Labs Inc., Canada) is an AI-native product studio. We build agentic products that autonomously do real work — a real-world-asset marketplace, an AI leasing agent, digital product passports, risk-margin infrastructure, and an agentic-commerce SDK — on verifiable infrastructure so every action is provable.</p>
       </details>
       <details class="faq">
         <summary>Are the products live?</summary>
-        <p>Yes — several are. Aconomy is a live mobile app on Google Play, and Express Protocol is in production with the <code>pandora-express</code> SDK on npm. Others — Propty, The DPP Company, Vanna Protocol and Auri — are in active development, with public agent demos you can try today.</p>
+        <p>Yes — several are. Aconomy is a live mobile app on Google Play, and Express Protocol is in production with the <code>pandora-express</code> SDK on npm. Others — Propty, The DPP Company, Vanna Protocol and Auri — are in active development. Book a demo to see any of them run.</p>
       </details>
       <details class="faq">
-        <summary>Can I try the agents?</summary>
-        <p>Yes — the demos are public. You can launch the Aconomy asset-validation agent, the Propty leasing agent and the DPP verification agent right from this site, with no signup. They stream every tool call so you can watch the agent do the work end to end.</p>
+        <summary>Can I see the agents in action?</summary>
+        <p>Yes — book a demo and we'll walk you through the agent that fits: asset validation, tenant screening, product verification or agentic settlement. We'll show it run end to end, with every step provable on verifiable infrastructure.</p>
       </details>
       <details class="faq">
         <summary>How do I get a demo of a product?</summary>
         <p>Book a call. Use the "Book a demo" button anywhere on this page to grab a time with the team, and we'll walk you through the product that fits — the agent, the SDK, or the roadmap.</p>
       </details>
       <details class="faq">
-        <summary>Who's behind the company?</summary>
+        <summary>Who's behind the studio?</summary>
         <p>A small, senior team: Pushkar Vohra (Founder &amp; CEO), Opinder Preet Singh Narang (Co-Founder, Execution), Har Rhythm Kaur (Co-Founder, Research &amp; Analytics) and Tamur Shah (Head of Compliance &amp; Licensing). Aconomy Labs Inc. is incorporated in Toronto and was incubated by TBDC, BHive and OCI.</p>
       </details>
     </div>
@@ -1219,21 +1226,17 @@
       <div class="reveal">
         <span class="kicker on-dark">Get in touch</span>
         <h2 style="margin-top:16px">See a product in action.</h2>
-        <p class="lead" style="margin-top:18px">Using a product, exploring the SDK, or curious about the company? Book a demo with the Pandora team, or reach us directly — we read everything.</p>
+        <p class="lead" style="margin-top:18px">Using a product, exploring the SDK, or curious about what we're building? Book a demo with the Pandora Studio team — we'll walk you through it.</p>
         <div class="hero-cta">
           <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="btn btn-wire-d" href="https://www.linkedin.com/company/aconomyfoundation" target="_blank" rel="noopener">Connect on LinkedIn
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.98c0-1.66-.03-3.8-2.32-3.8-2.32 0-2.68 1.81-2.68 3.68V24h-4.5z"/></svg>
+          <a class="btn btn-wire-d" href="#products">Explore the products
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
         <!-- CALENDLY-INLINE-EMBED-SLOT -->
       </div>
 
       <div class="contact-card reveal">
-        <div class="crow">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.98c0-1.66-.03-3.8-2.32-3.8-2.32 0-2.68 1.81-2.68 3.68V24h-4.5z"/></svg></span>
-          <div><div class="k">LinkedIn</div><a class="v" href="https://www.linkedin.com/company/aconomyfoundation" target="_blank" rel="noopener">Aconomy Foundation</a></div>
-        </div>
         <div class="crow">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
           <div><div class="k">Headquarters</div>
@@ -1242,7 +1245,7 @@
         </div>
         <div class="crow">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m8 9 4 3 4-3"/></svg></span>
-          <div><div class="k">Follow along</div><div class="v">@aconomyfdn · Pandora-Finance</div></div>
+          <div><div class="k">Follow along</div><div class="v">@aconomyfdn · linkedin.com/company/aconomyglobal</div></div>
         </div>
       </div>
     </div>
@@ -1255,8 +1258,8 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <img class="logo" src="assets/logos/Pandora_White.png" alt="Pandora Finance" />
-        <p>Pandora Finance is the brand of Aconomy Labs Inc. — an AI-native product company building agentic software for the real world since 2021.</p>
+        <img class="logo" src="assets/logos/Pandora_White.png" alt="Pandora Studio" />
+        <p>Pandora Studio is the brand of Aconomy Labs Inc. — an AI-native product studio building agentic software for the real world since 2021.</p>
         <div class="socials">
           <a href="https://x.com/aconomyfdn" target="_blank" rel="noopener" aria-label="X (Twitter)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
@@ -1264,7 +1267,7 @@
           <a href="https://github.com/Pandora-Finance" target="_blank" rel="noopener" aria-label="GitHub">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>
           </a>
-          <a href="https://www.linkedin.com/company/aconomyfoundation" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/company/aconomyglobal" target="_blank" rel="noopener" aria-label="LinkedIn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.98c0-1.66-.03-3.8-2.32-3.8-2.32 0-2.68 1.81-2.68 3.68V24h-4.5z"/></svg>
           </a>
         </div>
@@ -1282,7 +1285,7 @@
       </div>
 
       <div class="foot-col">
-        <h4>Company</h4>
+        <h4>Studio</h4>
         <a href="#proof">Proof of work</a>
         <a href="#partners">Partners</a>
         <a href="about/index.html">About</a>
@@ -1294,14 +1297,14 @@
       <div class="foot-col">
         <h4>Registered office</h4>
         <address class="foot-addr">
-          <b>Aconomy Labs Inc. (Pandora Finance)</b>
+          <b>Aconomy Labs Inc. (Pandora Studio)</b>
           111 Peter Street, 9th Floor,<br>Suite 902, Toronto, ON&nbsp; M5V 2H1<br>
         </address>
       </div>
     </div>
 
     <div class="foot-bar">
-      <span>© 2021–2026 Aconomy Labs Inc. (Pandora Finance). All rights reserved.</span>
+      <span>© 2021–2026 Aconomy Labs Inc. (Pandora Studio). All rights reserved.</span>
       <span class="made">Agentic products, built for the real world <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span>
     </div>
   </div>
