@@ -70,7 +70,7 @@
     .pill{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;font-weight:600;letter-spacing:.02em;
       padding:6px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#e9e5ff}
     .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--c-aconomy-mint);box-shadow:0 0 10px var(--c-aconomy-mint)}
-    .hero h1{font-size:clamp(2.5rem,5.4vw,4.05rem);letter-spacing:-.03em;line-height:1.02;margin-bottom:20px}
+    .hero h1{color:#fff;font-size:clamp(2.5rem,5.4vw,4.05rem);letter-spacing:-.03em;line-height:1.02;margin-bottom:20px}
     /* light, high-contrast gradient on the dark hero: sky -> mint (fallback solid for no-clip browsers) */
     .hero h1 .grad{color:#a5d0ff;background:linear-gradient(100deg,#7fb2ff 0%,#bfe0ff 42%,#5ff0d0 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 1px 24px rgba(127,178,255,.25)}
     @supports not ((-webkit-background-clip:text) or (background-clip:text)){.hero h1 .grad{color:#a5d0ff;-webkit-text-fill-color:currentColor}}
@@ -276,7 +276,6 @@
       </a>
       <div class="nlinks">
         <a class="nlink docs" href="docs/">Docs</a>
-        <a class="nlink docs" href="playground/">Playground</a>
         <a class="nlink" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 016 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
           GitHub
@@ -307,9 +306,6 @@
         </p>
         <div class="hero-cta reveal d3">
           <a class="btn btn-express" href="docs/">Read the docs
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a class="btn btn-wire" href="playground/">Open the playground
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a class="btn btn-wire" href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">
@@ -463,11 +459,6 @@
           <span class="chip">Base &amp; Arbitrum</span>
           <span class="chip">HTTP <b>402</b> native</span>
           <span class="chip">agent-to-agent</span>
-        </div>
-        <div class="hero-cta reveal d3" style="margin-top:26px">
-          <a class="btn btn-express" href="playground/">Open the playground
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
       </div>
 
@@ -675,10 +666,6 @@
           <summary>Is Express Protocol open source?<span class="fq-ic">+</span></summary>
           <p class="fq-body">Yes — end to end and MIT-licensed. The SDK ships as <code>pandora-express</code> on npm (live since Feb 2022), and the SDK, its docs, and the smart contracts underneath are all public on GitHub. Inspect every line, open an issue, or send a PR.</p>
         </details>
-        <details class="faq">
-          <summary>Can I try the agent payment flow without writing code?<span class="fq-ic">+</span></summary>
-          <p class="fq-body">Yes. The <a href="playground/">x402 settlement playground</a> is an interactive simulation of a buyer-agent and seller-agent negotiating and settling a purchase over HTTP 402 — discovery, quote, payment, and asset transfer, visualized as live message and HTTP frames.</p>
-        </details>
       </div>
     </div>
   </section>
@@ -694,9 +681,6 @@
         </div>
         <div class="bk-btns">
           <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="btn btn-onlight" href="playground/">Open the playground
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
       </div>
     </div>
@@ -716,7 +700,6 @@
           <a href="https://github.com/Pandora-Finance/Express-Protocol-SDK" target="_blank" rel="noreferrer">GitHub</a>
           <a href="https://www.npmjs.com/package/pandora-express" target="_blank" rel="noreferrer">npm package</a>
           <a href="#x402">x402 standard</a>
-          <a href="playground/">x402 playground</a>
         </div>
         <div class="fcol">
           <h5>Standards</h5>
@@ -734,7 +717,7 @@
         </div>
       </div>
       <div class="f-bottom">
-        <div>© 2026 Express Protocol · Part of the Pandora Finance ecosystem</div>
+        <div>© 2026 Express Protocol · Part of the Pandora Studio ecosystem</div>
         <a class="rehab" href="../index.html">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           Back to Pandora hub · <code>npm i pandora-express</code>
