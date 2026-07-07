@@ -48,6 +48,7 @@
 /* ---------- NAV ---------- */
 .nav-inner{gap:20px}
 .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.brand .brand-logo{height:38px;width:auto;display:block}
 .brand .mark{width:36px;height:36px;border-radius:11px;flex:none;display:grid;place-items:center;color:#fff;
   background:linear-gradient(150deg,var(--dpp-bright),var(--dpp-deep));box-shadow:0 6px 16px rgba(15,157,107,.32)}
 .brand .mark svg{width:19px;height:19px}
@@ -343,24 +344,21 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="index.html" aria-label="The DPP Company home">
-      <span class="mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg>
-      </span>
-      <span class="wm">DPP<small>The DPP Company</small></span>
+      <img class="brand-logo" src="assets/dpp-logo-dark.svg" alt="The DPP Company" width="184" height="38" />
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a class="navlink" href="#how">What the agent does</a>
       <a class="navlink" href="#whyagent">Why an agent</a>
       <a class="navlink" href="#builtfor">For brands &amp; buyers</a>
       <a class="navlink" href="#faq">FAQ</a>
-      <a class="navlink backhub" href="../index.html" aria-label="Back to Pandora studio">
+      <a class="navlink backhub" href="../index.html" aria-label="Back to Pandora">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
         Pandora
       </a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-outline hide-mobile" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-      <a class="btn btn-dpp" href="#try">Launch the DPP agent
+      <a class="btn btn-outline hide-mobile" href="#try">See it work</a>
+      <a class="btn btn-dpp" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
       <a class="btn btn-outline nav-toggle" href="#how" aria-label="Menu">
@@ -380,7 +378,7 @@
       <h1>An AI agent that verifies and <span class="grad">passports physical products.</span></h1>
       <p class="lead">Every other passport tool hands you a dashboard and leaves the work to your team. The DPP Company is an <b>autonomous verification agent</b> instead: point it at a product and it authenticates the item, traces its provenance and supply chain, reads its materials and certifications, flags counterfeits, then issues and keeps its EU-DPP-aligned Digital Product Passport current — from a single scan, with every finding checkable and anchored on-chain.</p>
       <div class="hero-cta">
-        <a class="btn btn-dpp" id="agent-demo-link" target="_blank" rel="noopener" href="agent/">Launch the DPP agent
+        <a class="btn btn-dpp" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="btn btn-outline" href="#how">What the agent does</a>
@@ -649,22 +647,22 @@
     <div class="sec-head reveal">
       <div>
         <span class="kicker">Try it</span>
-        <h2>See the agent work — two ways.</h2>
+        <h2>See the passport — two ways.</h2>
       </div>
-      <p class="muted">Talk to the verification agent, or scan a product the way a shopper would. Both are live, illustrative demos — no sign-up.</p>
+      <p class="muted">Book a walkthrough of the verification agent, or scan a product the way a shopper would. The scan is a live, illustrative demo — no sign-up.</p>
     </div>
     <figure class="reveal" style="margin:0 0 clamp(28px,4vw,44px);border-radius:20px;overflow:hidden;border:1px solid var(--gray-200);box-shadow:0 24px 60px rgba(16,32,64,.12)">
-      <img src="media/screens.gif" alt="The DPP scan experience on a phone — pick a product, watch the agent authenticate, trace provenance and read certifications, then open its Digital Product Passport" loading="lazy" decoding="async" style="width:100%;display:block" />
+      <img src="media/screens.gif" alt="The DPP Company product experience — the Digital Product Passport welcome screen on a phone, a verified product detail view, a shopper's saved collection, and the brand-side passport builder" loading="lazy" decoding="async" style="width:100%;display:block" />
     </figure>
     <div class="try-grid">
-      <a class="try-card reveal" href="agent/" target="_blank" rel="noopener">
-        <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span>
+      <a class="try-card reveal" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">
+        <span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
         <div>
-          <h3>Launch the DPP agent
+          <h3>Book a demo
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </h3>
-          <p>Chat with the verification agent and watch it authenticate, trace provenance, check materials and issue a passport, step by step.</p>
-          <div class="tmeta">Agent workspace · desktop</div>
+          <p>See the verification agent authenticate, trace provenance, check materials and issue a passport on a live product — walked through with our team.</p>
+          <div class="tmeta">30-minute walkthrough</div>
         </div>
       </a>
       <a class="try-card reveal" href="scan/">
@@ -687,10 +685,9 @@
     <div class="reveal">
       <span class="kicker on-dark" style="justify-content:center">See the agent work</span>
       <h2 style="margin-top:16px">Put an AI agent on every product you make.</h2>
-      <p>Book a walkthrough, or launch the agent yourself on a live product and watch it authenticate, trace, verify and issue the passport — EU-DPP aligned, tamper-proof, all from a single scan.</p>
+      <p>Book a walkthrough and watch the agent work a live product end to end — authenticate, trace, verify and issue the passport — EU-DPP aligned, tamper-proof, all from a single scan.</p>
       <div class="cta-cta">
-        <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-        <a class="btn btn-light" target="_blank" rel="noopener" href="agent/">Launch the DPP agent
+        <a class="btn btn-glow" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.4)" href="scan/">Scan a product</a>
@@ -710,24 +707,32 @@
     </div>
     <div class="faq-wrap reveal">
       <details class="faq">
-        <summary>How is this different from a QR code?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <p>A QR code is just a link — it points to whatever page someone chose to put behind it, and it can be copied onto a fake as easily as a real one. The QR or NFC tag here is only the doorway. Behind it is a passport the agent actually verified: it authenticated the item against its issuer signature, traced its provenance, read its materials and certifications, and anchored every finding on-chain. So the scan doesn't just open a marketing page — it opens proof, and a cloned tag on a counterfeit fails the checks instead of quietly resolving.</p>
+        <summary>What exactly is a Digital Product Passport?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>A Digital Product Passport (DPP) is a structured, machine-readable record of a physical item — its identity, origin, material composition, certifications, care and repair guidance, and end-of-life instructions. A data carrier on the product itself, a QR code or NFC tag, links the physical item to that record, so anyone can scan it and read the item's full story. The DPP travels with the product for its entire life: as it's resold, repaired or recycled, the passport stays attached and stays current.</p>
       </details>
       <details class="faq">
-        <summary>Are you EU-DPP / ESPR ready?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <p>Yes — the passports the agent issues are EU-DPP aligned, built around the ESPR model as it rolls out from 2027 (batteries first, then textiles, electronics and more). The agent captures the data carrier, provenance, materials and certifications the regulation expects and anchors them in a tamper-proof record, so compliance falls out of a normal verification run rather than becoming a separate project. As the CEN/CENELEC standards and the EU registry finalise, the agent tracks them so your passports stay aligned.</p>
+        <summary>What is the EU DPP regulation, and when does it apply?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>The Digital Product Passport is mandated by the EU's Ecodesign for Sustainable Products Regulation (ESPR), which entered into force in 2024. ESPR sets the framework; category-specific rules then phase in over time. Batteries are first, followed by priority groups that include textiles and apparel, electronics, furniture and more. For each category in scope, a compliant DPP — with a data carrier, unique product identifier, and defined sustainability and provenance data — becomes a condition of selling into the EU market. The detailed data requirements are being finalised through CEN/CENELEC standards and a central EU registry, which is why the agent is built to track those specs rather than hard-code a single fixed template.</p>
       </details>
       <details class="faq">
-        <summary>How is an agent different from a passport platform or dashboard?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <p>A platform gives your team software and leaves the work to you — importing spreadsheets, chasing suppliers, mapping fields and clearing compliance gaps by hand, catalogue after catalogue. The agent does that work. You point it at a product or a catalogue and it authenticates, traces provenance, reads certifications and issues the passport itself, showing its working so every finding is checkable. Less a tool you operate, more a teammate that produces the finished, verifiable passport.</p>
+        <summary>How does the agent authenticate a product and issue its passport?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>It runs the product through a full pipeline. First it authenticates: it checks the item's unique tag and identifier against the issuer's signature to confirm it's the genuine article. Then it traces provenance across the supply chain, and reads the item's materials, recycled content and certifications — GOTS, GRS, OEKO-TEX and others — verifying each against the record. Finally it compiles those findings into a Digital Product Passport, pins the images and documents to content-addressed storage (IPFS), and mints a tamper-proof certificate anchored on-chain. The passport is bound to a QR or NFC tag, and the agent keeps it current as the item moves or changes hands. Every step is shown, so each finding is checkable rather than taken on trust.</p>
+      </details>
+      <details class="faq">
+        <summary>How does it actually stop counterfeits?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>A plain QR code can be photographed and reprinted onto a fake, and it will still resolve to a page. This is different because the tag is only the doorway — behind it is a passport cryptographically bound to a specific, issuer-signed identifier and anchored on-chain. When someone scans a genuine item, the agent confirms the signature matches and the record checks out. When a cloned tag is scanned on a counterfeit, there's no valid issuer signature behind it and nothing legitimate to resolve to: the check fails and the item is flagged as suspected counterfeit instead of quietly passing. The proof lives in the signed, on-chain record, not in the printed square.</p>
+      </details>
+      <details class="faq">
+        <summary>What does this look like for a brand?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>On the brand side you get a dashboard, but the agent does the heavy lifting. You define a passport template for a product category once — warranty period, carbon footprint, energy and water use, care and end-of-life instructions — and the agent populates, authenticates and issues passports across your catalogue, one product or in bulk. You get ESPR-aligned compliance without staffing a data-entry team, counterfeit protection that guards revenue, and a direct channel to customers after the sale, plus authenticated resale and take-back programs that extend the product's life and your relationship with the buyer.</p>
+      </details>
+      <details class="faq">
+        <summary>And what does the buyer get?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <p>The buyer just taps or scans the tag — no app, no account. In one scan they see whether the item is genuine, where it came from, what it's made of and how sustainable it is, plus care instructions and warranty details that stay attached for the product's life. They can claim verifiable ownership of the item, and when they resell or gift it, that ownership transfers with the passport — so the next owner gets the same proof. It turns a physical product into something a shopper, a reseller or an auditor can independently trust.</p>
       </details>
       <details class="faq">
         <summary>Do I need to understand blockchain to use it?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <p>No. The agent handles anchoring in the background — you work with products and passports, not wallets or gas. On-chain records are simply how the agent makes its findings tamper-proof and independently verifiable: a shopper, a reseller or an auditor can confirm a passport without trusting any single company's database. You get that guarantee without touching the plumbing.</p>
-      </details>
-      <details class="faq">
-        <summary>What kinds of products does it work with?<span class="qmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <p>It's built for physical goods where authenticity, provenance and sustainability matter — apparel and footwear, leather goods and accessories, and other categories heading into ESPR scope. The demos use luxury products because counterfeits and resale make the value obvious, but the same agentic workflow applies to any item that carries a QR or NFC tag. Canadian brands preparing for EU-market requirements are a natural fit, and we're happy to walk through your specific catalogue.</p>
+        <p>No. The agent handles anchoring in the background — you work with products and passports, not wallets or gas. Records are written on-chain (via the Arianee protocol on Polygon) purely so the agent's findings are tamper-proof and independently verifiable: anyone can confirm a passport without trusting a single company's private database. You get that guarantee without touching the plumbing.</p>
       </details>
     </div>
   </div>
@@ -741,14 +746,14 @@
         <span class="kicker">Built in the open</span>
         <h2>From a team that builds in public.</h2>
       </div>
-      <p class="muted">The DPP agent is in active development, but it's built by a team with a track record of open-source work across the Pandora Studio ecosystem.</p>
+      <p class="muted">The DPP agent is in active development, but it's built by a team with a track record of open-source work across the Pandora ecosystem.</p>
     </div>
     <div class="oss-strip reveal">
       <a class="repo" href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">
         <span class="gh"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
         <div>
           <span class="rpath">Pandora-Finance <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-          <p class="rdesc">Built by the Pandora Studio team</p>
+          <p class="rdesc">Built by the Pandora team</p>
         </div>
       </a>
     </div>
@@ -762,10 +767,9 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <span class="brand">
-          <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
-          <span class="wm">DPP<small>The DPP Company</small></span>
+          <img class="brand-logo" src="assets/dpp-logo.svg" alt="The DPP Company" width="200" height="41" />
         </span>
-        <p>An AI agent that authenticates, traces, verifies and passports physical products — built for the age of the EU Digital Product Passport, with every record anchored on-chain. A Pandora Studio product.</p>
+        <p>An AI agent that authenticates, traces, verifies and passports physical products — built for the age of the EU Digital Product Passport, with every record anchored on-chain. A Pandora product.</p>
       </div>
 
       <div class="foot-col">
@@ -778,15 +782,15 @@
 
       <div class="foot-col">
         <h4>Try it</h4>
-        <a href="agent/" target="_blank" rel="noopener">Launch the DPP agent</a>
+        <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
         <a href="scan/">Scan a product</a>
-        <a href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-        <a href="../index.html">Pandora studio</a>
+        <a href="#try">See it work</a>
+        <a href="../index.html">Pandora</a>
       </div>
     </div>
 
     <div class="foot-bar">
-      <span>© 2021–2026 Pandora Studio. The DPP Company. All rights reserved.</span>
+      <span>© 2021–2026 Aconomy Labs Inc. The DPP Company, a Pandora product. All rights reserved.</span>
       <span class="made">Verifiable by design
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg>
       </span>

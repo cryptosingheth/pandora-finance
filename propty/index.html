@@ -20,9 +20,9 @@
     --ink-2:#3d4b66;           /* mid text on light */
   }
 
-  /* Brand logo in nav */
+  /* Brand logo in nav — hi-res SVG wordmark (viewBox 227×119, art is inset) */
   .brandmark{display:inline-flex;align-items:center;gap:10px}
-  .brandmark img{height:30px;width:auto;display:block}
+  .brandmark img{height:42px;width:auto;display:block}
   .nav-cta{display:flex;align-items:center;gap:18px}
   .nav a.navlink:hover{color:var(--teal)}
 
@@ -262,12 +262,53 @@
   .btn-outline-w{background:transparent;border:1.5px solid rgba(255,255,255,.55);color:#fff}
   .btn-outline-w:hover{border-color:#fff;background:rgba(255,255,255,.08)}
 
-  /* ===== Screens GIF slot placeholder styling ===== */
-  .screens-slot{margin-top:40px}
+  /* ===== App preview (hero-adjacent product visual) ===== */
+  .screens-slot{margin-top:48px}
+  .app-preview{margin:0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--gray-200);
+    box-shadow:var(--shadow-lg);background:#fff}
+  .ap-chrome{display:flex;align-items:center;gap:14px;padding:12px 18px;background:linear-gradient(180deg,#fbfdfc,#f4f7f6);border-bottom:1px solid var(--gray-200)}
+  .ap-dots{display:inline-flex;gap:7px}
+  .ap-dots i{width:11px;height:11px;border-radius:50%;background:var(--gray-200)}
+  .ap-dots i:first-child{background:#ff5f57}.ap-dots i:nth-child(2){background:#febc2e}.ap-dots i:last-child{background:#28c840}
+  .ap-url{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:var(--slate);
+    background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-pill);padding:6px 14px}
+  .ap-url svg{width:13px;height:13px;color:var(--teal)}
+  .ap-brand{margin-left:auto;display:inline-flex;align-items:center}
+  .ap-brand img{height:26px;width:auto;display:block}
+  .ap-body{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:26px;background:
+    radial-gradient(60% 60% at 85% 0%,rgba(0,88,67,.05),transparent 60%),#fff}
+  .ap-panel{position:relative;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:9px}
+  .ap-panel.accent{background:linear-gradient(180deg,var(--teal-tint),#fff);border-color:var(--teal-line)}
+  .ap-tag{align-self:flex-start;font-size:.64rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--slate);background:var(--bg);border:1px solid var(--gray-200);padding:4px 9px;border-radius:var(--r-pill)}
+  .ap-tag.proof{color:var(--teal);background:var(--teal-soft);border-color:var(--teal-line)}
+  .ap-photo{height:92px;border-radius:10px;background:
+    linear-gradient(135deg,#0a7057,#04352a);position:relative;overflow:hidden}
+  .ap-photo::after{content:"";position:absolute;inset:0;opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px);background-size:22px 22px}
+  .ap-panel h5{font-size:.92rem;font-weight:700;color:var(--navy);margin:2px 0 0}
+  .ap-sub{font-size:.78rem;color:var(--slate);margin:0}
+  .ap-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+  .ap-chip{font-size:.68rem;font-weight:600;color:var(--ink-2);background:var(--bg);border:1px solid var(--gray-200);padding:3px 8px;border-radius:var(--r-pill)}
+  .ap-cta-row{margin-top:auto}
+  .ap-btn{display:inline-block;width:100%;text-align:center;font-size:.78rem;font-weight:700;color:#fff;background:var(--teal);border-radius:9px;padding:9px 10px}
+  .ap-proofline{display:flex;align-items:center;gap:9px;font-size:.8rem;color:var(--navy);font-weight:600}
+  .ap-proofline.muted{color:var(--slate);font-weight:500}
+  .ap-tick{width:18px;height:18px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;flex:0 0 auto}
+  .ap-tick svg{width:10px;height:10px}
+  .ap-lock{width:18px;height:18px;display:grid;place-items:center;color:var(--slate);flex:0 0 auto}
+  .ap-lock svg{width:13px;height:13px}
+  .ap-proofbadge{margin-top:auto;text-align:center;font-size:.76rem;font-weight:800;color:var(--teal);
+    background:var(--teal-soft);border:1px dashed var(--teal-line);border-radius:9px;padding:8px}
+  .ap-doc{height:92px;border-radius:10px;background:var(--bg);border:1px solid var(--gray-200);padding:14px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+  .ap-doc span{height:7px;border-radius:4px;background:var(--gray-200)}
+  .ap-doc span.short{width:55%}
+  .ap-signed{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--teal)}
+  @media(max-width:760px){.ap-body{grid-template-columns:1fr;gap:14px}.ap-brand{display:none}}
 
   /* ===== Footer extra ===== */
   .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start}
-  .footer .brandmark img{height:28px;filter:brightness(0) invert(1)}
+  .footer .brandmark img{height:34px;width:auto;filter:none}
   .footer .fdesc{color:rgba(255,255,255,.65);max-width:38ch;margin-top:16px;font-size:.92rem}
   .fcol h4{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;font-weight:700}
   .fcol a{display:block;padding:6px 0;font-size:.94rem}
@@ -306,14 +347,13 @@
 <header class="nav">
   <div class="container nav-inner">
     <a href="../index.html" class="brandmark" aria-label="Propty home">
-      <img src="../assets/logos/PropTy_Horizontal.png" alt="Propty" width="132" height="30">
+      <img src="assets/PropTy-Horizontal.svg" alt="Propty" width="80" height="42">
     </a>
     <nav class="nav-cta">
       <a href="../index.html" class="navlink">&larr; Pandora hub</a>
       <a href="#platform" class="navlink">The platform</a>
       <a href="#private" class="navlink">Private by proof</a>
-      <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-      <a id="demo-link" href="agent/" target="_blank" rel="noopener" class="btn btn-teal">Launch the Propty agent</a>
+      <a class="btn btn-teal" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
     </nav>
   </div>
 </header>
@@ -331,7 +371,7 @@
       <p class="positioning">The docs' lease platform, <b>operated by an AI agent</b>, <b>private by zero-knowledge</b> — a tenant's documents are proven, never shared.</p>
       <div class="hero-cta">
         <a href="#platform" class="btn btn-teal">See how the platform works</a>
-        <a href="#" class="btn btn-ghost js-demo">Launch the Propty agent</a>
+        <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" class="btn btn-ghost">Book a demo</a>
       </div>
       <div class="hero-trust">
         <span><i class="dot"></i> Screens tenants with no Canadian credit</span>
@@ -371,11 +411,41 @@
     </div>
   </div>
 
-  <!-- SCREENS-GIF-SLOT -->
-  <!-- Product-screens GIF will be embedded here (hero-adjacent). Placeholder container below. -->
+  <!-- APP-PREVIEW SLOT — polished, on-message product preview of the lease flow -->
   <div class="container screens-slot reveal">
-    <figure style="margin:0;border-radius:20px;overflow:hidden;border:1px solid var(--gray-200);box-shadow:0 24px 60px rgba(16,32,64,.12)">
-      <img src="media/screens.gif" alt="Propty product screens — the tokenized-property dashboard, one-tap tokenization, and token checkout" loading="lazy" decoding="async" style="width:100%;display:block" />
+    <figure class="app-preview" aria-label="Propty app preview — browse listings, get verified by zero-knowledge proof, and e-sign the lease">
+      <div class="ap-chrome">
+        <span class="ap-dots"><i></i><i></i><i></i></span>
+        <span class="ap-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> app.propty.finance</span>
+        <span class="ap-brand"><img src="assets/PropTy-Horizontal.svg" alt="Propty" width="66" height="35"></span>
+      </div>
+      <div class="ap-body">
+        <!-- Panel 1: listing -->
+        <div class="ap-panel">
+          <span class="ap-tag">Listing</span>
+          <div class="ap-photo"></div>
+          <h5>2BR + den · East York, Toronto</h5>
+          <p class="ap-sub">Long-term · available Aug 1</p>
+          <div class="ap-row"><span class="ap-chip">Room or whole unit</span><span class="ap-chip">Verified host</span></div>
+          <div class="ap-cta-row"><span class="ap-btn">Request a viewing</span></div>
+        </div>
+        <!-- Panel 2: verify by proof -->
+        <div class="ap-panel accent">
+          <span class="ap-tag proof">Verify by proof</span>
+          <div class="ap-proofline"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Income clears the host's threshold</div>
+          <div class="ap-proofline"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Identity valid</div>
+          <div class="ap-proofline muted"><span class="ap-lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Documents never shared</div>
+          <div class="ap-proofbadge">ZK eligibility proof · yes</div>
+        </div>
+        <!-- Panel 3: e-sign -->
+        <div class="ap-panel">
+          <span class="ap-tag">Lease</span>
+          <div class="ap-doc"><span></span><span></span><span class="short"></span></div>
+          <h5>Ontario standard lease</h5>
+          <p class="ap-sub">Prefilled &amp; e-signed by both parties</p>
+          <div class="ap-signed"><span class="ap-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Signed · hash anchored</div>
+        </div>
+      </div>
     </figure>
   </div>
 </section>
@@ -771,24 +841,36 @@
 
     <div class="faqs">
       <details class="faq reveal">
-        <summary>How does the AI agent actually work?</summary>
-        <p>The agent operates the whole lease platform on your behalf. It searches listings, books viewings on a calendar, verifies a tenant's documents, drafts and routes the RTA-compliant lease for e-signature, collects rent through a licensed processor, and reports on-time payments to the bureaus. You give it intent — <b>"find me a room under budget near transit"</b> — and it runs the steps, showing its work as it goes. Launch the agent to watch it end to end.</p>
+        <summary>What actually happens between browsing a listing and signing a lease?</summary>
+        <p>A tenant browses live listings and <b>requests a viewing</b> through a calendar link (Calendly / Cal); the host confirms and they meet at the property. If the tenant wants to proceed, the <b>host initiates verification</b> and the tenant uploads their documents. Those documents are checked against the host's criteria and turned into a proof — not shared as files. Once the tenant qualifies, Propty prefills the lease from the tenant's details, both sides review and <b>e-sign</b>, and the signed contract lives in each party's dashboard to view or download anytime. The host then marks the listing <b>Booked</b>, and later <b>Rented</b>.</p>
       </details>
       <details class="faq reveal">
-        <summary>How does the privacy (zero-knowledge) part work?</summary>
-        <p>Instead of handing raw pay stubs, bank statements and ID to a stranger, the agent reads them privately and produces a <b>zero-knowledge eligibility proof</b> — a yes/no that income clears the host's threshold and identity is valid. The host verifies that proof without ever seeing the underlying figures or documents. Every signed lease is also hash-anchored for a tamper-proof property history. The proof system is in active development.</p>
+        <summary>What exactly does the zero-knowledge proof reveal — and what does it hide?</summary>
+        <p>The agent reads the tenant's pay stubs, bank statements and ID privately and produces a <b>zero-knowledge eligibility proof</b>: a yes/no that income clears the host's threshold and identity is valid. The host verifies that result and <b>never sees the salary figure, account balance or ID number</b> behind it — data minimisation by design. The tenant's documents contain PII and are kept secure; they are not exposed to the host or the public. The proof system is in active development.</p>
       </details>
       <details class="faq reveal">
-        <summary>Who can list a property?</summary>
-        <p>Any <b>Property Host</b> — a landlord, property manager or management firm. Hosts identify their type at sign-up. If you're a property manager or firm rather than the landlord, the platform requires you to upload the signed landlord lease before you can list, which reduces sublet fraud. Landlords get the government standard lease template; managers get a Propty-provided template.</p>
+        <summary>Who can list, and why must some hosts upload a lease first?</summary>
+        <p>A <b>Property Host</b> is a landlord, property manager or management firm, and you declare which you are at sign-up. If you're a manager or firm rather than the landlord, the platform makes <b>uploading the signed landlord lease a mandatory step before you can list</b> — that's the guard against sublet and rent-to-rent fraud. That uploaded landlord agreement stays private; it is never shown to the public.</p>
       </details>
       <details class="faq reveal">
-        <summary>How does the rent guarantee work?</summary>
-        <p>Once a lease is signed, the agent collects rent through a licensed processor and delivers the owner's payout <b>on time by the 5th</b> — even if the tenant is late. If a payment slips, the tenant gets a grace window and an agreed plan while the owner stays covered, and the arrears are worked out on record rather than left to escalate.</p>
+        <summary>How do a host's tenant criteria get applied?</summary>
+        <p>The host sets <b>tenant candidacy criteria once on their profile</b> — income, tenancy terms and the conditions they need — and the platform applies them to every property they list, now and in future. During verification the tenant is tested against those exact criteria to be treated as an authenticated, authorized candidate. You set the rules once instead of re-screening from scratch for every listing.</p>
       </details>
       <details class="faq reveal">
-        <summary>Is Propty Ontario-only?</summary>
-        <p>Today, yes. Propty is built around Ontario's Residential Tenancies Act and its standard lease, and the pilot ran in Ontario. The platform's template layer is designed to extend to other jurisdictions and tenancy types over time, but Ontario is where it operates now.</p>
+        <summary>Which lease template gets used — and can it be edited?</summary>
+        <p>It depends on the host type. <b>Landlords get the government standard lease</b> (Ontario's standard form); <b>managers and firms get a Propty-provided template</b>. The correct template is enabled only after the tenant clears verification. Propty prefills it from the tenant's documents, the host can adjust the terms and clauses for their property, and the tenant can leave feedback before the final version is e-signed by both parties.</p>
+      </details>
+      <details class="faq reveal">
+        <summary>How does the rent guarantee — and a missed payment — actually work?</summary>
+        <p>Once a lease is signed, the agent collects rent through a <b>licensed payment processor</b> and delivers the owner's payout <b>on time by the 5th</b>, even if the tenant is late. If a payment slips, the tenant gets a grace window and an agreed plan while the owner stays covered; arrears are handled by clear rules and documented communication, worked out on record rather than left to escalate.</p>
+      </details>
+      <details class="faq reveal">
+        <summary>What is the "property history," and how does it help in a dispute?</summary>
+        <p>Every signed tenant contract is hashed and its <b>proof and hash are published under the property</b>, building a verifiable property history over time. The full contract stays private — visible only to the parties who signed it — but its existence and integrity can be checked later. That gives both sides tamper-proof evidence to lean on if a tenancy is ever disputed, instead of a he-said-she-said paper trail.</p>
+      </details>
+      <details class="faq reveal">
+        <summary>Is Propty Ontario-only right now?</summary>
+        <p>Today, yes. Propty is built around Ontario's Residential Tenancies Act and its standard lease, and the pilot ran in Ontario. The platform keeps contract templates by <b>jurisdiction and tenancy type</b>, so it is designed to extend to other regions and to room-versus-whole-unit rentals over time — but Ontario is where it operates now.</p>
       </details>
     </div>
   </div>
@@ -800,10 +882,10 @@
     <div class="ctaband reveal">
       <div class="inner">
         <h2>Let the agent run your next lease</h2>
-        <p>Whether you host homes or you're looking for one, Propty gives you a lease that's guaranteed, private, and on record. Launch the agent to watch it work — or book a demo.</p>
+        <p>Whether you host homes or you're looking for one, Propty gives you a lease that's guaranteed, private, and on record. Book a demo to see the agent work end to end.</p>
         <div class="btns">
-          <a href="#" class="btn btn-white js-demo">Launch the Propty agent</a>
-          <a class="btn btn-outline-w" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+          <a class="btn btn-white" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
+          <a class="btn btn-outline-w" href="#platform">See how the platform works</a>
         </div>
       </div>
     </div>
@@ -815,8 +897,8 @@
   <div class="container">
     <div class="foot-grid">
       <div>
-        <span class="brandmark"><img src="../assets/logos/PropTy_Horizontal.png" alt="Propty" width="132" height="28"></span>
-        <p class="fdesc">The lease platform, operated by an AI agent, private by zero-knowledge — making rent-to-rent and room rentals legitimate and safe for hosts and newcomer tenants across Ontario, Canada. Part of the Pandora Studio ecosystem.</p>
+        <span class="brandmark"><img src="assets/PropTy-Horizontal-white.svg" alt="Propty" width="129" height="34"></span>
+        <p class="fdesc">The lease platform, operated by an AI agent, private by zero-knowledge — making rent-to-rent and room rentals legitimate and safe for hosts and newcomer tenants across Ontario, Canada. Part of the Pandora ecosystem.</p>
         <span class="vchip" style="margin-top:18px">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
           Guaranteed · Private · Verifiable
@@ -832,8 +914,8 @@
       <div class="fcol">
         <h4>Ecosystem</h4>
         <a href="../index.html">Pandora hub</a>
-        <a href="#" class="js-demo">Launch the Propty agent</a>
-        <a href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+        <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
+        <a href="#features">The financial layer</a>
         <a href="#compliance">Privacy &amp; PIPEDA</a>
       </div>
     </div>
@@ -857,17 +939,8 @@
     els.forEach(function(e){io.observe(e);});
   })();
 
-  // Keep every "Launch the Propty agent" link in sync with the nav placeholder,
-  // so wiring #demo-link later updates them all.
+  // Current year
   (function(){
-    var demo = document.getElementById('demo-link');
-    var mirror = document.querySelectorAll('.js-demo');
-    function sync(){
-      var href = demo.getAttribute('href') || '#';
-      mirror.forEach(function(a){ a.setAttribute('href', href); if(demo.target) a.target = demo.target; });
-    }
-    sync();
-    // current year
     var y = document.getElementById('yr'); if(y) y.textContent = new Date().getFullYear();
   })();
 </script>

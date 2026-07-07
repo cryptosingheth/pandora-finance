@@ -1,0 +1,8 @@
+[
+  { "name": "Collision", "file": "collision.png", "city": "Toronto", "order": 1 },
+  { "name": "CoinDesk Consensus", "file": "consensus.svg", "city": "Toronto", "order": 2 },
+  { "name": "Blockchain Futurist Conference", "file": "futurist.svg", "city": "Toronto", "order": 3 },
+  { "name": "NFT NYC", "file": "nftnyc.svg", "city": "New York", "order": 4 },
+  { "name": "TOKEN2049", "file": "token2049.svg", "city": "Singapore", "order": 5 },
+  { "name": "Abu Dhabi Finance Week", "file": "adfw.svg", "city": "Abu Dhabi", "order": 6 }
+]
