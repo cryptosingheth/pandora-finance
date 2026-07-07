@@ -528,6 +528,57 @@
     .reveal{opacity:1!important;transform:none!important}
     .cl{opacity:1!important;transform:none!important}
   }
+
+  /* ============================================================
+     v5 ADDITIONS — reordered layout, split cases/seen, incubators-in-partners
+     ============================================================ */
+  .block-head{max-width:62ch;margin-bottom:clamp(30px,4vw,46px)}
+  .block-head h2{margin-top:16px}
+  .block-head p{margin-top:14px;max-width:58ch;color:var(--slate)}
+
+  .incu-block{margin-top:clamp(30px,4vw,44px);padding-top:28px;border-top:1px solid var(--d-line)}
+  #partners .incu-block .lr-label{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--d-sky);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  #partners .incu-block .lr-label::before{content:"";width:20px;height:1.5px;background:var(--d-sky)}
+  #partners .incu-badge{background:rgba(255,255,255,.06);border-color:var(--d-line-2);color:var(--d-body)}
+  #partners .incu-badge svg{color:var(--d-sky)}
+
+  /* CASE STUDIES — own light section */
+  #cases{background:#fff}
+  #cases .ccard{background:#fff;border:var(--edge);color:var(--navy);box-shadow:var(--card-shadow)}
+  #cases .ccard h3{color:var(--navy)}
+  #cases .ccard .ck-tag{color:var(--pan-blue)}
+  #cases .ccard .cgo{color:var(--pan-blue)}
+  #cases .ccard::after{background:linear-gradient(90deg,var(--pan-blue),transparent)}
+  #cases .ccard:hover{border-color:color-mix(in srgb,var(--pan-blue) 30%,transparent);box-shadow:var(--shadow-lg)}
+  #cases .cases-grid{margin-top:0}
+
+  /* SEEN AT — own dark section with an event collage */
+  #seen{background:var(--d-bg);color:#fff;position:relative;overflow:hidden}
+  #seen::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.7;
+    background:radial-gradient(680px 460px at 6% -6%, rgba(0,171,190,.2), transparent 58%),
+              radial-gradient(680px 480px at 96% 104%, rgba(0,108,255,.2), transparent 60%)}
+  #seen .wrap{position:relative}
+  #seen h2{color:#fff}
+  #seen .block-head p{color:var(--d-body)}
+  .seen-collage{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .ev-card{border:1px solid var(--d-line-2);border-radius:var(--r-lg);overflow:hidden;background:var(--d-panel);
+    transition:transform .3s var(--ease),border-color .3s,box-shadow .3s}
+  .ev-card:hover{transform:translateY(-5px);border-color:rgba(127,178,255,.5);box-shadow:0 26px 60px rgba(0,0,0,.45)}
+  .ev-media{position:relative;aspect-ratio:4/3;display:grid;place-items:center;background-size:cover;background-position:center}
+  .ev-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,49,.12),rgba(10,22,49,.72))}
+  .ev-media span{position:relative;z-index:1;font-family:var(--mono);font-weight:800;font-size:.86rem;letter-spacing:.01em;
+    color:#fff;text-align:center;padding:0 10px;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+  .ev-media.m1{background-image:linear-gradient(135deg,#0b3b6b,#0a1631)}
+  .ev-media.m2{background-image:linear-gradient(135deg,#123f3a,#0a1631)}
+  .ev-media.m3{background-image:linear-gradient(135deg,#3a2668,#0a1631)}
+  .ev-media.m4{background-image:linear-gradient(135deg,#0b466b,#0a1631)}
+  .ev-media.m5{background-image:linear-gradient(135deg,#5a3a0b,#0a1631)}
+  .ev-cap{padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .ev-cap b{color:#fff;font-size:.9rem;font-weight:700;letter-spacing:-.01em}
+  .ev-cap span{color:var(--d-dim);font-size:.78rem}
+  @media(max-width:900px){.seen-collage{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){.seen-collage{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -542,7 +593,7 @@
       <a class="navlink" href="#proof">Proof</a>
       <a class="navlink" href="#products">Products</a>
       <a class="navlink" href="#partners">Partners</a>
-      <a class="navlink" href="#team">Team</a>
+      <a class="navlink" href="about/index.html">About</a>
       <a class="navlink" href="#contact">Contact</a>
     </nav>
     <div class="nav-cta">
@@ -598,176 +649,6 @@
     <!-- items injected + duplicated by script for a seamless loop -->
   </div>
 </div>
-
-<!-- ============================== PROOF OF WORK ============================== -->
-<section id="proof" class="section">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="kicker on-dark">What we've shipped to date</span>
-        <h2>Credibility measured in artifacts, not adjectives.</h2>
-      </div>
-      <p class="muted">Real products in real hands, code independently audited, infrastructure verifiable on a public chain. Every number below points to something you can open and check.</p>
-    </div>
-
-    <div class="pw-grid">
-      <div class="pw reveal">
-        <span class="pw-tag">Raised</span>
-        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-        <div class="pw-n">$2.4M</div>
-        <div class="pw-k">Seed round</div>
-        <div class="pw-s">Raised in 2021 — 5× oversubscribed.</div>
-      </div>
-      <div class="pw reveal">
-        <span class="pw-tag">Verified</span>
-        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
-        <div class="pw-n" data-count="2" data-suffix="">2</div>
-        <div class="pw-k">Independent audits</div>
-        <div class="pw-s">QuillAudits · 0 open findings. Zokyo · 100/100.</div>
-      </div>
-      <div class="pw reveal">
-        <span class="pw-tag">Built</span>
-        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8M8 12h8M8 17h5"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg></span>
-        <div class="pw-n" data-count="7" data-suffix="">7</div>
-        <div class="pw-k">Products</div>
-        <div class="pw-s">One team, one foundation — agents plus verifiable rails.</div>
-      </div>
-      <div class="pw reveal">
-        <span class="pw-tag">Adopted</span>
-        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-        <div class="pw-n">1,000+</div>
-        <div class="pw-k">Testnet users, week one</div>
-        <div class="pw-s">Aconomy's open testnet, Nov 2023.</div>
-      </div>
-    </div>
-
-    <div class="pw-rail reveal">
-      <div class="pw-rail-head">
-        <span class="net">● Track record</span> A company that keeps shipping — 2021 to today
-      </div>
-      <ul class="pw-tl">
-        <li>
-          <span class="yr">2021</span>
-          <span class="ev">Seed + first audit</span>
-          <span class="de">$2.4M seed (5× oversubscribed). Zokyo reviews the contracts — 100/100 (May 2021).</span>
-        </li>
-        <li>
-          <span class="yr">2022</span>
-          <span class="ev">SDK on npm</span>
-          <span class="de"><span class="mono">pandora-express</span> ships to npm (Feb 2022). QuillAudits audit closes with 0 open findings (Apr 2022).</span>
-        </li>
-        <li>
-          <span class="yr">Nov 2023</span>
-          <span class="ev">Aconomy open testnet</span>
-          <span class="de">The AI-assisted RWA marketplace opens its testnet — 1,000+ users in week one.</span>
-        </li>
-        <li>
-          <span class="yr">Mar 2024</span>
-          <span class="ev">First-ever ERC-404 marketplace</span>
-          <span class="de">First-ever ERC-404 marketplace ships (Mar 26) — Ethereum + Polygon, expanding to Base.</span>
-        </li>
-        <li>
-          <span class="yr">Aug 2024</span>
-          <span class="ev">Foundation era + app</span>
-          <span class="de">The Aconomy Foundation era begins; the Aconomy app lands live on Google Play.</span>
-        </li>
-        <li>
-          <span class="yr">Now</span>
-          <span class="ev">The agentic era</span>
-          <span class="de">7 products on one foundation — a family of agents that do real work on verifiable rails.</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============================== PARTNERS (DARK) ============================== -->
-<section id="partners" class="section">
-  <div class="wrap">
-    <div class="part-head reveal">
-      <span class="kicker on-navy">Backed &amp; connected</span>
-      <h2 style="margin-top:16px">Investors, clients &amp; ecosystem partners.</h2>
-      <p>The people who funded the work, the teams who put it to use, and the projects building alongside us — since 2021.</p>
-    </div>
-
-    <div class="logo-row reveal">
-      <div class="lr-label">Investors</div>
-      <div class="logos">
-        <span class="wm">AU21 Capital</span>
-        <span class="wm">NGC Ventures</span>
-        <span class="wm">Master Ventures</span>
-        <span class="wm">Magnus Capital</span>
-        <span class="wm">Exnetwork Capital</span>
-        <span class="wm">Genesis Block</span>
-        <span class="wm">Zokyo Ventures</span>
-        <span class="wm">Spark Digital Assets</span>
-        <span class="wm">x21</span>
-        <span class="wm">Protocol Ventures</span>
-        <span class="wm">Chain Asset Capital</span>
-        <span class="wm">Draper University</span>
-      </div>
-    </div>
-
-    <div class="logo-row reveal">
-      <div class="lr-label">Clients</div>
-      <div class="logos">
-        <span class="wm">Tempho Inc.</span>
-        <span class="wm">Shah &amp; Shah Lawyers</span>
-      </div>
-    </div>
-
-    <div class="logo-row reveal">
-      <div class="lr-label">Ecosystem</div>
-      <div class="logos">
-        <span class="wm">Stellar</span>
-        <span class="wm">LivWell</span>
-        <span class="wm">Forward Protocol</span>
-        <span class="wm">Metastarter</span>
-        <span class="wm">Soccer Hub</span>
-        <span class="wm">Cloutlanders</span>
-        <span class="wm">Metawood</span>
-        <span class="wm">Cryptopirates</span>
-        <span class="wm">H3ROES</span>
-      </div>
-    </div>
-
-    <!-- CASE STUDIES -->
-    <div class="cases-grid">
-      <a class="ccard reveal" href="cases/dpp-canada.html">
-        <div class="ck-tag">Case study · DPP</div>
-        <h3>Digital Product Passports: the Canadian opportunity</h3>
-        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-      </a>
-      <a class="ccard reveal" href="cases/agentic-commerce.html">
-        <div class="ck-tag">Case study · Express Protocol</div>
-        <h3>Agentic commerce: when software becomes the buyer</h3>
-        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-      </a>
-      <a class="ccard reveal" href="cases/rental-data-privacy.html">
-        <div class="ck-tag">Case study · Propty</div>
-        <h3>Rental applications over-share: fixing tenant privacy with ZK + AI</h3>
-        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-      </a>
-      <a class="ccard reveal" href="cases/ai-governance-e23.html">
-        <div class="ck-tag">Case study · Governance</div>
-        <h3>AI governance in Canadian finance: meeting OSFI E-23</h3>
-        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-      </a>
-    </div>
-
-    <!-- SEEN AT -->
-    <div class="seen-row reveal">
-      <div class="sr-label">Seen at</div>
-      <div class="seen-items">
-        <span><span class="sd"></span>Collision</span>
-        <span><span class="sd"></span>Token2049 Singapore &amp; Dubai</span>
-        <span><span class="sd"></span>NFT NYC</span>
-        <span><span class="sd"></span>Abu Dhabi Finance Week</span>
-        <span><span class="sd"></span>Blockchain Futurist</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============================== THESIS (+ engineering) ============================== -->
 <section id="thesis" class="section">
@@ -982,6 +863,88 @@
   </div>
 </section>
 
+<!-- ============================== PROOF OF WORK ============================== -->
+<section id="proof" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker on-dark">What we've shipped to date</span>
+        <h2>Credibility measured in artifacts, not adjectives.</h2>
+      </div>
+      <p class="muted">Real products in real hands, code independently audited, infrastructure verifiable on a public chain. Every number below points to something you can open and check.</p>
+    </div>
+
+    <div class="pw-grid">
+      <div class="pw reveal">
+        <span class="pw-tag">Raised</span>
+        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+        <div class="pw-n">$2.4M</div>
+        <div class="pw-k">Seed round</div>
+        <div class="pw-s">Raised in 2021 — 5× oversubscribed.</div>
+      </div>
+      <div class="pw reveal">
+        <span class="pw-tag">Verified</span>
+        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <div class="pw-n" data-count="2" data-suffix="">2</div>
+        <div class="pw-k">Independent audits</div>
+        <div class="pw-s">QuillAudits · 0 open findings. Zokyo · 100/100.</div>
+      </div>
+      <div class="pw reveal">
+        <span class="pw-tag">Built</span>
+        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8M8 12h8M8 17h5"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg></span>
+        <div class="pw-n" data-count="7" data-suffix="">7</div>
+        <div class="pw-k">Products</div>
+        <div class="pw-s">One team, one foundation — agents plus verifiable rails.</div>
+      </div>
+      <div class="pw reveal">
+        <span class="pw-tag">Adopted</span>
+        <span class="pw-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <div class="pw-n">1,000+</div>
+        <div class="pw-k">Testnet users, week one</div>
+        <div class="pw-s">Aconomy's open testnet, Nov 2023.</div>
+      </div>
+    </div>
+
+    <div class="pw-rail reveal">
+      <div class="pw-rail-head">
+        <span class="net">● Track record</span> A company that keeps shipping — 2021 to today
+      </div>
+      <ul class="pw-tl">
+        <li>
+          <span class="yr">2021</span>
+          <span class="ev">Seed + first audit</span>
+          <span class="de">$2.4M seed (5× oversubscribed). Zokyo reviews the contracts — 100/100 (May 2021).</span>
+        </li>
+        <li>
+          <span class="yr">2022</span>
+          <span class="ev">SDK on npm</span>
+          <span class="de"><span class="mono">pandora-express</span> ships to npm (Feb 2022). QuillAudits audit closes with 0 open findings (Apr 2022).</span>
+        </li>
+        <li>
+          <span class="yr">Nov 2023</span>
+          <span class="ev">Aconomy open testnet</span>
+          <span class="de">The AI-assisted RWA marketplace opens its testnet — 1,000+ users in week one.</span>
+        </li>
+        <li>
+          <span class="yr">Mar 2024</span>
+          <span class="ev">First-ever ERC-404 marketplace</span>
+          <span class="de">First-ever ERC-404 marketplace ships (Mar 26) — Ethereum + Polygon, expanding to Base.</span>
+        </li>
+        <li>
+          <span class="yr">Aug 2024</span>
+          <span class="ev">Foundation era + app</span>
+          <span class="de">The Aconomy Foundation era begins; the Aconomy app lands live on Google Play.</span>
+        </li>
+        <li>
+          <span class="yr">Now</span>
+          <span class="ev">The agentic era</span>
+          <span class="de">7 products on one foundation — a family of agents that do real work on verifiable rails.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ============================== ACONOMY IS LIVE (DARK) ============================== -->
 <section id="live" class="section">
   <div class="wrap live-grid">
@@ -995,7 +958,7 @@
           <svg class="gp-ic" viewBox="0 0 512 512" aria-hidden="true"><path fill="#00d3ff" d="M47 24 279 256 47 488c-9-5-15-15-15-27V51c0-12 6-22 15-27z"/><path fill="#00f076" d="m47 24c9-5 20-4 30 2l253 146-63 63L47 24z"/><path fill="#ffce00" d="m267 237 63-63 89 51c20 12 20 40 0 52l-89 51-63-63 32-14z"/><path fill="#ff3a44" d="m267 275 63 63L77 484c-10 6-21 7-30 2l220-211z"/></svg>
           <span class="gp-txt"><span class="s">Get it on</span><span class="b">Google Play</span></span>
         </a>
-        <a class="btn btn-wire-d" href="aconomy/agent/">Launch the AI agent
+        <a class="btn btn-wire-d" href="aconomy/index.html">Explore Aconomy
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
@@ -1008,45 +971,167 @@
   </div>
 </section>
 
-<!-- ============================== TEAM ============================== -->
-<section id="team" class="section">
+<!-- ============================== PARTNERS (DARK) ============================== -->
+<section id="partners" class="section">
   <div class="wrap">
-    <div class="team-head reveal">
-      <span class="kicker">Who's behind it</span>
-      <h2 style="margin-top:16px">The team behind the products.</h2>
-      <p>A small, senior team — smart contracts and agents, operations and capital, research and analytics, compliance and licensing.</p>
+    <div class="part-head reveal">
+      <span class="kicker on-navy">Backed &amp; connected</span>
+      <h2 style="margin-top:16px">Investors &amp; client ecosystem.</h2>
+      <p>The investors who funded the work, the clients and ecosystem building alongside us, and the Canadian programs that incubated the company — since 2021.</p>
     </div>
 
-    <div class="team-grid">
-      <article class="mcard reveal">
-        <img class="photo" src="assets/team/pushkar.png" alt="Pushkar Vohra" loading="lazy" width="96" height="96" />
-        <div class="nm">Pushkar Vohra</div>
-        <div class="rl">Founder &amp; CEO</div>
-        <p class="bio">Architect of the stack: smart contracts, marketplaces and the agentic systems on top. Previously co-founded Blockslab; TEDx speaker.</p>
-      </article>
-
-      <article class="mcard reveal">
-        <img class="photo" src="assets/team/opinder.png" alt="Opinder Preet Singh Narang" loading="lazy" width="96" height="96" />
-        <div class="nm">Opinder Preet Singh Narang</div>
-        <div class="rl">Co-Founder, Execution</div>
-        <p class="bio">Turns products into companies: operations, partnerships and capital. Founding partner at Chain Assets Capital; previously at Aave; 50+ early-stage investments.</p>
-      </article>
-
-      <article class="mcard reveal">
-        <img class="photo" src="assets/team/harrhythm.png" alt="Har Rhythm Kaur" loading="lazy" width="96" height="96" />
-        <div class="nm">Har Rhythm Kaur</div>
-        <div class="rl">Co-Founder, Research &amp; Analytics</div>
-        <p class="bio">Data science and ML — 5+ years at IBM. Designs the research, dashboards and models that keep the agents honest.</p>
-      </article>
-    </div>
-
-    <div class="team-slim reveal">
-      <img class="photo" src="assets/team/tamur.png" alt="Tamur Shah" loading="lazy" width="80" height="80" />
-      <div class="ts-meta">
-        <div class="nm">Tamur Shah</div>
-        <div class="rl">Head of Compliance &amp; Licensing</div>
-        <p class="bio">Keeps every product inside the regulatory lines — licensing, compliance and risk across jurisdictions.</p>
+    <div class="logo-row reveal">
+      <div class="lr-label">Investors</div>
+      <div class="logos">
+        <span class="wm">AU21 Capital</span>
+        <span class="wm">NGC Ventures</span>
+        <span class="wm">Master Ventures</span>
+        <span class="wm">Magnus Capital</span>
+        <span class="wm">Exnetwork Capital</span>
+        <span class="wm">Genesis Block</span>
+        <span class="wm">Zokyo Ventures</span>
+        <span class="wm">Spark Digital Assets</span>
+        <span class="wm">x21</span>
+        <span class="wm">Protocol Ventures</span>
+        <span class="wm">Chain Asset Capital</span>
+        <span class="wm">Draper University</span>
       </div>
+    </div>
+
+    <div class="logo-row reveal">
+      <div class="lr-label">Client ecosystem</div>
+      <div class="logos">
+        <span class="wm">Tempho Inc.</span>
+        <span class="wm">Shah &amp; Shah Lawyers</span>
+        <span class="wm">Stellar</span>
+        <span class="wm">LivWell</span>
+        <span class="wm">Forward Protocol</span>
+        <span class="wm">Metastarter</span>
+        <span class="wm">Soccer Hub</span>
+        <span class="wm">Cloutlanders</span>
+        <span class="wm">Metawood</span>
+        <span class="wm">Cryptopirates</span>
+        <span class="wm">H3ROES</span>
+      </div>
+    </div>
+
+    <!-- INVESTOR NETWORK · INCUBATED IN CANADA (highlighted) -->
+    <div class="incu-block reveal">
+      <div class="lr-label">Investor network &amp; incubators</div>
+      <div class="incu-row">
+        <a class="incu-card" href="https://tbdc.com" target="_blank" rel="noopener" aria-label="Toronto Business Development Centre (TBDC)">
+          <div class="incu-logo">
+            <img src="assets/incubators/tbdc.svg" alt="Toronto Business Development Centre (TBDC)" loading="lazy" />
+          </div>
+          <div class="incu-meta">
+            <span class="nm">TBDC
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </span>
+            <span class="ds">Toronto Business Development Centre — startup incubator, Toronto</span>
+          </div>
+        </a>
+
+        <a class="incu-card" href="https://thebhive.ca" target="_blank" rel="noopener" aria-label="BHive, Brampton">
+          <div class="incu-logo bhive">
+            <img src="assets/incubators/bhive.svg" alt="BHive — Brampton" loading="lazy" />
+          </div>
+          <div class="incu-meta">
+            <span class="nm">BHive
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </span>
+            <span class="ds">BHive, Brampton — launched in partnership with TBDC</span>
+          </div>
+        </a>
+
+        <a class="incu-card" href="https://oc-innovation.ca" target="_blank" rel="noopener" aria-label="Ontario Centre of Innovation (OCI)">
+          <div class="incu-logo">
+            <img src="assets/incubators/oci.svg" alt="Ontario Centre of Innovation (OCI)" loading="lazy" />
+          </div>
+          <div class="incu-meta">
+            <span class="nm">OCI
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </span>
+            <span class="ds">Ontario Centre of Innovation — Ontario's innovation agency</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="incu-badges">
+        <span class="incu-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          IRCC-designated Startup Visa organizations
+        </span>
+        <span class="incu-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V11l8-4 8 4v10"/><path d="M9 21v-5h6v5"/></svg>
+          Incorporated &amp; headquartered in Toronto, Canada
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CASE STUDIES ============================== -->
+<section id="cases" class="section">
+  <div class="wrap">
+    <div class="block-head reveal">
+      <span class="kicker">In practice</span>
+      <h2 style="margin-top:16px">Where the work applies.</h2>
+      <p>Four cases showing how these products land in the real world — Canadian markets first.</p>
+    </div>
+    <div class="cases-grid">
+      <a class="ccard reveal" href="cases/dpp-canada.html">
+        <div class="ck-tag">Case study · DPP</div>
+        <h3>Digital Product Passports: the Canadian opportunity</h3>
+        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      </a>
+      <a class="ccard reveal" href="cases/agentic-commerce.html">
+        <div class="ck-tag">Case study · Express Protocol</div>
+        <h3>Agentic commerce: when software becomes the buyer</h3>
+        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      </a>
+      <a class="ccard reveal" href="cases/rental-data-privacy.html">
+        <div class="ck-tag">Case study · Propty</div>
+        <h3>Rental applications over-share: fixing tenant privacy with ZK + AI</h3>
+        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      </a>
+      <a class="ccard reveal" href="cases/ai-governance-e23.html">
+        <div class="ck-tag">Case study · Governance</div>
+        <h3>AI governance in Canadian finance: meeting OSFI E-23</h3>
+        <span class="cgo">Read the case <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SEEN AT ============================== -->
+<section id="seen" class="section">
+  <div class="wrap">
+    <div class="block-head reveal">
+      <span class="kicker on-navy">On the ground</span>
+      <h2 style="margin-top:16px">Seen at the events that matter.</h2>
+      <p>We show up where the industry gathers — talks, booths and demos across the world's biggest Web3 and finance stages.</p>
+    </div>
+    <div class="seen-collage">
+      <article class="ev-card reveal">
+        <div class="ev-media m1"><span>TOKEN2049</span></div>
+        <div class="ev-cap"><b>TOKEN2049</b><span>Singapore &amp; Dubai</span></div>
+      </article>
+      <article class="ev-card reveal">
+        <div class="ev-media m2"><span>Collision</span></div>
+        <div class="ev-cap"><b>Collision</b><span>Toronto</span></div>
+      </article>
+      <article class="ev-card reveal">
+        <div class="ev-media m3"><span>NFT NYC</span></div>
+        <div class="ev-cap"><b>NFT NYC</b><span>New York</span></div>
+      </article>
+      <article class="ev-card reveal">
+        <div class="ev-media m4"><span>Abu Dhabi Finance Week</span></div>
+        <div class="ev-cap"><b>Abu Dhabi Finance Week</b><span>Abu Dhabi</span></div>
+      </article>
+      <article class="ev-card reveal">
+        <div class="ev-media m5"><span>Blockchain Futurist</span></div>
+        <div class="ev-cap"><b>Blockchain Futurist</b><span>Toronto</span></div>
+      </article>
     </div>
   </div>
 </section>
@@ -1059,7 +1144,7 @@
         <span class="kicker">Proof &amp; trust</span>
         <h2>Don't take our word for it. Check the work.</h2>
       </div>
-      <p class="muted">Independent audits, contracts verifiable on a public chain, code built in the open, and incubation in Canada. Everything here links to something you can inspect yourself.</p>
+      <p class="muted">Independent audits, contracts verifiable on a public chain, and code built in the open. Everything here links to something you can inspect yourself.</p>
     </div>
 
     <div class="trust-grid">
@@ -1095,56 +1180,7 @@
 
     </div>
 
-    <!-- INCUBATED IN CANADA (widened to 3) -->
-    <div class="incu-row">
-      <a class="incu-card reveal" href="https://tbdc.com" target="_blank" rel="noopener" aria-label="Toronto Business Development Centre (TBDC)">
-        <div class="incu-logo">
-          <img src="assets/incubators/tbdc.svg" alt="Toronto Business Development Centre (TBDC)" loading="lazy" />
-        </div>
-        <div class="incu-meta">
-          <span class="nm">TBDC
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </span>
-          <span class="ds">Toronto Business Development Centre — startup incubator, Toronto</span>
-        </div>
-      </a>
-
-      <a class="incu-card reveal" href="https://thebhive.ca" target="_blank" rel="noopener" aria-label="BHive, Brampton">
-        <div class="incu-logo bhive">
-          <img src="assets/incubators/bhive.svg" alt="BHive — Brampton" loading="lazy" />
-        </div>
-        <div class="incu-meta">
-          <span class="nm">BHive
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </span>
-          <span class="ds">BHive, Brampton — launched in partnership with TBDC</span>
-        </div>
-      </a>
-
-      <a class="incu-card reveal" href="https://oc-innovation.ca" target="_blank" rel="noopener" aria-label="Ontario Centre of Innovation (OCI)">
-        <div class="incu-logo">
-          <img src="assets/incubators/oci.svg" alt="Ontario Centre of Innovation (OCI)" loading="lazy" />
-        </div>
-        <div class="incu-meta">
-          <span class="nm">OCI
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </span>
-          <span class="ds">Ontario Centre of Innovation — Ontario's innovation agency</span>
-        </div>
-      </a>
     </div>
-
-    <div class="incu-badges reveal">
-      <span class="incu-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
-        IRCC-designated Startup Visa organizations
-      </span>
-      <span class="incu-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V11l8-4 8 4v10"/><path d="M9 21v-5h6v5"/></svg>
-        Incorporated &amp; headquartered in Toronto, Canada
-      </span>
-    </div>
-  </div>
 </section>
 
 <!-- ============================== CONTACT (+ FAQ) ============================== -->
@@ -1186,8 +1222,8 @@
         <p class="lead" style="margin-top:18px">Using a product, exploring the SDK, or curious about the company? Book a demo with the Pandora team, or reach us directly — we read everything.</p>
         <div class="hero-cta">
           <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-          <a class="btn btn-wire-d" href="mailto:hello@pandora.finance">Email the team
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>
+          <a class="btn btn-wire-d" href="https://www.linkedin.com/company/aconomyfoundation" target="_blank" rel="noopener">Connect on LinkedIn
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.98c0-1.66-.03-3.8-2.32-3.8-2.32 0-2.68 1.81-2.68 3.68V24h-4.5z"/></svg>
           </a>
         </div>
         <!-- CALENDLY-INLINE-EMBED-SLOT -->
@@ -1195,8 +1231,8 @@
 
       <div class="contact-card reveal">
         <div class="crow">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></span>
-          <div><div class="k">Email</div><a class="v" href="mailto:hello@pandora.finance">hello@pandora.finance</a></div>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.98c0-1.66-.03-3.8-2.32-3.8-2.32 0-2.68 1.81-2.68 3.68V24h-4.5z"/></svg></span>
+          <div><div class="k">LinkedIn</div><a class="v" href="https://www.linkedin.com/company/aconomyfoundation" target="_blank" rel="noopener">Aconomy Foundation</a></div>
         </div>
         <div class="crow">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
@@ -1228,6 +1264,9 @@
           <a href="https://github.com/Pandora-Finance" target="_blank" rel="noopener" aria-label="GitHub">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>
           </a>
+          <a href="https://www.linkedin.com/company/aconomyfoundation" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.98c0-1.66-.03-3.8-2.32-3.8-2.32 0-2.68 1.81-2.68 3.68V24h-4.5z"/></svg>
+          </a>
         </div>
       </div>
 
@@ -1246,7 +1285,7 @@
         <h4>Company</h4>
         <a href="#proof">Proof of work</a>
         <a href="#partners">Partners</a>
-        <a href="#team">Team</a>
+        <a href="about/index.html">About</a>
         <a href="trust/index.html">Trust &amp; audits</a>
         <a href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
         <a href="#contact">Contact</a>
@@ -1257,7 +1296,6 @@
         <address class="foot-addr">
           <b>Aconomy Labs Inc. (Pandora Finance)</b>
           111 Peter Street, 9th Floor,<br>Suite 902, Toronto, ON&nbsp; M5V 2H1<br>
-          <a href="mailto:hello@pandora.finance" style="margin-top:10px;display:inline-block">hello@pandora.finance</a>
         </address>
       </div>
     </div>

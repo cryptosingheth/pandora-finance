@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — Pandora Finance (Aconomy Labs Inc.)</title>
+<meta name="description" content="About Pandora Finance (Aconomy Labs Inc., Canada) — an AI-native product company building agentic software for the real world since 2021. Meet the team." />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="../assets/design-system.css" />
+<style>
+  :root{
+    --mono:'Figtree', ui-monospace, 'SF Mono', Menlo, monospace;
+    --edge:1px solid var(--gray-200);
+    --card-shadow:0 12px 34px rgba(16,32,64,.08);
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --maxw2:1240px;
+    --d-bg:#0a1631;
+    --d-panel:linear-gradient(180deg,rgba(20,34,66,.94),rgba(10,20,44,.96));
+    --d-line:rgba(255,255,255,.10);
+    --d-line-2:rgba(255,255,255,.16);
+    --d-body:rgba(255,255,255,.72);
+    --d-dim:rgba(255,255,255,.52);
+    --d-sky:#7fb2ff;
+  }
+  .wrap{max-width:var(--maxw2);margin:0 auto;padding:0 clamp(20px,4vw,44px)}
+  .kicker{font-weight:700;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pan-blue);
+    display:inline-flex;align-items:center;gap:10px}
+  .kicker::before{content:"";width:22px;height:1.5px;background:var(--pan-blue);display:inline-block}
+  .kicker.on-navy{color:var(--d-sky)}
+  .kicker.on-navy::before{background:var(--d-sky)}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .btn-glow{background:var(--pan-blue);color:#fff;box-shadow:0 10px 26px rgba(0,108,255,.28)}
+  .btn-glow:hover{background:var(--pan-blue-dark);transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,108,255,.34)}
+  .btn-wire-d{background:#fff;border:1.5px solid var(--gray-200);color:var(--navy)}
+  .btn-wire-d:hover{border-color:var(--navy);background:#fff;transform:translateY(-2px);box-shadow:var(--shadow)}
+
+  /* NAV */
+  .nav{background:rgba(255,255,255,.85);border-bottom:1px solid var(--gray-200);backdrop-filter:blur(14px) saturate(1.2);position:sticky;top:0;z-index:50}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .logo{height:26px;width:auto;display:block}
+  .nav-links{display:flex;align-items:center;gap:clamp(16px,2.2vw,30px)}
+  .nav a.navlink{color:var(--slate);font-weight:500;font-size:.95rem;position:relative;white-space:nowrap}
+  .nav a.navlink:hover{color:var(--navy)}
+  .nav a.navlink.active{color:var(--navy);font-weight:700}
+  .nav-cta{display:flex;align-items:center;gap:12px}
+  .nav .btn-wire{background:transparent;border:1.5px solid var(--gray-200);color:var(--navy)}
+  .nav .btn-wire:hover{border-color:var(--navy);transform:translateY(-1px)}
+  .nav-toggle{display:none}
+
+  /* ABOUT HERO */
+  .about-hero{position:relative;overflow:hidden;background:#fff;color:var(--navy);
+    padding:clamp(56px,7vw,96px) 0 clamp(30px,4vw,48px)}
+  .about-hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(60% 55% at 88% 0%, rgba(0,108,255,.08), transparent 60%),
+      radial-gradient(52% 52% at 2% 40%, rgba(0,171,190,.06), transparent 62%),
+      linear-gradient(180deg,#fff 0%, var(--bg) 100%)}
+  .about-hero .wrap{position:relative;z-index:2}
+  .about-hero h1{font-size:clamp(2.3rem,5vw,3.7rem);line-height:1.04;letter-spacing:-.035em;margin:20px 0 0;color:var(--navy);font-weight:700;max-width:18ch}
+  .about-hero h1 .grad{background:linear-gradient(100deg,var(--pan-blue),var(--c-aconomy) 96%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .about-hero .lead{margin-top:22px;font-size:clamp(1.06rem,1.5vw,1.28rem);color:var(--slate);max-width:60ch;line-height:1.62}
+  .about-hero .lead b{color:var(--navy);font-weight:600}
+  .about-meta{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:30px;color:var(--slate);font-size:.86rem}
+  .about-meta span{display:inline-flex;align-items:center;gap:9px;font-weight:500}
+  .about-meta .d{width:6px;height:6px;border-radius:50%;background:var(--pan-blue)}
+
+  /* STORY */
+  .section{padding:clamp(52px,7vw,88px) 0}
+  #story{background:#fff}
+  .story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(34px,5vw,72px);align-items:start}
+  .story-lead{font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.32;letter-spacing:-.02em;color:var(--navy);font-weight:600;max-width:22ch}
+  .story-lead .hl{background:linear-gradient(100deg,var(--pan-blue),var(--c-aconomy) 96%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .story-body{color:var(--slate);font-size:1.06rem;line-height:1.7;max-width:56ch}
+  .story-body p{margin:0 0 1rem}
+  .story-body b{color:var(--navy);font-weight:600}
+  .story-facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .fact{display:inline-flex;align-items:center;gap:8px;font-size:.84rem;font-weight:600;color:var(--slate);
+    background:var(--bg);border:1px solid var(--gray-200);padding:8px 14px;border-radius:var(--r-pill)}
+  .fact svg{width:14px;height:14px;color:var(--pan-blue)}
+
+  /* TEAM */
+  #team{background:#f6f8fc}
+  .team-head{max-width:60ch;margin-bottom:clamp(30px,4vw,46px)}
+  .team-head h2{margin-top:16px}
+  .team-head p{color:var(--slate);margin-top:14px;max-width:52ch}
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .mcard{background:#fff;border:var(--edge);border-radius:var(--r-lg);padding:28px;
+    transition:transform .28s var(--ease),box-shadow .28s,border-color .28s}
+  .mcard:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--pan-blue) 26%,transparent)}
+  .mcard .photo{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:top center;
+    border:1px solid var(--gray-200);background:var(--bg);display:block}
+  .mcard .nm{margin-top:18px;font-size:1.14rem;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+  .mcard .rl{font-size:.82rem;font-weight:700;color:var(--pan-blue);margin-top:3px;letter-spacing:.01em}
+  .mcard .bio{color:var(--slate);font-size:.92rem;line-height:1.58;margin-top:12px}
+  .team-slim{display:flex;align-items:center;gap:22px;margin-top:22px;background:#fff;border:var(--edge);
+    border-radius:var(--r-lg);padding:24px 28px;
+    transition:transform .28s var(--ease),box-shadow .28s,border-color .28s}
+  .team-slim:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--pan-blue) 26%,transparent)}
+  .team-slim .photo{width:80px;height:80px;border-radius:50%;object-fit:cover;object-position:top center;flex:none;
+    border:1px solid var(--gray-200);background:var(--bg)}
+  .team-slim .ts-meta .nm{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+  .team-slim .ts-meta .rl{font-size:.82rem;font-weight:700;color:var(--pan-blue);margin-top:2px}
+  .team-slim .ts-meta .bio{color:var(--slate);font-size:.92rem;line-height:1.55;margin-top:8px;max-width:80ch}
+
+  /* CTA band */
+  #about-cta{background:var(--d-bg);color:#fff;position:relative;overflow:hidden}
+  #about-cta::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.72;
+    background:radial-gradient(720px 460px at 12% 6%, rgba(0,171,190,.2), transparent 60%),
+              radial-gradient(640px 440px at 94% 96%, rgba(0,108,255,.2), transparent 62%)}
+  #about-cta .wrap{position:relative;text-align:center}
+  #about-cta h2{color:#fff;font-size:clamp(1.7rem,3vw,2.4rem);letter-spacing:-.025em;max-width:20ch;margin:0 auto}
+  #about-cta p{color:var(--d-body);margin:16px auto 0;max-width:52ch;font-size:1.05rem;line-height:1.6}
+  #about-cta .cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:28px}
+  #about-cta .btn-wire-d{background:rgba(255,255,255,.04);border:1.5px solid var(--d-line-2);color:#fff}
+  #about-cta .btn-wire-d:hover{border-color:#fff;background:rgba(255,255,255,.08);box-shadow:none}
+
+  /* FOOTER */
+  .footer{background:var(--navy);color:#fff;padding:72px 0 40px}
+  .footer a{color:rgba(255,255,255,.72)}.footer a:hover{color:#fff}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.3fr;gap:40px;padding-bottom:48px}
+  .foot-brand .logo{height:30px;width:auto;margin-bottom:18px}
+  .foot-brand p{color:rgba(255,255,255,.55);max-width:34ch;font-size:.96rem;line-height:1.6}
+  .socials{display:flex;gap:12px;margin-top:20px}
+  .socials a{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.72);transition:.2s}
+  .socials a:hover{background:#fff;color:var(--navy);transform:translateY(-3px);border-color:#fff}
+  .foot-col h4{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:16px;font-weight:700}
+  .foot-col a{display:block;padding:7px 0;font-size:.96rem}
+  .foot-addr{color:rgba(255,255,255,.72);font-style:normal;line-height:1.6;font-size:.94rem}
+  .foot-addr b{display:block;color:#fff;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .foot-bar{border-top:1px solid rgba(255,255,255,.12);padding:26px 0 0;display:flex;justify-content:space-between;
+    align-items:center;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:.9rem}
+  .foot-bar .made{display:inline-flex;align-items:center;gap:8px}
+
+  @media(max-width:960px){
+    .story-grid,.foot-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .nav-links,.nav-cta .hide-m{display:none}
+    .nav-toggle{display:inline-flex}
+  }
+  @media(max-width:900px){.team-grid{grid-template-columns:1fr}}
+  @media(max-width:640px){.foot-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){.team-slim{flex-direction:column;align-items:flex-start;gap:16px}}
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1!important;transform:none!important}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="Pandora Finance home">
+      <img class="logo" src="../assets/logos/Pandora_Dark.png" alt="Pandora Finance" />
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="navlink" href="../index.html#proof">Proof</a>
+      <a class="navlink" href="../index.html#products">Products</a>
+      <a class="navlink" href="../index.html#partners">Partners</a>
+      <a class="navlink active" href="index.html">About</a>
+      <a class="navlink" href="../index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-wire hide-m" href="../index.html#products">See the products</a>
+      <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-wire nav-toggle" href="../index.html#products" aria-label="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ABOUT HERO -->
+<section class="about-hero">
+  <div class="wrap">
+    <span class="kicker">About</span>
+    <h1 class="reveal">An AI-native product company, <span class="grad">building in Canada.</span></h1>
+    <p class="lead reveal">Pandora Finance is the brand of <b>Aconomy Labs Inc.</b>, incorporated in Toronto. Since 2021 we've built <b>agentic software</b> that autonomously does real work — validating assets, screening tenants, passporting products, managing risk and settling payments — on <b>verifiable infrastructure</b> that keeps every action provable.</p>
+    <div class="about-meta reveal">
+      <span><span class="d"></span>Founded 2021</span>
+      <span><span class="d"></span>Toronto, Canada</span>
+      <span><span class="d"></span>7 products, one team</span>
+      <span><span class="d"></span>Incubated by TBDC, BHive &amp; OCI</span>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="section">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="reveal">
+        <span class="kicker">Why we exist</span>
+        <p class="story-lead" style="margin-top:20px">We build where <span class="hl">artificial intelligence meets real-world value.</span></p>
+      </div>
+      <div class="reveal">
+        <div class="story-body">
+          <p>For decades, the hardest parts of commerce — proving an asset is genuine, deciding who to trust, moving value safely — needed a human in the loop. AI changes that. Agents can now <b>reason, decide and act</b>, not just answer.</p>
+          <p>So we build products where an agent carries the whole task, end to end, autonomously. And because these actions touch real assets and real money, we anchor them to <b>verifiable infrastructure</b> — so every step is provable rather than promised.</p>
+          <p>We're a small, senior team that has been shipping since 2021: a $2.4M seed round, two independent audits, a live app on Google Play, and a family of seven products on one foundation. We build in the open and let the work speak.</p>
+          <div class="story-facts">
+            <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>$2.4M seed, 5× oversubscribed</span>
+            <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>2 independent audits</span>
+            <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V11l8-4 8 4v10"/><path d="M9 21v-5h6v5"/></svg>Incorporated in Toronto, Canada</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="section">
+  <div class="wrap">
+    <div class="team-head reveal">
+      <span class="kicker">Who's behind it</span>
+      <h2 style="margin-top:16px">The team behind the products.</h2>
+      <p>A small, senior team — smart contracts and agents, operations and capital, research and analytics, compliance and licensing.</p>
+    </div>
+
+    <div class="team-grid">
+      <article class="mcard reveal">
+        <img class="photo" src="../assets/team/pushkar.png" alt="Pushkar Vohra" loading="lazy" width="96" height="96" />
+        <div class="nm">Pushkar Vohra</div>
+        <div class="rl">Founder &amp; CEO</div>
+        <p class="bio">Architect of the stack: smart contracts, marketplaces and the agentic systems on top. Previously co-founded Blockslab; TEDx speaker.</p>
+      </article>
+
+      <article class="mcard reveal">
+        <img class="photo" src="../assets/team/opinder.png" alt="Opinder Preet Singh Narang" loading="lazy" width="96" height="96" />
+        <div class="nm">Opinder Preet Singh Narang</div>
+        <div class="rl">Co-Founder, Execution</div>
+        <p class="bio">Turns products into companies: operations, partnerships and capital. Founding partner at Chain Assets Capital; previously at Aave; 50+ early-stage investments.</p>
+      </article>
+
+      <article class="mcard reveal">
+        <img class="photo" src="../assets/team/harrhythm.png" alt="Har Rhythm Kaur" loading="lazy" width="96" height="96" />
+        <div class="nm">Har Rhythm Kaur</div>
+        <div class="rl">Co-Founder, Research &amp; Analytics</div>
+        <p class="bio">Data science and ML — 5+ years at IBM. Designs the research, dashboards and models that keep the agents honest.</p>
+      </article>
+    </div>
+
+    <div class="team-slim reveal">
+      <img class="photo" src="../assets/team/tamur.png" alt="Tamur Shah" loading="lazy" width="80" height="80" />
+      <div class="ts-meta">
+        <div class="nm">Tamur Shah</div>
+        <div class="rl">Head of Compliance &amp; Licensing</div>
+        <p class="bio">Keeps every product inside the regulatory lines — licensing, compliance and risk across jurisdictions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="about-cta" class="section">
+  <div class="wrap">
+    <span class="kicker on-navy">Work with us</span>
+    <h2 style="margin-top:16px">See what the agents can do.</h2>
+    <p>Explore the seven products, or book a walkthrough with the team — the agent, the SDK, or the roadmap.</p>
+    <div class="cta-row">
+      <a class="btn btn-glow" href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-wire-d" href="../index.html#products">Explore the products</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img class="logo" src="../assets/logos/Pandora_White.png" alt="Pandora Finance" />
+        <p>Pandora Finance is the brand of Aconomy Labs Inc. — an AI-native product company building agentic software for the real world since 2021.</p>
+        <div class="socials">
+          <a href="https://x.com/aconomyfdn" target="_blank" rel="noopener" aria-label="X (Twitter)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          </a>
+          <a href="https://github.com/Pandora-Finance" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/aconomyfoundation" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5zM8.5 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.98c0-1.66-.03-3.8-2.32-3.8-2.32 0-2.68 1.81-2.68 3.68V24h-4.5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h4>Products</h4>
+        <a href="../express-protocol/index.html">Express Protocol</a>
+        <a href="../aconomy/index.html">Aconomy</a>
+        <a href="../propty/index.html">Propty</a>
+        <a href="../dpp/index.html">The DPP Company</a>
+        <a href="../vanna/index.html">Vanna Protocol</a>
+        <a href="../auri/index.html">Auri</a>
+        <a href="../unitymarket/index.html">UnityMarket</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="../index.html#proof">Proof of work</a>
+        <a href="../index.html#partners">Partners</a>
+        <a href="index.html">About</a>
+        <a href="../trust/index.html">Trust &amp; audits</a>
+        <a href="https://calendly.com/PANDORA-DEMO-REPLACE" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+        <a href="../index.html#contact">Contact</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Registered office</h4>
+        <address class="foot-addr">
+          <b>Aconomy Labs Inc. (Pandora Finance)</b>
+          111 Peter Street, 9th Floor,<br>Suite 902, Toronto, ON&nbsp; M5V 2H1
+        </address>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <span>© 2021–2026 Aconomy Labs Inc. (Pandora Finance). All rights reserved.</span>
+      <span class="made">Agentic products, built for the real world <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window) || reduce){ els.forEach(function(el){ el.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
