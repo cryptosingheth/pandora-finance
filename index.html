@@ -581,11 +581,13 @@
      v6 — product cards: real logos, whole-card link, gated CTAs
      ============================================================ */
   .pcard .pcard-link{position:absolute;inset:0;z-index:1;border-radius:var(--r-lg)}
-  .pcard .pmark{flex-direction:column;align-items:flex-start;gap:9px}
+  .pcard .pmark{flex-direction:row;align-items:center;gap:13px}
+  .pcard .pmeta{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .pcard .glyph{width:42px;height:42px}
   .pcard .plogo{height:26px;width:auto;max-width:172px;object-fit:contain;object-position:left center;display:block}
   .pcard .plogo-propty{height:36px}
   .pcard .plogo-dpp{height:36px;max-width:200px}
-  .pcard .pname{font-size:1.24rem;font-weight:800;letter-spacing:-.025em;line-height:1.04;color:var(--navy)}
+  .pcard .pname{font-size:1.16rem;font-weight:800;letter-spacing:-.02em;line-height:1.1;color:var(--navy)}
   .pcard .pactions{position:relative;z-index:2;justify-content:space-between;pointer-events:none}
   .pcard .pactions .btn{pointer-events:auto}
   .pcard .pactions .pgo{color:var(--navy);opacity:.82}
@@ -593,11 +595,14 @@
 
   /* v6b — partner/press logo walls, coming-soon tiles, faq cta */
   .logo-wall{display:flex;flex-wrap:wrap;gap:12px}
-  .logo-chip{background:#fff;border-radius:12px;height:58px;min-width:116px;padding:10px 18px;display:grid;place-items:center;
+  .logo-chip{background:#fff;border-radius:12px;height:62px;min-width:122px;padding:11px 20px;display:grid;place-items:center;
     transition:transform .25s var(--ease),box-shadow .25s}
   .logo-chip:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.34)}
-  .logo-chip img{max-height:30px;max-width:130px;width:auto;height:auto;object-fit:contain;display:block}
+  .logo-chip img{max-height:34px;max-width:140px;width:auto;height:auto;object-fit:contain;display:block}
   .logo-chip.txt{font-family:var(--mono);font-weight:800;font-size:.84rem;color:var(--navy);letter-spacing:-.01em;text-align:center;line-height:1.15}
+  .logo-wall.press{gap:14px;margin-top:6px}
+  .logo-wall.press .logo-chip{height:76px;min-width:158px;padding:14px 26px}
+  .logo-wall.press .logo-chip img{max-height:46px;max-width:180px}
   .pcard-soon{border-style:dashed}
   .pcard-soon:hover{transform:none;box-shadow:none;border-color:var(--gray-200)}
   .pcard-soon:hover::before{transform:scaleY(0)}
@@ -771,8 +776,11 @@
         <a class="pcard-link" href="express-protocol/index.html" aria-label="Express Protocol — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo" src="assets/logos/ExpressProtocol_Dark.svg" alt="Express Protocol" height="26" />
-            <div class="psub">Agentic commerce SDK</div>
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4M21 7H9M7 21l-4-4 4-4M3 17h12"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">Express Protocol</div>
+              <div class="psub">Agentic commerce SDK</div>
+            </div>
           </div>
           <span class="pnum">01</span>
         </div>
@@ -789,8 +797,11 @@
         <a class="pcard-link" href="aconomy/index.html" aria-label="Aconomy — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo" src="assets/logos/Aconomy_Dark.png" alt="Aconomy" height="26" />
-            <div class="psub">RWA marketplace</div>
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">Aconomy</div>
+              <div class="psub">Agentic RWA marketplace</div>
+            </div>
           </div>
           <span class="pnum">02</span>
         </div>
@@ -807,8 +818,11 @@
         <a class="pcard-link" href="unitymarket/index.html" aria-label="UnityMarket — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo" src="assets/logos/UnityMarket_Dark.svg" alt="UnityMarket" height="26" />
-            <div class="psub">NFT marketplace</div>
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.2"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">UnityMarket</div>
+              <div class="psub">NFT marketplace</div>
+            </div>
           </div>
           <span class="pnum">03</span>
         </div>
@@ -825,8 +839,11 @@
         <a class="pcard-link" href="propty/index.html" aria-label="Propty — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo plogo-propty" src="assets/logos/propty-horizontal.svg" alt="Propty" height="26" />
-            <div class="psub">AI leasing agent · private by ZK</div>
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">Propty</div>
+              <div class="psub">Agentic leasing · private by ZK</div>
+            </div>
           </div>
           <span class="pnum">04</span>
         </div>
@@ -843,8 +860,11 @@
         <a class="pcard-link" href="dpp/index.html" aria-label="The DPP Company — view page"></a>
         <div class="pcard-top">
           <div class="pmark">
-            <img class="plogo plogo-dpp" src="assets/logos/dpp-horizontal.svg" alt="The DPP Company" height="26" />
-            <div class="psub">Product passports</div>
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">The DPP Company</div>
+              <div class="psub">Agentic product passports</div>
+            </div>
           </div>
           <span class="pnum">05</span>
         </div>
@@ -860,8 +880,11 @@
       <div class="pcard pcard-soon reveal" style="--acc:#C99A4E">
         <div class="pcard-top">
           <div class="pmark">
-            <div class="pname">Auri</div>
-            <div class="psub">Programmable-gold neobank · Canada</div>
+            <span class="glyph grad-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v9M9.6 10a2.3 2.3 0 0 1 4.6.3c0 2-4.4 1.3-4.4 3.4a2.3 2.3 0 0 0 4.6.5"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">Auri</div>
+              <div class="psub">Programmable-gold neobank · Canada</div>
+            </div>
           </div>
           <span class="pnum">06</span>
         </div>
@@ -873,8 +896,11 @@
       <div class="pcard pcard-soon reveal" style="--acc:#6c5ce7">
         <div class="pcard-top">
           <div class="pmark">
-            <div class="pname">Vanna Protocol</div>
-            <div class="psub">Risk &amp; margin infrastructure</div>
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5 9.5 10l4 4L21 6.5"/><path d="M15 6.5h6v6"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">Vanna Protocol</div>
+              <div class="psub">Agentic composable credit infra</div>
+            </div>
           </div>
           <span class="pnum">07</span>
         </div>
@@ -886,8 +912,11 @@
       <div class="pcard pcard-soon reveal" style="--acc:#35618e">
         <div class="pcard-top">
           <div class="pmark">
-            <div class="pname">Keel</div>
-            <div class="psub">AI governance for finance</div>
+            <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7 2.5 12.5a2.75 2.75 0 0 0 5 0L5 7Z"/><path d="M19 7l-2.5 5.5a2.75 2.75 0 0 0 5 0L19 7Z"/></svg></span>
+            <div class="pmeta">
+              <div class="pname">Keel</div>
+              <div class="psub">Agentic AI governance</div>
+            </div>
           </div>
           <span class="pnum">08</span>
         </div>
@@ -1070,10 +1099,12 @@
 
     <div class="logo-row reveal">
       <div class="lr-label">Featured in</div>
-      <div class="logo-wall">
+      <div class="logo-wall press">
         <a class="logo-chip" href="https://news.bitcoin.com/pandora-raises-2-4m-from-industry-heavyweights-to-bridge-off-chain-assets-to-open-finance-via-nfts/" target="_blank" rel="noopener" title="Bitcoin.com — Pandora raises $2.4M"><img src="assets/press/bitcoin-com.png" alt="Bitcoin.com" loading="lazy"></a>
         <a class="logo-chip" href="https://web.archive.org/web/20240120030836/https://cointelegraph.com/news/pandora-finance-s-2-4m-raise-helps-spearhead-open-finance-protocol" target="_blank" rel="noopener" title="Cointelegraph — Pandora Finance's $2.4M raise"><img src="assets/press/cointelegraph.png" alt="Cointelegraph" loading="lazy"></a>
         <a class="logo-chip" href="https://blocktelegraph.io/pandora-raises-2-4m-from-industry-heavyweights-to-bridge-off-chain-assets-to-open-finance-via-nfts/" target="_blank" rel="noopener" title="Block Telegraph — Pandora raises $2.4M"><img src="assets/press/block-telegraph.png" alt="Block Telegraph" loading="lazy"></a>
+        <span class="logo-chip"><img src="assets/press/apple-news.png" alt="Apple News" loading="lazy"></span>
+        <span class="logo-chip"><img src="assets/press/lofficiel.png" alt="L'Officiel" loading="lazy"></span>
       </div>
     </div>
 

@@ -264,6 +264,18 @@
   html[data-demo] .wshead .st{transition:color .3s ease}
   /* gentle attention pulse on a freshly-added workspace card header */
   html[data-demo] .wscard{animation:prise .42s cubic-bezier(.22,.61,.36,1) both}
+  /* segment crossfade (main content only) + on-screen persona label */
+  html[data-demo] main.main{transition:opacity .34s ease}
+  html[data-demo] main.main.demo-fade{opacity:0}
+  html[data-demo] #demoPersona{position:fixed;top:15px;right:18px;z-index:60;display:flex;align-items:center;gap:11px;
+    background:rgba(255,255,255,.93);border:1px solid #cfe9dd;border-radius:14px;padding:8px 16px 8px 10px;
+    box-shadow:0 12px 32px rgba(16,40,28,.16);backdrop-filter:blur(8px);
+    opacity:0;transform:translateY(-8px) scale(.98);transition:opacity .4s ease,transform .4s cubic-bezier(.22,.61,.36,1)}
+  html[data-demo] #demoPersona.show{opacity:1;transform:none}
+  html[data-demo] #demoPersona .pav{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff}
+  html[data-demo] #demoPersona .pav svg{width:19px;height:19px}
+  html[data-demo] #demoPersona .pt{font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9aa8a0;line-height:1}
+  html[data-demo] #demoPersona .pn{font-size:1rem;font-weight:800;color:#16241d;line-height:1.15;margin-top:3px}
   @media(prefers-reduced-motion:reduce){html[data-demo] *{animation-duration:.001ms!important}}
 </style>
 </head>
@@ -969,57 +981,108 @@ function onSubmit(e){
 })();
 
 /* ============================================================
-   DEMO MODE (?demo=1): autoplay the agent lease flow for recording.
-   Switches to the Agent role, opens the chat, runs leaseFlow(), then
-   loops. Exposes window.__demo = { ready, loop } for the recorder.
-   Fully reuses the product's own scripted flow — real UI, real motion.
+   DEMO MODE (?demo=1): autoplay a THREE-PERSONA product tour for
+   screen-recording — Tenant → Host → Agent — then loops seamlessly.
+   Reuses the product's own screens & scripted flow (real UI, real
+   motion); a small persona label makes each switch legible.
+   Segments:
+     • Tenant — active lease (tHome) → application stepper (tApp 1→5)
+     • Host   — dashboard/listings (hHome) → viewing requests + ZK
+                proof review (hVerify) → initiate booking
+     • Agent  — orchestration (aHome) → scripted lease flow in chat
+                (schedule_viewing → verify_documents(zk) → check_candidacy
+                 → collect_booking → generate_contract → guarantee)
+   Exposes window.__demo = { ready, cycle, phase } for the recorder.
+   Entirely inert unless ?demo=1 — normal interactive use is untouched.
    ============================================================ */
 (function(){
   var qs; try{ qs=new URLSearchParams(window.location.search); }catch(_){ return; }
   if(qs.get('demo')!=='1') return;
 
   document.documentElement.setAttribute('data-demo','1');
-  window.__demo={ ready:false, loop:0 };
+  window.__demo={ ready:false, cycle:0, phase:'idle' };
 
-  // Present as the tenant asking the agent (the most compelling narrative),
-  // land straight in the chat workspace.
-  setRole('tenant');
-  go('chat');
-
-  var loops=0;
-
-  function waitIdle(cb){
-    // leaseFlow sets S.busy=false and S.wsStatus='done' when complete
-    var iv=setInterval(function(){
-      if(!S.busy && S.wsStatus==='done'){ clearInterval(iv); cb(); }
-    },120);
+  /* on-screen persona label (demo-only overlay) */
+  var badge=document.createElement('div');
+  badge.id='demoPersona';
+  document.body.appendChild(badge);
+  var PERSONA={
+    tenant:{n:'Tenant',col:'linear-gradient(135deg,#0a7d52,#065f3e)',
+      icon:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'},
+    host:{n:'Host',col:'linear-gradient(135deg,#3f8bff,#006cff)',
+      icon:'<path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>'},
+    agent:{n:'Agent',col:'linear-gradient(135deg,#5b5bd6,#833ef2)',
+      icon:'<rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 7V4M8 3h8"/><circle cx="9" cy="13" r="1.2"/><circle cx="15" cy="13" r="1.2"/>'}
+  };
+  function setPersona(role){
+    var p=PERSONA[role]; window.__demo.phase=role;
+    badge.classList.remove('show');
+    setH(badge,'<span class="pav" style="background:'+p.col+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p.icon+'</svg></span><span style="display:flex;flex-direction:column"><span class="pt">Viewing as</span><span class="pn">'+esc(p.n)+'</span></span>');
+    requestAnimationFrame(function(){ badge.classList.add('show'); });
   }
 
-  function runOnce(){
-    // reset to a clean greet state, then drive the scripted happy-path
-    resetChat();
-    // small beat so the greeting paints before the user "types"
-    setTimeout(function(){
-      leaseFlow();
-      waitIdle(function(){
-        loops++; window.__demo.loop=loops;
-        // hold on the finished state so viewers can read the outcome,
-        // then loop for a seamless autoplay video
-        setTimeout(runOnce, 1600);
-      });
-    }, 700);
+  var MAIN=document.querySelector('main.main');
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+  function fadeIn(swap){            /* main already hidden → apply swap → fade in */
+    return new Promise(function(resolve){
+      try{ swap(); }catch(_){ } window.scrollTo(0,0);
+      requestAnimationFrame(function(){ MAIN.classList.remove('demo-fade'); setTimeout(resolve,380); });
+    });
+  }
+  function trans(swap){            /* fade out → apply swap (hidden) → fade in */
+    return new Promise(function(resolve){
+      MAIN.classList.add('demo-fade');
+      setTimeout(function(){
+        try{ swap(); }catch(_){ } window.scrollTo(0,0);
+        requestAnimationFrame(function(){ MAIN.classList.remove('demo-fade'); setTimeout(resolve,380); });
+      },340);
+    });
+  }
+  function fadeOut(){ return new Promise(function(resolve){ MAIN.classList.add('demo-fade'); setTimeout(resolve,360); }); }
+  function waitIdle(){ return new Promise(function(resolve){ var iv=setInterval(function(){ if(!S.busy&&S.wsStatus==='done'){ clearInterval(iv); resolve(); } },100); }); }
+  function stepTo(n){ S.appStep=n; renderStepList(); renderStepPanel(); }
+
+  async function tenantSeg(){
+    await fadeIn(function(){ setRole('tenant'); go('tHome'); setPersona('tenant'); });
+    await sleep(2300);
+    await trans(function(){ go('tApp'); stepTo(0); });
+    await sleep(1400);
+    stepTo(1); await sleep(1600);
+    stepTo(2); await sleep(1500);
+    stepTo(3); await sleep(1400);
+    stepTo(4); await sleep(1800);
+  }
+  async function hostSeg(){
+    await trans(function(){ setRole('host'); go('hHome'); setPersona('host'); });
+    await sleep(2500);
+    await trans(function(){ go('hVerify'); S.booked=false; var bn=$('bookedNote'); if(bn) bn.style.display='none'; });
+    await sleep(1700);
+    initiateBooking();
+    await sleep(2100);
+  }
+  async function agentSeg(){
+    await trans(function(){ setRole('agent'); go('aHome'); setPersona('agent'); });
+    await sleep(2300);
+    await trans(function(){ go('chat'); resetChat(); });
+    await sleep(900);
+    leaseFlow();
+    await waitIdle();
+    await sleep(1700);
   }
 
-  function start(){
-    window.__demo.ready=true;
-    setTimeout(runOnce, 200);
+  async function run(){
+    MAIN.classList.add('demo-fade');          /* start hidden for a clean opening fade-in */
+    while(true){
+      window.__demo.cycle++;                  /* recorder captures one cycle between increments */
+      await tenantSeg();
+      await hostSeg();
+      await agentSeg();
+      await fadeOut(); await sleep(150);       /* dip to background → seamless loop seam */
+    }
   }
-
-  if(document.fonts && document.fonts.ready){
-    document.fonts.ready.then(function(){ setTimeout(start,120); });
-  } else {
-    setTimeout(start,200);
-  }
+  function start(){ window.__demo.ready=true; setPersona('tenant'); setTimeout(run,250); }
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ setTimeout(start,120); }); }
+  else { setTimeout(start,200); }
 })();
 </script>
 </body>
