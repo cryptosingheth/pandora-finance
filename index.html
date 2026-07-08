@@ -583,8 +583,8 @@
   .pcard .pcard-link{position:absolute;inset:0;z-index:1;border-radius:var(--r-lg)}
   .pcard .pmark{flex-direction:column;align-items:flex-start;gap:9px}
   .pcard .plogo{height:26px;width:auto;max-width:172px;object-fit:contain;object-position:left center;display:block}
-  .pcard .plogo-propty{height:30px}
-  .pcard .plogo-dpp{height:30px}
+  .pcard .plogo-propty{height:36px}
+  .pcard .plogo-dpp{height:36px;max-width:200px}
   .pcard .pname{font-size:1.24rem;font-weight:800;letter-spacing:-.025em;line-height:1.04;color:var(--navy)}
   .pcard .pactions{position:relative;z-index:2;justify-content:space-between;pointer-events:none}
   .pcard .pactions .btn{pointer-events:auto}
@@ -602,6 +602,19 @@
   .pcard-soon:hover{transform:none;box-shadow:none;border-color:var(--gray-200)}
   .pcard-soon:hover::before{transform:scaleY(0)}
   .pcard-soon:hover::after{opacity:0}
+  /* v8 — work-with-the-studio band + hero aside */
+  #build{background:#f6f8fc}
+  .build-card{position:relative;background:linear-gradient(120deg,#fff,#eef3ff);border:1px solid var(--gray-200);
+    border-radius:var(--r-lg);padding:clamp(30px,5vw,56px);box-shadow:var(--card-shadow);overflow:hidden}
+  .build-card::before{content:"";position:absolute;right:-6%;top:-46%;width:42%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,108,255,.12),transparent 70%);pointer-events:none}
+  .build-card>*{position:relative}
+  .build-card h2{max-width:24ch}
+  .build-card p{color:var(--slate);font-size:1.06rem;line-height:1.7;max-width:66ch;margin:16px 0 0}
+  .build-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+  .hero-aside{margin-top:20px;font-size:.95rem;color:var(--slate)}
+  .hero-aside a{color:var(--pan-blue);font-weight:700;white-space:nowrap}
+  .hero-aside a:hover{text-decoration:underline}
   .foot-col .soon{display:block;padding:7px 0;font-size:.96rem;color:rgba(255,255,255,.4)}
   .faq-cta{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-top:4px}
   .faq-cta p{color:var(--slate);font-size:1.1rem;font-weight:500;max-width:42ch;margin:0}
@@ -620,7 +633,6 @@
       <a class="navlink" href="#products">Products</a>
       <a class="navlink" href="#partners">Partners</a>
       <a class="navlink" href="about/index.html">About</a>
-      <a class="navlink" href="#contact">Contact</a>
     </nav>
     <div class="nav-cta">
       <a class="btn btn-wire hide-m" href="#products">See the products</a>
@@ -644,6 +656,7 @@
         <a class="btn btn-glow" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
         <a class="btn btn-wire-d" href="#products">Explore the products</a>
       </div>
+      <p class="hero-aside reveal">Building something ambitious of your own? <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Talk to the studio →</a></p>
       <div class="hero-meta reveal">
         <span><span class="d"></span>Building since 2021</span>
         <span><span class="d"></span>2 independent audits</span>
@@ -747,7 +760,7 @@
     <div class="sec-head reveal">
       <div>
         <span class="kicker">The products we've built</span>
-        <h2>Seven products we're proud of.</h2>
+        <h2>The products we're proud of.</h2>
       </div>
       <p class="muted">Each pairs an AI agent that does the work with infrastructure that makes it verifiable. Open any card to read more — or book a demo to see it live.</p>
     </div>
@@ -870,6 +883,34 @@
         <div class="ptags"><span class="ptag">Risk engine</span><span class="ptag">Trading agents</span><span class="ptag">MCP</span></div>
       </div>
 
+      <div class="pcard pcard-soon reveal" style="--acc:#35618e">
+        <div class="pcard-top">
+          <div class="pmark">
+            <div class="pname">Keel</div>
+            <div class="psub">AI governance for finance</div>
+          </div>
+          <span class="pnum">08</span>
+        </div>
+        <span class="pstatus"><span class="lv"></span>Coming soon</span>
+        <p class="desc">AI governance for regulated finance — model-risk oversight, approvals and audit trails that keep AI accountable and <b>OSFI E-23-ready</b>.</p>
+        <div class="ptags"><span class="ptag">AI governance</span><span class="ptag">OSFI E-23</span><span class="ptag">Model risk</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== WORK WITH THE STUDIO ============================== -->
+<section id="build" class="section">
+  <div class="wrap">
+    <div class="build-card reveal">
+      <span class="kicker">Work with the studio</span>
+      <h2 style="margin-top:16px">Building something ambitious? We've shipped the hard version before.</h2>
+      <p>An RWA marketplace, an agentic-commerce SDK, an AI leasing agent, digital product passports, a risk-margin engine — we've taken products that touch real assets, real money and real regulation from zero to shipped. If you're building at the seam of AI and real-world value, the fastest way to de-risk it is to talk to a team that has already done it.</p>
+      <div class="build-cta">
+        <a class="btn btn-glow" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
+        <a class="btn btn-wire-d" href="#products">See what we've built</a>
+      </div>
     </div>
   </div>
 </section>
@@ -1030,11 +1071,9 @@
     <div class="logo-row reveal">
       <div class="lr-label">Featured in</div>
       <div class="logo-wall">
-        <span class="logo-chip"><img src="assets/press/bitcoin-com.png" alt="Bitcoin.com" loading="lazy"></span>
-        <span class="logo-chip"><img src="assets/press/cointelegraph.png" alt="Cointelegraph" loading="lazy"></span>
-        <span class="logo-chip"><img src="assets/press/apple-news.png" alt="Apple News" loading="lazy"></span>
-        <span class="logo-chip"><img src="assets/press/block-telegraph.png" alt="Block Telegraph" loading="lazy"></span>
-        <span class="logo-chip"><img src="assets/press/lofficiel.png" alt="L'Officiel" loading="lazy"></span>
+        <a class="logo-chip" href="https://news.bitcoin.com/pandora-raises-2-4m-from-industry-heavyweights-to-bridge-off-chain-assets-to-open-finance-via-nfts/" target="_blank" rel="noopener" title="Bitcoin.com — Pandora raises $2.4M"><img src="assets/press/bitcoin-com.png" alt="Bitcoin.com" loading="lazy"></a>
+        <a class="logo-chip" href="https://web.archive.org/web/20240120030836/https://cointelegraph.com/news/pandora-finance-s-2-4m-raise-helps-spearhead-open-finance-protocol" target="_blank" rel="noopener" title="Cointelegraph — Pandora Finance's $2.4M raise"><img src="assets/press/cointelegraph.png" alt="Cointelegraph" loading="lazy"></a>
+        <a class="logo-chip" href="https://blocktelegraph.io/pandora-raises-2-4m-from-industry-heavyweights-to-bridge-off-chain-assets-to-open-finance-via-nfts/" target="_blank" rel="noopener" title="Block Telegraph — Pandora raises $2.4M"><img src="assets/press/block-telegraph.png" alt="Block Telegraph" loading="lazy"></a>
       </div>
     </div>
 
@@ -1163,52 +1202,7 @@
   </div>
 </section>
 
-<!-- ============================== TRUST STRIP ============================== -->
-<section id="trust" class="section">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="kicker">Proof &amp; trust</span>
-        <h2>Don't take our word for it. Check the work.</h2>
-      </div>
-      <p class="muted">Independent audits, contracts verifiable on a public chain, and code built in the open. Everything here links to something you can inspect yourself.</p>
-    </div>
 
-    <div class="trust-grid">
-
-      <!-- AUDITS -->
-      <a class="tcard reveal" href="trust/index.html">
-        <div class="th">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
-          <div><h3>Independently audited</h3><div class="tsub">Two third-party security reviews</div></div>
-        </div>
-        <p>Our smart contracts were audited by two independent firms, and both reports are public.</p>
-        <div class="trow">
-          <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>QuillAudits · 0 open</span>
-          <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Zokyo · 100/100</span>
-        </div>
-        <span class="tgo">See the audit reports <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-      </a>
-
-      <!-- BUILT IN THE OPEN -->
-      <a class="tcard reveal" href="https://github.com/Pandora-Finance" target="_blank" rel="noopener">
-        <div class="th">
-          <span class="tic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg></span>
-          <div><h3>Built in the open</h3><div class="tsub">github.com/Pandora-Finance</div></div>
-        </div>
-        <p>Contracts, the <code style="font-family:var(--mono);font-size:.82rem">pandora-express</code> SDK, and developer docs — forkable and public.</p>
-        <div class="trow">
-          <span class="ptag" style="--acc:var(--pan-blue)">aconomy-contract</span>
-          <span class="ptag" style="--acc:var(--pan-blue)">Express-Protocol-SDK</span>
-          <span class="ptag" style="--acc:var(--pan-blue)">audit-report</span>
-        </div>
-        <span class="tgo">Browse the org <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
-      </a>
-
-    </div>
-
-    </div>
-</section>
 
 <!-- ============================== CONTACT (+ FAQ) ============================== -->
 <section id="contact" class="section">
@@ -1291,8 +1285,7 @@
         <a href="#partners">Partners</a>
         <a href="about/index.html">About</a>
         <a href="trust/index.html">Trust &amp; audits</a>
-        <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
-        <a href="#contact">Contact</a>
+        <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Contact</a>
       </div>
 
       <div class="foot-col">
@@ -1305,7 +1298,7 @@
     </div>
 
     <div class="foot-bar">
-      <span>© 2021–2026 Aconomy Labs Inc.. All rights reserved.</span>
+      <span>© 2021–2026 Aconomy Labs Inc. All rights reserved.</span>
       <span class="made">Agentic products, built for the real world <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span>
     </div>
   </div>

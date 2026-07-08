@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aconomy Journal — Real-World Assets, Authentication & On-Chain Trust</title>
+<meta name="description" content="Editorial and research notes from Aconomy on luxury authentication, counterfeit culture, RWA validators, and the on-chain asset economy.">
+<link rel="icon" type="image/svg+xml" href="../icon.svg">
+<link rel="stylesheet" href="journal.css">
+</head>
+<body>
+
+<header class="jn-nav">
+  <div class="jn-nav-inner">
+    <a class="jn-brand" href="../index.html" aria-label="Aconomy home">
+      <img src="../icon.svg" alt="" aria-hidden="true">
+      <span>Aconomy&nbsp;<span class="jn-tag">Journal</span></span>
+    </a>
+    <nav class="jn-navlinks">
+      <a class="jn-link ghost" href="../index.html">Aconomy&nbsp;&rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<section class="jn-hero">
+  <div class="wrap">
+    <span class="jn-eyebrow">The Aconomy Journal</span>
+    <h1>Notes on <span class="grad">real value, verified</span>.</h1>
+    <p>Editorial and research from Aconomy on luxury authentication, counterfeit culture, RWA validators, and the on-chain asset economy — where trust is the new luxury.</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="jn-grid">
+
+    <a class="jn-card reveal" href="tiktok-luxury-lie.html">
+      <span class="jn-cat cat-counterfeit">Counterfeit Culture</span>
+      <h2>The TikTok Luxury Lie: What's Actually Happening in China Right Now</h2>
+      <p>Short videos now drive major purchases — and TikTok has become a breeding ground for counterfeit culture. We unpack the "factory-direct" luxury myth and why authentication is no longer optional.</p>
+      <span class="jn-read">Read
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a class="jn-card reveal" href="why-luxury-buyers-need-authenticators.html">
+      <span class="jn-cat cat-luxury">Luxury Authentication</span>
+      <h2>Before You Buy That Rolex or Birkin, Know Why Luxury Authenticators Are Required</h2>
+      <p>The luxury market is quietly under siege — not by falling demand, but by deception. Meet the new gatekeepers: luxury authenticators, and why they've moved from "nice to have" to necessity.</p>
+      <span class="jn-read">Read
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a class="jn-card reveal" href="luxury-memorabilia-scams.html">
+      <span class="jn-cat cat-counterfeit">Fraud &amp; Provenance</span>
+      <h2>4 Shocking Luxury Memorabilia Scams That Fooled the World</h2>
+      <p>Owning a piece of history carries emotional and financial value — but what if the certificate of authenticity is just a printer job backed by lies? Four real cases expose how deep the rot goes.</p>
+      <span class="jn-read">Read
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a class="jn-card reveal" href="next-rwa-validator.html">
+      <span class="jn-cat cat-validator">RWA Validators</span>
+      <h2>Could You Be the Next RWA Validator?</h2>
+      <p>Value once locked in physical form is moving on-chain. At the core of Aconomy's network sits the RWA Validator. We explore what the role is, who qualifies, and how expertise becomes on-chain income.</p>
+      <span class="jn-read">Read
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a class="jn-card reveal" href="rwa-at-token2049-dubai.html">
+      <span class="jn-cat cat-market">RWA Market</span>
+      <h2>How Real-World Assets Are Taking Center Stage at TOKEN2049 Dubai</h2>
+      <p>At TOKEN2049 Dubai, one theme dominated: Real-World Assets are moving from hype to tangible value on-chain. We look at why RWAs are winning and the projects leading the shift.</p>
+      <span class="jn-read">Read
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+  </div>
+</main>
+
+<footer class="jn-foot">
+  <div class="wrap jn-foot-inner">
+    <a class="fbrand" href="../index.html">
+      <img src="../icon.svg" alt="">
+      Aconomy
+    </a>
+    <nav class="jn-fnav">
+      <a href="../index.html">Aconomy</a>
+      <a href="../../index.html">Pandora hub</a>
+      <a href="https://github.com/Pandora-Finance/aconomy-contract" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <p class="fdisc">Aconomy Journal &middot; editorial &amp; research notes on real-world assets, luxury authentication, and the on-chain asset economy. Third-party facts, figures and forecasts reflect their original publishers, not Aconomy data. &copy; <span id="yr"></span> Aconomy &middot; part of the Pandora ecosystem.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(e){e.classList.add('in');});
+  }else{
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(e){io.observe(e);});
+  }
+  var y=document.getElementById('yr');if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

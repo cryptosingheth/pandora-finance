@@ -34,6 +34,8 @@
   /* Teal buttons */
   .btn-teal{background:var(--teal);color:#fff}
   .btn-teal:hover{background:var(--teal-dark);transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,88,67,.28)}
+  .btn-try{display:inline-flex;align-items:center;gap:9px}
+  .btn-try svg{flex:0 0 auto}
   .btn-glow{background:var(--teal);color:#fff;box-shadow:0 8px 22px rgba(0,88,67,.26)}
   .btn-glow:hover{background:var(--teal-dark);transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,88,67,.32)}
 
@@ -321,6 +323,34 @@
   .ap-signed{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--teal)}
   @media(max-width:760px){.ap-stage{flex-wrap:wrap;gap:12px}.ap-stage .sc-line{display:none}.ap-body{grid-template-columns:1fr;gap:14px}.ap-brand{display:none}}
 
+  /* ===== See it in action (demo GIF + product screens) ===== */
+  .see-cta-top{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+  .demo-frame{margin:44px 0 0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--gray-200);
+    box-shadow:var(--shadow-lg);background:#fff}
+  .demo-frame .df-chrome{display:flex;align-items:center;gap:14px;padding:12px 18px;
+    background:linear-gradient(180deg,#fbfdfc,#f4f7f6);border-bottom:1px solid var(--gray-200)}
+  .demo-frame .df-dots{display:inline-flex;gap:7px}
+  .demo-frame .df-dots i{width:11px;height:11px;border-radius:50%;background:var(--gray-200)}
+  .demo-frame .df-dots i:first-child{background:#ff5f57}.demo-frame .df-dots i:nth-child(2){background:#febc2e}.demo-frame .df-dots i:last-child{background:#28c840}
+  .demo-frame .df-url{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:var(--slate);
+    background:#fff;border:1px solid var(--gray-200);border-radius:var(--r-pill);padding:6px 14px}
+  .demo-frame .df-url svg{width:13px;height:13px;color:var(--teal)}
+  .demo-frame .df-live{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--teal)}
+  .demo-frame .df-live .pulse{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+  .demo-frame img.df-gif,.demo-frame video.df-gif{display:block;width:100%;height:auto}
+  .demo-cap{margin:14px 2px 0;font-size:.9rem;color:var(--slate);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .demo-cap svg{width:15px;height:15px;color:var(--teal);flex:0 0 auto}
+  .demo-cap b{color:var(--navy);font-weight:700}
+  .demo-cap a{color:var(--teal);font-weight:700}
+
+  .screens-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+  .screen-shot{margin:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--gray-200);box-shadow:var(--shadow);background:#fff}
+  .screen-shot img{display:block;width:100%;height:auto}
+  .screen-shot figcaption{padding:13px 16px;font-size:.86rem;color:var(--slate);border-top:1px solid var(--gray-200);background:#fbfdfc}
+  .screen-shot figcaption b{color:var(--navy);font-weight:700}
+  @media(max-width:760px){.screens-row{grid-template-columns:1fr}}
+
   /* ===== Footer (navy — matches site standard) ===== */
   .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start}
   .footer .brandmark img{height:34px;width:auto;filter:none}
@@ -370,7 +400,8 @@
       <a href="../index.html" class="navlink">&larr; Pandora hub</a>
       <a href="#platform" class="navlink">The platform</a>
       <a href="#private" class="navlink">Private by proof</a>
-      <a class="btn btn-teal" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a demo</a>
+      <a href="#see-it" class="navlink">See it live</a>
+      <a class="btn btn-teal" href="product/">Try the product</a>
     </nav>
   </div>
 </header>
@@ -387,8 +418,11 @@
       <p class="lead">Propty is the complete lease platform — listings, viewings, verification and e-signed leases — operated end to end by an AI agent. It searches rooms, screens a newcomer with no Canadian credit, drafts the lease, and guarantees the rent to the owner. One agent that protects both sides.</p>
       <p class="positioning">The complete lease platform, <b>operated by an AI agent</b>, <b>private by zero-knowledge</b> — a tenant's documents are proven, never shared.</p>
       <div class="hero-cta">
-        <a href="#platform" class="btn btn-teal">See how the platform works</a>
-        <a href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" class="btn btn-ghost">Book a demo</a>
+        <a href="product/" class="btn btn-teal btn-try">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px"><path d="M5 3l14 9-14 9z"/></svg>
+          Try the live product
+        </a>
+        <a href="#see-it" class="btn btn-ghost">See it in action</a>
       </div>
       <div class="hero-trust">
         <span><i class="dot"></i> Screens tenants with no Canadian credit</span>
@@ -706,6 +740,54 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SEE IT IN ACTION ===================== -->
+<section class="section" id="see-it">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">See it in action</span>
+      <h2>Watch the agent run a whole tenancy — then try it yourself</h2>
+      <p class="lead">This is the actual Propty product. The agent takes a newcomer with no Canadian credit from request to signed, guaranteed lease — scheduling the viewing, ZK-verifying documents, checking candidacy, drafting and e-signing the contract, then guaranteeing the host. Open it and click through as a tenant, a host, or the agent.</p>
+      <div class="see-cta-top">
+        <a href="product/" class="btn btn-teal btn-try">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px"><path d="M5 3l14 9-14 9z"/></svg>
+          Try the live product
+        </a>
+        <a href="product/" class="btn btn-ghost">Open in a new tab &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Demo GIF in a browser frame -->
+    <figure class="demo-frame reveal">
+      <div class="df-chrome">
+        <span class="df-dots"><i></i><i></i><i></i></span>
+        <span class="df-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> app.propty.finance</span>
+        <span class="df-live"><span class="pulse"></span> Live demo</span>
+      </div>
+      <video class="df-gif" autoplay muted loop playsinline preload="metadata" poster="media/propty-demo-poster.png" width="1280" height="800" aria-label="Propty product demo — the leasing agent schedules a viewing, ZK-verifies the tenant's documents, checks candidacy, collects the booking, generates and e-signs the Ontario lease, then guarantees the host's payout by the 5th.">
+        <source src="media/propty-demo.webm" type="video/webm" />
+        <source src="media/propty-demo.mp4" type="video/mp4" />
+        <img class="df-gif" src="media/propty-demo-poster.png" alt="Propty product demo — the leasing agent schedules a viewing, ZK-verifies the tenant's documents, checks candidacy, collects the booking, generates and e-signs the Ontario lease, then guarantees the host's payout." loading="lazy" width="1280" height="800">
+      </video>
+    </figure>
+    <div class="demo-cap reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>Recorded from the live product. Actions and data are simulated. <a href="product/">Open the interactive demo &rarr;</a></span>
+    </div>
+
+    <!-- Static product screens -->
+    <div class="screens-row">
+      <figure class="screen-shot reveal">
+        <img src="media/propty-screen-verify.png" alt="Propty host view — reviewing a tenant's zero-knowledge proofs (ID valid, income clears the threshold, no eviction, reference verified) with all criteria met, ready to initiate booking." loading="lazy" width="1600" height="890">
+        <figcaption><b>Host · verify by proof.</b> The host sees ZK-verified results — never the tenant's raw documents.</figcaption>
+      </figure>
+      <figure class="screen-shot reveal">
+        <img src="media/propty-screen-tenant.png" alt="Propty tenant dashboard — an active, verified and on-chain lease for Room 2 at 21 Fern Ave with all-in rent, next auto-debit, credit built, and the application pipeline." loading="lazy" width="1600" height="890">
+        <figcaption><b>Tenant · your tenancy.</b> Lease, autopay and the credit a newcomer is building — in one place.</figcaption>
+      </figure>
     </div>
   </div>
 </section>

@@ -1,0 +1,1239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The DPP Company — Product</title>
+<meta name="description" content="An interactive tour of The DPP Company: issue Digital Product Passports, verify products, and give shoppers a tamper-proof product story from a single scan." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" />
+<style>
+/* ============================================================
+   THE DPP COMPANY — interactive product mock
+   Self-contained. Brand violet = the product's own primary
+   (--primary: 259 56% 58% ≈ #7B5CE0; primary-600 #6941C6;
+   DPP wordmark letters #9D5BEC). Figtree type, matching the
+   Pandora master design system, with a system fallback.
+   ============================================================ */
+:root{
+  --violet:#7b5ce0;        /* primary — hsl(259 56% 58%) */
+  --violet-600:#6941c6;    /* primary-600 */
+  --violet-700:#5a2db8;    /* primary-700 pressed */
+  --violet-800:#4a238f;
+  --violet-ink:#271454;    /* primary-950 deep violet-black */
+  --violet-deepest:#1c0f3a;
+  --violet-bright:#8b5cf6; /* accent violet */
+  --lilac:#9d5bec;         /* DPP letter violet */
+  --wash:#f4f1ff;          /* primary-50 */
+  --wash-2:#ebe5ff;        /* primary-100 */
+  --soft:#c4b5fd;          /* accent-300 */
+  --navy:#172b4d;
+  --ink:#1f2937;
+  --slate:#5b6a86;
+  --slate-2:#6b7280;
+  --line:#e9eaf0;
+  --line-2:#eef0f4;
+  --bg:#f6f5fb;
+  --white:#fff;
+  --green:#0f9d63;
+  --green-bg:#e7f7ef;
+  --amber:#b7791f;
+  --r-sm:8px; --r:12px; --r-lg:18px; --r-xl:24px; --r-pill:999px;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --shadow:0 8px 24px rgba(23,20,54,.10);
+  --shadow-lg:0 24px 60px rgba(23,20,54,.18);
+  --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,monospace;
+  --font:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--font);color:var(--ink);background:
+  radial-gradient(1200px 700px at 82% -8%, rgba(139,92,246,.12), transparent 60%),
+  radial-gradient(900px 620px at -6% 8%, rgba(105,65,198,.08), transparent 60%),
+  var(--bg);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.5;min-height:100vh}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+h1,h2,h3,h4{margin:0;letter-spacing:-.02em;color:var(--navy);font-weight:700;line-height:1.14}
+
+/* ---------- app chrome (mock browser frame) ---------- */
+.stage{max-width:1180px;margin:0 auto;padding:clamp(18px,3vw,34px) clamp(14px,3vw,28px) 60px}
+.tour-top{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:18px}
+.tour-brand{display:flex;align-items:center;gap:12px}
+.tour-brand img{height:30px;width:auto}
+.tour-brand .tt{font-size:.82rem;color:var(--slate);font-weight:600;padding-left:12px;border-left:1px solid var(--line);letter-spacing:.01em}
+.homelink{display:inline-flex;align-items:center;gap:7px;color:var(--slate);font-weight:600;font-size:.86rem;text-decoration:none;
+  padding:9px 15px;border:1px solid var(--line);border-radius:var(--r-pill);background:#fff;transition:.2s}
+.homelink:hover{color:var(--violet-700);border-color:var(--soft);box-shadow:var(--shadow-sm)}
+.homelink svg{width:15px;height:15px;transition:transform .2s}
+.homelink:hover svg{transform:translateX(-2px)}
+
+/* segmented screen switcher */
+.tabs{display:flex;gap:6px;background:#fff;border:1px solid var(--line);border-radius:var(--r-pill);padding:5px;
+  box-shadow:var(--shadow-sm);overflow-x:auto;scrollbar-width:none;max-width:100%}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--slate);
+  font-weight:650;font-size:.86rem;padding:9px 16px;border-radius:var(--r-pill);cursor:pointer;white-space:nowrap;transition:.18s}
+.tab svg{width:15px;height:15px}
+.tab .n{font-family:var(--mono);font-size:.7rem;opacity:.6;font-weight:700}
+.tab:hover{color:var(--violet-700)}
+.tab[aria-selected="true"]{background:linear-gradient(120deg,var(--violet-600),var(--violet-bright));color:#fff;
+  box-shadow:0 8px 18px rgba(105,65,198,.30)}
+.tab[aria-selected="true"] .n{opacity:.72}
+
+/* window frame around each screen */
+.window{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;
+  box-shadow:var(--shadow-lg)}
+.winbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line-2);background:#fcfbfe}
+.dots{display:flex;gap:7px}
+.dots i{width:11px;height:11px;border-radius:50%;display:block}
+.dots i:nth-child(1){background:#ff5f57}.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+.omni{flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:7px 14px;color:var(--slate);font-size:.8rem;max-width:520px;font-weight:500}
+.omni svg{width:13px;height:13px;color:var(--green);flex:none}
+.omni .u{color:var(--ink);font-weight:600}
+.omni .u b{color:var(--violet-700);font-weight:700}
+.winbadge{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;color:var(--slate);
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 11px}
+.winbadge svg{width:13px;height:13px;color:var(--violet)}
+
+/* screens */
+.screen{display:none}
+.screen.active{display:block}
+
+/* =======================================================
+   SCREEN 1 & 2 — brand app shell (sidebar + content)
+   ======================================================= */
+.app{display:grid;grid-template-columns:248px 1fr;min-height:640px}
+.side{background:linear-gradient(178deg,var(--violet-600) 0%,var(--violet-700) 62%,var(--violet-800) 100%);
+  color:#fff;padding:22px 16px;display:flex;flex-direction:column;gap:6px;position:relative}
+.side::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:radial-gradient(420px 300px at 120% -6%, rgba(255,255,255,.12), transparent 60%)}
+.side>*{position:relative;z-index:1}
+.side .logo{display:flex;align-items:center;gap:10px;padding:4px 6px 16px}
+.side .logo .mk{width:34px;height:34px;border-radius:10px;background:#fff;display:grid;place-items:center;flex:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.side .logo .mk svg{width:20px;height:20px}
+.side .logo .wm{font-weight:800;font-size:.82rem;letter-spacing:.02em;line-height:1.15;text-transform:uppercase}
+.side .logo .wm b{color:#fff}
+.side .logo .wm span{display:block;font-size:.62rem;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.66)}
+.side .cta{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;cursor:pointer;
+  padding:11px 13px;border-radius:11px;font-weight:700;font-size:.88rem;color:#fff;
+  background:linear-gradient(120deg,rgba(255,255,255,.22),rgba(255,255,255,.11));border:1px solid rgba(255,255,255,.24);
+  transition:.18s;box-shadow:0 6px 16px rgba(0,0,0,.14)}
+.side .cta:hover{background:rgba(255,255,255,.26)}
+.side .cta.ghost{background:rgba(255,255,255,.08);box-shadow:none;border-color:rgba(255,255,255,.16)}
+.side .cta svg{width:17px;height:17px}
+.side .navsec{margin-top:14px;display:flex;flex-direction:column;gap:3px}
+.side .nav{display:flex;align-items:center;gap:12px;padding:10px 13px;border-radius:10px;color:rgba(255,255,255,.82);
+  font-weight:600;font-size:.9rem;cursor:pointer;transition:.15s;border:1px solid transparent}
+.side .nav svg{width:18px;height:18px;opacity:.92;flex:none}
+.side .nav:hover{background:rgba(255,255,255,.1);color:#fff}
+.side .nav.on{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.18);font-weight:700}
+.side .divider{height:1px;background:rgba(255,255,255,.14);margin:14px 4px}
+.side .spacer{flex:1}
+.side .me{display:flex;align-items:center;gap:11px;padding:10px 8px;border-radius:12px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14)}
+.side .me .av{width:36px;height:36px;border-radius:50%;flex:none;background:
+  linear-gradient(135deg,#c4b5fd,#7c3aed);display:grid;place-items:center;color:#fff;font-weight:800;font-size:.86rem;
+  box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.side .me .who{min-width:0}
+.side .me .who b{display:block;font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .me .who span{display:block;font-size:.7rem;color:rgba(255,255,255,.66);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .me .out{margin-left:auto;color:rgba(255,255,255,.7);cursor:pointer}
+.side .me .out svg{width:16px;height:16px}
+
+.main{background:#fff;min-height:640px;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 30px;border-bottom:1px solid var(--line-2)}
+.topbar .h{display:flex;flex-direction:column;gap:3px}
+.topbar .h .crumb{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--violet)}
+.topbar .h h2{font-size:1.32rem}
+.topbar .acts{display:flex;align-items:center;gap:10px}
+.pill-btn{display:inline-flex;align-items:center;gap:8px;font-weight:650;font-size:.84rem;border-radius:var(--r-pill);
+  padding:9px 15px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--navy);transition:.18s}
+.pill-btn svg{width:15px;height:15px}
+.pill-btn:hover{border-color:var(--soft);color:var(--violet-700)}
+.pill-btn.solid{background:linear-gradient(120deg,var(--violet-600),var(--violet-bright));color:#fff;border-color:transparent;
+  box-shadow:0 8px 18px rgba(105,65,198,.28)}
+.pill-btn.solid:hover{color:#fff;box-shadow:0 12px 26px rgba(105,65,198,.36)}
+.search{display:inline-flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:9px 15px;color:var(--slate-2);font-size:.84rem;min-width:220px}
+.search svg{width:15px;height:15px}
+.body{padding:26px 30px 34px}
+
+/* stat cards */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat{border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 18px;background:
+  linear-gradient(180deg,#fff,#fdfcff);position:relative;overflow:hidden}
+.stat .si{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--wash);color:var(--violet-700);
+  border:1px solid var(--wash-2);margin-bottom:14px}
+.stat .si svg{width:20px;height:20px}
+.stat .lab{font-size:.78rem;color:var(--slate);font-weight:600}
+.stat .val{font-size:1.62rem;font-weight:800;color:var(--navy);letter-spacing:-.02em;margin-top:2px}
+.stat .delta{font-size:.74rem;font-weight:700;color:var(--green);display:inline-flex;align-items:center;gap:4px;margin-top:6px}
+.stat .delta svg{width:12px;height:12px}
+.stat .delta.flat{color:var(--slate-2)}
+
+.sect-h{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:6px 0 14px}
+.sect-h h3{font-size:1.06rem}
+.sect-h .link{font-size:.82rem;font-weight:700;color:var(--violet-700);cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.sect-h .link svg{width:14px;height:14px}
+
+/* passport table */
+.tbl{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.tbl .thead,.tbl .trow{display:grid;grid-template-columns:2.5fr 1.1fr 1.2fr 1fr 0.7fr;gap:14px;align-items:center;padding:13px 18px}
+.tbl .thead{background:var(--bg);border-bottom:1px solid var(--line);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--slate);font-weight:700}
+.tbl .trow{border-bottom:1px solid var(--line-2);transition:.15s}
+.tbl .trow:last-child{border-bottom:0}
+.tbl .trow:hover{background:#fcfbff}
+.prodcell{display:flex;align-items:center;gap:13px;min-width:0}
+.prodcell .thumb{width:46px;height:46px;border-radius:11px;flex:none;background:linear-gradient(140deg,#efeafb,#e5dcfb);
+  display:grid;place-items:center;color:var(--violet-700);overflow:hidden;border:1px solid var(--wash-2)}
+.prodcell .thumb svg{width:22px;height:22px}
+.prodcell .pn{min-width:0}
+.prodcell .pn b{display:block;font-size:.92rem;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prodcell .pn span{display:block;font-size:.76rem;color:var(--slate-2);font-family:var(--mono)}
+.cat{display:inline-flex;align-items:center;font-size:.76rem;font-weight:700;padding:5px 11px;border-radius:var(--r-pill);
+  background:var(--wash);color:var(--violet-700);border:1px solid var(--wash-2)}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:700}
+.status .d{width:8px;height:8px;border-radius:50%;flex:none}
+.status.ok{color:var(--green)}.status.ok .d{background:var(--green);box-shadow:0 0 0 3px rgba(15,157,99,.15)}
+.status.pend{color:var(--amber)}.status.pend .d{background:var(--amber);box-shadow:0 0 0 3px rgba(183,121,31,.15)}
+.status.draft{color:var(--slate-2)}.status.draft .d{background:var(--gray-300,#b3bac5)}
+.scans{font-weight:700;color:var(--navy);font-size:.9rem}
+.scans span{color:var(--slate-2);font-weight:600;font-size:.78rem}
+.rowview{justify-self:end;width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;
+  display:grid;place-items:center;color:var(--slate);cursor:pointer;transition:.15s}
+.rowview:hover{border-color:var(--soft);color:var(--violet-700)}
+.rowview svg{width:15px;height:15px}
+
+/* =======================================================
+   SCREEN 2 — create / issue passport
+   ======================================================= */
+.create{display:grid;grid-template-columns:1fr 380px;gap:26px}
+.steps{display:flex;align-items:center;gap:0;margin-bottom:22px}
+.stepdot{display:flex;align-items:center;gap:10px}
+.stepdot .c{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:800;
+  background:var(--wash);color:var(--violet-700);border:1.5px solid var(--wash-2)}
+.stepdot.done .c{background:var(--violet-600);color:#fff;border-color:var(--violet-600)}
+.stepdot.now .c{background:linear-gradient(120deg,var(--violet-600),var(--violet-bright));color:#fff;border-color:transparent;
+  box-shadow:0 6px 14px rgba(105,65,198,.3)}
+.stepdot .lbl{font-size:.84rem;font-weight:700;color:var(--slate)}
+.stepdot.now .lbl,.stepdot.done .lbl{color:var(--navy)}
+.stepline{flex:1;height:2px;background:var(--line);margin:0 12px;border-radius:2px}
+.stepline.fill{background:var(--violet-600)}
+
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.84rem;font-weight:700;color:var(--navy);margin-bottom:7px}
+.field label .req{color:#e0505a}
+.field .hint{font-size:.76rem;color:var(--slate-2);font-weight:500;margin-top:6px}
+.inp{width:100%;border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;font-size:.9rem;color:var(--ink);
+  background:#fff;font-family:inherit;transition:.15s}
+.inp:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px rgba(123,92,224,.14)}
+.inp.suf{position:relative}
+.inpwrap{position:relative}
+.inpwrap .unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:.82rem;color:var(--slate-2);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sel{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235b6a86' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:38px}
+.chipset{display:flex;flex-wrap:wrap;gap:8px}
+.chip-in{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;padding:7px 13px;border-radius:var(--r-pill);
+  background:var(--wash);color:var(--violet-700);border:1px solid var(--wash-2)}
+.chip-in svg{width:13px;height:13px}
+.chip-add{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;padding:7px 13px;border-radius:var(--r-pill);
+  background:#fff;color:var(--slate);border:1px dashed var(--line);cursor:pointer}
+.drop{border:1.5px dashed var(--soft);border-radius:var(--r-lg);padding:24px;text-align:center;background:
+  linear-gradient(180deg,#fdfcff,#faf8ff);color:var(--slate)}
+.drop .du{width:44px;height:44px;border-radius:12px;background:var(--wash);color:var(--violet-700);display:grid;place-items:center;
+  margin:0 auto 12px;border:1px solid var(--wash-2)}
+.drop .du svg{width:22px;height:22px}
+.drop b{color:var(--violet-700);font-weight:800;font-size:.94rem}
+.drop .sub{font-size:.78rem;color:var(--slate-2);margin-top:3px}
+.drop .thumbs{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.drop .thumbs i{width:44px;height:44px;border-radius:9px;display:block;background:linear-gradient(140deg,#efeafb,#ddd0fb);
+  border:1px solid var(--wash-2)}
+.rt{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.rt .rtbar{display:flex;align-items:center;gap:4px;padding:7px 9px;border-bottom:1px solid var(--line-2);background:#fcfbfe}
+.rt .rtbar .rsel{font-size:.76rem;font-weight:700;color:var(--slate);border:1px solid var(--line);border-radius:7px;padding:4px 9px;background:#fff}
+.rt .rtbar .ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;color:var(--slate);cursor:pointer}
+.rt .rtbar .ic:hover{background:var(--wash);color:var(--violet-700)}
+.rt .rtbar .ic svg{width:14px;height:14px}
+.rt .rtbody{padding:12px 14px;color:var(--slate-2);font-size:.86rem;min-height:56px}
+.formfoot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line-2)}
+.saveflag{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;color:var(--slate-2)}
+.saveflag svg{width:15px;height:15px;color:var(--green)}
+
+/* live preview card (create screen aside) */
+.preview{position:sticky;top:0}
+.preview .plabel{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px}
+.preview .plabel .dotlive{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(15,157,99,.18);
+  animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* =======================================================
+   passport card (shared: preview + public screen)
+   ======================================================= */
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.pcard .phead{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:linear-gradient(122deg,var(--violet-ink),var(--violet-700));color:#fff}
+.pcard .phead .pb{display:flex;align-items:center;gap:10px;min-width:0}
+.pcard .phead .pb .g{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.pcard .phead .pb .g svg{width:16px;height:16px}
+.pcard .phead .pb .pt{min-width:0}
+.pcard .phead .pb .pt b{display:block;font-weight:800;font-size:.94rem;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .phead .pb .pt span{display:block;font-size:.68rem;opacity:.74;letter-spacing:.02em}
+.verif{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:800;letter-spacing:.02em;flex:none;
+  padding:6px 10px;border-radius:var(--r-pill);background:rgba(139,92,246,.3);color:#ede9fe;border:1px solid rgba(196,181,253,.5)}
+.verif svg{width:13px;height:13px}
+.pcard .pbody{padding:18px}
+.pcard .prodname{font-size:1.14rem;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+.pcard .prodmeta{font-size:.76rem;color:var(--slate-2);margin-top:3px}
+.prows{margin:16px 0 2px;border-top:1px solid var(--line-2)}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line-2)}
+.prow .k{font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);font-weight:700}
+.prow .v{font-size:.84rem;font-weight:700;color:var(--navy);text-align:right}
+.prow .v.g{color:var(--green);display:inline-flex;align-items:center;gap:5px}
+.prow .v.g svg{width:14px;height:14px}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.pchip{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:var(--r-pill);background:var(--wash);color:var(--violet-700)}
+.pfoot{display:flex;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid var(--line-2);background:#fcfbff}
+.pqr{width:52px;height:52px;border-radius:10px;flex:none;padding:5px;background:#fff;border:1px solid var(--line)}
+.panchor .a1{font-size:.72rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px}
+.panchor .a1 svg{width:13px;height:13px;color:var(--violet)}
+.panchor .a2{font-family:var(--mono);font-size:.64rem;color:var(--slate-2);margin-top:2px}
+
+/* =======================================================
+   SCREEN 3 — public passport page (consumer web view)
+   ======================================================= */
+.pubwrap{background:linear-gradient(180deg,#faf9ff,#fff);min-height:640px}
+.pubhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 26px;border-bottom:1px solid var(--line-2);
+  background:#fff}
+.pubhead .cobrand{display:flex;align-items:center;gap:11px}
+.pubhead .cobrand .clogo{width:38px;height:38px;border-radius:10px;background:#0f1115;color:#fff;display:grid;place-items:center;
+  font-weight:800;font-size:.82rem;letter-spacing:.02em}
+.pubhead .cobrand b{font-size:.98rem;font-weight:800;color:var(--navy);letter-spacing:-.01em}
+.pubhead .cobrand span{display:block;font-size:.72rem;color:var(--slate-2);font-weight:600}
+.pubhead .poweredby{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;color:var(--slate-2);font-weight:600}
+.pubhead .poweredby img{height:18px;width:auto;opacity:.9}
+.pubbody{max-width:780px;margin:0 auto;padding:26px 24px 40px}
+.pubgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.gallery .ghero{aspect-ratio:1;border-radius:var(--r-lg);overflow:hidden;background:
+  radial-gradient(120% 120% at 30% 20%, #2a2f39, #0d0f13);display:grid;place-items:center;border:1px solid var(--line);position:relative}
+.gallery .ghero .jacket{width:74%;height:74%}
+.gallery .gdots{display:flex;gap:7px;justify-content:center;margin-top:12px}
+.gallery .gdots i{width:8px;height:8px;border-radius:50%;background:var(--line);display:block}
+.gallery .gdots i.on{background:var(--violet-600);width:22px;border-radius:5px}
+.actionrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.act{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border:1px solid var(--line);border-radius:var(--r);
+  background:#fff;color:var(--slate);font-size:.74rem;font-weight:700;cursor:pointer;transition:.15s}
+.act svg{width:19px;height:19px}
+.act:hover{border-color:var(--soft);color:var(--violet-700);background:#fdfcff}
+.act.prime{border-color:var(--violet);color:var(--violet-700);background:var(--wash)}
+
+.pubtitle{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.pubtitle h1{font-size:1.52rem;letter-spacing:-.02em}
+.pubtitle .authbadge{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:800;color:var(--green);
+  background:var(--green-bg);border:1px solid #c9edd9;border-radius:var(--r-pill);padding:6px 11px}
+.pubtitle .authbadge svg{width:14px;height:14px}
+.pubsub{color:var(--slate-2);font-size:.9rem;margin-top:8px;line-height:1.6}
+.acc{margin-top:18px;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.acc details{border-bottom:1px solid var(--line-2)}
+.acc details:last-child{border-bottom:0}
+.acc summary{list-style:none;cursor:pointer;padding:14px 18px;font-weight:700;font-size:.92rem;color:var(--navy);
+  display:flex;align-items:center;gap:11px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .si{width:30px;height:30px;border-radius:9px;background:var(--wash);color:var(--violet-700);display:grid;place-items:center;flex:none;
+  border:1px solid var(--wash-2)}
+.acc summary .si svg{width:16px;height:16px}
+.acc summary .chev{margin-left:auto;color:var(--slate);transition:transform .22s}
+.acc summary .chev svg{width:16px;height:16px}
+.acc details[open] summary .chev{transform:rotate(180deg)}
+.acc .accbody{padding:2px 18px 16px 59px}
+.spec{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);
+  font-size:.86rem}
+.spec:last-child{border-bottom:0}
+.spec .sk{color:var(--slate);font-weight:600}
+.spec .sv{color:var(--navy);font-weight:700}
+.trace{display:flex;flex-direction:column;gap:0}
+.tstep{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:8px 0}
+.tstep .tl{position:relative;display:flex;justify-content:center}
+.tstep .tl .cd{width:12px;height:12px;border-radius:50%;background:var(--violet-600);margin-top:4px;z-index:1;
+  box-shadow:0 0 0 3px var(--wash)}
+.tstep .tl::before{content:"";position:absolute;top:8px;bottom:-16px;width:2px;background:var(--wash-2)}
+.tstep:last-child .tl::before{display:none}
+.tstep .td b{font-size:.86rem;color:var(--navy);font-weight:700}
+.tstep .td span{display:block;font-size:.78rem;color:var(--slate-2)}
+.attest{display:flex;align-items:center;gap:11px;padding:12px 14px;background:var(--wash);border:1px solid var(--wash-2);
+  border-radius:var(--r);margin-top:4px}
+.attest .ai{width:34px;height:34px;border-radius:9px;background:#fff;color:var(--violet-700);display:grid;place-items:center;flex:none;
+  border:1px solid var(--wash-2)}
+.attest .ai svg{width:18px;height:18px}
+.attest .at b{font-size:.82rem;color:var(--navy);font-weight:800;display:block}
+.attest .at span{font-size:.72rem;color:var(--slate-2);font-family:var(--mono)}
+.attest .verify{margin-left:auto;font-size:.74rem;font-weight:800;color:var(--violet-700);cursor:pointer;white-space:nowrap}
+
+/* =======================================================
+   SCREEN 4 — scan to verify (phone)
+   ======================================================= */
+.scanwrap{min-height:640px;display:grid;grid-template-columns:1.05fr .95fr;gap:0;background:
+  linear-gradient(150deg,var(--violet-ink),var(--violet-deepest))}
+.scanleft{padding:clamp(30px,4vw,54px);color:#fff;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.scanleft::before{content:"";position:absolute;inset:0;opacity:.6;pointer-events:none;
+  background:radial-gradient(520px 380px at 80% -10%, rgba(139,92,246,.4), transparent 60%),
+  radial-gradient(420px 320px at -6% 110%, rgba(105,65,198,.34), transparent 62%)}
+.scanleft>*{position:relative;z-index:1}
+.scanleft .k{display:inline-flex;align-items:center;gap:9px;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--soft)}
+.scanleft .k::before{content:"";width:22px;height:1.5px;background:var(--soft)}
+.scanleft h2{color:#fff;font-size:clamp(1.6rem,3vw,2.1rem);margin:16px 0 0;max-width:15ch}
+.scanleft p{color:rgba(255,255,255,.78);font-size:.98rem;margin-top:14px;max-width:38ch;line-height:1.65}
+.scansteps{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.scansteps li{display:flex;align-items:center;gap:13px;color:rgba(255,255,255,.9);font-size:.92rem;font-weight:600}
+.scansteps li .n{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.8rem;font-weight:800;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);color:#fff}
+.scansteps li.on .n{background:linear-gradient(120deg,var(--violet-bright),var(--violet-600));border-color:transparent;
+  box-shadow:0 6px 16px rgba(139,92,246,.5)}
+.scanright{display:grid;place-items:center;padding:clamp(24px,3vw,40px);position:relative}
+.phone{width:min(300px,84%);aspect-ratio:9/19;background:#0c0e12;border-radius:40px;padding:11px;
+  box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 2px rgba(255,255,255,.08),inset 0 0 0 2px rgba(255,255,255,.04);position:relative}
+.phone .notch{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0c0e12;
+  border-bottom-left-radius:14px;border-bottom-right-radius:14px;z-index:5}
+.pscreen{width:100%;height:100%;border-radius:30px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.pstat{display:flex;align-items:center;justify-content:space-between;padding:11px 18px 5px;font-size:.68rem;font-weight:800;color:var(--navy)}
+.pstat .r{display:flex;gap:5px;align-items:center}
+.pstat svg{width:14px;height:14px}
+.pnav{display:flex;align-items:center;gap:9px;padding:6px 16px 12px;border-bottom:1px solid var(--line-2)}
+.pnav .clogo{width:26px;height:26px;border-radius:7px;background:#0f1115;color:#fff;display:grid;place-items:center;font-weight:800;font-size:.62rem}
+.pnav b{font-size:.78rem;color:var(--navy);font-weight:800}
+.pnav .vv{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:.62rem;font-weight:800;color:var(--green);
+  background:var(--green-bg);border-radius:var(--r-pill);padding:3px 8px}
+.pnav .vv svg{width:11px;height:11px}
+.pbody2{flex:1;overflow:hidden;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.pimg{aspect-ratio:16/11;border-radius:14px;background:radial-gradient(120% 120% at 30% 20%, #2a2f39, #0d0f13);display:grid;place-items:center;
+  border:1px solid var(--line)}
+.pimg .jacket{width:64%;height:64%}
+.pscanresult{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--green-bg);border:1px solid #c9edd9}
+.pscanresult .ci{width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;flex:none}
+.pscanresult .ci svg{width:17px;height:17px}
+.pscanresult b{font-size:.8rem;color:#0b6b46;font-weight:800;display:block;line-height:1.2}
+.pscanresult span{font-size:.68rem;color:#3f8b6a;font-weight:600}
+.pmeta{display:flex;flex-direction:column;gap:2px}
+.pmeta .pnm{font-size:.98rem;font-weight:800;color:var(--navy);letter-spacing:-.01em}
+.pmeta .pmn{font-size:.72rem;color:var(--slate-2);font-family:var(--mono)}
+.pminirows{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line-2)}
+.pmr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-2);font-size:.76rem}
+.pmr .k{color:var(--slate);font-weight:600}
+.pmr .v{color:var(--navy);font-weight:700}
+.pmr .v.mono{font-family:var(--mono);font-size:.7rem}
+.pmr .v.chips{display:flex;gap:4px}
+.pmr .v.chips i{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:var(--r-pill);background:var(--wash);color:var(--violet-700);
+  font-style:normal}
+.pcta{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:12px;
+  background:linear-gradient(120deg,var(--violet-600),var(--violet-bright));color:#fff;font-size:.82rem;font-weight:800}
+.pcta svg{width:15px;height:15px}
+/* scan reticle floating tag */
+.reticle{position:absolute;right:-14px;top:112px;width:92px;height:92px;border-radius:16px;z-index:3;
+  background:rgba(30,15,58,.42);backdrop-filter:blur(4px);border:1px solid rgba(196,181,253,.28);
+  box-shadow:0 14px 30px rgba(0,0,0,.4)}
+.reticle .corner{position:absolute;width:20px;height:20px;border:2.5px solid var(--soft)}
+.reticle .c1{top:8px;left:8px;border-right:0;border-bottom:0;border-radius:5px 0 0 0}
+.reticle .c2{top:8px;right:8px;border-left:0;border-bottom:0;border-radius:0 5px 0 0}
+.reticle .c3{bottom:8px;left:8px;border-right:0;border-top:0;border-radius:0 0 0 5px}
+.reticle .c4{bottom:8px;right:8px;border-left:0;border-top:0;border-radius:0 0 5px 0}
+.reticle .qrm{position:absolute;inset:22px;opacity:.9}
+
+/* footnote under the tour */
+.tour-foot{margin-top:22px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--slate-2);
+  font-size:.82rem;text-align:center;flex-wrap:wrap}
+.tour-foot .cta{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:#fff;text-decoration:none;
+  background:linear-gradient(120deg,var(--violet-600),var(--violet-bright));padding:10px 18px;border-radius:var(--r-pill);
+  box-shadow:0 10px 24px rgba(105,65,198,.3);transition:.2s}
+.tour-foot .cta:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(105,65,198,.4)}
+.tour-foot .cta svg{width:15px;height:15px}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{display:none}
+  .create{grid-template-columns:1fr}
+  .preview{position:static}
+  .stats{grid-template-columns:1fr 1fr}
+  .pubgrid{grid-template-columns:1fr}
+  .scanwrap{grid-template-columns:1fr}
+  .scanleft{order:2}
+  .tbl .thead{display:none}
+  .tbl .trow{grid-template-columns:1fr auto;grid-auto-rows:auto;gap:8px 14px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+/* ---------- capture mode (?capture=<screen>): isolate one screen, no tour chrome ----------
+   Used only for headless screenshotting of clean product frames. Invisible in normal use. */
+html[data-capture] body{background:transparent}
+html[data-capture] .stage{max-width:none;padding:26px}
+html[data-capture] .tour-top,
+html[data-capture] .tabs,
+html[data-capture] .tour-foot{display:none}
+html[data-capture] .window{margin-top:0;border-radius:20px;box-shadow:0 30px 70px rgba(23,20,54,.22)}
+
+/* ============================================================
+   DEMO MODE (?demo=1): self-contained autoplay for screen-recording.
+   Smooth cross-fades between screens, animated tab pill, micro-motion.
+   Invisible / inert in normal interactive use.
+   ============================================================ */
+html[data-demo] body{background:
+  radial-gradient(1200px 700px at 82% -8%, rgba(139,92,246,.14), transparent 60%),
+  radial-gradient(900px 620px at -6% 8%, rgba(105,65,198,.10), transparent 60%),
+  var(--bg)}
+html[data-demo] .stage{max-width:1120px;padding:22px clamp(14px,3vw,26px) 30px}
+html[data-demo] .tour-top,html[data-demo] .tour-foot{display:none}
+html[data-demo] .homelink{display:none}
+/* tabs stay visible (they read as the product's own switcher) but are inert */
+html[data-demo] .tabs{pointer-events:none;justify-content:center}
+html[data-demo] .tab[aria-selected="true"]{transition:background .5s ease, box-shadow .5s ease, color .35s ease}
+/* smooth screen cross-fade — screens stack, opacity/transform eased */
+html[data-demo] .window{position:relative}
+html[data-demo] .screen{display:block;position:absolute;inset:0;opacity:0;transform:translateY(14px) scale(.992);
+  transition:opacity .6s cubic-bezier(.22,.61,.36,1), transform .6s cubic-bezier(.22,.61,.36,1);
+  pointer-events:none;will-change:opacity,transform}
+html[data-demo] .screen.active{opacity:1;transform:none;position:relative;z-index:2}
+/* progress bar under the tabs shows the loop position */
+html[data-demo] .demobar{display:block}
+.demobar{display:none;height:3px;border-radius:3px;background:rgba(105,65,198,.16);margin:14px auto 0;max-width:520px;overflow:hidden}
+.demobar>i{display:block;height:100%;width:0;border-radius:3px;
+  background:linear-gradient(90deg,var(--violet-600),var(--violet-bright))}
+/* counter + reveal micro-animations (driven by JS adding classes) */
+.demo-badge-in{animation:dppBadgeIn .55s cubic-bezier(.22,1.2,.4,1) both}
+@keyframes dppBadgeIn{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
+.demo-row-in{animation:dppRowIn .5s ease both}
+@keyframes dppRowIn{0%{opacity:0;transform:translateX(10px)}100%{opacity:1;transform:none}}
+/* scan reticle sweep — a scanning line crossing the phone QR */
+html[data-demo] .reticle{overflow:hidden}
+html[data-demo] .reticle .sweep{position:absolute;left:6px;right:6px;height:2px;top:6px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,#ede9fe,transparent);box-shadow:0 0 10px 2px rgba(196,181,253,.6);
+  animation:dppSweep 1.6s ease-in-out infinite}
+@keyframes dppSweep{0%{top:8px;opacity:.2}50%{top:78px;opacity:1}100%{top:8px;opacity:.2}}
+html[data-demo] .pscanresult{animation:dppPop .6s cubic-bezier(.22,1.2,.4,1) both}
+@keyframes dppPop{0%{opacity:0;transform:translateY(8px) scale(.96)}100%{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){html[data-demo] *{animation-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- top bar: brand + home link -->
+  <div class="tour-top">
+    <div class="tour-brand">
+      <img src="assets/logo2.svg" alt="The DPP Company" />
+      <span class="tt">Product tour</span>
+    </div>
+    <a class="homelink" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Back to overview
+    </a>
+  </div>
+
+  <!-- screen switcher -->
+  <div class="tabs" role="tablist" aria-label="Product screens">
+    <button class="tab" role="tab" aria-selected="true" data-screen="dash">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.4"/><rect x="14" y="3" width="7" height="5" rx="1.4"/><rect x="14" y="12" width="7" height="9" rx="1.4"/><rect x="3" y="16" width="7" height="5" rx="1.4"/></svg>
+      <span class="n">01</span> My Passports
+    </button>
+    <button class="tab" role="tab" aria-selected="false" data-screen="create">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      <span class="n">02</span> Issue a passport
+    </button>
+    <button class="tab" role="tab" aria-selected="false" data-screen="public">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg>
+      <span class="n">03</span> Public passport
+    </button>
+    <button class="tab" role="tab" aria-selected="false" data-screen="scan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M4 12h16"/></svg>
+      <span class="n">04</span> Scan to verify
+    </button>
+  </div>
+  <div class="demobar" id="demobar"><i></i></div>
+
+  <div class="window">
+    <!-- window chrome -->
+    <div class="winbar">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="omni" id="omni">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <span class="u" id="omniText"><b>app.thedpp.company</b>/passports</span>
+      </span>
+      <span class="winbadge" id="winBadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/></svg> Brand workspace</span>
+    </div>
+
+    <!-- ================= SCREEN 1 — MY PASSPORTS ================= -->
+    <section class="screen active" id="screen-dash">
+      <div class="app">
+        <!-- sidebar -->
+        <aside class="side">
+          <div class="logo">
+            <span class="mk"><svg viewBox="0 0 40 40" fill="none"><rect x="4" y="4" width="32" height="32" rx="9" fill="#d2a2fb"/><path d="M15 11h6.2c5.7 0 9.3 3.6 9.3 9.5S26.9 30 21.2 30H15V11z" fill="#171226"/><path d="M20.5 16.5h1.8c.3 0 .6.13.77.36l2.1 3a.6.6 0 0 1 0 .68l-2.1 3a.9.9 0 0 1-.77.36H20.5l2.3-3.7-2.3-3.7z" fill="#171226"/></svg></span>
+            <span class="wm"><b>The DPP</b><span>Company</span></span>
+          </div>
+          <button class="cta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Create DPP
+          </button>
+          <button class="cta ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Dynamic DPP
+          </button>
+          <div class="navsec">
+            <div class="nav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.4"/><rect x="14" y="3" width="7" height="5" rx="1.4"/><rect x="14" y="12" width="7" height="9" rx="1.4"/><rect x="3" y="16" width="7" height="5" rx="1.4"/></svg> Dashboard</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="m12 6 4 2.2v4.4L12 15l-4-2.4V8.2L12 6z" opacity=".5"/></svg> Dynamic DPPs</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5L12 3z"/><path d="m3 12 9 4.5L21 12M3 16.5 12 21l9-4.5"/></svg> Templates</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Events</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg> Analytics</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20a5 5 0 0 0-10 0"/><circle cx="12" cy="8" r="4"/></svg> Users</div>
+          </div>
+          <div class="divider"></div>
+          <div class="navsec">
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .8-1 1.7"/><path d="M12 17h.01"/></svg> Support</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 3.6 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H8a1.65 1.65 0 0 0 1-1.51V2a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V8a1.65 1.65 0 0 0 1.51 1H22a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</div>
+          </div>
+          <div class="spacer"></div>
+          <div class="me">
+            <span class="av">VK</span>
+            <span class="who"><b>Vijay Kumar</b><span>vijay@ateliernord.co</span></span>
+            <span class="out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span>
+          </div>
+        </aside>
+
+        <!-- content -->
+        <div class="main">
+          <div class="topbar">
+            <div class="h">
+              <span class="crumb">Dashboard</span>
+              <h2>My Passports</h2>
+            </div>
+            <div class="acts">
+              <span class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Search passports…</span>
+              <button class="pill-btn solid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Create DPP</button>
+            </div>
+          </div>
+
+          <div class="body">
+            <!-- stats -->
+            <div class="stats">
+              <div class="stat">
+                <span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                <div class="lab">Passports issued</div>
+                <div class="val">1,248</div>
+                <div class="delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg> +64 this week</div>
+              </div>
+              <div class="stat">
+                <span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M4 12h16"/></svg></span>
+                <div class="lab">Scans this month</div>
+                <div class="val">37,902</div>
+                <div class="delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg> +18.4%</div>
+              </div>
+              <div class="stat">
+                <span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 4.5 3.2 7.3 8 9 4.8-1.7 8-4.5 8-9V7z"/><path d="M15 9.5 10.5 14 9 12.5"/></svg></span>
+                <div class="lab">Counterfeits flagged</div>
+                <div class="val">23</div>
+                <div class="delta flat">across 1,248 items</div>
+              </div>
+              <div class="stat">
+                <span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3 8-8"/><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg></span>
+                <div class="lab">EU DPP compliant</div>
+                <div class="val">98.2%</div>
+                <div class="delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg> ESPR ready</div>
+              </div>
+            </div>
+
+            <div class="sect-h">
+              <h3>Recent passports</h3>
+              <span class="link">View all 1,248 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+
+            <div class="tbl">
+              <div class="thead">
+                <span>Product</span><span>Category</span><span>Status</span><span>Scans</span><span></span>
+              </div>
+              <div class="trow">
+                <div class="prodcell">
+                  <span class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l-1.5 4.5a5 5 0 0 1-9 0L6 3z"/><path d="M6 21h12l-1.5-4.5a5 5 0 0 0-9 0L6 21z"/></svg></span>
+                  <span class="pn"><b>Meridian Field Jacket</b><span>DPP-0042 · No. 0042/500</span></span>
+                </div>
+                <span><span class="cat">Textiles</span></span>
+                <span><span class="status ok"><span class="d"></span>Verified</span></span>
+                <span class="scans">4,821 <span>scans</span></span>
+                <span class="rowview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+              </div>
+              <div class="trow">
+                <div class="prodcell">
+                  <span class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M12 9v3l2 1"/><path d="M9 3h6M12 3v3"/></svg></span>
+                  <span class="pn"><b>Nord Automatic 39</b><span>DPP-0039 · Ref. 5227-B</span></span>
+                </div>
+                <span><span class="cat">Watches</span></span>
+                <span><span class="status ok"><span class="d"></span>Verified</span></span>
+                <span class="scans">2,140 <span>scans</span></span>
+                <span class="rowview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+              </div>
+              <div class="trow">
+                <div class="prodcell">
+                  <span class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg></span>
+                  <span class="pn"><b>Atelier Weekender Bag</b><span>DPP-0051 · Lot 22-A</span></span>
+                </div>
+                <span><span class="cat">Leather goods</span></span>
+                <span><span class="status pend"><span class="d"></span>Anchoring…</span></span>
+                <span class="scans">318 <span>scans</span></span>
+                <span class="rowview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+              </div>
+              <div class="trow">
+                <div class="prodcell">
+                  <span class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10l1 6H6l1-6z"/><path d="M6 10h12v9a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-9z"/></svg></span>
+                  <span class="pn"><b>Alpine Merino Knit</b><span>DPP-0058 · Draft</span></span>
+                </div>
+                <span><span class="cat">Textiles</span></span>
+                <span><span class="status draft"><span class="d"></span>Draft</span></span>
+                <span class="scans">— </span>
+                <span class="rowview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 2 — ISSUE A PASSPORT ================= -->
+    <section class="screen" id="screen-create">
+      <div class="app">
+        <aside class="side">
+          <div class="logo">
+            <span class="mk"><svg viewBox="0 0 40 40" fill="none"><rect x="4" y="4" width="32" height="32" rx="9" fill="#d2a2fb"/><path d="M15 11h6.2c5.7 0 9.3 3.6 9.3 9.5S26.9 30 21.2 30H15V11z" fill="#171226"/><path d="M20.5 16.5h1.8c.3 0 .6.13.77.36l2.1 3a.6.6 0 0 1 0 .68l-2.1 3a.9.9 0 0 1-.77.36H20.5l2.3-3.7-2.3-3.7z" fill="#171226"/></svg></span>
+            <span class="wm"><b>The DPP</b><span>Company</span></span>
+          </div>
+          <button class="cta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Create DPP
+          </button>
+          <button class="cta ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Dynamic DPP
+          </button>
+          <div class="navsec">
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.4"/><rect x="14" y="3" width="7" height="5" rx="1.4"/><rect x="14" y="12" width="7" height="9" rx="1.4"/><rect x="3" y="16" width="7" height="5" rx="1.4"/></svg> Dashboard</div>
+            <div class="nav on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="m12 6 4 2.2v4.4L12 15l-4-2.4V8.2L12 6z" opacity=".5"/></svg> Dynamic DPPs</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5L12 3z"/><path d="m3 12 9 4.5L21 12M3 16.5 12 21l9-4.5"/></svg> Templates</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Events</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg> Analytics</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20a5 5 0 0 0-10 0"/><circle cx="12" cy="8" r="4"/></svg> Users</div>
+          </div>
+          <div class="divider"></div>
+          <div class="navsec">
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .8-1 1.7"/><path d="M12 17h.01"/></svg> Support</div>
+            <div class="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 3.6 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H8a1.65 1.65 0 0 0 1-1.51V2a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V8a1.65 1.65 0 0 0 1.51 1H22a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</div>
+          </div>
+          <div class="spacer"></div>
+          <div class="me">
+            <span class="av">VK</span>
+            <span class="who"><b>Vijay Kumar</b><span>vijay@ateliernord.co</span></span>
+            <span class="out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span>
+          </div>
+        </aside>
+
+        <div class="main">
+          <div class="topbar">
+            <div class="h">
+              <span class="crumb">Dynamic DPPs · New</span>
+              <h2>Issue a passport</h2>
+            </div>
+            <div class="acts">
+              <button class="pill-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Save template</button>
+              <button class="pill-btn solid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg> Issue &amp; anchor</button>
+            </div>
+          </div>
+
+          <div class="body">
+            <!-- step indicator -->
+            <div class="steps">
+              <div class="stepdot done"><span class="c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span><span class="lbl">Product</span></div>
+              <div class="stepline fill"></div>
+              <div class="stepdot now"><span class="c">2</span><span class="lbl">Sustainability</span></div>
+              <div class="stepline"></div>
+              <div class="stepdot"><span class="c">3</span><span class="lbl">Certifications</span></div>
+              <div class="stepline"></div>
+              <div class="stepdot"><span class="c">4</span><span class="lbl">Issue</span></div>
+            </div>
+
+            <div class="create">
+              <!-- form -->
+              <div>
+                <div class="two">
+                  <div class="field">
+                    <label>Product name <span class="req">*</span></label>
+                    <input class="inp" value="Meridian Field Jacket" />
+                  </div>
+                  <div class="field">
+                    <label>Product category <span class="req">*</span></label>
+                    <select class="inp sel"><option>Textiles &amp; apparel</option><option>Watches</option><option>Leather goods</option><option>Electronics</option></select>
+                  </div>
+                </div>
+
+                <div class="two">
+                  <div class="field">
+                    <label>Warranty period <span class="req">*</span></label>
+                    <div class="inpwrap"><input class="inp" value="24" /><span class="unit">Months</span></div>
+                  </div>
+                  <div class="field">
+                    <label>Carbon footprint</label>
+                    <div class="inpwrap"><input class="inp" value="12.4" /><span class="unit">kg CO₂e</span></div>
+                  </div>
+                </div>
+
+                <div class="two">
+                  <div class="field">
+                    <label>Energy consumption</label>
+                    <div class="inpwrap"><input class="inp" value="38" /><span class="unit">kWh</span></div>
+                  </div>
+                  <div class="field">
+                    <label>Water usage</label>
+                    <div class="inpwrap"><input class="inp" value="2,700" /><span class="unit">liters</span></div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Material composition</label>
+                  <div class="chipset">
+                    <span class="chip-in">82% Organic cotton <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+                    <span class="chip-in">18% Recycled polyester <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+                    <span class="chip-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add material</span>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Care instructions</label>
+                  <div class="rt">
+                    <div class="rtbar">
+                      <span class="rsel">Regular ▾</span>
+                      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></span>
+                      <span class="ic"><b style="font-size:.82rem">B</b></span>
+                      <span class="ic"><i style="font-size:.82rem">I</i></span>
+                      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span>
+                    </div>
+                    <div class="rtbody">Machine wash cold, inside out. Do not tumble dry. Reproof with a fluorocarbon-free wax to maintain water resistance.</div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Product images</label>
+                  <div class="drop">
+                    <span class="du"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>
+                    <b>Click to upload</b>
+                    <div class="sub">or drag and drop — SVG, PNG, JPG (max 800×400px)</div>
+                    <div class="thumbs"><i></i><i></i><i></i></div>
+                  </div>
+                </div>
+
+                <div class="formfoot">
+                  <span class="saveflag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg> Draft saved · autosaves as you type</span>
+                  <button class="pill-btn solid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Continue to certifications</button>
+                </div>
+              </div>
+
+              <!-- live preview -->
+              <aside class="preview">
+                <div class="plabel"><span class="dotlive"></span> Live passport preview</div>
+                <div class="pcard">
+                  <div class="phead">
+                    <div class="pb">
+                      <span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/></svg></span>
+                      <span class="pt"><b>Meridian Field Jacket</b><span>Atelier Nord · No. 0042/500</span></span>
+                    </div>
+                    <span class="verif"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg>Draft</span>
+                  </div>
+                  <div class="pbody">
+                    <div class="prodname">Digital Product Passport</div>
+                    <div class="prodmeta">Will be issued by the DPP agent · anchored on Polygon</div>
+                    <div class="prows">
+                      <div class="prow"><span class="k">Warranty</span><span class="v">24 months</span></div>
+                      <div class="prow"><span class="k">Carbon</span><span class="v">12.4 kg CO₂e</span></div>
+                      <div class="prow"><span class="k">Materials</span><span class="chiprow"><span class="pchip">82% Organic cotton</span><span class="pchip">18% Recycled</span></span></div>
+                      <div class="prow"><span class="k">Water</span><span class="v">2,700 L</span></div>
+                    </div>
+                  </div>
+                  <div class="pfoot">
+                    <svg class="pqr" viewBox="0 0 100 100" role="img" aria-label="QR code"><rect width="100" height="100" fill="#fff"/><g fill="#271454"><rect x="8" y="8" width="26" height="26"/><rect x="14" y="14" width="14" height="14" fill="#fff"/><rect x="18" y="18" width="6" height="6"/><rect x="66" y="8" width="26" height="26"/><rect x="72" y="14" width="14" height="14" fill="#fff"/><rect x="76" y="18" width="6" height="6"/><rect x="8" y="66" width="26" height="26"/><rect x="14" y="72" width="14" height="14" fill="#fff"/><rect x="18" y="76" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="52" y="10" width="6" height="6"/><rect x="42" y="42" width="6" height="6"/><rect x="62" y="42" width="6" height="6"/><rect x="84" y="42" width="6" height="6"/><rect x="42" y="62" width="6" height="6"/><rect x="72" y="62" width="6" height="6"/><rect x="52" y="72" width="6" height="6"/><rect x="84" y="84" width="6" height="6"/></g></svg>
+                    <div class="panchor">
+                      <div class="a1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/></svg>Anchors on Polygon</div>
+                      <div class="a2">via Arianee · on issue</div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 3 — PUBLIC PASSPORT ================= -->
+    <section class="screen" id="screen-public">
+      <div class="pubwrap">
+        <div class="pubhead">
+          <div class="cobrand">
+            <span class="clogo">AN</span>
+            <div><b>Atelier Nord</b><span>Verified brand</span></div>
+          </div>
+          <span class="poweredby">Passport by <img src="assets/logo2.svg" alt="The DPP Company" /></span>
+        </div>
+
+        <div class="pubbody">
+          <div class="pubgrid">
+            <!-- gallery + actions -->
+            <div>
+              <div class="gallery">
+                <div class="ghero">
+                  <!-- stylized jacket illustration -->
+                  <svg class="jacket" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="jk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4b5563"/><stop offset="1" stop-color="#1f2733"/></linearGradient></defs>
+                    <path d="M74 34 100 46l26-12 30 16-14 26-10-5v76c0 4-3 7-7 7H75c-4 0-7-3-7-7v-76l-10 5-14-26 30-16z" fill="url(#jk)" stroke="#8b93a1" stroke-width="1.5"/>
+                    <path d="M100 46v112" stroke="#0d0f13" stroke-width="2.5"/>
+                    <path d="M100 46 86 62m14-16 14 16" stroke="#a4abb8" stroke-width="1.5"/>
+                    <circle cx="100" cy="86" r="2" fill="#c4b5fd"/><circle cx="100" cy="104" r="2" fill="#c4b5fd"/><circle cx="100" cy="122" r="2" fill="#c4b5fd"/>
+                    <rect x="112" y="96" width="16" height="20" rx="2" fill="#2a323d" stroke="#6b7280" stroke-width="1"/>
+                  </svg>
+                </div>
+                <div class="gdots"><i class="on"></i><i></i><i></i><i></i></div>
+              </div>
+              <div class="actionrow">
+                <button class="act prime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3h4v4M21 3l-7 7M7 21H3v-4M3 21l7-7"/></svg> Resell</button>
+                <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg> Notify</button>
+                <button class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Save</button>
+              </div>
+            </div>
+
+            <!-- product details -->
+            <div>
+              <div class="pubtitle">
+                <h1>Meridian Field Jacket</h1>
+                <span class="authbadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg> Genuine</span>
+              </div>
+              <p class="pubsub">A weatherproof field jacket in organic cotton with a recycled lining. Edition No. 0042 of 500 — its passport was issued and verified by the DPP agent and is anchored on-chain.</p>
+
+              <div class="acc">
+                <details open>
+                  <summary><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span> Product specifications <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+                  <div class="accbody">
+                    <div class="spec"><span class="sk">Materials</span><span class="sv">82% Organic cotton · 18% Recycled</span></div>
+                    <div class="spec"><span class="sk">Warranty</span><span class="sv">24 months</span></div>
+                    <div class="spec"><span class="sk">Carbon footprint</span><span class="sv">12.4 kg CO₂e</span></div>
+                    <div class="spec"><span class="sk">Water usage</span><span class="sv">2,700 liters</span></div>
+                    <div class="spec"><span class="sk">Edition</span><span class="sv">No. 0042 / 500</span></div>
+                  </div>
+                </details>
+                <details>
+                  <summary><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="m9 13.5-1.5 7L12 18l4.5 2.5L15 13.5"/></svg></span> Certifications <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+                  <div class="accbody">
+                    <div class="spec"><span class="sk">GOTS — Organic textile</span><span class="sv" style="color:var(--green)">✓ Verified</span></div>
+                    <div class="spec"><span class="sk">GRS — Recycled content</span><span class="sv" style="color:var(--green)">✓ Verified</span></div>
+                    <div class="spec"><span class="sk">OEKO-TEX Standard 100</span><span class="sv" style="color:var(--green)">✓ Verified</span></div>
+                  </div>
+                </details>
+                <details>
+                  <summary><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13l3 3v7H3z"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></span> Provenance &amp; supply chain <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+                  <div class="accbody">
+                    <div class="trace">
+                      <div class="tstep"><span class="tl"><span class="cd"></span></span><span class="td"><b>Organic cotton spun</b><span>Guimarães, Portugal · Mar 2026</span></span></div>
+                      <div class="tstep"><span class="tl"><span class="cd"></span></span><span class="td"><b>Woven &amp; dyed</b><span>Porto, Portugal · OEKO-TEX mill</span></span></div>
+                      <div class="tstep"><span class="tl"><span class="cd"></span></span><span class="td"><b>Cut &amp; assembled</b><span>Atelier Nord, Portugal</span></span></div>
+                      <div class="tstep"><span class="tl"><span class="cd"></span></span><span class="td"><b>Shipped to EU retail</b><span>3 verified hops · zero gaps</span></span></div>
+                    </div>
+                  </div>
+                </details>
+                <details>
+                  <summary><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></span> On-chain record <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+                  <div class="accbody">
+                    <div class="attest">
+                      <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/></svg></span>
+                      <div class="at"><b>Anchored on Polygon</b><span>token 0x7c9e…a04f · Arianee</span></div>
+                      <span class="verify">Verify ↗</span>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SCREEN 4 — SCAN TO VERIFY ================= -->
+    <section class="screen" id="screen-scan">
+      <div class="scanwrap">
+        <div class="scanleft">
+          <span class="k">For the shopper</span>
+          <h2>One tap tells the whole story.</h2>
+          <p>No app, no account. A shopper taps the NFC tag or scans the QR on the product — and the DPP agent confirms it's genuine and opens its live passport in seconds.</p>
+          <ul class="scansteps">
+            <li class="on"><span class="n">1</span> Tap the tag or scan the QR code</li>
+            <li class="on"><span class="n">2</span> The agent checks the issuer signature on-chain</li>
+            <li><span class="n">3</span> The verified passport unfolds on screen</li>
+          </ul>
+        </div>
+        <div class="scanright">
+          <div class="phone">
+            <span class="notch"></span>
+            <!-- floating scan reticle -->
+            <div class="reticle">
+              <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+              <svg class="qrm" viewBox="0 0 100 100" role="img" aria-label="QR code"><rect width="100" height="100" fill="none"/><g fill="#ede9fe"><rect x="6" y="6" width="24" height="24"/><rect x="12" y="12" width="12" height="12" fill="#4a238f"/><rect x="70" y="6" width="24" height="24"/><rect x="76" y="12" width="12" height="12" fill="#4a238f"/><rect x="6" y="70" width="24" height="24"/><rect x="12" y="76" width="12" height="12" fill="#4a238f"/><rect x="40" y="10" width="6" height="6"/><rect x="52" y="10" width="6" height="6"/><rect x="40" y="40" width="6" height="6"/><rect x="60" y="40" width="6" height="6"/><rect x="84" y="40" width="6" height="6"/><rect x="40" y="60" width="6" height="6"/><rect x="70" y="62" width="6" height="6"/><rect x="52" y="72" width="6" height="6"/><rect x="84" y="84" width="6" height="6"/></g></svg>
+            </div>
+            <div class="pscreen">
+              <div class="pstat"><span>9:41</span><span class="r"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h4V12H2v10zm7 0h4V2H9v20zm7 0h4v-6h-4v6z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8.5a15 15 0 0 1 20 0"/><path d="M5 12a10 10 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/></svg></span></div>
+              <div class="pnav">
+                <span class="clogo">AN</span>
+                <b>Atelier Nord</b>
+                <span class="vv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg> Verified</span>
+              </div>
+              <div class="pbody2">
+                <div class="pscanresult">
+                  <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span>
+                  <div><b>Authentic · agent verified</b><span>Issuer signature confirmed on-chain</span></div>
+                </div>
+                <div class="pimg">
+                  <svg class="jacket" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="jk2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4b5563"/><stop offset="1" stop-color="#1f2733"/></linearGradient></defs>
+                    <path d="M74 34 100 46l26-12 30 16-14 26-10-5v76c0 4-3 7-7 7H75c-4 0-7-3-7-7v-76l-10 5-14-26 30-16z" fill="url(#jk2)" stroke="#8b93a1" stroke-width="1.5"/>
+                    <path d="M100 46v112" stroke="#0d0f13" stroke-width="2.5"/>
+                    <circle cx="100" cy="90" r="2" fill="#c4b5fd"/><circle cx="100" cy="110" r="2" fill="#c4b5fd"/>
+                  </svg>
+                </div>
+                <div class="pmeta">
+                  <span class="pnm">Meridian Field Jacket</span>
+                  <span class="pmn">Atelier Nord · No. 0042/500</span>
+                </div>
+                <div class="pminirows">
+                  <div class="pmr"><span class="k">Authenticity</span><span class="v" style="color:var(--green)">✓ Genuine</span></div>
+                  <div class="pmr"><span class="k">Materials</span><span class="v chips"><i>82% Cotton</i><i>18% Recycled</i></span></div>
+                  <div class="pmr"><span class="k">Provenance</span><span class="v">Portugal → EU</span></div>
+                  <div class="pmr"><span class="k">On-chain</span><span class="v mono">0x7c9e…a04f</span></div>
+                </div>
+                <div class="pcta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> View full passport</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /window -->
+
+  <div class="tour-foot">
+    <span>A self-contained tour of the product.</span>
+    <a class="cta" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener">Book a live demo
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+
+</div>
+
+<script>
+/* Screen switcher — no innerHTML; toggles classes + attributes only. */
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var omni = document.getElementById('omniText');
+  var badge = document.getElementById('winBadge');
+  var badgeLabel = badge ? badge.lastChild : null;
+
+  var META = {
+    dash:   { path: '/passports',        brand: true,  badge: 'Brand workspace' },
+    create: { path: '/passports/new',    brand: true,  badge: 'Brand workspace' },
+    public: { path: '/p/dpp-0042',       brand: false, badge: 'Consumer view' },
+    scan:   { path: '/scan',             brand: false, badge: 'Consumer view' }
+  };
+
+  function setOmni(meta){
+    // rebuild the omnibar text safely with DOM nodes (no innerHTML)
+    while(omni.firstChild) omni.removeChild(omni.firstChild);
+    var host = document.createElement('b');
+    host.textContent = 'app.thedpp.company';
+    omni.appendChild(host);
+    omni.appendChild(document.createTextNode(meta.path));
+  }
+  function setBadge(meta){
+    if(badgeLabel && badgeLabel.nodeType === 3){
+      badgeLabel.textContent = ' ' + meta.badge;
+    }
+  }
+
+  function select(name){
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-screen') === name;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    ['dash','create','public','scan'].forEach(function(s){
+      var el = document.getElementById('screen-' + s);
+      if(el) el.classList.toggle('active', s === name);
+    });
+    var meta = META[name];
+    if(meta){ setOmni(meta); setBadge(meta); }
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ select(t.getAttribute('data-screen')); });
+  });
+
+  // keyboard: left/right arrows move between screens
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    var order = ['dash','create','public','scan'];
+    var cur = order.indexOf(document.querySelector('.tab[aria-selected="true"]').getAttribute('data-screen'));
+    if(cur < 0) return;
+    var next = e.key === 'ArrowRight' ? Math.min(cur+1, order.length-1) : Math.max(cur-1, 0);
+    select(order[next]);
+  });
+
+  // capture mode: ?capture=<screen> isolates one screen for headless screenshots
+  try {
+    var qs = new URLSearchParams(window.location.search);
+    var cap = qs.get('capture');
+    if(cap && META[cap]){
+      document.documentElement.setAttribute('data-capture', cap);
+      select(cap);
+    }
+  } catch(_){}
+
+  /* ============================================================
+     DEMO MODE (?demo=1): autoplay walkthrough for screen-recording.
+     Reuses select() above. Smooth, timer-driven, loops forever.
+     Exposes window.__demo = { ready, loop } for the recorder to sync.
+     ============================================================ */
+  (function(){
+    var qs2; try{ qs2 = new URLSearchParams(window.location.search); }catch(_){ return; }
+    if(qs2.get('demo') !== '1') return;
+
+    var doc = document.documentElement;
+    doc.setAttribute('data-demo','1');
+
+    var bar = document.getElementById('demobar');
+    var barFill = bar ? bar.firstElementChild : null;
+
+    // ---- micro-animation helpers ----
+    // setInterval-based tween (resilient under headless/backgrounded capture,
+    // where requestAnimationFrame is throttled).
+    function animateCount(el, to, dur){
+      if(!el) return;
+      var isPct = /%/.test(to), isK = /,/.test(to);
+      var target = parseFloat(String(to).replace(/[, %]/g,''));
+      if(isNaN(target)){ el.textContent = to; return; }
+      var start = Date.now();
+      function fmt(v){
+        if(isPct) return v.toFixed(1) + '%';
+        var r = Math.round(v);
+        return isK ? r.toLocaleString('en-US') : String(r);
+      }
+      var iv = setInterval(function(){
+        var p = Math.min(1,(Date.now()-start)/dur);
+        var eased = 1 - Math.pow(1-p, 3);
+        el.textContent = fmt(target*eased);
+        if(p>=1){ el.textContent = to; clearInterval(iv); }
+      }, 40);
+    }
+    function runDashCounters(){
+      var scr = document.getElementById('screen-dash'); if(!scr) return;
+      var vals = scr.querySelectorAll('.stat .val');
+      var targets = ['1,248','37,902','23','98.2%'];
+      vals.forEach(function(v,i){ v.textContent='0'; animateCount(v, targets[i]||v.textContent, 1100); });
+      // stagger the table rows in
+      var rows = scr.querySelectorAll('.tbl .trow');
+      rows.forEach(function(r,i){
+        r.classList.remove('demo-row-in'); void r.offsetWidth;
+        r.style.animationDelay = (0.12*i + 0.25)+'s';
+        r.classList.add('demo-row-in');
+      });
+    }
+    function runPublicReveal(){
+      var scr = document.getElementById('screen-public'); if(!scr) return;
+      var badge = scr.querySelector('.authbadge');
+      if(badge){ badge.classList.remove('demo-badge-in'); void badge.offsetWidth; badge.classList.add('demo-badge-in'); }
+    }
+    // inject a scan sweep line into the reticle once
+    (function injectSweep(){
+      var ret = document.querySelector('#screen-scan .reticle');
+      if(ret && !ret.querySelector('.sweep')){
+        var s = document.createElement('span'); s.className='sweep'; ret.appendChild(s);
+      }
+    })();
+    function runScanReveal(){
+      var scr = document.getElementById('screen-scan'); if(!scr) return;
+      var res = scr.querySelector('.pscanresult');
+      if(res){ res.style.animation='none'; void res.offsetWidth; res.style.animation=''; }
+      var rows = scr.querySelectorAll('.pminirows .pmr');
+      rows.forEach(function(r,i){ r.classList.remove('demo-row-in'); void r.offsetWidth;
+        r.style.animationDelay=(0.1*i+0.35)+'s'; r.classList.add('demo-row-in'); });
+    }
+
+    // ---- the timed sequence ----
+    // [screen, dwell ms, onEnter]
+    var SEQ = [
+      ['dash',   3400, runDashCounters],
+      ['create', 3000, null],
+      ['public', 3400, runPublicReveal],
+      ['scan',   3400, runScanReveal]
+    ];
+    var TOTAL = SEQ.reduce(function(a,s){return a+s[1];},0);
+
+    var idx = 0, loopCount = 0;
+    // cumulative end-fraction of each screen (for the progress bar)
+    var END_FRAC = []; (function(){ var acc=0; SEQ.forEach(function(s){ acc+=s[1]; END_FRAC.push(acc/TOTAL); }); })();
+    window.__demo = { ready:false, loop:0, total:TOTAL };
+
+    // Progress bar driven by CSS width transitions (runs under headless
+    // screencast; not subject to requestAnimationFrame throttling).
+    function barTo(i){
+      if(!barFill) return;
+      if(i===0){
+        // snap back to the start of the segment with no transition, then animate
+        barFill.style.transition='none';
+        barFill.style.width='0%';
+        // force reflow so the snap applies before we re-enable the transition
+        void barFill.offsetWidth;
+      }
+      barFill.style.transition='width '+SEQ[i][1]+'ms linear';
+      barFill.style.width=(END_FRAC[i]*100).toFixed(2)+'%';
+    }
+
+    function enter(i){
+      idx = i;
+      var step = SEQ[i];
+      select(step[0]);
+      if(step[2]) { try{ step[2](); }catch(_){} }
+      barTo(i);
+    }
+
+    function next(){
+      if(idx === SEQ.length - 1){
+        loopCount++; window.__demo.loop = loopCount;
+        enter(0);
+      } else {
+        enter(idx+1);
+      }
+      schedule();
+    }
+    var timer=null;
+    function schedule(){
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(next, SEQ[idx][1]);
+    }
+
+    function start(){
+      enter(0);
+      schedule();
+      window.__demo.ready = true;
+    }
+
+    // Kick off after fonts settle so the first frame is crisp.
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(function(){ setTimeout(start, 120); });
+    } else {
+      setTimeout(start, 200);
+    }
+  })();
+})();
+</script>
+</body>
+</html>

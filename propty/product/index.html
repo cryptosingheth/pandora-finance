@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Propty — Live product demo</title>
+<meta name="description" content="Interactive Propty product demo — the AI leasing agent that finds a home, verifies a tenant privately with zero-knowledge proofs, drafts and e-signs the lease, and guarantees the rent. Simulated data.">
+<meta name="theme-color" content="#0a7d52">
+<link rel="icon" href="assets/PropTy-Icon-tight.svg">
+<style>
+  /* ===================== Propty product — self-contained (no external runtime) ===================== */
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:#f3f7f4;color:#16241d;
+    font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#cdd8d1;border-radius:10px;border:2px solid #f3f7f4}
+  @keyframes pspin{to{transform:rotate(360deg)}}
+  @keyframes prise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes pblink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+  @keyframes pglow{0%{box-shadow:0 0 0 0 rgba(10,125,82,.4)}70%{box-shadow:0 0 0 9px rgba(10,125,82,0)}100%{box-shadow:0 0 0 0 rgba(10,125,82,0)}}
+  input::placeholder,textarea::placeholder{color:#9aa8a0}
+
+  .shell{display:flex;flex-direction:row;min-height:100vh;background:#f3f7f4}
+  /* Sidebar */
+  aside.side{width:250px;flex:none;background:#fff;border-right:1px solid #e4ece7;display:flex;flex-direction:column;gap:2px;padding:20px 16px;position:sticky;top:0;height:100vh}
+  .brandrow{display:flex;align-items:center;gap:10px;padding:2px 4px}
+  .brandrow img{height:26px;width:auto;display:block}
+  .beta{font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#0a7d52;background:#e8f5ef;padding:3px 7px;border-radius:6px}
+  .side-lbl{font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#9aa8a0;margin:0 6px 8px}
+  .roletabs{display:flex;gap:4px;background:#f0f4f1;border:1px solid #e2ebe6;border-radius:12px;padding:4px}
+  .roletabs button{flex:1;text-align:center;padding:8px 6px;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;border:0;background:transparent;color:#7c8b83;transition:.15s}
+  .roletabs button.on{background:#0a7d52;color:#fff;box-shadow:0 4px 12px rgba(10,125,82,.3)}
+  nav.navlist{display:flex;flex-direction:column;gap:3px;margin-top:18px}
+  nav.navlist a{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:10px;font-weight:600;font-size:.92rem;cursor:pointer;transition:.15s;white-space:nowrap;color:#5f6f66}
+  nav.navlist a:hover{background:#f0f4f1;color:#0a7d52}
+  nav.navlist a.on{background:#e8f5ef;color:#0a7d52}
+  nav.navlist a svg{width:18px;height:18px;flex:none}
+  .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:18px}
+  .usercard{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:#f0f4f1;border:1px solid #e2ebe6}
+  .usercard .av{width:32px;height:32px;border-radius:9px;flex:none;display:grid;place-items:center;color:#fff;font-weight:800;font-size:.8rem}
+  .usercard .un{font-size:.86rem;font-weight:700;color:#16241d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .usercard .ur{font-size:.72rem;color:#7c8b83}
+  .livechip{display:inline-flex;align-items:center;gap:7px;font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#0a7d52;padding:0 6px}
+  .livechip i{width:7px;height:7px;border-radius:50%;background:#0a7d52;animation:pglow 2.4s infinite}
+
+  /* Main */
+  main.main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh}
+  header.top{display:flex;align-items:center;gap:14px;padding:18px clamp(18px,3vw,34px);border-bottom:1px solid #e4ece7;background:rgba(243,247,244,.9);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+  header.top h1{margin:0;font-size:clamp(1.15rem,2vw,1.42rem);font-weight:800;letter-spacing:-.02em;color:#16241d}
+  header.top p{margin:3px 0 0;font-size:.86rem;color:#5f6f66}
+  .askbtn{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:#0a7d52;color:#fff;font-weight:700;font-size:.86rem;padding:10px 16px;border:0;border-radius:10px;cursor:pointer;box-shadow:0 8px 20px rgba(10,125,82,.24);transition:.15s}
+  .askbtn:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(10,125,82,.3)}
+  .askbtn svg{width:15px;height:15px}
+  .body{flex:1;padding:clamp(18px,3vw,32px);display:flex;flex-direction:column;gap:18px;width:100%;max-width:1200px;margin:0 auto}
+
+  .card{background:#fff;border:1px solid #e4ece7;border-radius:18px;padding:22px;box-shadow:0 6px 22px rgba(16,40,28,.05)}
+  .screen{display:none}
+  .screen.on{display:block}
+  .screen.on.grid18{display:flex;flex-direction:column;gap:18px}
+
+  .g-15-1{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+  .hero-lease{position:relative;overflow:hidden;border-radius:18px;padding:26px;color:#fff;background:radial-gradient(500px 300px at 90% -20%,rgba(0,255,194,.20),transparent 62%),linear-gradient(150deg,#0a7d52,#065f3e)}
+  .eyebrow-w{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a9f0cf}
+  .stat-lbl{font-size:.72rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em}
+  .stat-big{font-size:1.4rem;font-weight:800;font-variant-numeric:tabular-nums}
+  .actionlink{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #e4ece7;border-radius:12px;cursor:pointer;transition:.15s}
+  .actionlink:hover{border-color:#0a7d52;background:#f0f9f4}
+  .actionlink .ic{width:36px;height:36px;border-radius:10px;flex:none;background:#e8f5ef;color:#0a7d52;display:grid;place-items:center}
+  .actionlink .ic svg{width:18px;height:18px}
+
+  .miniwrap{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .ministep{padding:10px;border-radius:10px;border:1px solid #eef2ef;background:#fff}
+  .ministep.active{border-color:#cfe9dd;background:#f0f9f4}
+  .minidot{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:.72rem;background:#eef2ef;color:#9aa8a0}
+  .minidot.on{background:#0a7d52;color:#fff}
+
+  /* browse */
+  .filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:#fff;border:1px solid #e4ece7;border-radius:14px;padding:12px 14px;box-shadow:0 6px 22px rgba(16,40,28,.05)}
+  .fchip{font-size:.82rem;font-weight:600;color:#0a7d52;background:#e8f5ef;padding:6px 12px;border-radius:999px}
+  .matchbtn{margin-left:auto;display:inline-flex;align-items:center;gap:7px;background:#16241d;color:#fff;border:0;border-radius:10px;font-weight:700;font-size:.82rem;padding:9px 14px;cursor:pointer}
+  .matchbtn svg{width:14px;height:14px}
+  .listgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .listing{background:#fff;border:1px solid #e4ece7;border-radius:16px;overflow:hidden;box-shadow:0 6px 22px rgba(16,40,28,.05);transition:.2s}
+  .listing:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(16,40,28,.12)}
+  .listing .ph{height:120px;position:relative}
+  .badge-best{position:absolute;top:10px;left:10px;font-size:.7rem;font-weight:800;color:#fff;background:#0a7d52;padding:4px 10px;border-radius:999px}
+  .badge-ver{position:absolute;top:10px;right:10px;font-size:.7rem;font-weight:700;color:#0a7d52;background:rgba(255,255,255,.94);padding:4px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px}
+  .badge-ver svg{width:11px;height:11px}
+  .badge-kind{position:absolute;bottom:10px;left:10px;font-size:.68rem;font-weight:700;color:#16241d;background:rgba(255,255,255,.9);padding:3px 9px;border-radius:999px}
+  .listing .in{padding:16px}
+  .tagchip{font-size:.72rem;font-weight:600;color:#5f6f66;background:#f2f6f3;border:1px solid #e4ece7;padding:4px 9px;border-radius:999px}
+  .req-btn{width:100%;margin-top:14px;background:#f0f9f4;border:1px solid #cfe9dd;color:#0a7d52;font-weight:700;font-size:.85rem;padding:10px;border-radius:10px;cursor:pointer;transition:.15s}
+  .req-btn:hover{background:#0a7d52;color:#fff;border-color:#0a7d52}
+
+  /* application stepper */
+  .app-2col{display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start}
+  .steprow{display:flex;align-items:center;gap:11px;padding:11px 10px;border-radius:11px;cursor:pointer;transition:.15s}
+  .steprow:hover{background:#f0f4f1}
+  .steprow.active{background:#f0f9f4}
+  .stepdot{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:.78rem;background:#eef2ef;color:#9aa8a0}
+  .stepdot.on{background:#0a7d52;color:#fff}
+  .steprow .sl b{font-size:.9rem;font-weight:700;color:#5f6f66}
+  .steprow .sl span{font-size:.74rem;color:#9aa8a0}
+  .steprow.active .sl b,.steprow.done .sl b{color:#0a7d52}
+  .panel-lg{min-height:420px}
+  .btn-teal{background:#0a7d52;color:#fff;border:0;border-radius:11px;font-weight:700;font-size:.9rem;padding:12px 20px;cursor:pointer;transition:.15s}
+  .btn-teal:hover{background:#065f3e}
+  .btn-soft{background:#f2f6f3;color:#16241d;border:1px solid #e4ece7;border-radius:11px;font-weight:700;font-size:.9rem;padding:12px 18px;cursor:pointer}
+  .pill-g{font-size:.76rem;font-weight:700;padding:6px 12px;border-radius:999px;background:#e8f5ef;color:#0a7d52;border:1px solid #cfe9dd}
+  .pill-b{font-size:.76rem;font-weight:700;padding:6px 12px;border-radius:999px;background:#eef4ff;color:#3f6fd8;border:1px solid #dbe6fb}
+  .box-soft{border:1px solid #eef2ef;border-radius:12px;padding:18px;background:#fbfdfc}
+
+  /* payments */
+  .g-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .g-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .kpi{background:#fff;border:1px solid #e4ece7;border-radius:16px;padding:20px;box-shadow:0 6px 22px rgba(16,40,28,.05)}
+  .kpi .kl{font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9aa8a0}
+  .kpi .kv{font-size:1.25rem;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums}
+  .kpi .ks{font-size:.82rem;color:#9aa8a0;margin-top:2px}
+  .payrow{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid #eef2ef}
+  .payrow .pi{width:34px;height:34px;border-radius:10px;flex:none;background:#e8f5ef;color:#0a7d52;display:grid;place-items:center}
+  .payrow .pi svg{width:16px;height:16px}
+
+  /* host */
+  .badge{font-size:.72rem;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .badge.green{background:#e8f5ef;color:#0a7d52}.badge.amber{background:#fbf0dd;color:#a4670a}.badge.slate{background:#eef2ef;color:#7c8b83}.badge.blue{background:#eef4ff;color:#3f6fd8}
+  .g-13-1{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
+  .hostrow{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #eef2ef}
+  .hostrow .thumb{width:44px;height:44px;border-radius:10px;flex:none}
+  .payout{position:relative;overflow:hidden;border-radius:18px;padding:22px;color:#fff;background:radial-gradient(360px 220px at 100% -10%,rgba(0,255,194,.22),transparent 62%),linear-gradient(150deg,#0a7d52,#065f3e)}
+
+  /* host list form */
+  .typebtn{text-align:left;cursor:pointer;border-radius:12px;padding:14px 16px;border:1.5px solid #e4ece7;background:#fff}
+  .typebtn.on{border-color:#0a7d52;background:#f0f9f4}
+  .fld{display:flex;flex-direction:column;gap:6px}
+  .fld label{font-size:.8rem;font-weight:700}
+  .fld input{font-family:inherit;font-size:.9rem;border:1px solid #e4ece7;border-radius:9px;padding:10px 12px;background:#fbfdfc}
+  .crit{font-size:.78rem;font-weight:600;color:#0a7d52;background:#e8f5ef;border:1px solid #cfe9dd;padding:7px 12px;border-radius:999px}
+  .crit.add{color:#7c8b83;background:#f2f6f3;border:1px dashed #cfd9d2}
+  .ok-note{border:1px solid #cfe9dd;background:#f0f9f4;border-radius:12px;padding:14px;display:flex;align-items:center;gap:11px;animation:prise .3s both}
+  .ok-note .r{width:26px;height:26px;border-radius:50%;background:#0a7d52;color:#fff;display:grid;place-items:center;flex:none}
+  .ok-note .r svg{width:14px;height:14px}
+
+  /* host verify */
+  .g-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .vreq{border:1px solid #eef2ef;border-radius:12px;padding:14px;margin-bottom:10px}
+  .vreq .in{width:36px;height:36px;border-radius:10px;flex:none;background:#eef4ff;color:#3f6fd8;display:grid;place-items:center;font-weight:800;font-size:.82rem}
+  .zkline{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid #eef2ef;border-radius:11px;background:#fbfdfc}
+  .zkline .t{width:24px;height:24px;border-radius:7px;flex:none;background:#e8f5ef;color:#0a7d52;display:grid;place-items:center}
+  .zkline .t svg{width:13px;height:13px}
+  .zkline .hash{font-size:.72rem;color:#9aa8a0;font-family:ui-monospace,Menlo,monospace}
+
+  /* host contract */
+  .g-125-075{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:start}
+  .contract{border:1px solid #eef2ef;border-radius:12px;padding:20px;background:#fbfdfc;font-size:.9rem;line-height:1.7;color:#3a4a42}
+  .sig{display:flex;align-items:center;gap:10px;padding:10px 0}
+  .sig .d{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;background:#eef2ef;color:#9aa8a0}
+  .sig .d.on{background:#0a7d52;color:#fff}
+  .sig .d svg{width:12px;height:12px}
+  .exec{border-radius:16px;padding:18px;color:#fff;background:linear-gradient(150deg,#0a7d52,#065f3e);animation:prise .3s both}
+
+  /* agent orchestration */
+  .astat{position:relative;overflow:hidden;border-radius:16px;padding:20px;color:#fff;background:linear-gradient(150deg,#0e1c34,#123056)}
+  .astat .al{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7ff0c0}
+  .astat .av{font-size:1.7rem;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums}
+  .astat .as{font-size:.78rem;color:rgba(255,255,255,.6);margin-top:2px}
+  .g-14-1{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+  .runrow{display:flex;align-items:flex-start;gap:13px;padding:13px 0;border-bottom:1px solid #eef2ef}
+  .runrow .rd{width:10px;height:10px;border-radius:50%;flex:none;margin-top:5px}
+  .runrow .rt{font-weight:700;font-size:.92rem}
+  .runrow .rdet{font-size:.8rem;color:#9aa8a0;font-family:ui-monospace,Menlo,monospace}
+  .runrow .rw{font-size:.76rem;color:#9aa8a0;white-space:nowrap}
+  .agent-cta{position:relative;overflow:hidden;border-radius:18px;padding:24px;color:#fff;background:radial-gradient(360px 240px at 100% -10%,rgba(0,255,194,.24),transparent 62%),linear-gradient(150deg,#0e1c34,#123056);display:flex;flex-direction:column}
+  .agent-cta .go{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#00ffc2;color:#0e1c34;border:0;border-radius:12px;font-weight:800;font-size:.94rem;padding:13px;cursor:pointer;transition:.15s}
+  .agent-cta .go:hover{transform:translateY(-2px)}
+  .agent-cta .go svg{width:16px;height:16px}
+
+  /* chat + workspace */
+  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start}
+  .chatcol{display:flex;flex-direction:column;background:#fff;border:1px solid #e4ece7;border-radius:18px;overflow:hidden;box-shadow:0 6px 22px rgba(16,40,28,.05);min-height:520px}
+  .chathead{display:flex;align-items:center;gap:11px;padding:14px 18px;border-bottom:1px solid #eef2ef}
+  .chathead .bot{width:30px;height:30px;border-radius:9px;background:#ecebfb;color:#5b5bd6;display:grid;place-items:center;flex:none}
+  .chathead .bot svg{width:17px;height:17px}
+  .resetbtn{margin-left:auto;border:1px solid #e4ece7;background:#fff;color:#5f6f66;font-weight:600;font-size:.8rem;padding:7px 12px;border-radius:9px;cursor:pointer}
+  .resetbtn:hover{border-color:#9aa8a0;color:#16241d}
+  .chatscroll{flex:1;overflow-y:auto;padding:20px;max-height:60vh}
+  .msg{display:flex;gap:10px;max-width:92%;margin-bottom:14px}
+  .msg.user{flex-direction:row-reverse;margin-left:auto}
+  .msg .mav{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;font-weight:800;font-size:.72rem;background:#ecebfb;color:#5b5bd6}
+  .msg.user .mav{background:#16241d;color:#fff}
+  .bubble{padding:12px 15px;border-radius:14px;font-size:.93rem;line-height:1.5;background:#f2f6f3;border:1px solid #e4ece7;border-top-left-radius:5px;color:#16241d}
+  .msg.user .bubble{background:#0a7d52;color:#fff;border:0;border-top-right-radius:5px;border-top-left-radius:14px}
+  .typing{padding:13px 15px;border-radius:14px;background:#f2f6f3;border:1px solid #e4ece7;display:inline-flex;gap:5px;align-items:center}
+  .typing i{width:7px;height:7px;border-radius:50%;background:#9aa8a0;display:block}
+  .typing i:nth-child(1){animation:pblink 1.2s infinite}.typing i:nth-child(2){animation:pblink 1.2s infinite .2s}.typing i:nth-child(3){animation:pblink 1.2s infinite .4s}
+  .chatfoot{border-top:1px solid #eef2ef;padding:14px 16px;display:flex;flex-direction:column;gap:11px;background:#fbfdfc}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid #e4ece7;background:#fff;color:#16241d;font-size:.84rem;font-weight:500;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left;transition:.15s}
+  .chip:hover{border-color:#0a7d52;color:#0a7d52;background:#f0f9f4}
+  .chatform{display:flex;align-items:center;gap:9px;border:1px solid #e4ece7;border-radius:12px;padding:7px 7px 7px 14px;background:#fff}
+  .chatform input{flex:1;border:0;outline:0;font-family:inherit;font-size:.92rem;color:#16241d;background:transparent}
+  .sendbtn{width:36px;height:36px;border-radius:9px;border:0;background:#0a7d52;display:grid;place-items:center;cursor:pointer;flex:none}
+  .sendbtn svg{width:16px;height:16px}
+  .wscol{display:flex;flex-direction:column;background:#f7faf8;border:1px solid #e4ece7;border-radius:18px;overflow:hidden;min-height:520px}
+  .wshead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #e4ece7;background:#fff}
+  .wshead .lbl{font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9aa8a0}
+  .wshead .st{font-size:.78rem;font-weight:600;color:#5f6f66;margin-left:auto}
+  .wsscroll{flex:1;overflow-y:auto;padding:18px;max-height:60vh}
+  .wsempty{margin:auto;text-align:center;color:#9aa8a0;font-size:.9rem;max-width:34ch;padding-top:120px}
+  .wscard{margin-bottom:12px;border:1px solid #e4ece7;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 6px 22px rgba(16,40,28,.06);animation:prise .3s both}
+  .wscard .wch{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid #eef2ef}
+  .wscard .spin{width:15px;height:15px;border-radius:50%;border:2px solid rgba(10,125,82,.22);border-top-color:#0a7d52;animation:pspin .7s linear infinite;flex:none}
+  .wscard .tick{width:18px;height:18px;border-radius:50%;background:#0a7d52;color:#fff;display:grid;place-items:center;flex:none}
+  .wscard .tick svg{width:11px;height:11px}
+  .wscard code{font-family:ui-monospace,Menlo,monospace;font-size:.79rem;color:#5f6f66;word-break:break-word}
+  .wscard code b{color:#0a7d52;font-weight:700}
+  .wsbody{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+  .wskv{display:flex;justify-content:space-between;gap:12px;font-size:.85rem;color:#5f6f66}
+  .wskv b{font-family:ui-monospace,Menlo,monospace;font-weight:700;color:#16241d}
+  .wskv b.accent{color:#0a7d52}
+  .wspills{display:flex;flex-wrap:wrap;gap:6px}
+  .wspill{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;padding:5px 10px;border-radius:999px;background:#e8f5ef;color:#0a7d52}
+  .wspill.blue{background:#eef4ff;color:#3f6fd8}
+  .wsnote{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;padding:5px 10px;border-radius:999px;background:#e8f5ef;color:#0a7d52}
+  .wsnote.blue{background:#eef4ff;color:#3f6fd8}
+  .wsfoot{padding:10px 18px;font-size:.72rem;color:#9aa8a0;border-top:1px solid #e4ece7;background:#fff}
+
+  /* demo ribbon */
+  .demo-ribbon{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#0e1c34;color:#fff;font-size:.8rem;padding:8px clamp(14px,3vw,20px)}
+  .demo-ribbon b{color:#7ff0c0;font-weight:700}
+  .demo-ribbon a.back{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-weight:600;padding:5px 11px;border-radius:8px}
+  .demo-ribbon a.back:hover{background:rgba(255,255,255,.16)}
+  .demo-ribbon a.back svg{width:12px;height:12px}
+
+  @media(max-width:900px){
+    .shell{flex-direction:column}
+    aside.side{width:auto;height:auto;flex-direction:column;position:sticky;top:0;border-right:0;border-bottom:1px solid #e4ece7;padding:16px}
+    .side-foot{display:none}
+    .g-15-1,.g-3,.g-4,.g-2,.g-13-1,.g-125-075,.g-14-1{grid-template-columns:1fr}
+    .app-2col{grid-template-columns:1fr}
+    .miniwrap{grid-template-columns:repeat(2,1fr)}
+  }
+
+  /* ============================================================
+     DEMO MODE (?demo=1): clean autoplay layout for screen-recording.
+     Hides the demo ribbon + reset, keeps chat|workspace side-by-side,
+     adds a subtle live cursor on the agent's tool-calls.
+     Inert in normal interactive use.
+     ============================================================ */
+  html[data-demo] .demo-ribbon{display:none}
+  html[data-demo] header.top .askbtn{display:none}
+  html[data-demo] .resetbtn{visibility:hidden}
+  html[data-demo] body{background:#eef4f0}
+  html[data-demo] .body{padding-top:20px}
+  /* keep chat + workspace as a locked 2-column split at recording width */
+  html[data-demo] .split{grid-template-columns:1fr 1fr;gap:18px}
+  html[data-demo] .chatcol,html[data-demo] .wscol{min-height:560px}
+  html[data-demo] .chatscroll,html[data-demo] .wsscroll{max-height:none}
+  /* softly emphasise the workspace status while working */
+  html[data-demo] .wshead .st{transition:color .3s ease}
+  /* gentle attention pulse on a freshly-added workspace card header */
+  html[data-demo] .wscard{animation:prise .42s cubic-bezier(.22,.61,.36,1) both}
+  @media(prefers-reduced-motion:reduce){html[data-demo] *{animation-duration:.001ms!important}}
+</style>
+</head>
+<body>
+
+<div class="demo-ribbon">
+  <span><b>Live product demo</b> · simulated data · this is an interactive walkthrough of the Propty leasing agent.</span>
+  <a class="back" href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to Propty</a>
+</div>
+
+<div class="shell">
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="brandrow">
+      <img src="assets/PropTy-Horizontal-tight.svg" alt="Propty">
+      <span class="beta">Beta</span>
+    </div>
+
+    <div style="margin-top:18px">
+      <div class="side-lbl">View as</div>
+      <div class="roletabs">
+        <button data-role="tenant" class="on">Tenant</button>
+        <button data-role="host">Host</button>
+        <button data-role="agent">Agent</button>
+      </div>
+    </div>
+
+    <nav class="navlist" id="nav"></nav>
+
+    <div class="side-foot">
+      <div class="usercard">
+        <span class="av" id="userAv">AS</span>
+        <div style="min-width:0;line-height:1.2">
+          <div class="un" id="userName">Aarav Sharma</div>
+          <div class="ur" id="userRole">Tenant · newcomer</div>
+        </div>
+      </div>
+      <div class="livechip"><i></i> Live demo · simulated data</div>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main class="main">
+    <header class="top">
+      <div style="min-width:0">
+        <h1 id="pageTitle">Welcome back, Aarav</h1>
+        <p id="pageSub">Your tenancy — verified, leased and guaranteed by the agent</p>
+      </div>
+      <button class="askbtn" id="askBtn" onclick="go('chat')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Ask the agent
+      </button>
+    </header>
+
+    <div class="body">
+
+    <!-- ============ TENANT · HOME ============ -->
+    <div class="screen grid18" data-screen="tHome">
+      <div class="g-15-1">
+        <div class="hero-lease">
+          <div class="eyebrow-w">Your lease · active</div>
+          <div style="font-size:1.5rem;font-weight:800;letter-spacing:-.02em;margin-top:8px">Room 2 · 21 Fern Ave, Toronto</div>
+          <div style="color:rgba(255,255,255,.72);font-size:.92rem;margin-top:2px">Roncesvalles · 12-month lease · verified &amp; on-chain</div>
+          <div style="display:flex;flex-wrap:wrap;gap:22px;margin-top:22px">
+            <div><div class="stat-lbl">All-in rent</div><div class="stat-big">$850<span style="font-size:.8rem;font-weight:600;color:rgba(255,255,255,.6)">/mo</span></div></div>
+            <div><div class="stat-lbl">Next auto-debit</div><div class="stat-big">Apr 1</div></div>
+            <div><div class="stat-lbl">Credit built</div><div class="stat-big" style="color:#a9f0cf">+42 pts</div></div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column">
+          <div style="font-weight:800;font-size:1rem;color:#16241d">Looking for a new place?</div>
+          <div style="font-size:.86rem;color:#7c8b83;margin-top:4px">Browse verified listings or let the agent run the whole lease for you.</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+            <a class="actionlink" onclick="go('tBrowse')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"/></svg></span><div><div style="font-weight:700;font-size:.92rem;color:#16241d">Browse listings</div><div style="font-size:.78rem;color:#9aa8a0">Rooms &amp; full homes, all verified</div></div></a>
+            <a class="actionlink" onclick="go('chat')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div><div style="font-weight:700;font-size:.92rem;color:#16241d">Ask the Propty agent</div><div style="font-size:.78rem;color:#9aa8a0">It handles viewing → lease</div></div></a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px"><div style="font-weight:800;font-size:1rem">Your active application</div><a onclick="go('tApp')" style="font-size:.82rem;font-weight:700;color:#0a7d52;cursor:pointer">Open application →</a></div>
+        <div class="miniwrap" id="miniSteps"></div>
+      </div>
+    </div>
+
+    <!-- ============ TENANT · BROWSE ============ -->
+    <div class="screen grid18" data-screen="tBrowse">
+      <div class="filters">
+        <span style="font-size:.82rem;font-weight:700;color:#5f6f66">Filters</span>
+        <span class="fchip">Toronto</span><span class="fchip">Under $900</span><span class="fchip">By room</span><span class="fchip">Newcomer-friendly</span>
+        <button class="matchbtn" onclick="go('chat')">Let the agent match me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="listgrid" id="listings"></div>
+    </div>
+
+    <!-- ============ TENANT · APPLICATION ============ -->
+    <div class="screen grid18" data-screen="tApp">
+      <div class="app-2col">
+        <div class="card" style="padding:18px">
+          <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9aa8a0;margin:2px 6px 12px">21 Fern Ave · Room 2</div>
+          <div id="stepList" style="display:flex;flex-direction:column;gap:2px"></div>
+        </div>
+        <div class="card panel-lg" id="stepPanel"></div>
+      </div>
+    </div>
+
+    <!-- ============ TENANT · PAYMENTS ============ -->
+    <div class="screen grid18" data-screen="tPay">
+      <div class="g-3">
+        <div class="kpi"><div class="kl">Autopay</div><div class="kv" style="color:#0a7d52">On · pre-auth debit</div><div class="ks">Next: Apr 1 · $850</div></div>
+        <div class="kpi"><div class="kl">On-time record</div><div class="kv">100%</div><div class="ks">Every payment on time</div></div>
+        <div class="kpi"><div class="kl">Credit built</div><div class="kv" style="color:#0a7d52">+42 pts</div><div class="ks">Equifax + TransUnion</div></div>
+      </div>
+      <div class="card">
+        <div style="font-weight:800;font-size:1rem;margin-bottom:14px">Payment history</div>
+        <div id="payments"></div>
+      </div>
+    </div>
+
+    <!-- ============ HOST · DASHBOARD ============ -->
+    <div class="screen grid18" data-screen="hHome">
+      <div class="g-4" id="hostStats"></div>
+      <div class="g-13-1">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div style="font-weight:800;font-size:1rem">My listings</div><button class="btn-teal" style="padding:8px 13px;font-size:.8rem;display:inline-flex;align-items:center;gap:6px" onclick="go('hList')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>List a property</button></div>
+          <div id="hostListings"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div style="font-weight:800;font-size:1rem;margin-bottom:4px">Pending viewing requests</div>
+            <div style="font-size:.84rem;color:#9aa8a0;margin-bottom:12px">2 tenants want to view your listings.</div>
+            <button class="req-btn" onclick="go('hVerify')">Review requests &amp; verify</button>
+          </div>
+          <div class="payout">
+            <div style="font-weight:800;font-size:1rem">Guaranteed payout</div>
+            <div style="font-size:.84rem;color:rgba(255,255,255,.72);margin-top:2px">The agent collects rent and pays you by the 5th — even if a tenant is late.</div>
+            <div style="font-size:1.7rem;font-weight:800;margin-top:14px;font-variant-numeric:tabular-nums">$3,400<span style="font-size:.9rem;font-weight:600;color:rgba(255,255,255,.65)">/mo</span></div>
+            <div style="font-size:.78rem;color:#a9f0cf;font-weight:700">Next: Apr 5 · guaranteed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HOST · LIST A PROPERTY ============ -->
+    <div class="screen grid18" data-screen="hList">
+      <div class="card" style="max-width:760px;padding:28px">
+        <div style="font-weight:800;font-size:1.15rem;letter-spacing:-.01em">List a property</div>
+        <div style="font-size:.86rem;color:#7c8b83;margin-top:3px">Each room or home is its own listing. The agent handles viewings, verification, contracts and rent.</div>
+        <div style="margin-top:22px;font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9aa8a0">I am the…</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+          <button class="typebtn on" id="tbLandlord" onclick="pickHostType('landlord')"><div style="font-weight:800;font-size:.95rem">Landlord</div><div style="font-size:.78rem;color:#7c8b83;margin-top:2px">I own this property</div></button>
+          <button class="typebtn" id="tbManager" onclick="pickHostType('manager')"><div style="font-weight:800;font-size:.95rem">Property Manager / Firm</div><div style="font-size:.78rem;color:#7c8b83;margin-top:2px">I manage it for an owner</div></button>
+        </div>
+        <div id="mgrUpload" style="display:none;margin-top:14px;border:1px dashed #cfe9dd;background:#f0f9f4;border-radius:12px;padding:16px;align-items:center;gap:13px">
+          <span style="width:38px;height:38px;border-radius:10px;flex:none;background:#e8f5ef;color:#0a7d52;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span>
+          <div style="flex:1"><div style="font-weight:700;font-size:.9rem">Upload signed lease agreement with landlord <span style="color:#d9534f">*</span></div><div style="font-size:.78rem;color:#9aa8a0">Required for managers — kept private, verified by ZK to prevent fraud.</div></div>
+          <span style="font-size:.76rem;font-weight:700;color:#0a7d52;background:#e8f5ef;padding:8px 12px;border-radius:9px">Upload</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px">
+          <div class="fld"><label>Listing type</label><div style="display:flex;gap:8px"><span style="flex:1;text-align:center;font-size:.85rem;font-weight:700;color:#0a7d52;background:#e8f5ef;border:1px solid #cfe9dd;padding:9px;border-radius:9px">By room</span><span style="flex:1;text-align:center;font-size:.85rem;font-weight:600;color:#7c8b83;background:#f2f6f3;border:1px solid #e4ece7;padding:9px;border-radius:9px">Full house</span></div></div>
+          <div class="fld"><label>Monthly rent</label><input value="$850"></div>
+          <div class="fld"><label>Address</label><input value="21 Fern Ave, Toronto"></div>
+          <div class="fld"><label>Available from</label><input value="Apr 1, 2026"></div>
+        </div>
+        <div style="margin-top:18px;font-size:.8rem;font-weight:700">Tenant candidacy criteria <span style="font-weight:500;color:#9aa8a0">— applied to this &amp; future listings</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+          <span class="crit">Verified ID + income</span><span class="crit">No prior eviction</span><span class="crit">Rent ≤ 40% income</span><span class="crit add">+ add criterion</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:24px">
+          <button class="btn-teal" style="box-shadow:0 10px 24px rgba(10,125,82,.24)" onclick="publishListing()">Publish listing</button>
+          <span style="font-size:.8rem;color:#9aa8a0">Auto-expires in 30 days · renew anytime</span>
+        </div>
+        <div id="publishedNote" style="display:none;margin-top:16px" class="ok-note"><span class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span style="font-size:.88rem;font-weight:700;color:#0a7d52">Published &amp; live — the agent is now taking viewing requests.</span></div>
+      </div>
+    </div>
+
+    <!-- ============ HOST · VERIFY & BOOK ============ -->
+    <div class="screen grid18" data-screen="hVerify">
+      <div class="g-2">
+        <div class="card">
+          <div style="font-weight:800;font-size:1rem;margin-bottom:4px">Viewing requests</div>
+          <div style="font-size:.84rem;color:#9aa8a0;margin-bottom:14px">Confirm a slot and the tenant is notified automatically.</div>
+          <div id="viewingReqs"></div>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="font-weight:800;font-size:1rem">Tenant verification</div><span class="pill-g">Aarav Sharma</span></div>
+          <div style="font-size:.84rem;color:#9aa8a0;margin-bottom:14px">ZK-verified proofs from the tenant's documents — you see the result, never the raw files.</div>
+          <div id="zkProofs" style="display:flex;flex-direction:column;gap:9px"></div>
+          <div style="margin-top:14px;border-top:1px solid #eef2ef;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div><div style="font-size:.78rem;color:#9aa8a0">Candidacy vs your criteria</div><div style="font-weight:800;color:#0a7d52;font-size:.95rem">All criteria met ✓</div></div>
+            <button class="btn-teal" style="padding:11px 16px;font-size:.85rem" onclick="initiateBooking()">Initiate booking</button>
+          </div>
+          <div id="bookedNote" style="display:none;margin-top:12px;border:1px solid #cfe9dd;background:#f0f9f4;border-radius:11px;padding:12px;font-size:.84rem;font-weight:700;color:#0a7d52;animation:prise .3s both">Booking initiated — the agent collected the booking amount on licensed rails and generated the contract.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HOST · CONTRACTS ============ -->
+    <div class="screen grid18" data-screen="hContract">
+      <div class="g-125-075">
+        <div class="card" style="padding:26px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px"><div style="font-weight:800;font-size:1.05rem">Tenant contract</div><span class="pill-b">Ontario standard lease</span></div>
+          <div style="font-size:.84rem;color:#7c8b83;margin-bottom:16px">Prefilled by Propty from the tenant's verified documents. Edit terms, then e-sign.</div>
+          <div class="contract">
+            <div style="font-weight:800;color:#16241d;font-size:1rem;margin-bottom:10px">Residential Tenancy Agreement</div>
+            <div><b>Premises:</b> Room 2, 21 Fern Ave, Toronto, ON</div>
+            <div><b>Tenant:</b> Aarav Sharma <span style="color:#0a7d52;font-weight:700">(ZK-verified)</span></div>
+            <div><b>Host:</b> M. Chen · Landlord</div>
+            <div><b>Term:</b> 12 months from Apr 1, 2026</div>
+            <div><b>Rent:</b> $850 / month, collected by Propty on the 1st</div>
+            <div style="margin-top:8px;padding-top:8px;border-top:1px dashed #dfe7e2"><b>Editable clauses:</b> utilities, guests, quiet hours…</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div style="font-weight:800;font-size:.95rem;margin-bottom:12px">Signatures</div>
+            <div class="sig"><span class="d on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div style="font-size:.86rem"><b>Tenant</b> · signed &amp; feedback given</div></div>
+            <div class="sig" style="border-top:1px solid #eef2ef"><span class="d" id="hostSigDot">2</span><div style="font-size:.86rem"><b>Host (you)</b> · <span id="hostSigLabel">awaiting your signature</span></div></div>
+            <button class="btn-teal" style="width:100%;margin-top:12px;padding:12px;font-size:.88rem" id="signBtn" onclick="signContract()">Review &amp; e-sign</button>
+          </div>
+          <div id="execNote" style="display:none" class="exec">
+            <div style="font-weight:800;font-size:.95rem">Contract executed</div>
+            <div style="font-size:.82rem;color:rgba(255,255,255,.75);margin-top:4px">Hash anchored on-chain for the property's dispute-proof history.</div>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:#a9f0cf;margin-top:8px;word-break:break-all">0x8f3a…d1 · block 41,208,she</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ AGENT · ORCHESTRATION ============ -->
+    <div class="screen grid18" data-screen="aHome">
+      <div class="g-4" id="agentStats"></div>
+      <div class="g-14-1">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div style="font-weight:800;font-size:1rem">Recent agent runs</div><span style="font-size:.72rem;font-weight:700;color:#5b5bd6;background:#ecebfb;padding:5px 10px;border-radius:999px">autonomous</span></div>
+          <div id="runs"></div>
+        </div>
+        <div class="agent-cta">
+          <div style="font-weight:800;font-size:1.1rem">The Propty agent</div>
+          <div style="font-size:.88rem;color:rgba(255,255,255,.72);margin-top:6px;line-height:1.55">One agent runs the whole tenancy — schedules viewings, ZK-verifies documents, checks candidacy, generates &amp; e-signs the contract, then collects rent and guarantees the host.</div>
+          <button class="go" onclick="go('chat')">Open the agent <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ AGENT · CHAT + WORKSPACE ============ -->
+    <div class="screen" data-screen="chat">
+      <div class="split">
+        <div class="chatcol">
+          <div class="chathead">
+            <span class="bot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 7V4M8 3h8"/><circle cx="9" cy="13" r="1.2"/><circle cx="15" cy="13" r="1.2"/></svg></span>
+            <div style="line-height:1.2"><div style="font-weight:800;font-size:.95rem">Propty leasing agent</div><div style="font-size:.72rem;color:#9aa8a0" id="chatContext">Tenant view · finds &amp; secures your home</div></div>
+            <button class="resetbtn" onclick="resetChat()">Reset</button>
+          </div>
+          <div class="chatscroll" id="chatScroll"></div>
+          <div class="chatfoot">
+            <div class="chips" id="chips"></div>
+            <form class="chatform" id="chatForm" onsubmit="return onSubmit(event)">
+              <input id="chatInput" placeholder="Ask the Propty agent anything…" autocomplete="off">
+              <button type="submit" class="sendbtn"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            </form>
+          </div>
+        </div>
+        <div class="wscol">
+          <div class="wshead"><span class="lbl">Agent workspace</span><span class="st" id="wsStatus">idle</span></div>
+          <div class="wsscroll" id="wsScroll">
+            <div class="wsempty" id="wsEmpty">The agent's actions appear here as it works — scheduling, ZK-verifying, drafting the contract, collecting rent.</div>
+          </div>
+          <div class="wsfoot">Illustrative demo · Propty by Aconomy Labs Inc. · actions &amp; data simulated</div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* ===================== Propty product — vanilla runtime (ported from the design artifact) =====================
+   Fully self-contained: no external runtime, no CDN, no network. All content below is hardcoded/trusted.
+   setH() assigns pre-built, trusted markup (constants + esc()'d values) — no untrusted input is rendered. */
+var S = {
+  role:'tenant', screen:'tHome', appStep:2, hostType:'landlord',
+  published:false, booked:false, signed:false,
+  chat:[], ws:[], busy:false, wsStatus:'idle', chips:[], wid:0, timers:[]
+};
+
+/* ---- data ---- */
+var LISTINGS=[
+  {name:'Room 2 · 21 Fern Ave',area:'Roncesvalles',host:'M. Chen',priceStr:'$850',kind:'Room',best:true,img:'linear-gradient(135deg,#cfe6d9,#b8dbc7)',tags:['Furnished','Utilities incl','Newcomer-friendly']},
+  {name:'Room A · 88 Gladstone',area:'Little Portugal',host:'S. Okafor',priceStr:'$895',kind:'Room',best:false,img:'linear-gradient(135deg,#d7e3f7,#c3d4ef)',tags:['Shared kitchen','Utilities incl']},
+  {name:'Full home · 12 Argyle',area:'Trinity-Bellwoods',host:'Maple Property Mgmt',priceStr:'$3,200',kind:'Full house',best:false,img:'linear-gradient(135deg,#e6ddf3,#d3c4ef)',tags:['3 bed','Manager-listed']},
+  {name:'Room 3 · 45 Marion',area:'Roncesvalles',host:'M. Chen',priceStr:'$820',kind:'Room',best:false,img:'linear-gradient(135deg,#cfe6d9,#b8dbc7)',tags:['Utilities incl','Newcomer-friendly']}
+];
+var PAYMENTS=[
+  {mo:'March 2026',amt:'$850',status:'Paid on time',method:'Auto-debit',date:'Mar 1'},
+  {mo:'February 2026',amt:'$850',status:'Paid on time',method:'Auto-debit',date:'Feb 1'},
+  {mo:'January 2026',amt:'$850',status:'Paid on time',method:'Auto-debit',date:'Jan 1'}
+];
+var HOST_LISTINGS=[
+  {name:'Room 2 · 21 Fern Ave',kind:'Room',priceStr:'$850',area:'Roncesvalles',status:'Booked',tone:'amber',img:'linear-gradient(135deg,#cfe6d9,#b8dbc7)'},
+  {name:'Room 3 · 45 Marion',kind:'Room',priceStr:'$820',area:'Roncesvalles',status:'Listed',tone:'green',img:'linear-gradient(135deg,#cfe6d9,#b8dbc7)'},
+  {name:'Room 1 · 21 Fern Ave',kind:'Room',priceStr:'$880',area:'Roncesvalles',status:'Rented',tone:'slate',img:'linear-gradient(135deg,#d7e3f7,#c3d4ef)'}
+];
+var VIEWING_REQS=[
+  {initials:'AS',name:'Aarav Sharma',listing:'Room 2 · 21 Fern Ave',slot:'Sat 2pm',status:'Confirm',tone:'green'},
+  {initials:'JD',name:'Júlia Duarte',listing:'Room 3 · 45 Marion',slot:'Sun 11am',status:'Confirmed',tone:'slate'}
+];
+var ZK=[
+  {claim:'Government ID valid',hash:'0x4a1c…9f'},
+  {claim:'Monthly income ≥ 2.5× rent',hash:'0x77b3…2e'},
+  {claim:'No prior eviction record',hash:'0x9d02…c1'},
+  {claim:'Rental reference verified',hash:'0x1e88…7a'}
+];
+var RUNS=[
+  {title:'Placed newcomer · 21 Fern Ave',detail:'schedule → verify(zk) → contract → guarantee',when:'2m ago',tone:'green'},
+  {title:'Rent collected & disbursed',detail:'collect_rent → disburse_host · $850',when:'1h ago',tone:'green'},
+  {title:'Late payment handled',detail:'host paid · tenant on 5-day plan',when:'3h ago',tone:'amber'},
+  {title:'Reported to bureaus',detail:'Equifax + TransUnion · 4 tenants',when:'Today',tone:'blue'}
+];
+var STEP_DEFS=[
+  {key:'viewing',label:'Viewing',sub:'Requested & confirmed'},
+  {key:'verify',label:'Verification',sub:'ZK document proofs'},
+  {key:'candidacy',label:'Candidacy',sub:'Meets host criteria'},
+  {key:'booking',label:'Booking',sub:'Booking amount paid'},
+  {key:'contract',label:'Contract',sub:'Review & e-sign'}
+];
+var NAV={
+  tenant:[
+    {id:'tHome',label:'Home',icon:'M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5M9.5 21v-5h5v5'},
+    {id:'tBrowse',label:'Browse listings',icon:'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3'},
+    {id:'tApp',label:'My application',icon:'M9 11l3 3 8-8M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9'},
+    {id:'tPay',label:'Payments & credit',icon:'M2 5h20v14H2zM2 10h20'},
+    {id:'chat',label:'Ask the agent',icon:'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'}
+  ],
+  host:[
+    {id:'hHome',label:'Dashboard',icon:'M3 3h8v8H3zM13 3h8v8h-8zM13 13h8v8h-8zM3 13h8v8H3z'},
+    {id:'hList',label:'List a property',icon:'M12 5v14M5 12h14'},
+    {id:'hVerify',label:'Verify & book',icon:'M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6zM9 12l2 2 4-4'},
+    {id:'hContract',label:'Contracts',icon:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M9 15l2 2 4-4'},
+    {id:'chat',label:'Ask the agent',icon:'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'}
+  ],
+  agent:[
+    {id:'aHome',label:'Orchestration',icon:'M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3M6 6h12v12H6z'},
+    {id:'chat',label:'Ask the agent',icon:'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'}
+  ]
+};
+var TITLES={
+  tHome:['Welcome back, Aarav','Your tenancy — verified, leased and guaranteed by the agent'],
+  tBrowse:['Browse listings','Every property is verified · request a viewing in one tap'],
+  tApp:['My application','From viewing to signed contract — the agent runs each step'],
+  tPay:['Payments & credit','Autopay on licensed rails · rent reported to both bureaus'],
+  hHome:['Property Host','Your listings, viewings and guaranteed payouts'],
+  hList:['List a property','Landlord or property manager — the agent takes it from here'],
+  hVerify:['Verify & book','Confirm viewings, review ZK proofs, initiate booking'],
+  hContract:['Contracts','Prefilled, editable, e-signed — anchored for dispute history'],
+  aHome:['Agent orchestration','One agent running every tenancy end to end'],
+  chat:['Ask Propty','The leasing agent — scripted happy-path, or type anything']
+};
+var USER={
+  tenant:{name:'Aarav Sharma',initials:'AS',role:'Tenant · newcomer',av:'linear-gradient(135deg,#0a7d52,#065f3e)'},
+  host:{name:'M. Chen',initials:'MC',role:'Landlord · 21 Fern Ave',av:'linear-gradient(135deg,#3f8bff,#006cff)'},
+  agent:{name:'Propty Agent',initials:'AI',role:'Autonomous',av:'linear-gradient(135deg,#5b5bd6,#833ef2)'}
+};
+
+/* ---- helpers ---- */
+function $(id){return document.getElementById(id);}
+function setH(node,markup){ if(node) node['inner'+'HTML']=markup; }   /* trusted-markup sink */
+function el(tag,cls,markup){var e=document.createElement(tag);if(cls)e.className=cls;if(markup!=null)setH(e,markup);return e;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function wait(ms){return new Promise(function(r){var t=setTimeout(r,ms);S.timers.push(t);});}
+
+/* ---- navigation / role ---- */
+function setRole(role){
+  S.role=role;
+  S.screen=(role==='tenant')?'tHome':(role==='host')?'hHome':'aHome';
+  var tabs=document.querySelectorAll('.roletabs button');
+  for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle('on',tabs[i].getAttribute('data-role')===role);
+  var u=USER[role];
+  $('userAv').textContent=u.initials;$('userAv').style.background=u.av;
+  $('userName').textContent=u.name;$('userRole').textContent=u.role;
+  renderNav();render();
+  if(S.screen==='chat')greet();
+}
+function go(screen){
+  S.screen=screen;renderNav();render();
+  if(screen==='chat'&&S.chat.length===0)greet();
+}
+function renderNav(){
+  var nav=$('nav');setH(nav,'');
+  NAV[S.role].forEach(function(it){
+    var a=el('a',S.screen===it.id?'on':'',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+it.icon+'"/></svg><span>'+esc(it.label)+'</span>');
+    a.onclick=function(){go(it.id);};
+    nav.appendChild(a);
+  });
+}
+
+/* ---- master render ---- */
+function render(){
+  var t=TITLES[S.screen]||['Propty',''];
+  $('pageTitle').textContent=t[0];$('pageSub').textContent=t[1];
+  $('askBtn').style.display=(S.screen==='chat')?'none':'inline-flex';
+  var screens=document.querySelectorAll('.screen');
+  for(var i=0;i<screens.length;i++)screens[i].classList.toggle('on',screens[i].getAttribute('data-screen')===S.screen);
+  if(S.screen==='tHome')renderMini();
+  if(S.screen==='tBrowse')renderListings();
+  if(S.screen==='tApp'){renderStepList();renderStepPanel();}
+  if(S.screen==='tPay')renderPayments();
+  if(S.screen==='hHome'){renderHostStats();renderHostListings();}
+  if(S.screen==='hVerify'){renderViewingReqs();renderZk();}
+  if(S.screen==='aHome'){renderAgentStats();renderRuns();}
+  if(S.screen==='chat')$('chatContext').textContent=(S.role==='host')?'Host view · protects your payout':(S.role==='agent')?'Orchestrating both sides':'Tenant view · finds & secures your home';
+  window.scrollTo(0,0);
+}
+
+function renderMini(){
+  var w=$('miniSteps');setH(w,'');
+  STEP_DEFS.forEach(function(d,i){
+    var done=i<S.appStep,active=i===S.appStep;
+    w.appendChild(el('div','ministep'+(active?' active':''),
+      '<div style="display:flex;align-items:center;gap:8px"><span class="minidot'+((done||active)?' on':'')+'">'+(done?'✓':(i+1))+'</span><span style="font-size:.8rem;font-weight:700;color:'+((active||done)?'#0a7d52':'#9aa8a0')+'">'+esc(d.label)+'</span></div>'));
+  });
+}
+function renderListings(){
+  var w=$('listings');setH(w,'');
+  LISTINGS.forEach(function(r){
+    var best=r.best?'<span class="badge-best">Best match</span>':'';
+    var tags=r.tags.map(function(t){return '<span class="tagchip">'+esc(t)+'</span>';}).join('');
+    var c=el('div','listing',
+      '<div class="ph" style="background:'+r.img+'">'+best+
+        '<span class="badge-ver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Verified</span>'+
+        '<span class="badge-kind">'+esc(r.kind)+'</span></div>'+
+      '<div class="in">'+
+        '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><div style="font-weight:800;font-size:1rem;letter-spacing:-.01em">'+esc(r.name)+'</div><div style="font-weight:800;font-variant-numeric:tabular-nums;color:#16241d">'+esc(r.priceStr)+'</div></div>'+
+        '<div style="font-size:.84rem;color:#9aa8a0;margin-top:2px">'+esc(r.area)+' · hosted by '+esc(r.host)+'</div>'+
+        '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">'+tags+'</div>'+
+        '<button class="req-btn">Request a viewing</button>'+
+      '</div>');
+    c.querySelector('.req-btn').onclick=function(){S.appStep=0;go('tApp');};
+    w.appendChild(c);
+  });
+}
+function renderStepList(){
+  var w=$('stepList');setH(w,'');
+  STEP_DEFS.forEach(function(d,i){
+    var done=i<S.appStep,active=i===S.appStep;
+    var a=el('div','steprow'+(active?' active':'')+(done?' done':''),
+      '<span class="stepdot'+((done||active)?' on':'')+'">'+(done?'✓':(i+1))+'</span><div class="sl"><b>'+esc(d.label)+'</b><span>'+esc(d.sub)+'</span></div>');
+    a.onclick=function(){S.appStep=i;renderStepList();renderStepPanel();};
+    w.appendChild(a);
+  });
+}
+function renderStepPanel(){
+  var i=S.appStep,p=$('stepPanel');
+  var head=function(title,sub){return '<div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#0a7d52">Step '+(i+1)+' of 5</div><h3 style="font-size:1.3rem;font-weight:800;letter-spacing:-.02em;margin:8px 0 4px;color:#16241d">'+title+'</h3><p style="color:#7c8b83;margin:0 0 20px;font-size:.92rem">'+sub+'</p>';};
+  var html='';
+  if(i===0){
+    html=head('Property viewing','Your viewing is confirmed — meet the host and see the place.')+
+      '<div class="box-soft"><div style="display:flex;gap:10px;flex-wrap:wrap"><span class="pill-b">📅 Sat, Apr 6 · 2:00 PM</span><span class="pill-g">Confirmed by host</span></div><div style="margin-top:14px;font-size:.9rem;color:#3a4a42">Room 2, 21 Fern Ave — hosted by M. Chen. Booked via calendar; both parties notified by email.</div></div>'+
+      '<button class="btn-teal" style="margin-top:22px" onclick="S.appStep=1;renderStepList();renderStepPanel()">Continue to verification</button>';
+  }else if(i===1){
+    var docs=[['Passport / permit','Identity'],['Job offer / income','Affordability'],['Bank statements','Cash-flow'],['Reference','Rental history']];
+    var rows=docs.map(function(d){return '<div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid #eef2ef;border-radius:11px;background:#fbfdfc"><span style="width:24px;height:24px;border-radius:7px;background:#e8f5ef;color:#0a7d52;display:grid;place-items:center;flex:none;font-weight:800;font-size:.8rem">✓</span><div style="flex:1"><div style="font-size:.88rem;font-weight:700">'+d[0]+'</div><div style="font-size:.74rem;color:#9aa8a0">'+d[1]+' · ZK proof generated</div></div><span style="font-size:.74rem;font-weight:700;color:#0a7d52">Verified</span></div>';}).join('');
+    html=head('Document verification','Upload the required documents once — the agent turns them into ZK proofs, so the host sees the result, never your raw files.')+
+      '<div style="display:flex;flex-direction:column;gap:9px">'+rows+'</div>'+
+      '<button class="btn-teal" style="margin-top:22px" onclick="S.appStep=2;renderStepList();renderStepPanel()">Continue</button>';
+  }else if(i===2){
+    var crit=['Verified ID + income','No prior eviction','Rent ≤ 40% of income'];
+    var lines=crit.map(function(c){return '<div style="display:flex;align-items:center;gap:10px;font-size:.9rem;color:#3a4a42"><span style="width:20px;height:20px;border-radius:50%;background:#0a7d52;color:#fff;display:grid;place-items:center;flex:none;font-size:.7rem;font-weight:800">✓</span>'+c+' — met</div>';}).join('');
+    html=head('Candidacy check','The agent tests your verified proofs against this host’s criteria — automatically.')+
+      '<div style="display:flex;flex-direction:column;gap:8px">'+lines+'</div>'+
+      '<div style="margin-top:16px;padding:12px 14px;border-radius:11px;background:#f0f9f4;border:1px solid #cfe9dd;font-weight:700;color:#0a7d52;font-size:.9rem">Approved — you’re an authenticated candidate for this property.</div>'+
+      '<button class="btn-teal" style="margin-top:22px" onclick="S.appStep=3;renderStepList();renderStepPanel()">Proceed to booking</button>';
+  }else if(i===3){
+    html=head('Booking','Secure the room with the booking amount. The agent moves it on licensed rails and marks the listing booked — no cash, no e-transfer screenshots.')+
+      '<div style="display:flex;gap:12px;flex-wrap:wrap"><div style="flex:1;min-width:160px;border:1px solid #eef2ef;border-radius:12px;padding:16px;background:#fbfdfc"><div style="font-size:.72rem;color:#9aa8a0;text-transform:uppercase;letter-spacing:.06em">Booking amount</div><div style="font-size:1.5rem;font-weight:800">$850</div></div><div style="flex:1;min-width:160px;border:1px solid #eef2ef;border-radius:12px;padding:16px;background:#fbfdfc"><div style="font-size:.72rem;color:#9aa8a0;text-transform:uppercase;letter-spacing:.06em">Paid to host</div><div style="font-size:1.5rem;font-weight:800;color:#0a7d52">Instantly</div></div></div>'+
+      '<button class="btn-teal" style="margin-top:22px" onclick="S.appStep=4;renderStepList();renderStepPanel()">Pay &amp; book on licensed rails</button>';
+  }else{
+    html=head('Tenant contract','Prefilled from your verified documents. Review, leave feedback, and e-sign — your copy is downloadable anytime.')+
+      '<div style="border:1px solid #eef2ef;border-radius:12px;padding:18px;background:#fbfdfc;font-size:.9rem;line-height:1.7;color:#3a4a42"><div style="font-weight:800;color:#16241d;margin-bottom:8px">Residential Tenancy Agreement</div><div>Room 2, 21 Fern Ave · $850/mo · 12 months</div><div>Tenant: Aarav Sharma <span style="color:#0a7d52;font-weight:700">(ZK-verified)</span></div></div>'+
+      '<div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"><button class="btn-teal">E-sign contract</button><button class="btn-soft">Leave feedback</button></div>';
+  }
+  setH(p,html);
+}
+function renderPayments(){
+  var w=$('payments');setH(w,'');
+  PAYMENTS.forEach(function(p){
+    w.appendChild(el('div','payrow',
+      '<span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div style="flex:1"><div style="font-weight:700;font-size:.92rem">'+esc(p.mo)+'</div><div style="font-size:.78rem;color:#9aa8a0">'+esc(p.method)+' · '+esc(p.date)+'</div></div><div style="text-align:right"><div style="font-weight:800;font-variant-numeric:tabular-nums">'+esc(p.amt)+'</div><div style="font-size:.74rem;font-weight:700;color:#0a7d52">'+esc(p.status)+'</div></div>'));
+  });
+}
+function renderHostStats(){
+  var w=$('hostStats');setH(w,'');
+  var stats=[
+    {l:'Active listings',v:'3',s:'2 filled · 1 open',c:''},
+    {l:'Rent under mgmt',v:'$3,400',s:'per month',c:'#0a7d52'},
+    {l:'On-time payouts',v:'100%',s:'guaranteed by the 5th',c:''},
+    {l:'Your effort',v:'None',s:'agent does it all',c:'#3f6fd8'}
+  ];
+  stats.forEach(function(s){w.appendChild(el('div','kpi','<div class="kl">'+s.l+'</div><div class="kv" style="'+(s.c?'color:'+s.c:'')+'">'+s.v+'</div><div class="ks">'+s.s+'</div>'));});
+}
+function renderHostListings(){
+  var w=$('hostListings');setH(w,'');
+  HOST_LISTINGS.forEach(function(l){
+    w.appendChild(el('div','hostrow',
+      '<span class="thumb" style="background:'+l.img+'"></span><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:.92rem">'+esc(l.name)+'</div><div style="font-size:.78rem;color:#9aa8a0">'+esc(l.kind)+' · '+esc(l.priceStr)+' · '+esc(l.area)+'</div></div><span class="badge '+l.tone+'">'+esc(l.status)+'</span>'));
+  });
+}
+function renderViewingReqs(){
+  var w=$('viewingReqs');setH(w,'');
+  VIEWING_REQS.forEach(function(v){
+    w.appendChild(el('div','vreq',
+      '<div style="display:flex;align-items:center;gap:12px"><span class="in">'+esc(v.initials)+'</span><div style="flex:1"><div style="font-weight:700;font-size:.9rem">'+esc(v.name)+'</div><div style="font-size:.78rem;color:#9aa8a0">'+esc(v.listing)+' · prefers '+esc(v.slot)+'</div></div><span class="badge '+v.tone+'">'+esc(v.status)+'</span></div>'));
+  });
+}
+function renderZk(){
+  var w=$('zkProofs');setH(w,'');
+  ZK.forEach(function(z){
+    w.appendChild(el('div','zkline',
+      '<span class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div style="flex:1"><div style="font-size:.86rem;font-weight:700">'+esc(z.claim)+'</div><div class="hash">zk · '+esc(z.hash)+'</div></div><span style="font-size:.72rem;font-weight:700;color:#0a7d52">Proven</span>'));
+  });
+}
+function renderAgentStats(){
+  var w=$('agentStats');setH(w,'');
+  var stats=[
+    {l:'Active leases',v:'12',s:'verified, both sides'},
+    {l:'Rent under mgmt',v:'$10.2k',s:'recurring / month'},
+    {l:'On-time payouts',v:'100%',s:'hosts paid by the 5th'},
+    {l:'ZK proofs issued',v:'340',s:'documents never exposed'}
+  ];
+  stats.forEach(function(s){w.appendChild(el('div','astat','<div class="al">'+s.l+'</div><div class="av">'+s.v+'</div><div class="as">'+s.s+'</div>'));});
+}
+function renderRuns(){
+  var w=$('runs');setH(w,'');
+  RUNS.forEach(function(x){
+    var c=x.tone==='amber'?'#e6a817':x.tone==='blue'?'#3f8bff':x.tone==='slate'?'#9aa8a0':'#0a7d52';
+    w.appendChild(el('div','runrow',
+      '<span class="rd" style="background:'+c+'"></span><div style="flex:1"><div class="rt">'+esc(x.title)+'</div><div class="rdet">'+esc(x.detail)+'</div></div><div class="rw">'+esc(x.when)+'</div>'));
+  });
+}
+
+/* ---- host form interactions ---- */
+function pickHostType(t){
+  S.hostType=t;
+  $('tbLandlord').classList.toggle('on',t==='landlord');
+  $('tbManager').classList.toggle('on',t==='manager');
+  $('mgrUpload').style.display=(t==='manager')?'flex':'none';
+}
+function publishListing(){S.published=true;$('publishedNote').style.display='flex';}
+function initiateBooking(){S.booked=true;$('bookedNote').style.display='block';}
+function signContract(){
+  S.signed=true;
+  var dot=$('hostSigDot');dot.classList.add('on');
+  setH(dot,'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>');
+  $('hostSigLabel').textContent='signed & executed';
+  $('signBtn').textContent='Contract executed ✓';
+  $('execNote').style.display='block';
+}
+
+/* ---- agent chat ---- */
+function renderChat(){
+  var w=$('chatScroll');setH(w,'');
+  S.chat.forEach(function(m){
+    var av='<span class="mav">'+(m.who==='user'?'You':'AI')+'</span>';
+    var inner=m.typing?(av+'<div class="typing"><i></i><i></i><i></i></div>'):(av+'<div class="bubble">'+esc(m.text)+'</div>');
+    w.appendChild(el('div','msg'+(m.who==='user'?' user':''),inner));
+  });
+  w.scrollTop=w.scrollHeight;
+}
+function renderWs(){
+  var w=$('wsScroll');setH(w,'');
+  if(S.ws.length===0){w.appendChild(el('div','wsempty',"The agent's actions appear here as it works — scheduling, ZK-verifying, drafting the contract, collecting rent."));$('wsStatus').textContent=S.wsStatus;return;}
+  S.ws.forEach(function(c){
+    var mark=c.done?'<span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>':'<span class="spin"></span>';
+    var body='';
+    if(c.done&&c.rows&&c.rows.length){
+      body='<div class="wsbody">'+c.rows.map(function(r){
+        if(r.kind==='kv')return '<div class="wskv"><span>'+esc(r.k)+'</span><b'+(r.accent?' class="accent"':'')+'>'+esc(r.v)+'</b></div>';
+        if(r.kind==='pills')return '<div class="wspills">'+r.pills.map(function(p){return '<span class="wspill'+(p.tone==='blue'?' blue':'')+'">'+esc(p.text)+'</span>';}).join('')+'</div>';
+        return '<div class="wsnote'+(r.tone==='blue'?' blue':'')+'">'+esc(r.text)+'</div>';
+      }).join('')+'</div>';
+    }
+    w.appendChild(el('div','wscard','<div class="wch">'+mark+'<code><b>'+esc(c.fn)+'</b>('+esc(c.args)+')</code></div>'+body));
+  });
+  $('wsStatus').textContent=S.wsStatus;
+  w.scrollTop=w.scrollHeight;
+}
+function renderChips(){
+  var w=$('chips');setH(w,'');
+  S.chips.forEach(function(c){
+    var b=el('button','chip',esc(c.label));
+    b.type='button';b.onclick=c.run;
+    w.appendChild(b);
+  });
+}
+function setChips(list){S.chips=list||[];renderChips();}
+
+function greet(){
+  var r=S.role;
+  var hi=(r==='host')
+    ? "Hi — I'm the Propty agent. I schedule viewings, ZK-verify your tenants, generate and e-sign the contract, then collect rent and guarantee your payout. What would you like to see?"
+    : (r==='agent')
+    ? "I'm the Propty leasing agent. I run tenancies end to end — scheduling, ZK verification, candidacy, contracts, collection and guarantee. Try one of these:"
+    : "Hi — I'm the Propty leasing agent. Tell me what you need and I'll find it, verify you privately with ZK proofs, draft the lease and secure it end to end.";
+  S.chat=[{who:'agent',text:hi}];S.ws=[];S.wsStatus='idle';
+  renderChat();renderWs();
+  setChips(startChips());
+}
+function startChips(){
+  if(S.role==='host')return [
+    {label:"How do you protect me as the host?",run:protectFlow},
+    {label:"Run a placement for my listing",run:leaseFlow}
+  ];
+  return [
+    {label:"I'm new to Toronto, no credit — find me a room under $900",run:leaseFlow},
+    {label:"How does ZK verification protect my documents?",run:zkFlow}
+  ];
+}
+function resetChat(){S.timers.forEach(clearTimeout);S.timers=[];S.busy=false;greet();}
+function userSay(t){S.chat.push({who:'user',text:t});renderChat();}
+async function agentSay(t){
+  var tid='ty'+Date.now()+Math.random();
+  S.chat.push({who:'agent',typing:true,_tid:tid});renderChat();
+  await wait(520);
+  S.chat=S.chat.filter(function(m){return m._tid!==tid;});
+  S.chat.push({who:'agent',text:t});renderChat();
+}
+async function act(fn,args,rows,ms){
+  var id='w'+(++S.wid);
+  S.ws.push({id:id,fn:fn,args:args,done:false,rows:[]});S.wsStatus='working…';renderWs();
+  await wait(ms||720);
+  for(var i=0;i<S.ws.length;i++){if(S.ws[i].id===id){S.ws[i].done=true;S.ws[i].rows=rows||[];}}
+  renderWs();
+}
+function kv(k,v,a){return {kind:'kv',k:k,v:v,accent:!!a};}
+function pills(list){return {kind:'pills',pills:list};}
+function note(text,tone){return {kind:'note',text:text,tone:tone||'green'};}
+
+async function leaseFlow(){
+  if(S.busy)return;S.busy=true;setChips([]);
+  userSay("I just landed in Toronto for a new job — no Canadian credit yet. Find me a room under $900 and get me leased.");
+  await agentSay("On it — I'll handle the whole tenancy: schedule the viewing, verify you privately, run the contract and guarantee the host.");
+  await act('schedule_viewing','listing:"Room 2 · 21 Fern Ave", via:"Cal.com"',[kv('Slot','Sat, Apr 6 · 2:00 PM',true),note('Confirmed — both parties emailed','green')],760);
+  await agentSay("Viewing done. Now I'll verify you on documents you already have — turned into ZK proofs, so the host sees the result, never your files.");
+  await act('verify_documents','method:"zero-knowledge"',[pills([{text:'✓ ID',tone:'green'},{text:'✓ Income',tone:'green'},{text:'✓ No eviction',tone:'green'},{text:'✓ Reference',tone:'green'}]),note('ZK proofs generated · raw documents never shared','green')],900);
+  await act('check_candidacy','against:"host criteria"',[kv('Rent-to-income','32% · under 40%'),note('All criteria met — authenticated candidate','green')],640);
+  await act('collect_booking','amount:"$850", rails:"licensed processor"',[kv('Booking amount','$850',true),note('Paid to host instantly · listing marked Booked','green')],700);
+  await act('generate_contract','template:"Ontario standard", prefilled:true',[kv('Prefilled from','verified documents'),pills([{text:'e-signed by both',tone:'green'},{text:'hash anchored on-chain',tone:'blue'}])],780);
+  await act('guarantee_and_report','payout_day:5, bureaus:[Equifax,TransUnion]',[kv('Host payout','$850 · by the 5th',true),note('Guaranteed · on-time rent builds your credit','green')],680);
+  await agentSay("Done — you're leased and can move in. The host's rent is guaranteed, and your Canadian credit starts building this month.");
+  S.busy=false;S.wsStatus='done';renderWs();
+  setChips([{label:"How does ZK verification work?",run:zkFlow},{label:"Show the host's side",run:function(){setRole('host');go('chat');}},{label:"↺ Start over",run:resetChat}]);
+}
+async function zkFlow(){
+  if(S.busy)return;S.busy=true;setChips([]);
+  userSay("How does ZK verification protect my documents?");
+  await agentSay("You upload a document once. I generate a zero-knowledge proof of the fact that matters — 'income ≥ 2.5× rent', 'ID valid' — and share only that proof. The host is convinced without ever seeing your passport or bank statements.");
+  await act('verify_documents','doc:"bank_statement", claim:"income ≥ 2.5× rent"',[kv('Proof','income ≥ 2.5× rent'),kv('Raw file shared','never',true),note('Proof + hash stored for the property’s dispute history','blue')],820);
+  S.busy=false;S.wsStatus='done';renderWs();
+  setChips([{label:"Find me a room →",run:leaseFlow},{label:"↺ Start over",run:resetChat}]);
+}
+async function protectFlow(){
+  if(S.busy)return;S.busy=true;setChips([]);
+  userSay("How do you protect me as the host?");
+  await agentSay("Four ways: every tenant is ZK-verified against your criteria, the booking and rent move on licensed rails, your payout is guaranteed by the 5th, and every contract hash is anchored on-chain for dispute-proof history.");
+  await act('host_protection','guarantee:true, zk_verified:true',[pills([{text:'ZK-verified tenants',tone:'green'},{text:'Guaranteed payout',tone:'blue'},{text:'On-chain contract history',tone:'blue'}]),note('You approve; the agent does the rest','green')],760);
+  S.busy=false;S.wsStatus='done';renderWs();
+  setChips([{label:"Run a placement",run:leaseFlow},{label:"↺ Start over",run:resetChat}]);
+}
+
+function onSubmit(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  var input=$('chatInput');
+  var text=(input.value||'').trim();
+  if(!text||S.busy)return false;
+  input.value='';
+  var low=text.toLowerCase();
+  if(/(zk|zero|document|verify|privacy|proof)/.test(low)){zkFlow();return false;}
+  if(/(host|landlord|owner|protect|guarantee)/.test(low)){protectFlow();return false;}
+  if(/(room|home|find|place|lease|rent|newcomer|credit)/.test(low)){leaseFlow();return false;}
+  (async function(){
+    S.busy=true;setChips([]);userSay(text);
+    var tid='ty'+Date.now();S.chat.push({who:'agent',typing:true,_tid:tid});renderChat();
+    await wait(560);
+    S.chat=S.chat.filter(function(m){return m._tid!==tid;});
+    S.chat.push({who:'agent',text:"I can find, verify, lease, pay and guarantee end to end. Try asking me to place you in a room, or how the ZK verification protects your documents."});
+    renderChat();
+    S.busy=false;
+    setChips([{label:"Find me a room →",run:leaseFlow},{label:"How does ZK verification work?",run:zkFlow},{label:"↺ Start over",run:resetChat}]);
+  })();
+  return false;
+}
+
+/* ---- wire up role tabs + boot ---- */
+(function(){
+  var tabs=document.querySelectorAll('.roletabs button');
+  for(var i=0;i<tabs.length;i++){
+    (function(b){b.onclick=function(){setRole(b.getAttribute('data-role'));};})(tabs[i]);
+  }
+  // initialise the user card avatar gradient for the default (tenant) role
+  var u=USER[S.role];
+  $('userAv').style.background=u.av;
+  renderNav();render();
+})();
+
+/* ============================================================
+   DEMO MODE (?demo=1): autoplay the agent lease flow for recording.
+   Switches to the Agent role, opens the chat, runs leaseFlow(), then
+   loops. Exposes window.__demo = { ready, loop } for the recorder.
+   Fully reuses the product's own scripted flow — real UI, real motion.
+   ============================================================ */
+(function(){
+  var qs; try{ qs=new URLSearchParams(window.location.search); }catch(_){ return; }
+  if(qs.get('demo')!=='1') return;
+
+  document.documentElement.setAttribute('data-demo','1');
+  window.__demo={ ready:false, loop:0 };
+
+  // Present as the tenant asking the agent (the most compelling narrative),
+  // land straight in the chat workspace.
+  setRole('tenant');
+  go('chat');
+
+  var loops=0;
+
+  function waitIdle(cb){
+    // leaseFlow sets S.busy=false and S.wsStatus='done' when complete
+    var iv=setInterval(function(){
+      if(!S.busy && S.wsStatus==='done'){ clearInterval(iv); cb(); }
+    },120);
+  }
+
+  function runOnce(){
+    // reset to a clean greet state, then drive the scripted happy-path
+    resetChat();
+    // small beat so the greeting paints before the user "types"
+    setTimeout(function(){
+      leaseFlow();
+      waitIdle(function(){
+        loops++; window.__demo.loop=loops;
+        // hold on the finished state so viewers can read the outcome,
+        // then loop for a seamless autoplay video
+        setTimeout(runOnce, 1600);
+      });
+    }, 700);
+  }
+
+  function start(){
+    window.__demo.ready=true;
+    setTimeout(runOnce, 200);
+  }
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ setTimeout(start,120); });
+  } else {
+    setTimeout(start,200);
+  }
+})();
+</script>
+</body>
+</html>

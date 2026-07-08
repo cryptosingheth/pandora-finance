@@ -536,13 +536,6 @@
           <h3 class="footer-tagline">Your Gateway to the Asset Economy</h3>
           <p class="footer-description">Stay informed, stay engaged, and transform your assets with Aconomy.</p>
         </div>
-
-        <div class="footer-column">
-          <h4 class="footer-column-title">Products</h4>
-          <ul class="footer-links">
-            <li><a href="https://aconomy.io" class="footer-link" target="_blank" rel="noopener noreferrer">Aconomy Marketplace</a></li>
-          </ul>
-        </div>
       </div>
 
       <div class="footer-bottom">
