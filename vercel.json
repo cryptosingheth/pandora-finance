@@ -1,7 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-
-  "//": "The Vercel project itself is configured framework=Other / no-build. This branch declares the framework so the preview actually builds. next.config.mjs sets output:'export', so the builder publishes ./out as plain static files.",
   "framework": "nextjs",
   "installCommand": "npm install",
   "buildCommand": "npm run build",
