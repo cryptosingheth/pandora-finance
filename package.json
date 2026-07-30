@@ -1,0 +1,25 @@
+{
+  "name": "pandora-master-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "www.pandora.finance \u2014 Pandora, the brand of Aconomy Labs Inc. Next.js App Router, static export.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "npx --yes serve@14 out",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "next": "16.2.12",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.2.12",
+    "typescript": "^5.9.0"
+  }
+}
