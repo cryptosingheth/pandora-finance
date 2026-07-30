@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rental applications over-share: fixing tenant privacy with ZK + AI — Pandora</title>
-<meta name="description" content="A Canada-first case study on tenant privacy: applicants hand over SIN, pay stubs, bank statements and full credit reports to strangers; PIPEDA exposure; newcomer credit invisibility; the harm data — and how ZK eligibility proofs plus an AI leasing agent fix it.">
+<title>Tenant Privacy in Canada: ZK + AI Rental Screening — Pandora</title>
+<meta name="description" content="Canada-first case study on tenant privacy: rental forms demand SIN, pay stubs and credit reports. ZK proofs plus an AI leasing agent verify without collecting.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="../assets/design-system.css">
@@ -18,6 +18,187 @@
     --accent-line:rgba(0,145,94,.24);
   }
 </style>
+<!-- ==== SEO / AEO / GEO metadata (generated) ==== -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#006cff">
+
+<link rel="canonical" href="https://www.pandora.finance/cases/rental-data-privacy.html">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pandora">
+<meta property="og:title" content="Tenant Privacy in Canada: ZK + AI Rental Screening — Pandora">
+<meta property="og:description" content="Canada-first case study on tenant privacy: rental forms demand SIN, pay stubs and credit reports. ZK proofs plus an AI leasing agent verify without collecting.">
+<meta property="og:url" content="https://www.pandora.finance/cases/rental-data-privacy.html">
+<meta property="og:image" content="https://www.pandora.finance/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_CA">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aconomyfdn">
+<meta name="twitter:title" content="Tenant Privacy in Canada: ZK + AI Rental Screening — Pandora">
+<meta name="twitter:description" content="Canada-first case study on tenant privacy: rental forms demand SIN, pay stubs and credit reports. ZK proofs plus an AI leasing agent verify without collecting.">
+<meta name="twitter:image" content="https://www.pandora.finance/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Rental applications over-share. ZK + AI can fix it.",
+  "name": "Rental applications over-share. ZK + AI can fix it.",
+  "description": "Canada-first case study on tenant privacy: rental forms demand SIN, pay stubs and credit reports. ZK proofs plus an AI leasing agent verify without collecting.",
+  "inLanguage": "en-CA",
+  "isAccessibleForFree": true,
+  "articleSection": "Case study",
+  "keywords": "tenant privacy, PIPEDA, zero-knowledge proofs, selective disclosure, rental application, tenant screening, Canada, newcomer credit, AI leasing agent",
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Tenant privacy"
+    },
+    {
+      "@type": "Thing",
+      "name": "PIPEDA"
+    },
+    {
+      "@type": "Thing",
+      "name": "Zero-knowledge proof"
+    },
+    {
+      "@type": "Thing",
+      "name": "Tenant screening"
+    },
+    {
+      "@type": "Thing",
+      "name": "Canada"
+    }
+  ],
+  "datePublished": "2026-07-08",
+  "dateModified": "2026-07-08",
+  "author": {
+    "@type": "Organization",
+    "name": "Pandora",
+    "legalName": "Aconomy Labs Inc.",
+    "url": "https://www.pandora.finance"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "Pandora",
+    "legalName": "Aconomy Labs Inc.",
+    "url": "https://www.pandora.finance"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Pandora",
+    "legalName": "Aconomy Labs Inc.",
+    "url": "https://www.pandora.finance",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.pandora.finance/assets/logos/Pandora_Dark.png"
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://www.pandora.finance/og-image.png",
+    "width": 1200,
+    "height": 630
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.pandora.finance/cases/rental-data-privacy.html"
+  },
+  "url": "https://www.pandora.finance/cases/rental-data-privacy.html",
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Privacy in the landlord and tenant relationship",
+      "url": "https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/privacy-in-the-landlord-and-tenant-relationship/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "10 privacy tips for the rental housing sector",
+      "url": "https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/02_05_d_66_tips/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Landlords and tenants (PIPEDA application)",
+      "url": "https://www.priv.gc.ca/en/privacy-topics/landlords-and-tenants/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Guidance for Landlords and Tenants (PIPA)",
+      "url": "https://oipc.ab.ca/resource/guidance-for-landlords-and-tenants/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Immigrant credit visibility: Access to credit over time in Canada",
+      "url": "https://www150.statcan.gc.ca/n1/pub/36-28-0001/2023009/article/00001-eng.htm"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Sorry, it's rented (2022 audit)",
+      "url": "https://housingrightscanada.com/reports/sorry-its-rented-2022/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "2024 Annual Statistical Report",
+      "url": "https://antifraudcentre-centreantifraude.ca/index-eng.htm"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Rental scam leaves dozens out of pocket (Kitchener, Ont.)",
+      "url": "https://www.cbc.ca/news/canada/kitchener-waterloo/rental-scam-kitchener-1.7327746"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Global Consumer Credit File — financial inclusion for newcomers",
+      "url": "https://www.equifax.ca/about-equifax/newsroom/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Privacy-preserving compliance via zero-knowledge selective disclosure",
+      "url": "https://arxiv.org/abs/2602.18539"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Canada 2024 permanent-resident admissions",
+      "url": "https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/supplementary-immigration-levels-2025-2027.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.pandora.finance/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Case studies",
+      "item": "https://www.pandora.finance/#cases"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Rental applications over-share. ZK + AI can fix it.",
+      "item": "https://www.pandora.finance/cases/rental-data-privacy.html"
+    }
+  ]
+}
+</script>
+<!-- ==== /SEO / AEO / GEO metadata ==== -->
 </head>
 <body>
 

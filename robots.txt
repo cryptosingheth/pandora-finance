@@ -1,0 +1,211 @@
+# robots.txt - www.pandora.finance
+# Pandora is the brand of Aconomy Labs Inc. (Toronto, Canada).
+# AI assistants and answer engines are explicitly welcome here.
+# Structured brief for LLMs: https://www.pandora.finance/llms.txt
+# Extended brief:            https://www.pandora.finance/llms-full.txt
+#
+# The only exclusions are /v1.html - /v4.html, archived design snapshots
+# superseded by the live site. Everything else is open to every crawler.
+
+# ---------------------------------------------------------------
+# Default policy - applies to any crawler not named below.
+# ---------------------------------------------------------------
+User-agent: *
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# ---------------------------------------------------------------
+# Search engines
+# ---------------------------------------------------------------
+
+User-agent: Googlebot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: Bingbot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: Applebot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: DuckDuckBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: Slurp
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# ---------------------------------------------------------------
+# AI / answer-engine crawlers - explicitly welcome.
+# We want Pandora described and cited accurately by AI assistants,
+# so these are opted IN by name rather than left to the default.
+# ---------------------------------------------------------------
+
+# OpenAI
+User-agent: GPTBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: OAI-SearchBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: ChatGPT-User
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: Claude-User
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: Claude-SearchBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: anthropic-ai
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: Perplexity-User
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Google AI (Gemini, AI Overviews, Vertex grounding)
+User-agent: Google-Extended
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Common Crawl
+User-agent: CCBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+User-agent: meta-externalfetcher
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# xAI
+User-agent: xAI-Bot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# You.com
+User-agent: YouBot
+Disallow: /v1.html
+Disallow: /v2.html
+Disallow: /v3.html
+Disallow: /v4.html
+Allow: /
+
+# ---------------------------------------------------------------
+Sitemap: https://www.pandora.finance/sitemap.xml

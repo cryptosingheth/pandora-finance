@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UnityMarket — the NFT marketplace with an AI curator. An agent scans live collections, scores rarity, screens out wash-trading, and assembles a fair-value shortlist for you. Built on Express Protocol." />
-  <title>UnityMarket — The NFT marketplace with an AI curator</title>
+  <meta name="description" content="UnityMarket is an NFT marketplace with an AI curator that scans live collections, scores rarity, screens out wash-trading and builds a fair-value shortlist.">
+  <title>UnityMarket — NFT marketplace with an AI curator | Pandora</title>
   <link rel="stylesheet" href="../assets/design-system.css" />
   <style>
     /* ============================================================
@@ -296,6 +296,131 @@
     .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
     @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
   </style>
+  <!-- SEO/AEO metadata -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#006cff">
+  <link rel="canonical" href="https://www.pandora.finance/unitymarket/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Pandora">
+  <meta property="og:title" content="UnityMarket — NFT marketplace with an AI curator | Pandora">
+  <meta property="og:description" content="UnityMarket is an NFT marketplace with an AI curator that scans live collections, scores rarity, screens out wash-trading and builds a fair-value shortlist.">
+  <meta property="og:url" content="https://www.pandora.finance/unitymarket/">
+  <meta property="og:image" content="https://www.pandora.finance/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@aconomyfdn">
+  <meta name="twitter:title" content="UnityMarket — NFT marketplace with an AI curator | Pandora">
+  <meta name="twitter:description" content="UnityMarket is an NFT marketplace with an AI curator that scans live collections, scores rarity, screens out wash-trading and builds a fair-value shortlist.">
+  <meta name="twitter:image" content="https://www.pandora.finance/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": [
+          "WebPage",
+          "FAQPage"
+        ],
+        "@id": "https://www.pandora.finance/unitymarket/#webpage",
+        "url": "https://www.pandora.finance/unitymarket/",
+        "name": "UnityMarket — NFT marketplace with an AI curator",
+        "description": "UnityMarket is an NFT marketplace with an AI curator that scans live collections, scores rarity, screens out wash-trading and builds a fair-value shortlist.",
+        "inLanguage": "en-CA",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Pandora",
+          "url": "https://www.pandora.finance"
+        },
+        "about": {
+          "@id": "https://www.pandora.finance/unitymarket/#app"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://www.pandora.finance/og-image.png",
+          "width": 1200,
+          "height": 630
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Pandora",
+          "legalName": "Aconomy Labs Inc.",
+          "url": "https://www.pandora.finance"
+        },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does the AI curator actually do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You give it a theme and a budget in plain language. It scans live collections, scores each piece on trait rarity, checks provenance and trade history for wash-trading, compares prices against the real floor, and assembles a shortlist of fair-value pieces — then places bids, buys, or lists on your behalf."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does it detect wash-trading?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It reconstructs a collection's trade graph and looks for the tells: a handful of wallets driving most of the volume, circular self-trades where the same NFT loops between related addresses, brand-new anonymous deployer wallets, and floors that only hold up on those internal trades. When enough line up, it treats the volume as manufactured, strips it out to find the real floor, and excludes the collection rather than buying in."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the agent move funds on its own?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only within the limits you set, and every trade settles through Express Protocol's audited on-chain contracts — the same escrow, bidding and royalty logic the whole marketplace uses."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is UnityMarket's relationship to Express Protocol?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "UnityMarket is a marketplace front-end built on Express Protocol. The curator agent and the gallery are the experience layer; Express Protocol is the settlement layer that makes mints, bids, sales and creator royalties real and enforceable on-chain."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://www.pandora.finance/unitymarket/#app",
+        "name": "UnityMarket",
+        "url": "https://www.pandora.finance/unitymarket/",
+        "description": "UnityMarket is an NFT marketplace with an AI curator. Mint, trade and auction NFTs with creator royalties enforced on-chain; the curator agent scores rarity, checks provenance and screens out wash-trading. Settlement runs on Express Protocol.",
+        "applicationCategory": "BusinessApplication",
+        "browserRequirements": "Requires JavaScript.",
+        "operatingSystem": "Any",
+        "image": "https://www.pandora.finance/og-image.png",
+        "inLanguage": "en-CA",
+        "isBasedOn": {
+          "@type": "SoftwareApplication",
+          "name": "Express Protocol",
+          "url": "https://www.pandora.finance/express-protocol/"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "Pandora",
+          "legalName": "Aconomy Labs Inc.",
+          "url": "https://www.pandora.finance"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Pandora",
+          "legalName": "Aconomy Labs Inc.",
+          "url": "https://www.pandora.finance"
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- /SEO/AEO metadata -->
 </head>
 <body>
 

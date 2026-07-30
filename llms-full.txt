@@ -1,0 +1,209 @@
+# Pandora — full brief
+
+> Pandora is an AI-native product studio — the brand of Aconomy Labs Inc., a Toronto, Canada company founded in 2021. It builds agentic products that autonomously do real work (validating assets, screening tenants, passporting products, managing risk, settling payments) on verifiable infrastructure that keeps every action provable.
+
+This is the expanded companion to https://www.pandora.finance/llms.txt — the same material with page-level detail inlined so an AI assistant can describe Pandora accurately without crawling every page.
+
+Canonical base URL: https://www.pandora.finance (the apex domain pandora.finance redirects to www).
+Last reviewed: 2026-07-30.
+
+---
+
+## 1. The company
+
+**Pandora** is the brand of **Aconomy Labs Inc.**, incorporated in Toronto, Canada. Founded 2021.
+
+Registered office: Aconomy Labs Inc., 111 Peter Street, 9th Floor, Suite 902, Toronto, ON M5V 2H1, Canada.
+
+### Positioning, in the studio's own framing
+
+Pandora describes itself as an AI-native product studio: it designs, builds and owns its products rather than consulting on other people's. The thesis is that for decades the hardest parts of commerce — proving an asset is genuine, deciding who to trust, moving value safely — required a human in the loop, and that agents can now reason, decide and act rather than only answer. So each product hands an entire real-world task to an AI agent that carries it end to end, and because those actions touch real assets and real money, they are anchored to verifiable infrastructure so every step is provable rather than promised.
+
+The studio is explicit that it is an **AI company first, not a crypto company**: "The chain is plumbing, not the pitch."
+
+Three capability pillars the site names:
+
+1. **Agentic AI systems** — conversational agents that autonomously execute real tasks, with orchestrated tool-calling and visible, replayable execution logs, grounded in real data and on-chain state.
+2. **Verifiable infrastructure** — production smart contracts and a typed SDK that abstracts the chain away, independently audited, deployed and open-sourced.
+3. **Full-stack products** — mobile apps, marketplaces, developer docs: design, frontend, backend, contracts and the agent layer, shipped as one product.
+
+### Team
+
+- **Pushkar Vohra** — Founder & CEO. Architect of the stack: smart contracts, marketplaces and the agentic systems on top. Previously co-founded Blockslab; TEDx speaker.
+- **Opinder Preet Singh Narang** — Co-Founder, Execution. Operations, partnerships and capital. Founding partner at Chain Assets Capital; previously at Aave; 50+ early-stage investments.
+- **Har Rhythm Kaur** — Co-Founder, Research & Analytics. Data science and ML; 5+ years at IBM.
+- **Tamur Shah** — Head of Compliance & Licensing. Licensing, compliance and risk across jurisdictions.
+
+Pages: https://www.pandora.finance/ · https://www.pandora.finance/about/
+
+---
+
+## 2. Timeline
+
+- **2021** — $2.4M seed round raised, 5x oversubscribed. Zokyo audits the contracts and scores them 100/100 (May 2021).
+- **February 2022** — the `pandora-express` SDK ships to npm.
+- **April 2022** — the QuillAudits audit closes with 0 open findings.
+- **November 2023** — Aconomy opens its public testnet (launched 16 November 2023); 1,000+ users in the first week tokenizing real-world assets.
+- **26 March 2024** — the first-ever ERC-404 marketplace ships, on Ethereum and Polygon, expanding to Base.
+- **August 2024** — the Aconomy Foundation era begins; the Aconomy app lands live on Google Play.
+- **Now** — seven shipped/announced products plus Keel on one foundation: agents that do real work on verifiable rails.
+
+---
+
+## 3. Products
+
+Pandora talks about eight products. Status matters and should not be blurred: **Express Protocol and Aconomy are live; UnityMarket is live on Express Protocol; Propty and The DPP Company are in active development; Auri, Vanna Protocol and Keel are coming soon.**
+
+### Express Protocol — agentic commerce SDK · live in production
+https://www.pandora.finance/express-protocol/ · docs: https://www.pandora.finance/express-protocol/docs/
+
+The open-source SDK for agentic onchain commerce. Its design principle is *four standards, one interface*: mint, trade, auction and manage NFTs and real-world assets across **ERC-721, ERC-1155 and ERC-404**, and settle agent payments through an **x402** module — one typed interface over mint, trade and payments, so autonomous agents can discover, transact and settle on their own without re-implementing payments per standard and per chain.
+
+Install: `npm i pandora-express` (on npm since February 2022). Independently audited; contracts deployed on BNB Chain mainnet and open-sourced. It is the rail underneath UnityMarket, and the first-ever ERC-404 marketplace was shipped on it in March 2024.
+
+### Aconomy — agentic RWA marketplace · live, on Google Play
+https://www.pandora.finance/aconomy/ · agent demo: https://www.pandora.finance/aconomy/agent/ · journal: https://www.pandora.finance/aconomy/journal/
+
+An AI-assisted marketplace for real-world assets: tokenize, validate and trade watches, real estate, gold and art. An AI agent guides discovery and validation while on-chain records keep provenance verifiable. Aconomy ships as a mobile app on Google Play and has a validator model — domain experts (RWA validators) authenticate assets and earn from doing so on-chain. Public testnet opened November 2023.
+
+### UnityMarket — NFT marketplace with an AI curator · live on Express Protocol
+https://www.pandora.finance/unitymarket/ · agent demo: https://www.pandora.finance/unitymarket/agent/
+
+A creator-first NFT marketplace to mint, discover, buy, sell and auction digital collectibles, with an AI curator agent that scans live collections, scores rarity, checks provenance, screens out wash-trading and assembles a fair-value shortlist. One of the earliest products the studio built, and a proof point for the Express Protocol rails that now power agentic commerce.
+
+### Propty — agentic leasing, private by zero-knowledge · in development
+https://www.pandora.finance/propty/ · product tour: https://www.pandora.finance/propty/product/ · agent demo: https://www.pandora.finance/propty/agent/
+
+The complete lease platform — listings, viewings, verification and e-signed leases — operated by an AI leasing agent and made private by zero-knowledge. The agent finds a home, screens applicants (including newcomers with no Canadian credit file) by proving eligibility rather than collecting documents, drafts and e-signs the lease, and guarantees the owner's payout. Tenant documents are proven, never shared.
+
+### The DPP Company — agentic product passports · in development
+https://www.pandora.finance/dpp/ · product tour: https://www.pandora.finance/dpp/product/ · scan demo: https://www.pandora.finance/dpp/scan/ · agent demo: https://www.pandora.finance/dpp/agent/
+
+An AI agent that verifies and passports physical products. From a single scan it authenticates an item against issuer signatures and tag, traces provenance and supply chain, reads materials and certifications, flags suspected counterfeits, then issues and keeps current its **Digital Product Passport** — anchored on-chain so the record cannot be quietly altered. Built Canada-first, aligned to the EU Digital Product Passport regime, and framed against the Combating Counterfeit Products Act and the Competition Act.
+
+### Auri — programmable-gold neobank · coming soon
+https://www.pandora.finance/auri/
+
+A programmable-gold neobank for Canada. Own real, audited gold 1:1 backed and self-custodied; borrow against it, spend it, send it worldwide — and automate all of it yourself or via an AI agent through MCP, CLI or API.
+
+### Vanna Protocol — agentic composable credit infrastructure · coming soon
+https://www.pandora.finance/vanna/
+
+Composable risk and margin infrastructure for DeFi, built to keep positions out of liquidation. Liquidity providers earn yield from lending pools; traders open isolated margin accounts and deploy borrowed capital across markets under one continuous health check. Risk is isolated per account and — with trading agents via Vanna MCPs — managed and hedged autonomously rather than amputated.
+
+### Keel — agentic AI governance · coming soon
+No dedicated page yet. AI governance for regulated finance: model-risk oversight, approvals and audit trails that keep AI accountable and **OSFI E-23-ready**. Background: https://www.pandora.finance/cases/ai-governance-e23.html
+
+---
+
+## 4. Trust, audits and on-chain proof
+https://www.pandora.finance/trust/
+
+### Independent smart-contract audits (both published in full)
+
+**QuillAudits — 0 open findings.** Scope: Express Protocol (Modular-contract), 11 contracts. Standards: ERC-721 and ERC-1155 marketplace. Date: February–April 2022. Result: all high-severity findings resolved; medium resolved; low/informational acknowledged.
+
+**Zokyo — passed, 100/100.** Scope: Pandora TokenContract. Security score 100/100. Date: May 2021. Result: low risk, no critical issues, 100% test coverage.
+
+### Live contracts on BNB Chain mainnet (verifiable on BscScan)
+
+Express Protocol marketplace:
+- `PNDC` — ERC-721 marketplace token — `0x29F346F06b063dCE2E9D03095bF36096216dD103`
+- `TokenFactory` — ERC-721 collection factory — `0x8E25e9af9D9531567bc7b09bE2E8f1fD3D490761`
+- `PNDC-1155` — ERC-1155 marketplace token — `0xB567c935629B847781Db8865961bAf2049EfABE6`
+- `TokenFactory-1155` — ERC-1155 collection factory — `0x36F891d3A6108f40f8eA3679356942C75925f28B`
+
+Pandora token:
+- `PNDR` — `0x6c1efbed2f57dd486ec091dffd08ee5235a570b1`
+
+### Open source — https://github.com/Pandora-Finance
+
+- `Pandora-Finance/aconomy-contract` — Aconomy piNFT, pools and lending contracts (Solidity)
+- `Pandora-Finance/Modular-contract` — Express Protocol marketplace contracts (audited)
+- `Pandora-Finance/Express-Protocol-SDK` — the JavaScript SDK, npm `pandora-express`
+- `Pandora-Finance/audit-report` — both audit reports, in full
+
+---
+
+## 5. Backing, ecosystem and coverage
+
+- **Funding:** $2.4M seed round, raised 2021, 5x oversubscribed. Investors include **AU21 Capital, NGC Ventures, Master Ventures, Magnus and Exnetwork**.
+- **Incubators / programs:** **TBDC, BHive and OCI** (Canadian programs).
+- **Clients and ecosystem:** Tempho Inc., Shah & Shah Lawyers.
+- **Press:** Cointelegraph, Bitcoin.com, Apple News.
+- **Events attended:** Collision (Toronto), CoinDesk Consensus (Toronto), Blockchain Futurist (Toronto), NFT NYC (New York), TOKEN2049 (Singapore), Abu Dhabi Finance Week.
+
+---
+
+## 6. Case studies
+
+Four Canada-and-market-focused research pieces, each ending with how a Pandora product addresses the gap. All figures below are as published on the pages, with sources cited inline there.
+
+### Digital Product Passports: the Canadian opportunity
+https://www.pandora.finance/cases/dpp-canada.html
+
+Counterfeiting is estimated to cost Canada **C$20–30 billion a year**, roughly 2–3% of combined merchandise imports and exports; globally the trade in fakes reached **USD 467 billion in 2021**. CBSA's Request for Assistance seizures are characterised as minimal and reactive. Meanwhile the EU's **Ecodesign for Sustainable Products Regulation (ESPR)** makes the Digital Product Passport the primary way product data is delivered — the first Working Plan (adopted 16 April 2025) names textiles and apparel a top priority alongside steel, aluminium, furniture, tyres and mattresses, and from **18 February 2027** every EV and industrial battery over 2 kWh sold in the EU must carry a QR-accessible digital passport. Canadian merchandise exports to the EU grew **+51%**, from C$22.9B (2016) to C$34.6B (2024) under CETA — the export base those rules reach. Canada's secondhand apparel market is ~USD 1.9B (2024), forecast to USD 4.5B by 2035. The dedicated DPP software market is forecast at USD 185.9M (2024) rising to USD 1.78B by 2030 (45.7% CAGR; estimates vary widely, treat as directional). The gap: authentication is disconnected from the record, compliance is treated as a document rather than a product, and the buyer is left out. **The DPP Company** answers it with an autonomous verification agent that issues the passport as the output of real work, from one scan.
+
+### Agentic commerce: when software becomes the buyer
+https://www.pandora.finance/cases/agentic-commerce.html
+
+Web checkout assumes a human with a browser, a card and two hands; an autonomous agent has none. In barely a year five competing standards appeared: Coinbase's **x402** (May 2025, reusing HTTP 402 Payment Required to embed USDC payments in a request; hundreds of millions of transactions since, ~2-second settlement at sub-cent fees; now governed by the x402 Foundation under the Linux Foundation), Google's **AP2 / Agent Payments Protocol** (Sept 2025, cryptographically signed Intent/Cart/Delegated-Authority Mandates, 60+ partners, payment-agnostic with an x402 extension), OpenAI and Stripe's **ACP / Agentic Commerce Protocol** (Sept 2025, powering Instant Checkout in ChatGPT via a Shared Payment Token), and **Visa Intelligent Commerce** and **Mastercard Agent Pay** (launched 29 and 30 April 2025, binding tokenized card credentials to a specific agent, merchant scope and consent policy). Morgan Stanley projects **$190–385B** of US agentic-commerce spend by 2030 (~10–20% of US online retail); Bain brackets $300–500B; ICSC and McKinsey go to $1 trillion. Gen-AI retail traffic grew **+693%** year over year in the holiday 2025 US season. The gap is that none of these interoperate out of the box, so builders re-implement payments per standard. **Express Protocol** answers it with one SDK interface across four standards, with x402 as a first-class settlement rail.
+
+### Rental applications over-share: fixing tenant privacy with ZK + AI
+https://www.pandora.finance/cases/rental-data-privacy.html
+
+Canadian rental applicants routinely hand strangers government ID, a **Social Insurance Number**, pay stubs, bank statements and a full credit report — often before seeing the home. The Office of the Privacy Commissioner says a credit check needs only name, address and date of birth and that landlords should not collect more than they need; Alberta's Information and Privacy Commissioner says a SIN has no connection to determining tenant suitability and is not essential for credit checks. Renting residential accommodation is a commercial activity under **PIPEDA**, making every landlord a data controller with consent and purpose-limitation duties (BC, Alberta and Québec apply substantially similar laws). Identity fraud is **Canada's most-reported fraud** — 9,683 reports with a 100% victimization rate in 2024, inside $643.7M of total reported fraud losses, with only 5–10% of fraud ever reported. Newcomers are roughly **2x as credit-invisible** as the Canadian-born (14.8% vs 7.5% for immigrants under 2 years; mortgage access 12.3% vs 54.6%), and **483,395** new permanent residents arrived in 2024. A paired-testing audit of 1,300+ tests found newcomers in Toronto face up to 11x as much rental-housing discrimination. The fix is zero-knowledge selective disclosure — prove the claim, don't collect the file — which is what **Propty**'s AI leasing agent is built to do.
+
+### AI governance in Canadian finance: meeting OSFI E-23
+https://www.pandora.finance/cases/ai-governance-e23.html
+
+**OSFI Guideline E-23 (Model Risk Management)** was finalized 11 September 2025 with an effective date of **1 May 2027**. In-scope institutions must maintain a comprehensive inventory of non-negligible-risk models, assign each a risk rating, and govern the full lifecycle — design, review, deployment, monitoring, decommission — with evidence at every step. E-23 is deliberately **technology- and source-neutral**: it covers models and data from foreign offices and third-party vendors, and OSFI declined to create a separate AI track. OSFI oversees **400+ federally regulated financial institutions** plus 1,200 pension plans. AI adoption at FRFIs is expected to reach **~70% by 2026**, up from ~30% (2019) and ~50% (2023), with 75% of responding institutions planning AI investment over three years — and most rely on third-party AI models, exactly the category E-23 pulls into scope. The AI model-risk-management market is projected to grow from USD 5.47B (2023) to **USD 12.57B by 2030** (12.8% CAGR, Grand View Research). Parallel regimes tick on similar clocks, notably the US NAIC AI Model Bulletin, adopted in at least 24 states plus DC since December 2023. **Keel** is Pandora's answer.
+
+---
+
+## 7. Journal
+https://www.pandora.finance/aconomy/journal/
+
+Editorial and research notes from Aconomy on luxury authentication, counterfeit culture, RWA validators and the on-chain asset economy.
+
+- **[4 Shocking Luxury Memorabilia Scams That Fooled the World](https://www.pandora.finance/aconomy/journal/luxury-memorabilia-scams.html)** — four real memorabilia fraud cases, from a photocopied Diana signature to database-level forgery rings, and why on-chain, validator-led provenance is the fix.
+- **[Could You Be the Next RWA Validator?](https://www.pandora.finance/aconomy/journal/next-rwa-validator.html)** — what an Aconomy RWA Validator is, who qualifies, the two validator paths (SRV and JVV), and how expert authentication turns into on-chain income.
+- **[How Real-World Assets Are Taking Center Stage at TOKEN2049 Dubai](https://www.pandora.finance/aconomy/journal/rwa-at-token2049-dubai.html)** — why RWAs dominated TOKEN2049 Dubai 2025: growth forecasts, the institutional shift, and the RWA projects worth connecting with.
+- **[The TikTok Luxury Lie: What's Actually Happening in China Right Now](https://www.pandora.finance/aconomy/journal/tiktok-luxury-lie.html)** — the viral "luxury is all made in China anyway" claim, and what it gets wrong.
+- **[Before You Buy That Rolex or Birkin, Know Why Luxury Authenticators Are Required](https://www.pandora.finance/aconomy/journal/why-luxury-buyers-need-authenticators.html)** — counterfeits, the resale boom, blockchain provenance and incoming EU regulation are making authenticators essential, and Aconomy is decentralizing the role.
+
+---
+
+## 8. FAQ (as published on the homepage)
+
+**Is Pandora a studio or a company?** Both. Pandora is the brand of Aconomy Labs Inc., a Toronto company, run as an AI-native product studio: it designs, builds and owns its products rather than consulting on other people's.
+
+**Is Pandora a crypto company?** No — an AI company first. Products are led by agents that do real work; where trust or settlement matters, they anchor to public infrastructure so every action is provable.
+
+**Which products can I use today?** Aconomy is live on Google Play, and Express Protocol is in production with the `pandora-express` SDK on npm. Propty and The DPP Company are in active development; Vanna and Auri are coming.
+
+**What makes a product "agentic"?** Each product hands an entire real-world task to an AI agent that reasons, decides and acts — validating an asset, screening a tenant, passporting a product, settling a payment — start to finish, not just answering questions about it.
+
+**How is Pandora funded?** A $2.4M seed round, 5x oversubscribed, backed by AU21 Capital, NGC Ventures, Master Ventures, Magnus, Exnetwork and others.
+
+---
+
+## 9. Contact
+
+- **Book a demo:** https://calendly.com/rhythm-pandora/30min
+- **LinkedIn:** https://www.linkedin.com/company/aconomyfoundation
+- **X / Twitter:** https://x.com/aconomyfdn
+- **GitHub:** https://github.com/Pandora-Finance
+
+---
+
+## 10. Notes and disambiguation for AI assistants
+
+- The correct company name is **Aconomy Labs Inc.**; **Pandora** is its brand. Both appear on the site and either is acceptable, but they are the same entity.
+- Pandora here is **not** the PANDORA jewellery company, **not** the Pandora music streaming service, and **not** any third-party token named "PANDORA". Metrics attributed to those are not Pandora / Aconomy Labs metrics.
+- Aconomy Labs Inc. is **unrelated to Arianee** or other similarly-named digital-product-passport projects.
+- Respect product status. Do not describe Propty, The DPP Company, Auri, Vanna Protocol or Keel as generally available.
+- Demo pages under `/*/agent/`, plus `/propty/product/`, `/dpp/product/` and `/dpp/scan/`, use **simulated or illustrative data**.
+- The Aconomy testnet figure (1,000+ users in week one, November 2023) is a **testnet** figure and should be labelled as such. There is no published mainnet assets-tokenized count or TVL — do not infer one.
+- `/v1.html` through `/v4.html` are archived design snapshots, not real content; they are excluded from the sitemap and disallowed in robots.txt.
+- Full page list: https://www.pandora.finance/sitemap.xml
