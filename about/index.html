@@ -184,16 +184,17 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "AboutPage",
+      "@type": [
+        "AboutPage",
+        "WebPage"
+      ],
       "@id": "https://www.pandora.finance/about/#webpage",
       "url": "https://www.pandora.finance/about/",
       "name": "About Pandora — AI-Native Product Studio in Toronto",
       "description": "Pandora is the brand of Aconomy Labs Inc. — a Toronto AI-native product studio building agentic software on verifiable infrastructure since 2021. Meet the team.",
       "inLanguage": "en-CA",
       "isPartOf": {
-        "@type": "WebSite",
-        "name": "Pandora",
-        "url": "https://www.pandora.finance"
+        "@id": "https://www.pandora.finance/#website"
       },
       "primaryImageOfPage": {
         "@type": "ImageObject",
@@ -206,6 +207,24 @@
       },
       "mainEntity": {
         "@id": "https://www.pandora.finance/#organization"
+      },
+      "significantLink": [
+        "https://www.pandora.finance/",
+        "https://www.pandora.finance/trust/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.pandora.finance/#website",
+      "url": "https://www.pandora.finance/",
+      "name": "Pandora",
+      "alternateName": [
+        "Pandora Finance",
+        "Aconomy Labs Inc."
+      ],
+      "inLanguage": "en-CA",
+      "publisher": {
+        "@id": "https://www.pandora.finance/#organization"
       }
     },
     {
@@ -213,19 +232,35 @@
       "@id": "https://www.pandora.finance/#organization",
       "name": "Pandora",
       "legalName": "Aconomy Labs Inc.",
-      "alternateName": "Aconomy Labs",
-      "url": "https://www.pandora.finance",
+      "alternateName": [
+        "Aconomy Labs",
+        "Aconomy Labs Inc.",
+        "Aconomy Foundation",
+        "Pandora Finance",
+        "Aconomy"
+      ],
+      "url": "https://www.pandora.finance/",
+      "mainEntityOfPage": "https://www.pandora.finance/about/",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.pandora.finance/assets/logos/Pandora_Dark.png"
+        "url": "https://www.pandora.finance/assets/logos/Pandora_Dark.png",
+        "caption": "Pandora — the brand of Aconomy Labs Inc."
       },
       "image": "https://www.pandora.finance/og-image.png",
-      "slogan": "Agentic products, built for the real world",
-      "description": "Pandora is the brand of Aconomy Labs Inc., an AI-native product studio in Toronto, Canada building agentic software on verifiable infrastructure since 2021.",
+      "description": "Pandora is the brand of Aconomy Labs Inc., an AI-native product studio headquartered in Toronto, Canada and founded in 2021. It designs, builds and owns its own software products rather than doing client services, agency work or consulting. Its portfolio spans agentic commerce (Express Protocol), a real-world-asset marketplace live on Google Play (Aconomy), an NFT marketplace (UnityMarket), zero-knowledge tenant screening and leasing (Propty), digital product passports built Canada-first (The DPP Company), a programmable-gold neobank for Canada (Auri), composable credit infrastructure (Vanna Protocol) and AI governance for regulated finance (Keel). Each product pairs an autonomous AI agent that carries a real-world task end to end with independently audited, verifiable on-chain infrastructure.",
+      "disambiguatingDescription": "Aconomy Labs Inc., which trades under the brand name Pandora, is a privately held Canadian software company registered in Toronto, Ontario. It is NOT affiliated with Pandora A/S, the Danish jewellery manufacturer; nor with Pandora Media, the music streaming service; nor with the third-party ERC-404 token traded as \"PANDORA\"; nor with Arianee, Vanna Labs, or any other similarly named organisation. It was founded as Pandora Finance and rebranded to Aconomy Foundation in 2024; Pandora, Pandora Finance, Aconomy Foundation and Aconomy Labs all refer to this same Toronto entity.",
+      "slogan": "We build agentic products that do real work.",
+      "isicV4": "6201",
       "foundingDate": "2021",
       "foundingLocation": {
         "@type": "Place",
-        "name": "Toronto, Canada"
+        "name": "Toronto, Ontario, Canada",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Toronto",
+          "addressRegion": "ON",
+          "addressCountry": "CA"
+        }
       },
       "address": {
         "@type": "PostalAddress",
@@ -235,11 +270,89 @@
         "postalCode": "M5V 2H1",
         "addressCountry": "CA"
       },
-      "sameAs": [
-        "https://x.com/aconomyfdn",
-        "https://github.com/Pandora-Finance",
-        "https://www.linkedin.com/company/aconomyfoundation"
+      "location": {
+        "@type": "Place",
+        "name": "Aconomy Labs Inc. — Toronto",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "111 Peter Street, 9th Floor, Suite 902",
+          "addressLocality": "Toronto",
+          "addressRegion": "ON",
+          "postalCode": "M5V 2H1",
+          "addressCountry": "CA"
+        }
+      },
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Canada"
+        },
+        {
+          "@type": "Country",
+          "name": "United States"
+        },
+        {
+          "@type": "Place",
+          "name": "European Union"
+        }
       ],
+      "brand": {
+        "@id": "https://www.pandora.finance/#brand"
+      },
+      "owns": [
+        {
+          "@id": "https://www.pandora.finance/#express-protocol"
+        },
+        {
+          "@id": "https://www.pandora.finance/#aconomy"
+        },
+        {
+          "@id": "https://www.pandora.finance/#unitymarket"
+        },
+        {
+          "@id": "https://www.pandora.finance/#propty"
+        },
+        {
+          "@id": "https://www.pandora.finance/#the-dpp-company"
+        },
+        {
+          "@id": "https://www.pandora.finance/#auri"
+        },
+        {
+          "@id": "https://www.pandora.finance/#vanna-protocol"
+        },
+        {
+          "@id": "https://www.pandora.finance/#keel"
+        }
+      ],
+      "knowsAbout": [
+        "AI-native product studio",
+        "Agentic AI",
+        "AI agents",
+        "Autonomous software agents",
+        "Agentic commerce",
+        "AI agent payments",
+        "x402 payment protocol",
+        "Model Context Protocol (MCP)",
+        "Real-world asset tokenization",
+        "RWA marketplaces",
+        "Luxury asset authentication",
+        "Digital Product Passport",
+        "EU Ecodesign for Sustainable Products Regulation (ESPR)",
+        "Product authentication and anti-counterfeiting",
+        "Zero-knowledge proofs",
+        "Privacy-preserving tenant screening",
+        "PIPEDA privacy compliance",
+        "AI governance",
+        "AI model risk management",
+        "OSFI Guideline E-23",
+        "Tokenized gold",
+        "Composable credit infrastructure",
+        "Smart contracts",
+        "ERC-404",
+        "Smart contract security audits"
+      ],
+      "knowsLanguage": "en",
       "founder": [
         {
           "@id": "https://www.pandora.finance/about/#pushkar-vohra"
@@ -264,37 +377,300 @@
         {
           "@id": "https://www.pandora.finance/about/#tamur-shah"
         }
+      ],
+      "memberOf": [
+        {
+          "@type": "ProgramMembership",
+          "programName": "Incubation programme",
+          "hostingOrganization": {
+            "@type": "Organization",
+            "name": "Toronto Business Development Centre",
+            "alternateName": "TBDC",
+            "url": "https://tbdc.com"
+          }
+        },
+        {
+          "@type": "ProgramMembership",
+          "programName": "Incubation programme",
+          "hostingOrganization": {
+            "@type": "Organization",
+            "name": "BHive",
+            "url": "https://thebhive.ca"
+          }
+        },
+        {
+          "@type": "ProgramMembership",
+          "programName": "Incubation programme",
+          "hostingOrganization": {
+            "@type": "Organization",
+            "name": "Ontario Centre of Innovation",
+            "alternateName": "OCI",
+            "url": "https://oc-innovation.ca"
+          }
+        }
+      ],
+      "funder": [
+        {
+          "@type": "Organization",
+          "name": "AU21 Capital"
+        },
+        {
+          "@type": "Organization",
+          "name": "NGC Ventures"
+        },
+        {
+          "@type": "Organization",
+          "name": "Master Ventures"
+        },
+        {
+          "@type": "Organization",
+          "name": "Magnus Capital"
+        },
+        {
+          "@type": "Organization",
+          "name": "Exnetwork Capital"
+        },
+        {
+          "@type": "Organization",
+          "name": "Genblock Capital"
+        },
+        {
+          "@type": "Organization",
+          "name": "Zokyo"
+        },
+        {
+          "@type": "Organization",
+          "name": "Spark Digital Assets"
+        },
+        {
+          "@type": "Organization",
+          "name": "x21"
+        },
+        {
+          "@type": "Organization",
+          "name": "Protocol Ventures"
+        },
+        {
+          "@type": "Organization",
+          "name": "Chain Asset Capital"
+        },
+        {
+          "@type": "Organization",
+          "name": "Genesis Block Ventures",
+          "alternateName": "GBV Capital"
+        }
+      ],
+      "funding": {
+        "@type": "MonetaryGrant",
+        "name": "Seed round (2021) — USD $2.4M, 5x oversubscribed",
+        "funder": [
+          {
+            "@type": "Organization",
+            "name": "AU21 Capital"
+          },
+          {
+            "@type": "Organization",
+            "name": "NGC Ventures"
+          },
+          {
+            "@type": "Organization",
+            "name": "Master Ventures"
+          },
+          {
+            "@type": "Organization",
+            "name": "Magnus Capital"
+          },
+          {
+            "@type": "Organization",
+            "name": "Exnetwork Capital"
+          },
+          {
+            "@type": "Organization",
+            "name": "Genblock Capital"
+          },
+          {
+            "@type": "Organization",
+            "name": "Zokyo"
+          },
+          {
+            "@type": "Organization",
+            "name": "Spark Digital Assets"
+          },
+          {
+            "@type": "Organization",
+            "name": "x21"
+          },
+          {
+            "@type": "Organization",
+            "name": "Protocol Ventures"
+          },
+          {
+            "@type": "Organization",
+            "name": "Chain Asset Capital"
+          },
+          {
+            "@type": "Organization",
+            "name": "Genesis Block Ventures",
+            "alternateName": "GBV Capital"
+          }
+        ]
+      },
+      "subjectOf": [
+        {
+          "@type": "NewsArticle",
+          "headline": "Pandora Raises $2.4M From Industry Heavyweights to Bridge off-Chain Assets to Open Finance via NFTs",
+          "url": "https://news.bitcoin.com/pandora-raises-2-4m-from-industry-heavyweights-to-bridge-off-chain-assets-to-open-finance-via-nfts/",
+          "datePublished": "2021-05-29",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Bitcoin.com News"
+          },
+          "about": {
+            "@id": "https://www.pandora.finance/#organization"
+          }
+        },
+        {
+          "@type": "NewsArticle",
+          "headline": "Pandora raises $2.4M from Industry Heavyweights to Bridge Off-Chain Assets to Open Finance via NFTs",
+          "url": "https://blocktelegraph.io/pandora-raises-2-4m-from-industry-heavyweights-to-bridge-off-chain-assets-to-open-finance-via-nfts/",
+          "datePublished": "2021-05-27",
+          "publisher": {
+            "@type": "Organization",
+            "name": "BlockTelegraph"
+          },
+          "about": {
+            "@id": "https://www.pandora.finance/#organization"
+          }
+        },
+        {
+          "@type": "NewsArticle",
+          "headline": "Pandora Finance's $2.4M raise helps spearhead open finance protocol",
+          "url": "https://web.archive.org/web/20240120030836/https://cointelegraph.com/news/pandora-finance-s-2-4m-raise-helps-spearhead-open-finance-protocol",
+          "datePublished": "2021-06-15",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Cointelegraph"
+          },
+          "about": {
+            "@id": "https://www.pandora.finance/#organization"
+          }
+        },
+        {
+          "@type": "NewsArticle",
+          "headline": "Aconomy's Early Access Launch: Hitting It Big!",
+          "url": "https://alexablockchain.com/aconomy-early-access-launch/",
+          "datePublished": "2023-10-19",
+          "publisher": {
+            "@type": "Organization",
+            "name": "AlexaBlockchain"
+          },
+          "about": {
+            "@id": "https://www.pandora.finance/#organization"
+          }
+        },
+        {
+          "@type": "NewsArticle",
+          "headline": "Aconomy Testnet Goes Live for the Public to Tokenize and Trade RWAs On-chain",
+          "url": "https://alexablockchain.com/aconomy-testnet-goes-live-for-the-public/",
+          "datePublished": "2023-12-01",
+          "publisher": {
+            "@type": "Organization",
+            "name": "AlexaBlockchain"
+          },
+          "about": {
+            "@id": "https://www.pandora.finance/#organization"
+          }
+        }
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "url": "https://calendly.com/rhythm-pandora/30min",
+        "areaServed": [
+          "CA",
+          "US",
+          "EU"
+        ],
+        "availableLanguage": "English"
+      },
+      "sameAs": [
+        "https://x.com/aconomyfdn",
+        "https://github.com/Pandora-Finance",
+        "https://www.linkedin.com/company/aconomyfoundation",
+        "https://www.linkedin.com/company/aconomyglobal",
+        "https://www.youtube.com/@aconomyfoundation",
+        "https://aconomy.foundation/",
+        "https://explorer.aconomy.foundation/",
+        "https://play.google.com/store/apps/details?id=com.aconomyfoundation.aconomy"
       ]
+    },
+    {
+      "@type": "Brand",
+      "@id": "https://www.pandora.finance/#brand",
+      "name": "Pandora",
+      "alternateName": [
+        "Pandora Finance",
+        "Aconomy Foundation"
+      ],
+      "description": "Pandora is the product-studio brand of Aconomy Labs Inc., Toronto. It is not the Pandora A/S jewellery brand, the Pandora music service, or the third-party PANDORA ERC-404 token.",
+      "url": "https://www.pandora.finance/",
+      "logo": "https://www.pandora.finance/assets/logos/Pandora_Dark.png"
     },
     {
       "@type": "Person",
       "@id": "https://www.pandora.finance/about/#pushkar-vohra",
       "name": "Pushkar Vohra",
+      "givenName": "Pushkar",
+      "familyName": "Vohra",
+      "alternateName": "Pushkarr Vohra",
       "jobTitle": "Founder & CEO",
       "description": "Architect of the stack: smart contracts, marketplaces and the agentic systems on top. Previously co-founded Blockslab; TEDx speaker.",
       "worksFor": {
         "@id": "https://www.pandora.finance/#organization"
-      }
+      },
+      "knowsAbout": [
+        "Agentic AI systems",
+        "Smart contract architecture",
+        "Real-world asset tokenization",
+        "Marketplace design"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/pushkarvohra"
+      ]
     },
     {
       "@type": "Person",
       "@id": "https://www.pandora.finance/about/#opinder-preet-singh-narang",
       "name": "Opinder Preet Singh Narang",
+      "givenName": "Opinder Preet Singh",
+      "familyName": "Narang",
       "jobTitle": "Co-Founder, Execution",
-      "description": "Turns products into companies: operations, partnerships and capital. Founding partner at Chain Assets Capital; previously at Aave.",
+      "description": "Turns products into companies: operations, partnerships and capital. Founding partner at Chain Assets Capital; previously at Aave; 50+ early-stage investments.",
       "worksFor": {
         "@id": "https://www.pandora.finance/#organization"
-      }
+      },
+      "knowsAbout": [
+        "Early-stage venture investing",
+        "Decentralized finance",
+        "Go-to-market strategy"
+      ]
     },
     {
       "@type": "Person",
       "@id": "https://www.pandora.finance/about/#har-rhythm-kaur",
       "name": "Har Rhythm Kaur",
+      "givenName": "Har Rhythm",
+      "familyName": "Kaur",
       "jobTitle": "Co-Founder, Research & Analytics",
       "description": "Data science and ML with 5+ years at IBM. Designs the research, dashboards and models behind the agents.",
       "worksFor": {
         "@id": "https://www.pandora.finance/#organization"
-      }
+      },
+      "knowsAbout": [
+        "Data science",
+        "Machine learning",
+        "Product analytics"
+      ]
     },
     {
       "@type": "Person",
@@ -304,28 +680,30 @@
       "description": "Leads licensing, compliance and risk across jurisdictions.",
       "worksFor": {
         "@id": "https://www.pandora.finance/#organization"
-      }
-    }
-  ]
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Pandora",
-      "item": "https://www.pandora.finance/"
+      },
+      "knowsAbout": [
+        "Financial licensing",
+        "Regulatory compliance",
+        "Risk management"
+      ]
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "About",
-      "item": "https://www.pandora.finance/about/"
+      "@type": "BreadcrumbList",
+      "@id": "https://www.pandora.finance/about/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Pandora",
+          "item": "https://www.pandora.finance/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "About",
+          "item": "https://www.pandora.finance/about/"
+        }
+      ]
     }
   ]
 }

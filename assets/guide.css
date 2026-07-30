@@ -1,0 +1,131 @@
+/* ============================================================
+   PANDORA FINANCE — Guide / reference-page components
+   Loaded AFTER ../assets/design-system.css and ../cases/cases.css.
+   Adds the pieces a long-form reference page needs that the case
+   layout doesn't have: a short-answer box, on-page contents, data
+   tables, dated timelines, definition blocks and an FAQ list.
+   Same tokens, same accent variables — each page still sets its
+   own --accent trio in a :root block after this file.
+   ============================================================ */
+
+/* ---------- SHORT ANSWER (the quotable box at the top) ---------- */
+.g-answer{margin-top:30px;background:#fff;border:var(--edge);border-left:4px solid var(--accent);
+  border-radius:var(--r);padding:24px clamp(20px,3vw,30px);box-shadow:var(--shadow)}
+.g-answer .g-answer-h{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:12px}
+.g-answer p{margin:0 0 .85rem;color:var(--ink-2);line-height:1.7;max-width:74ch;font-size:1.02rem}
+.g-answer p:last-child{margin-bottom:0}
+.g-answer b,.g-answer strong{color:var(--navy);font-weight:700}
+.g-answer a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+/* ---------- ON-PAGE CONTENTS ---------- */
+.g-toc{margin-top:26px;border:var(--edge);border-radius:var(--r);background:var(--bg);
+  padding:20px clamp(18px,2.5vw,26px)}
+.g-toc h2{font-size:.72rem !important;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--slate);margin:0 0 12px;max-width:none}
+.g-toc ol{margin:0;padding:0;list-style:none;counter-reset:toc;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 26px}
+.g-toc li{counter-increment:toc;display:flex;gap:10px;align-items:baseline;font-size:.94rem;line-height:1.45}
+.g-toc li::before{content:counter(toc,decimal-leading-zero);font-size:.74rem;font-weight:800;
+  color:var(--accent);flex:none;font-variant-numeric:tabular-nums}
+.g-toc a{color:var(--ink-2);font-weight:600;text-decoration:none}
+.g-toc a:hover{color:var(--accent);text-decoration:underline}
+@media(max-width:700px){.g-toc ol{grid-template-columns:1fr}}
+
+/* ---------- DEFINITION BLOCK ---------- */
+.g-def{margin-top:24px;border:var(--edge);border-radius:var(--r-lg);overflow:hidden;background:#fff}
+.g-def-term{padding:16px clamp(18px,2.5vw,26px);background:var(--accent-soft);
+  border-bottom:1px solid var(--accent-line);display:flex;align-items:center;gap:12px}
+.g-def-term svg{width:18px;height:18px;color:var(--accent);flex:none}
+.g-def-term span{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.g-def-term strong{font-weight:800;color:var(--navy);letter-spacing:-.01em}
+.g-def-body{padding:20px clamp(18px,2.5vw,26px);color:var(--ink-2);line-height:1.7}
+.g-def-body p{margin:0 0 .9rem;max-width:72ch}
+.g-def-body p:last-child{margin-bottom:0}
+.g-def-body b{color:var(--navy);font-weight:700}
+
+/* ---------- TABLE (scrolls on its own, never the page) ---------- */
+.g-tablewrap{margin-top:26px;border:var(--edge);border-radius:var(--r);overflow-x:auto;background:#fff;
+  -webkit-overflow-scrolling:touch}
+table.g-table{width:100%;border-collapse:collapse;min-width:640px;font-size:.93rem}
+table.g-table caption{caption-side:bottom;text-align:left;padding:12px 18px;color:var(--slate);
+  font-size:.82rem;line-height:1.5;border-top:var(--edge)}
+table.g-table th,table.g-table td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--gray-200);
+  vertical-align:top;line-height:1.5}
+table.g-table thead th{background:var(--bg);color:var(--navy);font-weight:800;font-size:.76rem;
+  letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--gray-200)}
+table.g-table tbody tr:last-child td{border-bottom:0}
+table.g-table tbody th{font-weight:700;color:var(--navy);white-space:nowrap}
+table.g-table td{color:var(--ink-2)}
+table.g-table td b{color:var(--navy)}
+.g-pill{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;padding:3px 9px;
+  border-radius:var(--r-pill);white-space:nowrap;background:var(--gray-200);color:var(--slate)}
+.g-pill.live{background:rgba(18,128,92,.10);color:#12805c}
+.g-pill.dev{background:var(--accent-soft);color:var(--accent)}
+.g-pill.soon{background:rgba(240,185,11,.16);color:#a86400}
+
+/* ---------- TIMELINE ---------- */
+.g-time{margin-top:26px;list-style:none;padding:0 0 0 26px;position:relative}
+.g-time::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--gray-200)}
+.g-time li{position:relative;padding:0 0 22px}
+.g-time li:last-child{padding-bottom:0}
+.g-time li::before{content:"";position:absolute;left:-26px;top:6px;width:12px;height:12px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--accent)}
+.g-time .when{display:block;font-size:.76rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:4px}
+.g-time .what{font-weight:700;color:var(--navy);display:block;margin-bottom:3px}
+.g-time p{margin:0;color:var(--slate);font-size:.94rem;line-height:1.6;max-width:68ch}
+
+/* ---------- CALLOUT ---------- */
+.g-note{margin-top:22px;display:flex;gap:12px;align-items:flex-start;padding:16px 20px;border-radius:var(--r);
+  background:var(--bg);border:var(--edge);color:var(--ink-2);font-size:.94rem;line-height:1.65;max-width:78ch}
+.g-note svg{width:17px;height:17px;flex:none;margin-top:3px;color:var(--accent)}
+.g-note b{color:var(--navy);font-weight:700}
+.g-note a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+/* ---------- CHECKLIST ON LIGHT ---------- */
+.g-checks{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:12px;max-width:74ch}
+.g-checks li{display:flex;gap:12px;color:var(--ink-2);font-size:.98rem;line-height:1.6}
+.g-checks .ck{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:2px;
+  background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line)}
+.g-checks .ck svg{width:12px;height:12px}
+.g-checks b{color:var(--navy);font-weight:700}
+
+/* ---------- FAQ ---------- */
+.g-faq{margin-top:26px;display:grid;gap:14px}
+.g-faq .qa{background:#fff;border:var(--edge);border-radius:var(--r);padding:20px clamp(18px,2.5vw,24px);
+  transition:border-color .2s,box-shadow .2s}
+.g-faq .qa:hover{border-color:var(--accent-line);box-shadow:var(--shadow)}
+.g-faq h3{font-size:1.04rem;font-weight:700;letter-spacing:-.01em;color:var(--navy);margin:0 0 8px;line-height:1.35}
+.g-faq p{margin:0 0 .8rem;color:var(--ink-2);line-height:1.68;font-size:.97rem;max-width:76ch}
+.g-faq p:last-child{margin-bottom:0}
+.g-faq b{color:var(--navy);font-weight:700}
+.g-faq a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+/* ---------- PRODUCT LINK CARDS ---------- */
+.g-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+.g-cards .pc{display:block;background:#fff;border:var(--edge);border-radius:var(--r-lg);padding:22px 24px;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s}
+.g-cards .pc:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent-line)}
+.g-cards .pc .pn{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--navy);letter-spacing:-.01em}
+.g-cards .pc .pn svg{width:15px;height:15px;color:var(--accent);transition:transform .22s}
+.g-cards .pc:hover .pn svg{transform:translate(3px,-3px)}
+.g-cards .pc p{margin:8px 0 0;color:var(--slate);font-size:.93rem;line-height:1.6}
+@media(max-width:760px){.g-cards{grid-template-columns:1fr}}
+
+/* ---------- LAST REVIEWED STAMP ---------- */
+.g-stamp{margin-top:18px;font-size:.84rem;color:var(--slate);display:inline-flex;align-items:center;gap:8px}
+.g-stamp svg{width:14px;height:14px}
+
+@media print{
+  .g-answer{border:1pt solid #000;border-left:3pt solid #000;box-shadow:none}
+  .g-answer .g-answer-h,.g-toc li::before,.g-def-term span,.g-time .when{color:#000 !important}
+  .g-toc,.g-note{background:#f4f4f4;border:.5pt solid #999}
+  .g-def-term{background:none;border-bottom:.5pt solid #000}
+  .g-tablewrap{overflow:visible;border:.75pt solid #000}
+  table.g-table{min-width:0;font-size:9pt}
+  table.g-table thead th{background:#eee}
+  .g-faq .qa{border:.5pt solid #999;break-inside:avoid}
+  .g-cards{display:none}
+  .g-checks .ck,.g-time li::before{border-color:#000;color:#000;background:none}
+}

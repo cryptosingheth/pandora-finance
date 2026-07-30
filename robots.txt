@@ -4,8 +4,9 @@
 # Structured brief for LLMs: https://www.pandora.finance/llms.txt
 # Extended brief:            https://www.pandora.finance/llms-full.txt
 #
-# The only exclusions are /v1.html - /v4.html, archived design snapshots
-# superseded by the live site. Everything else is open to every crawler.
+# The only exclusions are /v1.html - /v4.html (archived design snapshots
+# superseded by the live site) and /_research/ (internal working notes,
+# not published content). Everything else is open to every crawler.
 
 # ---------------------------------------------------------------
 # Default policy - applies to any crawler not named below.
@@ -15,6 +16,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # ---------------------------------------------------------------
@@ -26,6 +28,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: Bingbot
@@ -33,6 +36,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: Applebot
@@ -40,6 +44,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: DuckDuckBot
@@ -47,6 +52,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: Slurp
@@ -54,6 +60,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # ---------------------------------------------------------------
@@ -68,6 +75,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: OAI-SearchBot
@@ -75,6 +83,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: ChatGPT-User
@@ -82,6 +91,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Anthropic
@@ -90,6 +100,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: Claude-User
@@ -97,6 +108,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: Claude-SearchBot
@@ -104,6 +116,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: anthropic-ai
@@ -111,6 +124,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Perplexity
@@ -119,6 +133,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: Perplexity-User
@@ -126,6 +141,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Google AI (Gemini, AI Overviews, Vertex grounding)
@@ -134,6 +150,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Apple Intelligence
@@ -142,6 +159,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Common Crawl
@@ -150,6 +168,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Meta AI
@@ -158,6 +177,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 User-agent: meta-externalfetcher
@@ -165,6 +185,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Amazon
@@ -173,6 +194,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # xAI
@@ -181,6 +203,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Mistral
@@ -189,6 +212,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # Cohere
@@ -197,6 +221,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # You.com
@@ -205,6 +230,7 @@ Disallow: /v1.html
 Disallow: /v2.html
 Disallow: /v3.html
 Disallow: /v4.html
+Disallow: /_research/
 Allow: /
 
 # ---------------------------------------------------------------

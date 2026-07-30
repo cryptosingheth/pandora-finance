@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real-world asset tokenization in Canada: the 2026 regulatory picture — Pandora</title>
+<meta name="description" content="Canada has no bespoke tokenization regime. Existing securities law applies by default, the CSA opened Project Tokenization in March 2026, and FINTRAC and OSFI rules sit alongside. A sourced guide for builders and operators.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/design-system.css">
+<link rel="stylesheet" href="../cases/cases.css">
+<link rel="stylesheet" href="../assets/guide.css">
+<style>
+  /* rwa guide — teal accent (matches Aconomy) */
+  :root{
+    --accent:#00879a;
+    --accent-2:#00abbe;
+    --accent-soft:rgba(0,171,190,.10);
+    --accent-line:rgba(0,135,154,.26);
+  }
+</style>
+<!-- ==== SEO / AEO / GEO metadata ==== -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#006cff">
+
+<link rel="canonical" href="https://www.pandora.finance/guides/rwa-tokenization-canada.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pandora">
+<meta property="og:title" content="Real-world asset tokenization in Canada: the 2026 regulatory picture — Pandora">
+<meta property="og:description" content="Canada has no bespoke tokenization regime. Existing securities law applies by default, the CSA opened Project Tokenization in March 2026, and FINTRAC and OSFI rules sit alongside.">
+<meta property="og:url" content="https://www.pandora.finance/guides/rwa-tokenization-canada.html">
+<meta property="og:image" content="https://www.pandora.finance/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Real-world asset tokenization in Canada — regulatory guide">
+<meta property="og:locale" content="en_CA">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aconomyfdn">
+<meta name="twitter:title" content="Real-world asset tokenization in Canada: the 2026 regulatory picture">
+<meta name="twitter:description" content="No bespoke regime. Securities law applies by default. What the CSA, FINTRAC and OSFI actually require — with sources.">
+<meta name="twitter:image" content="https://www.pandora.finance/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://www.pandora.finance/guides/rwa-tokenization-canada.html#article",
+  "headline": "Real-world asset tokenization in Canada: the 2026 regulatory picture",
+  "name": "Real-world asset tokenization in Canada: the 2026 regulatory picture",
+  "description": "Canada has no bespoke regulatory framework for tokenizing real-world assets. Existing securities law applies by default, most tokens representing fractional interests in real estate, funds or equity are securities, the CSA opened Project Tokenization on 31 March 2026, and FINTRAC registration and OSFI capital rules sit alongside.",
+  "inLanguage": "en-CA",
+  "isAccessibleForFree": true,
+  "articleSection": "Guide",
+  "proficiencyLevel": "Beginner",
+  "keywords": "real-world asset tokenization, RWA Canada, tokenized securities, CSA Staff Notice 46-308, CSA Staff Notice 21-327, Project Tokenization, CSA Collaboratory, FINTRAC money services business, virtual currency dealing, OSFI crypto-asset exposures, value-referenced crypto assets, tokenized real estate Canada",
+  "about": [
+    { "@type": "Thing", "name": "Real-world asset tokenization" },
+    { "@type": "Thing", "name": "Canada" },
+    { "@type": "Thing", "name": "Canadian Securities Administrators" },
+    { "@type": "Thing", "name": "Securities regulation" },
+    { "@type": "Thing", "name": "FINTRAC" }
+  ],
+  "datePublished": "2026-07-30",
+  "dateModified": "2026-07-30",
+  "author": {
+    "@type": "Organization",
+    "@id": "https://www.pandora.finance/#organization",
+    "name": "Pandora",
+    "legalName": "Aconomy Labs Inc.",
+    "url": "https://www.pandora.finance/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://www.pandora.finance/#organization",
+    "name": "Pandora",
+    "legalName": "Aconomy Labs Inc.",
+    "url": "https://www.pandora.finance/",
+    "logo": { "@type": "ImageObject", "url": "https://www.pandora.finance/assets/logos/Pandora_Dark.png" }
+  },
+  "image": { "@type": "ImageObject", "url": "https://www.pandora.finance/og-image.png", "width": 1200, "height": 630 },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.pandora.finance/guides/rwa-tokenization-canada.html" },
+  "url": "https://www.pandora.finance/guides/rwa-tokenization-canada.html",
+  "citation": [
+    { "@type": "CreativeWork", "name": "CSA Staff Notice 46-308 Securities Law Implications for Offerings of Tokens", "url": "https://www.osc.ca/en/securities-law/instruments-rules-policies/4/46-308/csa-staff-notice-46-308-securities-law-implications-offerings-tokens" },
+    { "@type": "CreativeWork", "name": "Joint CSA/IIROC Staff Notice 21-329 Guidance for Crypto-Asset Trading Platforms", "url": "https://www.ciro.ca/newsroom/publications/joint-csaiiroc-staff-notice-21-329-guidance-crypto-asset-trading-platforms-compliance-regulatory" },
+    { "@type": "CreativeWork", "name": "CSA Staff Notice 21-333 Terms and Conditions for Trading Value-Referenced Crypto Assets with Clients", "url": "https://www.osc.ca/en/securities-law/instruments-rules-policies/2/21-333/csa-staff-notice-21-333-crypto-asset-trading-platforms-terms-and-conditions-trading-value" },
+    { "@type": "CreativeWork", "name": "CSA invites stakeholders to participate in tokenization initiative", "url": "https://www.securities-administrators.ca/news/csa-invites-stakeholders-to-participate-in-tokenization-initiative/" },
+    { "@type": "CreativeWork", "name": "Money services businesses (MSBs) — FINTRAC", "url": "https://fintrac-canafe.canada.ca/msb-esm/msb-eng" },
+    { "@type": "CreativeWork", "name": "Letter to industry — Changes to treatment of crypto-asset exposures (OSFI)", "url": "https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/letter-industry-changes-treatment-crypto-assets-exposures" },
+    { "@type": "CreativeWork", "name": "Canada's Tokenization Moment: The Regulatory Landscape And Market Trends Impacting Real-World Assets", "url": "https://www.mondaq.com/canada/financial-services/1805714/canadas-tokenization-moment-the-regulatory-landscape-and-market-trends-impacting-real-world-assets" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTerm",
+  "@id": "https://www.pandora.finance/guides/rwa-tokenization-canada.html#rwa",
+  "name": "Real-world asset tokenization",
+  "alternateName": "RWA tokenization",
+  "description": "Issuing a digital token on a blockchain that represents a legal interest in an asset existing outside the blockchain — real estate, private credit, government bonds, gold, equipment, art or collectibles. The token is a record of an interest, not the asset itself: the underlying property, contract or title continues to exist under ordinary law, and in Canada a token representing a fractional interest in real estate, a fund or corporate equity will in most cases be a security.",
+  "url": "https://www.pandora.finance/guides/rwa-tokenization-canada.html#what-it-is"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://www.pandora.finance/guides/rwa-tokenization-canada.html#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is tokenizing real-world assets legal in Canada?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no prohibition on tokenization itself, and no bespoke Canadian tokenization regime either. Existing law applies by default. In most cases a token representing a fractional interest in real estate, a fund or corporate equity is a security under Canadian law, which means prospectus, registration, transfer-restriction, know-your-product and continuous-disclosure obligations apply unless an exemption is available."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the Canadian Securities Administrators have a tokenization framework?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not yet. On 31 March 2026 the CSA announced Project Tokenization, an initiative within the CSA Collaboratory that examines how the technology intersects with Canadian securities laws through stakeholder engagement, issue mapping and targeted research, with possible later phases including discussion papers or live testing of tokenized instruments. Regulator workshops were held in Calgary on 9 April 2026 and Toronto on 11 June 2026. This is a consultative stage, not a rulebook."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which CSA notices apply to tokens in Canada?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The core guidance is CSA Staff Notice 46-307 Cryptocurrency Offerings, CSA Staff Notice 46-308 Securities Law Implications for Offerings of Tokens (11 June 2018), CSA Staff Notice 21-327 on the application of securities legislation to entities facilitating crypto-asset trading (14 March 2019), Joint CSA/IIROC Staff Notice 21-329 on trading-platform compliance (29 March 2021) and CSA Staff Notice 21-333 on value-referenced crypto assets (5 October 2023). The consistent theme across all of them is substance over form: the analysis turns on the economic realities of the offering, not on how the instrument is labelled."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to register with FINTRAC to tokenize assets in Canada?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on the activity, not the label. Dealing in virtual currency is a money services business activity under the Proceeds of Crime (Money Laundering) and Terrorist Financing Act, and businesses carrying it on must register with FINTRAC before they begin operating. Foreign businesses directing services at clients in Canada register as foreign money services businesses. Registration is free and is not an endorsement or a licence."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you tokenize real estate in Canada?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In practice you tokenize an interest in an entity that holds the property, rather than title itself. Provincial land registries remain the system of record for real property, so a token sits on top of an ordinary legal structure rather than replacing it. Real estate is described by practitioners as one of the harder asset classes to structure, precisely because on-chain processes have to be aligned with land registry systems, and the resulting fractional interest will almost always be a security."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How big is the tokenized real-world asset market?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As of June 2026, non-stablecoin real-world assets on public blockchains surpassed USD 30 billion globally, of which tokenized U.S. Treasuries account for over USD 10 billion. Tokenized equities remain around USD 1 billion and tokenized real estate is in the low hundreds of millions, according to a June 2026 review by Gardiner Roberts LLP. These are global figures; no comparable Canada-only figure is published."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there real-world asset tokenization companies in Canada?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Very few that are Canadian-incorporated and publicly identifiable, which is why search results for this question tend to return global vendor listicles rather than Canadian companies. Aconomy, built by Aconomy Labs Inc. in Toronto, is one: an AI-assisted marketplace for tokenizing, validating and trading watches, real estate, gold and art, live since 2023 with a Google Play app since August 2024."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a value-referenced crypto asset under Canadian rules?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A value-referenced crypto asset, or VRCA, is the CSA's term for a crypto asset designed to maintain a stable value by referencing another asset, most commonly a fiat currency. CSA Staff Notice 21-333, published 5 October 2023, sets interim terms and conditions under which registered crypto-asset trading platforms may allow clients to trade certain fiat-backed VRCAs, covering reserve composition, redemption rights and issuer undertakings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Canadian banks hold tokenized assets?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Within limits. OSFI's Capital and Liquidity Treatment of Crypto-asset Exposures guideline caps a federally regulated institution's total gross exposure to Group 2 crypto-assets at 5% of Net Tier 1 capital, raised from a previous 1% cap by an October 2025 letter to industry, effective 1 November 2025 for institutions with 31 October fiscal year-ends and 1 January 2026 for those with 31 December year-ends."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Pandora", "item": "https://www.pandora.finance/" },
+    { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.pandora.finance/guides/" },
+    { "@type": "ListItem", "position": 3, "name": "Real-world asset tokenization in Canada", "item": "https://www.pandora.finance/guides/rwa-tokenization-canada.html" }
+  ]
+}
+</script>
+<!-- ==== /SEO / AEO / GEO metadata ==== -->
+</head>
+<body>
+
+<!-- ===================== SLIM NAV ===================== -->
+<header class="cs-nav">
+  <div class="cs-wrap cs-wide cs-nav-inner">
+    <a class="cs-back" href="../index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Pandora
+    </a>
+    <span class="cs-tag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Guide
+    </span>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="cs-hero">
+  <div class="cs-wrap">
+    <span class="cs-eyebrow">Guide · Canada · Updated July 2026</span>
+    <h1>Real-world asset tokenization <span class="g">in Canada</span>.</h1>
+    <p class="cs-thesis">Ask which Canadian rules govern tokenizing a building, a bar of gold or a portfolio of private credit, and the honest answer is: no special ones. Existing securities law applies by default, and three other regulators have a say. This is what that actually means in practice, with sources.</p>
+    <div class="cs-meta">
+      <span><i class="dot"></i> No bespoke regime</span>
+      <span><i class="dot"></i> CSA Project Tokenization, Mar 2026</span>
+      <span><i class="dot"></i> 8 sources cited</span>
+    </div>
+  </div>
+  <div class="cs-hero-motif" aria-hidden="true">
+    <svg viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 34 158 68v68l-58 34-58-34V68z" fill="#fff" stroke="var(--accent-line)" stroke-width="2"/>
+      <path d="M100 34 158 68l-58 34-58-34z" fill="var(--accent-soft)" stroke="var(--accent-line)" stroke-width="2"/>
+      <path d="M100 102v68" stroke="var(--accent-line)" stroke-width="2"/>
+      <circle cx="100" cy="84" r="15" fill="none" stroke="var(--accent)" stroke-width="2.4"/>
+      <path d="M94 84h12M100 78v12" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="52" y="192" width="96" height="8" rx="4" fill="var(--gray-200)"/>
+      <rect x="52" y="192" width="60" height="8" rx="4" fill="var(--accent)"/>
+      <line x1="60" y1="216" x2="140" y2="216" stroke="var(--gray-200)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="74" y1="230" x2="126" y2="230" stroke="var(--gray-200)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ===================== SHORT ANSWER + TOC ===================== -->
+<section class="cs-sec">
+  <div class="cs-wrap cs-wide">
+    <div class="g-answer">
+      <span class="g-answer-h">The short answer</span>
+      <p><b>Canada has no bespoke framework for tokenizing real-world assets.</b> Existing law applies by default, and the default answer is usually "this is a security." A token representing a fractional interest in real estate, a fund or corporate equity will in most cases be a security under Canadian law, bringing prospectus, registration, transfer-restriction, know-your-product and continuous-disclosure obligations unless an exemption fits.<a class="cite" href="#s7">7</a></p>
+      <p><b>The regulator is engaging, not legislating.</b> On <b>31 March 2026</b> the CSA opened <b>Project Tokenization</b> inside its Collaboratory — stakeholder engagement, issue mapping and targeted research, with possible later phases including discussion papers or live testing. Workshops ran in Calgary on 9 April and Toronto on 11 June 2026.<a class="cite" href="#s5">5</a></p>
+      <p><b>Three other rulebooks apply before you ship.</b> Dealing in virtual currency is a money services business activity requiring FINTRAC registration.<a class="cite" href="#s6">6</a> Stable-value tokens fall under the CSA's interim value-referenced crypto asset terms.<a class="cite" href="#s4">4</a> And federally regulated banks and insurers are capped at 5% of Net Tier 1 capital in Group 2 crypto-asset exposures.<a class="cite" href="#s8">8</a></p>
+    </div>
+
+    <nav class="g-toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#what-it-is">What RWA tokenization actually is</a></li>
+        <li><a href="#default-rule">The default rule: securities law applies</a></li>
+        <li><a href="#project-tokenization">What changed in 2026</a></li>
+        <li><a href="#adjacent">The three adjacent rulebooks</a></li>
+        <li><a href="#asset-classes">Which assets are hard, and why</a></li>
+        <li><a href="#market">What the market actually looks like</a></li>
+        <li><a href="#checklist">A builder's sequence</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- ===================== 1. WHAT IT IS ===================== -->
+<section class="cs-sec" id="what-it-is">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">Definition</span>
+    <h2>What real-world asset tokenization actually is.</h2>
+
+    <div class="g-def">
+      <div class="g-def-term">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+        <span>Definition</span> <strong>Real-world asset (RWA) tokenization</strong>
+      </div>
+      <div class="g-def-body">
+        <p>Issuing a digital token on a blockchain that <b>represents a legal interest in an asset existing outside the blockchain</b> — real estate, private credit, government bonds, gold, equipment, art or collectibles.</p>
+        <p>The critical point, and the one that determines almost every regulatory consequence: <b>the token is a record of an interest, not the asset</b>. The building, the loan agreement, the bullion and the title continue to exist under ordinary law. Tokenization changes how the interest is recorded and transferred; it does not change what the interest is.</p>
+      </div>
+    </div>
+
+    <div class="cs-body" style="margin-top:26px">
+      <p>That distinction explains why so much tokenization work is legal structuring rather than engineering. Three questions decide the shape of any Canadian project:</p>
+      <p><b>What does the holder actually own?</b> Direct title to the asset, a beneficial interest in a trust, a share in a holding entity, or a contractual claim against an issuer? Each answer lands in a different part of Canadian law.</p>
+      <p><b>Who holds the underlying asset, and who can be forced to deliver it?</b> A gold token means little without a custodian, an audit and a redemption right that survives the issuer's failure.</p>
+      <p><b>What happens when the chain and the registry disagree?</b> For real property the provincial land registry is the system of record. On-chain transfer does not move registered title, so the structure has to make the two consistent by design.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2. DEFAULT RULE ===================== -->
+<section class="cs-sec" id="default-rule">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The default rule</span>
+    <h2>Canadian securities law applies unless you can show it doesn't.</h2>
+    <p class="cs-lead">There is no Canadian statute that says "tokens are securities" and none that says they aren't. Instead a decade of CSA staff guidance applies existing principles, and the consistent test is substance over form — the analysis turns on the economic realities of the offering rather than the label on the instrument.<a class="cite" href="#s1">1</a></p>
+
+    <div class="g-tablewrap">
+      <table class="g-table">
+        <caption>The core CSA and CSA/CIRO staff guidance a Canadian tokenization project runs into. Staff notices are guidance, not law; they set out how regulators read existing legislation. General information only — not legal advice.</caption>
+        <thead>
+          <tr><th scope="col">Guidance</th><th scope="col">Date</th><th scope="col">What it establishes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">CSA Staff Notice 46-307<br><span style="font-weight:500;color:var(--slate);font-size:.85rem">Cryptocurrency Offerings</span></th>
+            <td>2017</td>
+            <td>First position that coin and token offerings may involve a distribution of securities, triggering prospectus or registration requirements.<a class="cite" href="#s1">1</a></td>
+          </tr>
+          <tr>
+            <th scope="row">CSA Staff Notice 46-308<br><span style="font-weight:500;color:var(--slate);font-size:.85rem">Securities Law Implications for Offerings of Tokens</span></th>
+            <td>11 June 2018</td>
+            <td>The workhorse. Addresses when an offering — including of so-called "utility tokens" — is a distribution of securities, covering marketing, secondary trading, SAFTs, prospectus rules, resale limits and registration. Determination rests on the economic realities of the offering as a whole.<a class="cite" href="#s1">1</a></td>
+          </tr>
+          <tr>
+            <th scope="row">CSA Staff Notice 21-327</th>
+            <td>14 March 2019</td>
+            <td>Applies securities legislation to entities facilitating crypto-asset trading. Introduces no new rules — platforms were already caught by existing requirements.<a class="cite" href="#s2">2</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Joint CSA/IIROC Staff Notice 21-329</th>
+            <td>29 March 2021</td>
+            <td>Compliance guidance for crypto-asset trading platforms, including those trading instruments or contracts involving crypto assets.<a class="cite" href="#s3">3</a></td>
+          </tr>
+          <tr>
+            <th scope="row">CSA Staff Notice 21-333<br><span style="font-weight:500;color:var(--slate);font-size:.85rem">Value-referenced crypto assets</span></th>
+            <td>5 October 2023</td>
+            <td>Interim terms and conditions under which registered platforms may let clients trade certain fiat-backed stable-value tokens — reserve composition, redemption and issuer undertakings.<a class="cite" href="#s4">4</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-body" style="margin-top:28px">
+      <p>Applied to real-world assets, the practical consequence is direct. In most cases, tokens representing fractional interests in real estate, funds or corporate equity <b>will constitute securities under Canadian law</b> — which means the issuer must comply with prospectus requirements unless a valid exemption applies, such as the accredited investor exemption, and that <b>transfer restrictions, suitability requirements, know-your-product obligations and ongoing disclosure obligations continue to apply</b>.<a class="cite" href="#s7">7</a></p>
+      <p>None of that is a reason not to build. It is a reason to decide the securities question before writing the contract, not after.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3. PROJECT TOKENIZATION ===================== -->
+<section class="cs-sec" id="project-tokenization">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">What changed in 2026</span>
+    <h2>The CSA opened the door — to a conversation, not a framework.</h2>
+    <p class="cs-lead">The most significant Canadian development in this area is recent, and it is easy to over-read. Here is precisely what happened.</p>
+
+    <ol class="g-time">
+      <li>
+        <span class="when">31 March 2026</span>
+        <span class="what">CSA announces Project Tokenization</span>
+        <p>An initiative within the <b>CSA Collaboratory</b> — a dedicated space where regulators and innovators explore new financial concepts and business models affecting Canada's capital markets. Project Tokenization examines how the technology intersects with Canadian securities laws, "through engagement with stakeholders, issue mapping, and targeted research," with potential future phases including discussion papers or live testing of tokenized instruments. Fintechs, financial institutions, issuers, developers, custodians and legal professionals were invited to take part.<a class="cite" href="#s5">5</a></p>
+      </li>
+      <li>
+        <span class="when">9 April 2026</span>
+        <span class="what">Regulatory workshop, Calgary</span>
+        <p>First of two in-person sessions bringing regulators and market participants together.<a class="cite" href="#s5">5</a></p>
+      </li>
+      <li>
+        <span class="when">11 June 2026</span>
+        <span class="what">Regulatory workshop, Toronto</span>
+        <p>Second session. The CSA framed the exercise around supporting responsible innovation "to enhance Canada's global competitiveness" while protecting investors.<a class="cite" href="#s5">5</a></p>
+      </li>
+    </ol>
+
+    <div class="g-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span><b>Read this accurately.</b> Project Tokenization is a research and engagement programme, not a rule, a sandbox admission, or a signal that tokenized offerings have been blessed. Nothing about the default securities analysis changed on 31 March 2026. What changed is that there is now a named, official venue in which the questions are being worked through — and a documented invitation for builders to be in the room.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4. ADJACENT ===================== -->
+<section class="cs-sec" id="adjacent">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">The rest of the perimeter</span>
+    <h2>Securities law is not the only rulebook you'll meet.</h2>
+    <p class="cs-lead">Teams that get the securities question right often get blindsided by one of these three. They are separate regimes with separate regulators and separate consequences.</p>
+
+    <div class="cs-land">
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12"/><path d="M10 21v-6h4v6"/></svg></span>
+          <div><span class="who">FINTRAC</span><h3>Dealing in virtual currency is an MSB activity</h3></div>
+        </div>
+        <p>Under the <i>Proceeds of Crime (Money Laundering) and Terrorist Financing Act</i>, dealing in virtual currency is a money services business activity. Businesses carrying it on <b>must register with FINTRAC before they begin to operate</b>; foreign businesses directing services at clients in Canada register as foreign MSBs.<a class="cite" href="#s6">6</a></p>
+        <p>Registration is free — and explicitly <b>not</b> an endorsement or a licence. It comes with a full compliance programme obligation: risk assessment, KYC, record-keeping, reporting and a designated compliance officer.<a class="cite" href="#s6">6</a></p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          <div><span class="who">CSA — stable value</span><h3>Value-referenced crypto assets</h3></div>
+        </div>
+        <p>If any part of your design uses a fiat-referenced stable-value token as the settlement leg, CSA Staff Notice 21-333 (5 October 2023) sets interim terms and conditions for registered platforms allowing clients to trade them — covering reserve composition, redemption at par and issuer undertakings.<a class="cite" href="#s4">4</a></p>
+        <p>The settlement asset is a regulated design decision, not an implementation detail chosen at the end.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v6c0 5 3.4 7.4 8 9 4.6-1.6 8-4 8-9V7z"/><path d="M12 8v8M8 12h8"/></svg></span>
+          <div><span class="who">OSFI</span><h3>What regulated institutions may hold</h3></div>
+        </div>
+        <p>OSFI's <i>Capital and Liquidity Treatment of Crypto-asset Exposures</i> guideline caps a federally regulated institution's total gross exposure to <b>Group 2 crypto-assets at 5% of Net Tier 1 capital</b> — raised from 1% by an October 2025 letter to industry, effective 1 November 2025 (31 October year-ends) or 1 January 2026 (31 December year-ends).<a class="cite" href="#s8">8</a></p>
+        <p>If your distribution plan runs through Canadian banks or insurers, this is the ceiling on the other side of the table.</p>
+      </div>
+
+      <div class="land-card reveal">
+        <div class="lh">
+          <span class="lic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 10h16M10 10v10"/></svg></span>
+          <div><span class="who">Provincial</span><h3>Registries, and the securities regulator you actually face</h3></div>
+        </div>
+        <p>Securities regulation in Canada is provincial and territorial; the CSA is the coordinating body, but your obligations run to the OSC, the ASC, the BCSC, the AMF or another member depending on where you distribute.</p>
+        <p>And for real property, provincial land title registries remain the system of record — which is exactly why practitioners flag aligning on-chain processes with "land registry systems" as a structuring obstacle.<a class="cite" href="#s7">7</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5. ASSET CLASSES ===================== -->
+<section class="cs-sec" id="asset-classes">
+  <div class="cs-wrap cs-wide">
+    <div class="cs-gap reveal">
+      <div class="cs-gap-inner">
+        <span class="kicker">Difficulty ladder</span>
+        <h2>Not all real-world assets are equally hard to tokenize.</h2>
+        <p>The market's ordering is not arbitrary. Assets tokenize easily in proportion to how cleanly the legal interest can be separated from physical possession and registry-based title.</p>
+        <ul class="cs-gaplist">
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Easiest: instruments that are already book-entry claims.</b> Treasuries and money-market exposure dominate global tokenized volume because the underlying is already a dematerialised claim held through intermediaries. Tokenization changes the ledger, not the nature of the thing.</span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Middle: fungible physical commodities with strong custody.</b> Gold works when there is a real custodian, real audits and an enforceable redemption right. The hard part is custody and assurance, not the token.</span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Harder: unique physical goods.</b> Watches, art and collectibles need per-item authentication and provenance before a token means anything — the token inherits whatever certainty the verification process produced, and no more.</span></li>
+          <li><span class="gx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Hardest: real estate and private-market instruments.</b> Practitioners identify these as presenting the greatest structuring challenges, including aligning on-chain processes with land registry systems.<a class="cite" href="#s7">7</a> Add securities treatment of the fractional interest and the legal wrapper becomes the product.</span></li>
+        </ul>
+        <p>The general lesson for builders: <b>the token is the easy part.</b> Verification, custody and the legal wrapper are where the work is — and where a project's credibility is either earned or lost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6. MARKET ===================== -->
+<section class="cs-sec" id="market">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">Market reality</span>
+    <h2>The numbers, and what they're missing.</h2>
+    <p class="cs-lead">Global tokenized-asset figures are now substantial. Canada-specific figures essentially do not exist, which is itself the most informative data point on this page.</p>
+
+    <div class="cs-stats">
+      <div class="stat-card reveal">
+        <div class="fig">$30B+<a class="cite" href="#s7">7</a></div>
+        <div class="lbl">Non-stablecoin RWAs on public blockchains</div>
+        <div class="desc">Global, as of June 2026 — up materially year over year, per a Gardiner Roberts LLP review.</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">$10B+<a class="cite" href="#s7">7</a></div>
+        <div class="lbl">Tokenized U.S. Treasuries alone</div>
+        <div class="desc">A third of the total sits in one asset class — the one that was already a book-entry claim.</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="fig">~$1B<a class="cite" href="#s7">7</a></div>
+        <div class="lbl">Tokenized equities</div>
+        <div class="desc">With tokenized real estate still in the low hundreds of millions globally — the hard classes remain small.</div>
+      </div>
+    </div>
+
+    <p class="stat-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      No published figure isolates Canadian issuance or Canadian-domiciled tokenized assets. The same review notes Canada has no depository-level tokenization initiative comparable to the U.S. approval of a tokenized-securities trading framework in March 2026.<a class="cite" href="#s7">7</a> Treat all figures as directional and as of June 2026.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== 7. CHECKLIST ===================== -->
+<section class="cs-sec" id="checklist">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">Practical sequence</span>
+    <h2>The order the questions actually have to be answered in.</h2>
+    <p class="cs-lead">Most failed Canadian tokenization projects didn't fail technically. They built first and asked these later. General guidance, not legal advice — but the sequence matters.</p>
+
+    <ul class="g-checks">
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>1. Decide what the holder owns, in writing.</b> Direct title, beneficial interest, share in a holding entity, or contractual claim. Everything downstream follows from this sentence.</span></li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>2. Run the securities analysis on economic reality, not labels.</b> Calling it a utility token has been explicitly addressed by the CSA since 2018 and does not change the outcome.<a class="cite" href="#s1">1</a></span></li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>3. Pick the exemption before the investor list.</b> If it is a security, the prospectus requirement applies unless an exemption such as accredited investor is available — and resale restrictions follow the exemption you chose.<a class="cite" href="#s7">7</a></span></li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>4. Check whether you are dealing in virtual currency.</b> If yes, FINTRAC registration comes <i>before</i> operating, with a full AML programme behind it.<a class="cite" href="#s6">6</a></span></li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>5. Solve custody and redemption for real.</b> Who holds the asset, who audits it, and what a holder can actually enforce if the issuer disappears.</span></li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>6. Make verification independent of your own marketing.</b> For unique physical goods this is the whole product: an item is only as tokenizable as its authentication is trustworthy.</span></li>
+      <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>7. Decide which provincial regulator you are actually facing</b>, and engage early — the CSA's own Collaboratory invitation is a documented route in.<a class="cite" href="#s5">5</a></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 8. OUR APPROACH ===================== -->
+<section class="cs-sec" id="our-approach">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">How we approach it</span>
+    <h2>Verification first, token second.</h2>
+    <div class="cs-approach reveal">
+      <div class="cs-approach-top">
+        <span class="cs-approach-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+        <div>
+          <span class="prod">Aconomy · a Pandora product</span>
+          <h3>An AI-assisted marketplace for real-world assets, built in Toronto.</h3>
+        </div>
+      </div>
+      <div class="cs-approach-body">
+        <p>Aconomy is our marketplace for real-world assets — watches, real estate, gold and art — where an AI agent guides discovery and validation and on-chain records keep provenance checkable. It has been live since its November 2023 open testnet, which passed 1,000 users in its first week, with a mobile app on Google Play since August 2024.</p>
+        <p>The reason it is built agent-first rather than token-first is the difficulty ladder above. For unique physical assets, the binding constraint is not issuance — it is whether anyone should believe the item is what the listing says. Validation is the product; the token is the receipt.</p>
+        <p>We are Canadian-incorporated (<b>Aconomy Labs Inc.</b>, Toronto), which is rarer in this category than it should be — searches for Canadian RWA companies mostly return global vendor listings.</p>
+        <a class="cs-prodlink" href="../aconomy/index.html">Explore Aconomy
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="g-cards">
+      <a class="pc" href="../aconomy/journal/next-rwa-validator.html">
+        <span class="pn">How asset validation works <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <p>Who validates a real-world asset before it is listed, and what that role actually involves.</p>
+      </a>
+      <a class="pc" href="../studio/index.html">
+        <span class="pn">Who builds this <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <p>Pandora is an AI-native product studio in Toronto that builds and owns its products. Aconomy is one of eight.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 9. FAQ ===================== -->
+<section class="cs-sec" id="faq">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">FAQ</span>
+    <h2>Common questions, answered plainly.</h2>
+
+    <div class="g-faq">
+      <div class="qa">
+        <h3>Is tokenizing real-world assets legal in Canada?</h3>
+        <p>There is no prohibition on tokenization, and no bespoke Canadian tokenization regime either — existing law applies by default. In most cases a token representing a fractional interest in real estate, a fund or corporate equity <b>is a security</b>, which brings prospectus, registration, transfer-restriction, know-your-product and continuous-disclosure obligations unless an exemption applies.<a class="cite" href="#s7">7</a></p>
+      </div>
+      <div class="qa">
+        <h3>Does the CSA have a tokenization framework?</h3>
+        <p><b>Not yet.</b> On 31 March 2026 the CSA announced <b>Project Tokenization</b> within the CSA Collaboratory: stakeholder engagement, issue mapping and targeted research, with possible later phases including discussion papers or live testing. Workshops ran in Calgary (9 April 2026) and Toronto (11 June 2026). It is a consultative stage, not a rulebook.<a class="cite" href="#s5">5</a></p>
+      </div>
+      <div class="qa">
+        <h3>Which CSA notices apply to tokens?</h3>
+        <p>CSA Staff Notice <b>46-307</b> (Cryptocurrency Offerings, 2017), <b>46-308</b> (Securities Law Implications for Offerings of Tokens, 11 June 2018), <b>21-327</b> (14 March 2019), Joint CSA/IIROC Staff Notice <b>21-329</b> (29 March 2021) and <b>21-333</b> (value-referenced crypto assets, 5 October 2023). The consistent theme is <b>substance over form</b>: the analysis turns on the economic realities of the offering as a whole.<a class="cite" href="#s1">1</a><a class="cite" href="#s2">2</a><a class="cite" href="#s3">3</a><a class="cite" href="#s4">4</a></p>
+      </div>
+      <div class="qa">
+        <h3>Do I need to register with FINTRAC?</h3>
+        <p>If your business deals in virtual currency, yes — that is a money services business activity under the PCMLTFA, and registration must happen <b>before you begin to operate</b>. Foreign businesses directing services at clients in Canada register as foreign MSBs. Registration is free and is expressly not an endorsement or a licence; it comes with a full AML compliance-programme obligation.<a class="cite" href="#s6">6</a></p>
+      </div>
+      <div class="qa">
+        <h3>Can you tokenize real estate in Canada?</h3>
+        <p>In practice you tokenize an interest in an entity that holds the property rather than registered title itself, because provincial land registries remain the system of record. Real estate is identified by practitioners as among the hardest asset classes to structure, specifically because on-chain processes must be aligned with land registry systems — and the resulting fractional interest will almost always be a security.<a class="cite" href="#s7">7</a></p>
+      </div>
+      <div class="qa">
+        <h3>How big is the tokenized real-world asset market?</h3>
+        <p>As of June 2026, non-stablecoin real-world assets on public blockchains surpassed <b>USD 30 billion</b> globally, with tokenized U.S. Treasuries accounting for over <b>USD 10 billion</b>. Tokenized equities are around USD 1 billion and tokenized real estate remains in the low hundreds of millions.<a class="cite" href="#s7">7</a> No Canada-only figure is published.</p>
+      </div>
+      <div class="qa">
+        <h3>Are there real-world asset tokenization companies in Canada?</h3>
+        <p>Few that are Canadian-incorporated and publicly identifiable — which is why searches for this tend to return global vendor listicles rather than Canadian companies. <a href="../aconomy/index.html">Aconomy</a>, built by Aconomy Labs Inc. in Toronto, is one: an AI-assisted marketplace for tokenizing, validating and trading watches, real estate, gold and art, live since 2023 with a Google Play app since August 2024.</p>
+      </div>
+      <div class="qa">
+        <h3>What is a value-referenced crypto asset?</h3>
+        <p>The CSA's term for a crypto asset designed to hold a stable value by referencing another asset, most often a fiat currency. CSA Staff Notice 21-333 (5 October 2023) sets interim terms and conditions under which registered platforms may let clients trade certain fiat-backed VRCAs — reserve composition, redemption and issuer undertakings.<a class="cite" href="#s4">4</a></p>
+      </div>
+      <div class="qa">
+        <h3>Can Canadian banks hold tokenized assets?</h3>
+        <p>Within a cap. OSFI's crypto-asset exposures guideline limits a federally regulated institution's total gross exposure to <b>Group 2 crypto-assets to 5% of Net Tier 1 capital</b>, raised from 1% by an October 2025 letter to industry, effective 1 November 2025 for 31 October year-ends and 1 January 2026 for 31 December year-ends.<a class="cite" href="#s8">8</a></p>
+      </div>
+      <div class="qa">
+        <h3>Is this legal or investment advice?</h3>
+        <p>No. This is general information about publicly available regulatory material, written to help people orient themselves. It is not legal advice, not investment advice, and not a recommendation to buy or sell anything. Staff notices are guidance rather than law, and application depends on your facts. Get qualified counsel before acting.</p>
+      </div>
+    </div>
+
+    <p class="g-stamp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Last reviewed 30 July 2026. Regulatory position stated as at that date.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== SOURCES ===================== -->
+<section class="cs-sources" id="sources">
+  <div class="cs-wrap cs-wide">
+    <span class="kicker">Sources</span>
+    <ol>
+      <li id="s1">
+        <span class="s-title">CSA Staff Notice 46-308 — Securities Law Implications for Offerings of Tokens (and CSA Staff Notice 46-307, Cryptocurrency Offerings).</span> <span class="s-pub">Canadian Securities Administrators, 11 June 2018.</span> Clarifies when an offering of coins or tokens, including "utility tokens", is a distribution of securities; covers marketing, secondary trading, SAFTs, prospectus rules, resale limits and registration. Determination depends on the economic realities of the offering as a whole — substance over form.
+        <a class="s-url" href="https://www.osc.ca/en/securities-law/instruments-rules-policies/4/46-308/csa-staff-notice-46-308-securities-law-implications-offerings-tokens" target="_blank" rel="noopener">https://www.osc.ca/en/securities-law/instruments-rules-policies/4/46-308/csa-staff-notice-46-308-securities-law-implications-offerings-tokens</a>
+      </li>
+      <li id="s2">
+        <span class="s-title">CSA Staff Notice 21-327 — Guidance on the Application of Securities Legislation to Entities Facilitating the Trading of Crypto Assets.</span> <span class="s-pub">Canadian Securities Administrators, 14 March 2019.</span> Applies existing securities legislation to crypto-asset trading platforms; introduces no new platform-specific rules.
+        <a class="s-url" href="https://www.securities-administrators.ca/csa-activities/csa-finhub/csa-publications/" target="_blank" rel="noopener">https://www.securities-administrators.ca/csa-activities/csa-finhub/csa-publications/</a>
+      </li>
+      <li id="s3">
+        <span class="s-title">Joint CSA/IIROC Staff Notice 21-329 — Guidance for Crypto-Asset Trading Platforms: Compliance with Regulatory Requirements.</span> <span class="s-pub">Canadian Securities Administrators &amp; IIROC (now CIRO), 29 March 2021.</span> Compliance guidance for platforms facilitating trading in crypto assets that are securities, or in instruments and contracts involving crypto assets.
+        <a class="s-url" href="https://www.ciro.ca/newsroom/publications/joint-csaiiroc-staff-notice-21-329-guidance-crypto-asset-trading-platforms-compliance-regulatory" target="_blank" rel="noopener">https://www.ciro.ca/newsroom/publications/joint-csaiiroc-staff-notice-21-329-guidance-crypto-asset-trading-platforms-compliance-regulatory</a>
+      </li>
+      <li id="s4">
+        <span class="s-title">CSA Staff Notice 21-333 — Crypto Asset Trading Platforms: Terms and Conditions for Trading Value-Referenced Crypto Assets with Clients.</span> <span class="s-pub">Canadian Securities Administrators, 5 October 2023.</span> Interim terms under which registered platforms may permit client trading of certain fiat-backed value-referenced crypto assets, including reserve composition, redemption and issuer undertakings.
+        <a class="s-url" href="https://www.osc.ca/en/securities-law/instruments-rules-policies/2/21-333/csa-staff-notice-21-333-crypto-asset-trading-platforms-terms-and-conditions-trading-value" target="_blank" rel="noopener">https://www.osc.ca/en/securities-law/instruments-rules-policies/2/21-333/csa-staff-notice-21-333-crypto-asset-trading-platforms-terms-and-conditions-trading-value</a>
+      </li>
+      <li id="s5">
+        <span class="s-title">CSA invites stakeholders to participate in tokenization initiative.</span> <span class="s-pub">Canadian Securities Administrators, 31 March 2026.</span> Announces Project Tokenization within the CSA Collaboratory; examines opportunities and risks "through engagement with stakeholders, issue mapping, and targeted research"; possible later phases include discussion papers or live testing of tokenized instruments; regulatory workshops held in Calgary (9 April 2026) and Toronto (11 June 2026).
+        <a class="s-url" href="https://www.securities-administrators.ca/news/csa-invites-stakeholders-to-participate-in-tokenization-initiative/" target="_blank" rel="noopener">https://www.securities-administrators.ca/news/csa-invites-stakeholders-to-participate-in-tokenization-initiative/</a>
+      </li>
+      <li id="s6">
+        <span class="s-title">Money services businesses (MSBs) and the MSB Registry.</span> <span class="s-pub">Financial Transactions and Reports Analysis Centre of Canada (FINTRAC).</span> Dealing in virtual currency is an MSB activity under the PCMLTFA; MSBs and foreign MSBs must register with FINTRAC before beginning to operate; registration is free and does not constitute endorsement or licensing.
+        <a class="s-url" href="https://fintrac-canafe.canada.ca/msb-esm/msb-eng" target="_blank" rel="noopener">https://fintrac-canafe.canada.ca/msb-esm/msb-eng</a>
+      </li>
+      <li id="s7">
+        <span class="s-title">Canada's Tokenization Moment: The Regulatory Landscape and Market Trends Impacting Real-World Assets.</span> <span class="s-pub">Parish Bhumgara &amp; Michael DeCosimo, Gardiner Roberts LLP, 23 June 2026 (via Mondaq).</span> Most tokens representing fractional interests in real estate, funds or equity constitute securities; prospectus requirements apply absent an exemption; transfer restrictions, suitability, know-your-product and ongoing disclosure obligations continue to apply. Market: non-stablecoin RWAs on public blockchains surpassed USD 30B as of June 2026, tokenized U.S. Treasuries over USD 10B, tokenized equities ~USD 1B, tokenized real estate in the low hundreds of millions. Notes real estate and private-market instruments present the greatest structuring challenges, including alignment with land registry systems, and that Canada lacks a depository-level tokenization initiative comparable to the U.S. approval of a tokenized-securities trading framework in March 2026.
+        <a class="s-url" href="https://www.mondaq.com/canada/financial-services/1805714/canadas-tokenization-moment-the-regulatory-landscape-and-market-trends-impacting-real-world-assets" target="_blank" rel="noopener">https://www.mondaq.com/canada/financial-services/1805714/canadas-tokenization-moment-the-regulatory-landscape-and-market-trends-impacting-real-world-assets</a>
+      </li>
+      <li id="s8">
+        <span class="s-title">Letter to industry — Changes to treatment of crypto-asset exposures; Capital and Liquidity Treatment of Crypto-asset Exposures (Banking) Guideline.</span> <span class="s-pub">Office of the Superintendent of Financial Institutions (OSFI), October 2025.</span> Total gross exposure to Group 2 crypto-assets should not exceed 5% of an institution's Net Tier 1 capital, raised from the previous 1% cap; effective 1 November 2025 for institutions with 31 October fiscal year-ends and 1 January 2026 for those with 31 December year-ends.
+        <a class="s-url" href="https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/letter-industry-changes-treatment-crypto-assets-exposures" target="_blank" rel="noopener">https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/letter-industry-changes-treatment-crypto-assets-exposures</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="cs-cta">
+  <div class="cs-cta-inner">
+    <h2>See what verified real-world assets look like.</h2>
+    <p>Aconomy is a live marketplace where an agent guides validation and provenance stays checkable. Have a look, or talk to the team.</p>
+    <div class="btns">
+      <a class="btn btn-glow" href="https://calendly.com/rhythm-pandora/30min" target="_blank" rel="noopener" title="Booking opens shortly">Book a demo</a>
+      <a class="btn btn-outline-w" href="../aconomy/index.html">Explore Aconomy</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="cs-foot">
+  <div class="cs-wrap cs-wide cs-foot-inner">
+    <a class="fbrand" href="../index.html">
+      <img src="../assets/logos/Pandora_White.png" alt="Pandora" style="height:26px;width:auto;display:block" />
+    </a>
+    <nav class="fnav">
+      <a href="../index.html">Pandora hub</a>
+      <a href="index.html">All guides</a>
+      <a href="../studio/index.html">The studio</a>
+      <a href="../aconomy/index.html">Aconomy</a>
+      <a href="digital-product-passport-canada.html">DPP in Canada</a>
+      <a href="../trust/index.html">Trust Center</a>
+    </nav>
+    <p class="fdisc">General information about publicly available regulatory material, current as at 30 July 2026. Not legal advice, not investment advice, and not a recommendation to buy or sell any asset. CSA staff notices are guidance rather than law. Market figures are the cited publisher's estimates, not Pandora data. &copy; 2021–<span id="yr"></span> Aconomy Labs Inc. · Pandora.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+      els.forEach(function(e){e.classList.add('in');});
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} });
+      },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+      els.forEach(function(e){io.observe(e);});
+    }
+    var y=document.getElementById('yr'); if(y) y.textContent=new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>
