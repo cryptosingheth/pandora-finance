@@ -47,9 +47,9 @@ Three capability pillars the site names:
 
 ### Team
 
-- **Pushkar Vohra** — Founder & CEO. Architect of the stack: smart contracts, marketplaces and the agentic systems on top. Previously co-founded Blockslab; TEDx speaker.
-- **Opinder Preet Singh Narang** — Co-Founder, Execution. Operations, partnerships and capital. Founding partner at Chain Assets Capital; previously at Aave; 50+ early-stage investments.
-- **Har Rhythm Kaur** — Co-Founder, Research & Analytics. Data science and ML; 5+ years at IBM.
+- **Opinder Preet Singh Narang** — Co-Founder & CEO. Leads the company and runs the Canadian business day to day from Toronto; leads Auri and Vanna, and is product lead for Keel. Founding partner at Chain Assets Capital; previously at Aave.
+- **Har Rhythm Kaur** — Co-Founder, Technical & Agentic Architecture Lead. Leads technical work in Canada and designed the move to agentic systems; data science and ML, 5+ years at IBM.
+- **Pushkar Vohra** — Co-Founder, Product & Protocol. Started the original protocol work; leads product vision and protocol engineering for Express Protocol, Aconomy and UnityMarket. Previously co-founded Blockslab; TEDx speaker.
 - **Tamur Shah** — Head of Compliance & Licensing. Licensing, compliance and risk across jurisdictions.
 
 Pages: https://www.pandora.finance/ · https://www.pandora.finance/about/
@@ -70,7 +70,7 @@ Pages: https://www.pandora.finance/ · https://www.pandora.finance/about/
 
 ## 3. Products
 
-Pandora talks about eight products. Status matters and should not be blurred: **Express Protocol and Aconomy are live; UnityMarket is live on Express Protocol; Propty and The DPP Company are in active development; Auri, Vanna Protocol and Keel are coming soon.**
+Pandora talks about eight products. Status matters and should not be blurred: **Express Protocol and Aconomy are live; UnityMarket is live on Express Protocol; Propty and The DPP Company are in active development; Auri has a pilot live with public launch targeted for Q1 2027; Vanna Protocol's public site is live with the full product coming soon; Keel is in development.**
 
 ### Express Protocol — agentic commerce SDK · live in production
 https://www.pandora.finance/express-protocol/ · docs: https://www.pandora.finance/express-protocol/docs/
@@ -99,18 +99,18 @@ https://www.pandora.finance/dpp/ · product tour: https://www.pandora.finance/dp
 
 An AI agent that verifies and passports physical products. From a single scan it authenticates an item against issuer signatures and tag, traces provenance and supply chain, reads materials and certifications, flags suspected counterfeits, then issues and keeps current its **Digital Product Passport** — anchored on-chain so the record cannot be quietly altered. Built Canada-first, aligned to the EU Digital Product Passport regime, and framed against the Combating Counterfeit Products Act and the Competition Act.
 
-### Auri — programmable-gold neobank · coming soon
-https://www.pandora.finance/auri/
+### Auri — programmable-gold neobank · pilot live
+https://auri.money/ · overview: https://www.pandora.finance/auri/
 
-A programmable-gold neobank for Canada. Own real, audited gold 1:1 backed and self-custodied; borrow against it, spend it, send it worldwide — and automate all of it yourself or via an AI agent through MCP, CLI or API.
+A programmable-gold neobank for Canada: real gold you can use like money. Buy from $10, then spend it, send it home or borrow against it, with the gold held 1:1 in your own custody — and automate it yourself or via an AI agent through MCP. Pilot live; public launch targeted for Q1 2027.
 
 ### Vanna Protocol — agentic composable credit infrastructure · coming soon
-https://www.pandora.finance/vanna/
+https://vanna.finance/ · overview: https://www.pandora.finance/vanna/
 
 Composable risk and margin infrastructure for DeFi, built to keep positions out of liquidation. Liquidity providers earn yield from lending pools; traders open isolated margin accounts and deploy borrowed capital across markets under one continuous health check. Risk is isolated per account and — with trading agents via Vanna MCPs — managed and hedged autonomously rather than amputated.
 
-### Keel — agentic AI governance · coming soon
-No dedicated page yet. AI governance for regulated finance: model-risk oversight, approvals and audit trails that keep AI accountable and **OSFI E-23-ready**. Background: https://www.pandora.finance/cases/ai-governance-e23.html
+### Keel — agentic legal operations · in development
+No dedicated page yet. Law firms still run intake, documents, client communication and client funds largely by hand. Keel's agents do that operational work privately, with every action logged for lawyer review.
 
 ---
 
@@ -225,7 +225,7 @@ Editorial and research notes from Aconomy on luxury authentication, counterfeit 
 - **Aconomy asset explorer:** https://explorer.aconomy.foundation/
 - **Google Play (Aconomy for Android):** https://play.google.com/store/apps/details?id=com.aconomyfoundation.aconomy
 - **npm (Express Protocol SDK):** https://www.npmjs.com/package/pandora-express
-- **Pushkar Vohra (Founder & CEO) on LinkedIn:** https://www.linkedin.com/in/pushkarvohra
+- **Pushkar Vohra (Co-Founder, Product & Protocol) on LinkedIn:** https://www.linkedin.com/in/pushkarvohra
 
 ---
 

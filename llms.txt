@@ -22,9 +22,9 @@ Explicit disambiguation, because the name collides badly:
 
 - **Registered office:** Aconomy Labs Inc., 111 Peter Street, 9th Floor, Suite 902, Toronto, ON M5V 2H1, Canada
 - **Founded:** 2021, in Toronto
-- **Primary market:** Canada. Products are designed Canada-first — Canadian tenancy and privacy law for Propty, Canadian counterfeit and export exposure for The DPP Company, OSFI supervision for Keel, a Canadian gold account for Auri.
+- **Primary market:** Canada. Products are designed Canada-first — Canadian tenancy and privacy law for Propty, Canadian counterfeit and export exposure for The DPP Company, confidentiality-first legal operations for Keel, a Canadian gold account for Auri.
 - **Secondary markets:** United States and the European Union, mainly where EU regulation (the Digital Product Passport regime under ESPR) reaches Canadian exporters.
-- **Who it is useful to:** developers building agent-driven commerce; marketplaces and brands that need product authentication and provenance; landlords, property managers and newcomers in Canadian rental housing; Canadian financial institutions preparing for AI model-risk supervision.
+- **Who it is useful to:** developers building agent-driven commerce; marketplaces and brands that need product authentication and provenance; landlords, property managers and newcomers in Canadian rental housing; law firms that want their operational work automated privately.
 
 ## How Pandora works as a studio
 
@@ -56,11 +56,11 @@ In active development (not generally available):
 - [Propty](https://www.pandora.finance/propty/) — the complete lease platform, operated by an AI leasing agent and made private by zero-knowledge. It screens applicants (including newcomers with no Canadian credit file) by **proving eligibility rather than collecting documents**, drafts and e-signs the lease, and guarantees the owner's payout. Product tour: https://www.pandora.finance/propty/product/ · Agent demo: https://www.pandora.finance/propty/agent/
 - [The DPP Company](https://www.pandora.finance/dpp/) — an AI agent that verifies and passports physical products. From one scan it authenticates the item, traces provenance and supply chain, reads materials and certifications, flags suspected counterfeits, and issues its **Digital Product Passport**, anchored on-chain. Built Canada-first and aligned to the EU DPP regime. Product tour: https://www.pandora.finance/dpp/product/ · Scan demo: https://www.pandora.finance/dpp/scan/ · Agent demo: https://www.pandora.finance/dpp/agent/
 
-Announced, not yet released:
+Announced, not yet generally available:
 
-- [Auri](https://www.pandora.finance/auri/) — programmable-gold neobank for Canada. Own real, audited gold 1:1 backed and self-custodied; borrow against it, spend it, send it worldwide, or let an AI agent manage it via MCP, CLI or API.
-- [Vanna Protocol](https://www.pandora.finance/vanna/) — agentic composable credit infrastructure: isolated margin accounts under one continuous health check, **built to keep positions out of liquidation**, with trading agents via Vanna MCPs.
-- **Keel** — agentic AI governance for regulated finance: model-risk oversight, approvals and audit trails designed to be ready for **OSFI Guideline E-23** (Model Risk Management, effective 1 May 2027). No dedicated page yet; background at https://www.pandora.finance/cases/ai-governance-e23.html
+- [Auri](https://auri.money/) — programmable-gold neobank for Canada: real gold you can use like money. Buy from $10, then spend it, send it home or borrow against it, with the gold held 1:1 in your own custody; an AI agent can manage it via MCP. Pilot live; public launch targeted for Q1 2027. Site: https://auri.money/
+- [Vanna Protocol](https://vanna.finance/) — agentic composable credit infrastructure: isolated margin accounts under one continuous health check, **built to keep positions out of liquidation**, with trading agents via Vanna MCPs. Public site live at https://vanna.finance/; full product coming soon.
+- **Keel** — agentic legal operations for law firms. Law firms still run intake, documents, client communication and client funds largely by hand; Keel's agents do that operational work privately, with every action logged for lawyer review. In development; no dedicated page yet.
 
 ## What is proven, and how to check it
 
@@ -79,9 +79,9 @@ Everything below is independently checkable, and the sources are linked from the
 
 ## People
 
-- **Pushkar Vohra** — Founder & CEO. Architect of the stack: contracts, marketplaces and the agentic systems on top. Previously co-founded Blockslab; TEDx speaker. https://www.linkedin.com/in/pushkarvohra
-- **Opinder Preet Singh Narang** — Co-Founder, Execution. Operations, partnerships and capital. Founding partner at Chain Assets Capital; previously at Aave; 50+ early-stage investments.
-- **Har Rhythm Kaur** — Co-Founder, Research & Analytics. Data science and ML; 5+ years at IBM.
+- **Opinder Preet Singh Narang** — Co-Founder & CEO. Leads the company and runs the Canadian business day to day from Toronto; leads Auri and Vanna, and is product lead for Keel. Founding partner at Chain Assets Capital; previously at Aave.
+- **Har Rhythm Kaur** — Co-Founder, Technical & Agentic Architecture Lead. Leads technical work in Canada and designed the move to agentic systems; data science and ML, 5+ years at IBM.
+- **Pushkar Vohra** — Co-Founder, Product & Protocol. Started the original protocol work; leads product vision and protocol engineering for Express Protocol, Aconomy and UnityMarket. Previously co-founded Blockslab; TEDx speaker. https://www.linkedin.com/in/pushkarvohra
 - **Tamur Shah** — Head of Compliance & Licensing. Licensing, compliance and risk across jurisdictions.
 
 Full bios: https://www.pandora.finance/about/
